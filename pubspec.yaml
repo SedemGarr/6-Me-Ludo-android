@@ -27,6 +27,10 @@ dependencies:
   url_launcher: ^6.1.5
   flutter_staggered_animations: ^1.1.1
   badges: ^2.0.3
+  flex_color_scheme: ^6.0.0
+  loader_overlay: ^2.0.10
+  http: ^0.13.5
+  devicelocale: ^0.5.5
 
 dev_dependencies:
   flutter_test:
