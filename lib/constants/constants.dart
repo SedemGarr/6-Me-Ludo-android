@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 
 class AppConstants {
   static const String appNameEnglish = '6-Me-Ludo';
+  static const String lottieAnimationAuthor = 'Abdul Latif';
   static const String defaultCountryCode = 'GH';
+  static const String wayyyOutLottieAssetPath = 'assets/lottie/wayyyout3.json';
+  static const String wayyyOutLottieAssetPage = 'https://lottiefiles.com/68789-cute-mascot-astronaut-in-rocket';
 
   static const int maxPseudonymLength = 30;
+
+  static const int animationDurationValue = 250;
+  static const double appBorderRadiusValue = 8.0;
+  static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
+  static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
+  static const Curve animationCurve = Curves.fastOutSlowIn;
 }
 
 class FirestoreConstants {

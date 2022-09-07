@@ -20,7 +20,6 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
-              
             ),
           ),
         )
@@ -30,7 +29,8 @@ class DialogueService extends Translations {
   /// ------------------------------------------------------
 
   static const String appName = 'appName';
-
+  static const String genericErrorText = 'genericErrorText';
+  static const String animationByText = 'animationByText';
 
   @override
   Map<String, Map<String, String>> get keys => {

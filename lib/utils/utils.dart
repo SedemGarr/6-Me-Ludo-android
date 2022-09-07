@@ -5,9 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:profanity_filter/profanity_filter.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
 
 import '../constants/constants.dart';
@@ -86,6 +89,21 @@ class Utils {
 
   static bool getSystemDarkModeSetting() {
     return SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
+  }
+
+  static void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
+
+  static void openURL(String url) async {
+    if (await launchUrlString(url)) {
+    } else {
+      showToast(DialogueService.genericErrorText.tr);
+    }
   }
 
   static Future<void> initApp() async {
