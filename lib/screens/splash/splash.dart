@@ -29,16 +29,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> getUser(BuildContext context) async {
-    // await appProvider.getPackageInfo();
-    // await userProvider.initUser();
+    await appProvider.getPackageInfo();
+    await userProvider.initUser();
 
-    // if (userProvider.hasUser()) {
-    //   Future.delayed(const Duration(seconds: 3), () async {
-    //     Get.offAll(() => const HomeScreen());
-    //   });
-    // } else {
-    //   Utils.showToast(DialogueService.genericErrorText.tr);
-    // }
+    if (userProvider.hasUser()) {
+      Future.delayed(const Duration(seconds: 3), () async {
+        Get.offAll(() => const HomeScreen());
+      });
+    } else {
+      Utils.showToast(DialogueService.genericErrorText.tr);
+    }
   }
 
   @override
