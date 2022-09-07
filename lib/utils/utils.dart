@@ -119,4 +119,8 @@ class Utils {
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
   }
+
+  static void exitApp() {
+    SystemNavigator.pop();
+  }
 }

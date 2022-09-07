@@ -14,6 +14,9 @@ class AppConstants {
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
   static const Curve animationCurve = Curves.fastOutSlowIn;
+  static RoundedRectangleBorder appShape = RoundedRectangleBorder(
+    borderRadius: appBorderRadius,
+  );
 }
 
 class FirestoreConstants {
@@ -28,10 +31,50 @@ class FirestoreConstants {
   static const String versionDocument = 'versions';
 }
 
+class RealTimeDatabaseConstants {
+  static const String userNode = 'users';
+}
+
 class AppIcons {
   // ai personality
   static const IconData pacifistIcon = Icons.abc;
   static const IconData averageJoeIcon = Icons.abc;
   static const IconData viciousIcon = Icons.abc;
   static const IconData randomIcon = Icons.abc;
+}
+
+class TextStyles {
+  static TextStyle dialogTitleStyle(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TextStyle dialogContentStyle(Color color) {
+    return TextStyle(
+      color: color,
+    );
+  }
+
+  static TextStyle dialogContentStyleBold(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TextStyle elevatedButtonStyle(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TextStyle textButtonStyle(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+    );
+  }
 }

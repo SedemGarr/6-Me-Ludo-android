@@ -31,6 +31,13 @@ class DialogueService extends Translations {
   static const String appName = 'appName';
   static const String genericErrorText = 'genericErrorText';
   static const String animationByText = 'animationByText';
+  // welcome dialog
+  static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
+  static const String welcomeDialogContentText = 'welcomeDialogContentText';
+  static const String welcomeDialogNoText = 'welcomeDialogNoText';
+  static const String welcomeDialogYesText = 'welcomeDialogYesText';
+  // welcome error
+  static const String noUserSelectedText = 'noUserSelectedText';
 
   @override
   Map<String, Map<String, String>> get keys => {
