@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppConstants {
   static const String appNameEnglish = '6-Me-Ludo';
+  static const String defaultCountryCode = 'GH';
 
   static const int maxPseudonymLength = 30;
 }

@@ -72,6 +72,10 @@ class Utils {
     return await CountryService.getData();
   }
 
+  static String getDefaultcountryCode() {
+    return Get.deviceLocale!.countryCode ?? AppConstants.defaultCountryCode;
+  }
+
   static String getDeviceLanguageCode() {
     return Get.deviceLocale!.languageCode;
   }

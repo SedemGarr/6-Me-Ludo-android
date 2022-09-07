@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:devicelocale/devicelocale.dart';
 import 'package:http/http.dart' as http;
+import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../models/token.dart';
 import 'database_service.dart';
-
 
 class CountryService {
   static Future<String> getData() async {
@@ -15,8 +14,8 @@ class CountryService {
       Map<String, dynamic> locationx = jsonDecode(response.body);
       return locationx["location"]["country"];
     } else {
-      String? locale = await Devicelocale.currentLocale;
-      return locale == null ? 'GH' : locale.substring(locale.length - 2);
+      String? locale = Utils.getDefaultcountryCode();
+      return locale.substring(locale.length - 2);
     }
   }
 }

@@ -30,7 +30,7 @@ dependencies:
   flex_color_scheme: ^6.0.0
   loader_overlay: ^2.0.10
   http: ^0.13.5
-  devicelocale: ^0.5.5
+  css_colors: ^1.1.1
 
 dev_dependencies:
   flutter_test:
