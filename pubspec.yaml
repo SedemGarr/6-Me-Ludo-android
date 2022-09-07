@@ -31,6 +31,7 @@ dependencies:
   loader_overlay: ^2.0.10
   http: ^0.13.5
   css_colors: ^1.1.1
+  google_sign_in: ^5.4.1
 
 dev_dependencies:
   flutter_test:
