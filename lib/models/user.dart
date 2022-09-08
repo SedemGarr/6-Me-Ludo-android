@@ -76,4 +76,12 @@ class Users {
       onGoingGames: [],
     );
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Users) && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
