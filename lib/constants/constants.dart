@@ -44,9 +44,33 @@ class AppIcons {
   static const IconData randomIcon = Icons.abc;
   //
   static const IconData googleIcon = FontAwesomeIcons.google;
+  //
+  static const IconData infoIcon = FontAwesomeIcons.circleInfo;
+  //
+  static const IconData newGameIcon = FontAwesomeIcons.a;
+  static const IconData joinGameIcon = FontAwesomeIcons.a;
 }
 
 class TextStyles {
+  static TextStyle appBarTitleStyle(Color color) {
+    return TextStyle(
+      fontWeight: FontWeight.bold,
+      color: color,
+    );
+  }
+
+  static TextStyle appBarBottomOrStyle(Color color) {
+    return TextStyle(
+      color: color,
+    );
+  }
+
+  static TextStyle noGamesStyle(Color color) {
+    return TextStyle(
+      color: color,
+    );
+  }
+
   static TextStyle dialogTitleStyle(Color color) {
     return TextStyle(
       color: color,

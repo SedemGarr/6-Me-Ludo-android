@@ -39,6 +39,18 @@ class DialogueService extends Translations {
   static const String signInText = 'signInText';
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
+  // home
+  static const String welcomeText = 'welcomeText';
+  // game
+  static const String startGameButtonText = 'startGameButtonText';
+  static const String joinGameButtonText = 'joinGameButtonText';
+  static const String orButtonText = 'orButtonText';
+  static const String noGamesText = 'noGamesText';
+  //
+  static const String exitAppDialogTitleText = 'exitAppDialogTitleText';
+  static const String exitAppDialogContentText = 'exitAppDialogContentText';
+  static const String exitAppDialogNoText = 'exitAppDialogNoText';
+  static const String exitAppDialogYesText = 'exitAppDialogYesText';
 
   @override
   Map<String, Map<String, String>> get keys => {

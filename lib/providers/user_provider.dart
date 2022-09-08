@@ -19,13 +19,13 @@ class UserProvider with ChangeNotifier {
       _user = null;
     }
 
-    if (hasUser()) {
-      NavigationService.goToHomeScreen();
-    } else {
-      Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
+      if (hasUser()) {
+        NavigationService.goToHomeScreen();
+      } else {
         setDoesUserNeedToSignIn(true);
-      });
-    }
+      }
+    });
   }
 
   void setUser(Users user) {
@@ -38,8 +38,28 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String getUserPseudonym() {
+    return _user!.psuedonym;
+  }
+
+  String getUserAvatar() {
+    return _user!.avatar;
+  }
+
   bool hasUser() {
     return _user != null;
+  }
+
+  bool hasOngoingGames() {
+    return _user!.onGoingGames.isNotEmpty;
+  }
+
+  int getUserOngoingGamesLength() {
+    return _user!.onGoingGames.length;
+  }
+
+  Users getUser() {
+    return _user!;
   }
 
   Locale getLocale() {

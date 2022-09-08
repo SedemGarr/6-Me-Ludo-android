@@ -36,6 +36,8 @@ dependencies:
   package_info_plus: ^1.4.3+1
   line_icons: ^2.0.1
   font_awesome_flutter: ^10.1.0
+  flutter_svg: ^1.1.4
+  multiavatar: ^0.1.5
 
 dev_dependencies:
   flutter_test:

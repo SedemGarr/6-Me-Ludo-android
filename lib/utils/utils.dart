@@ -15,6 +15,7 @@ import 'package:username_generator/username_generator.dart';
 
 import '../constants/constants.dart';
 import '../services/country_service.dart';
+import '../widgets/choice_dialog.dart';
 
 class Utils {
   static String generateRandomUserAvatar() {
@@ -118,6 +119,20 @@ class Utils {
       final license = await rootBundle.loadString('google_fonts/OFL.txt');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
+  }
+
+  static showExitDialog(BuildContext context) {
+    return showChoiceDialog(
+      context: context,
+      titleMessage: DialogueService.exitAppDialogTitleText.tr,
+      contentMessage: DialogueService.exitAppDialogContentText.tr,
+      yesMessage: DialogueService.exitAppDialogYesText.tr,
+      noMessage: DialogueService.exitAppDialogNoText.tr,
+      onNo: () {},
+      onYes: () {
+        Utils.exitApp();
+      },
+    );
   }
 
   static void exitApp() {

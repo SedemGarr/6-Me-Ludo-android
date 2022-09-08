@@ -28,7 +28,7 @@ showChoiceDialog({
         content: Text(
           contentMessage,
           style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
-          textAlign: TextAlign.center,
+          //  textAlign: TextAlign.center,
         ),
         actions: [
           CustomTextButton(
@@ -39,7 +39,6 @@ showChoiceDialog({
               text: noMessage.tr,
               color: Theme.of(context).colorScheme.onSurface),
           CustomElevatedButton(
-              iconData: null,
               onPressed: () {
                 NavigationService.genericGoBack();
                 onYes();
