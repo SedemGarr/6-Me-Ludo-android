@@ -16,7 +16,7 @@ import 'package:username_generator/username_generator.dart';
 
 import '../constants/app_constants.dart';
 import '../models/license.dart';
-import '../services/country_service.dart';
+
 import '../widgets/choice_dialog.dart';
 
 class Utils {
@@ -72,10 +72,6 @@ class Utils {
 
     // Merge all words back to one String
     return capitalizedWords.join(' ');
-  }
-
-  static Future<String> getDeviceCountryCode() async {
-    return await CountryService.getData();
   }
 
   static String getDefaultcountryCode() {

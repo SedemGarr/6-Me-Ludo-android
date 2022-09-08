@@ -108,7 +108,7 @@ class UserProvider with ChangeNotifier {
   void setLanguageCode(Locale locale) {
     if (locale.languageCode != parseUserLocale(_user!.settings.locale).languageCode) {
       _user!.settings.locale = locale.toString();
-      _user!.languageCode = locale.languageCode;
+
       Get.updateLocale(locale);
       updateUser(true, true);
     }
@@ -162,14 +162,6 @@ class UserProvider with ChangeNotifier {
 
   String getUserReputationValueAsString() {
     return _user!.reputationValue.toString();
-  }
-
-  String getUserCountryCode() {
-    return _user!.countryCode;
-  }
-
-  String getUserLanguageCode() {
-    return _user!.languageCode;
   }
 
   String getUserPersonalityPreference() {
