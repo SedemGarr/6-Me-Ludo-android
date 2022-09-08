@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppConstants {
   static const String appNameEnglish = '6-Me-Ludo';
@@ -10,7 +11,7 @@ class AppConstants {
   static const int maxPseudonymLength = 30;
 
   static const int animationDurationValue = 250;
-  static const double appBorderRadiusValue = 8.0;
+  static const double appBorderRadiusValue = 4.0;
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
   static const Curve animationCurve = Curves.fastOutSlowIn;
@@ -41,6 +42,8 @@ class AppIcons {
   static const IconData averageJoeIcon = Icons.abc;
   static const IconData viciousIcon = Icons.abc;
   static const IconData randomIcon = Icons.abc;
+  //
+  static const IconData googleIcon = FontAwesomeIcons.google;
 }
 
 class TextStyles {

@@ -51,6 +51,7 @@ class AuthenticationService {
         }
       } else {
         // if user is null
+        userProvider.setDoesUserNeedToSignIn(true);
         Utils.showToast(DialogueService.noUserSelectedText.tr);
       }
     } catch (e) {

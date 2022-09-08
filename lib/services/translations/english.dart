@@ -12,6 +12,7 @@ class EnglishTranslation {
       DialogueService.welcomeDialogContentText: 'Welcome to 6-Me-Ludo. Sign in to continue',
       DialogueService.welcomeDialogYesText: 'Sign In',
       DialogueService.welcomeDialogNoText: 'Exit',
+      DialogueService.signInText: 'Sign in to continue',
       // welcome error
       DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account. Please restart the app and try again',
     };

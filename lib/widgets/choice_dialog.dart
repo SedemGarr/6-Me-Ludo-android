@@ -39,6 +39,7 @@ showChoiceDialog({
               text: noMessage.tr,
               color: Theme.of(context).colorScheme.onSurface),
           CustomElevatedButton(
+              iconData: null,
               onPressed: () {
                 NavigationService.genericGoBack();
                 onYes();

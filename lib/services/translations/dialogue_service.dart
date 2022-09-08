@@ -36,6 +36,7 @@ class DialogueService extends Translations {
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
   static const String welcomeDialogNoText = 'welcomeDialogNoText';
   static const String welcomeDialogYesText = 'welcomeDialogYesText';
+  static const String signInText = 'signInText';
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
 

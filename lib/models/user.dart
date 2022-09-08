@@ -8,6 +8,7 @@ class Users {
   late String languageCode;
   late String psuedonym;
   late int reputationValue;
+  late List<String> onGoingGames;
   late UserSettings settings;
 
   Users({
@@ -18,6 +19,7 @@ class Users {
     required this.languageCode,
     required this.reputationValue,
     required this.settings,
+    required this.onGoingGames,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,12 @@ class Users {
     psuedonym = json['psuedonym'];
     settings = UserSettings.fromJson(json['settings']);
     reputationValue = json['reputationValue'];
+    if (json['onGoingGames'] != null) {
+      onGoingGames = <String>[];
+      json['onGoingGames'].forEach((v) {
+        onGoingGames.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -39,7 +47,7 @@ class Users {
     data['languageCode'] = languageCode;
     data['countryCode'] = countryCode;
     data['reputationValue'] = reputationValue;
-
+    data['onGoingGames'] = onGoingGames.map((v) => v).toList();
     return data;
   }
 
@@ -52,6 +60,7 @@ class Users {
       settings: UserSettings.getDefaultSettings(),
       psuedonym: Utils.getRandomPseudonym(),
       reputationValue: 0,
+      onGoingGames: [],
     );
   }
 
@@ -64,6 +73,7 @@ class Users {
       settings: UserSettings.getDefaultSettings(),
       psuedonym: Utils.getRandomPseudonym(),
       reputationValue: 0,
+      onGoingGames: [],
     );
   }
 }
