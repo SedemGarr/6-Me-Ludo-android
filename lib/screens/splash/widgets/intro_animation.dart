@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
+import 'package:six_me_ludo_android/widgets/legal_text.dart';
 import '../../../constants/app_constants.dart';
 import '../../../constants/icon_constants.dart';
 import '../../../utils/utils.dart';
@@ -65,13 +67,18 @@ class _IntroAnimationState extends State<IntroAnimation> {
             ),
             if (userProvider.doesUserNeedToSignIn) const Spacer(),
             if (userProvider.doesUserNeedToSignIn)
-              CustomElevatedButton(
-                iconData: AppIcons.googleIcon,
-                onPressed: () {
-                  userProvider.setDoesUserNeedToSignIn(false);
-                  AuthenticationService.signInWithGoogle(context);
-                },
-                text: DialogueService.signInText.tr,
+              Column(
+                children: [
+                  CustomElevatedButton(
+                    iconData: AppIcons.googleIcon,
+                    onPressed: () {
+                      userProvider.setDoesUserNeedToSignIn(false);
+                      AuthenticationService.signInWithGoogle(context);
+                    },
+                    text: DialogueService.signInText.tr,
+                  ),
+                  const LegalText()
+                ],
               ),
             const Spacer(),
             Padding(

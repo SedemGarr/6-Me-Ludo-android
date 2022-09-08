@@ -33,6 +33,17 @@ class DialogueService extends Translations {
   static const String appName = 'appName';
   static const String genericErrorText = 'genericErrorText';
   static const String animationByText = 'animationByText';
+  static const String licenceText = 'licenceText';
+  static const String licenceShortText = 'licenceShortText';
+  static const String signUpLegalese = 'signUpLegalese';
+  static const String termsText = 'termsText';
+  static const String privacyText = 'privacyText';
+  static const String privacyShortText = 'privacyShortText';
+  static const String cookieText = 'cookieText';
+  static const String signInWithGoogleText = 'signInWithGoogleText';
+  static const String andText = 'andText';
+  static const String versionText = 'versionText';
+  static const String copyrightText = 'copyrightText';
   // welcome dialog
   static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';

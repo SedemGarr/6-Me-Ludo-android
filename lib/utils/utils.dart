@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
 
 import '../constants/app_constants.dart';
+import '../models/license.dart';
 import '../services/country_service.dart';
 import '../widgets/choice_dialog.dart';
 
@@ -113,6 +114,14 @@ class Utils {
     await addGoogleFontsLicenses();
     await Firebase.initializeApp();
     await GetStorage.init();
+  }
+
+  static Future<List<License>> loadLicenses() async {
+    return LicenseRegistry.licenses.asyncMap<License>((license) async {
+      final title = license.packages.join('\n');
+      final text = license.paragraphs.map<String>((paragraph) => paragraph.text).join('\n\n');
+      return License(title: title, text: text);
+    }).toList();
   }
 
   static Future<void> addGoogleFontsLicenses() async {

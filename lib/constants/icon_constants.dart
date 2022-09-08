@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 
 class AppIcons {
+  static const IconData appIcon = Icons.filter_6;
   // ai personality
   static const IconData pacifistIcon = Icons.abc;
   static const IconData averageJoeIcon = Icons.abc;

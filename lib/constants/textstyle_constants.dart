@@ -74,4 +74,17 @@ class TextStyles {
       fontWeight: FontWeight.bold,
     );
   }
+
+  static TextStyle legalTextStyleNormal(Color color) {
+    return TextStyle(
+      color: color,
+    );
+  }
+
+  static TextStyle legalTextStyleBold(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+    );
+  }
 }
