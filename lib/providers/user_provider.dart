@@ -38,6 +38,14 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void handleUserAvatarOnTap(Users user) {
+    if (isMe(user.id)) {
+      NavigationService.goToProfileScreen();
+    } else {
+      // TODO show avatar dialog
+    }
+  }
+
   String getUserPseudonym() {
     return _user!.psuedonym;
   }
@@ -48,6 +56,10 @@ class UserProvider with ChangeNotifier {
 
   bool hasUser() {
     return _user != null;
+  }
+
+  bool isMe(String id) {
+    return id == _user!.id;
   }
 
   bool hasOngoingGames() {

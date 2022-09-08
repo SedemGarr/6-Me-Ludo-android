@@ -5,6 +5,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/app_provider.dart';
+import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/splash/splash.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (_) => UserProvider()),
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
             ChangeNotifierProvider(create: (_) => AppProvider()),
+            ChangeNotifierProvider(create: (_) => GameProvider()),
           ],
           child: const MyApp(),
         ),
@@ -49,8 +51,8 @@ class MyApp extends StatelessWidget {
           title: DialogueService.appName.tr,
           theme: themeProvider.getLightTheme(),
           darkTheme: themeProvider.getDarkTheme(),
-          themeMode: ThemeMode.dark,
-          // themeMode: themeProvider.getThemeMode(),
+          // themeMode: ThemeMode.dark,
+          themeMode: themeProvider.getThemeMode(),
           locale: userProvider.getLocale(),
           translations: DialogueService(),
           fallbackLocale: DialogueService.englishUS,

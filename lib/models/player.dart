@@ -18,4 +18,6 @@ static const String pacifist = 'pacifist';
   static const IconData viciousIcon = AppIcons.viciousIcon;
   static const IconData randomIcon = AppIcons.randomIcon;
 
+  static const List<Color> playerColors = [];
+
 }
