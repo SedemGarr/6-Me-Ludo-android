@@ -20,6 +20,9 @@ class UserProvider with ChangeNotifier {
   late Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
 
+  // text editing controller
+  TextEditingController pseudonymController = TextEditingController();
+
   bool doesUserNeedToSignIn = false;
 
   Future<void> initUser(BuildContext context) async {
@@ -155,6 +158,44 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  void setAvatar(String avatar) {
+    _user!.avatar = avatar;
+    updateUser(true, true);
+  }
+
+  void setPseudonymControllerValue(String value) {
+    pseudonymController.text = value;
+  }
+
+  void setUserPseudonym() {
+    String value = pseudonymController.text.trim();
+
+    if (value == _user!.psuedonym) {
+      NavigationService.genericGoBack();
+      return;
+    }
+
+    if (value.length < AppConstants.minPseudonymLength) {
+      Utils.showToast(DialogueService.tooShortText.tr);
+      return;
+    }
+
+    if (value.length > AppConstants.maxPseudonymLength) {
+      Utils.showToast(DialogueService.tooLongText.tr);
+      return;
+    }
+
+    if (Utils.isStringProfane(value)) {
+      Utils.showToast(DialogueService.profaneStringText.tr);
+      return;
+    }
+
+    _user!.psuedonym = value;
+    updateUser(true, true);
+    pseudonymController.clear();
+    NavigationService.genericGoBack();
+  }
+
   void showSignOutDialog(BuildContext context) {
     showChoiceDialog(
       titleMessage: DialogueService.signOutDialogTitleText.tr,
@@ -245,6 +286,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserProfaneMessages() {
     return _user!.settings.prefersProfanity;
+  }
+
+  bool isAvatarSelected(String avatar) {
+    return _user!.avatar == avatar;
   }
 
   int getUserOngoingGamesLength() {

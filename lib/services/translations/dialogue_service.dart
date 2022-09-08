@@ -67,12 +67,20 @@ class DialogueService extends Translations {
   static const String joinGameHintText = 'joinGameHintText';
   // profile
   static const String reputationValueText = 'reputationValueText';
+  static const String changeAvatarText = 'changeAvatarText';
+  static const String changePseudonymText = 'changePseudonymText';
+  static const String closeDialogText = 'closeDialogText';
+  static const String savePseudonymDialogText = 'savePseudonymDialogText';
+  static const String changePseudonymHintText = 'changePseudonymHintText';
+  static const String tooShortText = 'tooShortText';
+  static const String tooLongText = 'tooLongText';
+  static const String profaneStringText = 'profaneStringText';
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';
   static const String accountSettingsText = 'accountSettingsText';
   // settings - max players
-   static const String maxPlayersTitleText = 'maxPlayersTitleText';
+  static const String maxPlayersTitleText = 'maxPlayersTitleText';
   static const String maxPlayersSubtitleText = 'maxPlayersSubtitleText';
   // settings - dark mode
   static const String darkModeTitleText = 'darkModeTitleText';

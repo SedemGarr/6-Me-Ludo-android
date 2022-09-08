@@ -9,9 +9,12 @@ class ReputationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      PlayerConstants.parsePlayerReputationToIcon(value),
-      color: color,
+    return IconButton(
+      onPressed: null,
+      icon: Icon(
+        PlayerConstants.parsePlayerReputationToIcon(value),
+        color: color,
+      ),
     );
   }
 }

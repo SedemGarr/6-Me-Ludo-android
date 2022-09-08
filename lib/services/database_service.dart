@@ -40,6 +40,8 @@ class DatabaseService {
     }
   }
 
+  static Future<void> deleteUserData(Users user) async {}
+
   static Future<void> updateUserData(Users user) async {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(user.id).set(user.toJson(), SetOptions(merge: true));

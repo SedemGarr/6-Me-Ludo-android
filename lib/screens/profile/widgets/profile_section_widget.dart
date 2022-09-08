@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/profile_avatar_widget.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/profile_reputation_widget.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/profile_title_widget.dart';
+import 'package:six_me_ludo_android/widgets/edit_profile_widget.dart';
 import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
 
 import '../../../providers/user_provider.dart';
@@ -23,6 +24,8 @@ class ProfileSectionWidget extends StatelessWidget {
           children: [
             const ProfileAvatarWidget(),
             ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const EditProfileButton(),
               title: const ProfilePseudonymWidget(),
               subtitle: const ProfileReputationWidget(),
               trailing: ReputationWidget(

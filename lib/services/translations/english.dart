@@ -41,6 +41,14 @@ class EnglishTranslation {
       DialogueService.joinGameHintText: 'Please enter a game code',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
+      DialogueService.changeAvatarText: 'Change Your Avatar',
+      DialogueService.changePseudonymText: 'Change Your Pseudonym',
+      DialogueService.closeDialogText: 'Close',
+      DialogueService.savePseudonymDialogText: 'Save',
+      DialogueService.changePseudonymHintText: 'Enter a pseudonym',
+      DialogueService.tooLongText: 'Sorry, this pseudonym is too long',
+      DialogueService.tooShortText: 'Sorry, this pseudonym is too short',
+      DialogueService.profaneStringText: 'Sorry, this is not an appropriate pseudonym',
       // settings
       DialogueService.generalSettingsText: 'General',
       DialogueService.gameSettingsText: 'Game',

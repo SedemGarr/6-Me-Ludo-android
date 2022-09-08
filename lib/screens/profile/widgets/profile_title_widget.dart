@@ -12,18 +12,13 @@ class ProfilePseudonymWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return GestureDetector(
-      onTap: () {
-        // TODO show change pseudonym dialog
-      },
-      child: Text(
-        userProvider.getUserPseudonym(),
-        style: TextStyles.listTitleStyle(
-          Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+    return Text(
+      userProvider.getUserPseudonym(),
+      style: TextStyles.listTitleStyle(
+        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
       ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

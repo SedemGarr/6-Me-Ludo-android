@@ -74,6 +74,18 @@ class Utils {
     return capitalizedWords.join(' ');
   }
 
+  static List<String> generateAvatarSelectionCodes(String avatar) {
+    List<String> avatars = [];
+
+    for (int i = 0; i < 100; i++) {
+      avatars.add(Utils.generateRandomUserAvatar());
+    }
+
+    avatars[0] = avatar;
+
+    return avatars;
+  }
+
   static String getDefaultcountryCode() {
     return Get.deviceLocale!.countryCode ?? AppConstants.defaultCountryCode;
   }

@@ -74,9 +74,14 @@ class AuthenticationService {
   }
 
   static Future<void> deleteAccount(Users user, BuildContext context) async {
+
+    FirebaseAuth firebase = FirebaseAuth.instance;
+    final signedInUser = firebase.currentUser;
+
     try {
-      // TODO implement delete account
+      await DatabaseService.deleteUserData(user);
       LocalStorageService.clearUser();
+      await signedInUser!.delete();
       Utils.clearCache();
     } catch (e) {
       Utils.showToast(e.toString());

@@ -32,4 +32,5 @@ class AppIcons {
   static const IconData aIPersonalityTypeIcon = LineIcons.brain;
   static const IconData gameSpeedIcon = LineIcons.alternateTachometer;
   static const IconData maxHumanPlayerIcon = LineIcons.alternateTachometer;
+  static const IconData editProfileIcon = LineIcons.pen;
 }
