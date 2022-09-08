@@ -224,6 +224,10 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.preferredSpeed;
   }
 
+   int getUserReputationValue() {
+    return _user!.reputationValue;
+  }
+
   Users getUser() {
     return _user!;
   }

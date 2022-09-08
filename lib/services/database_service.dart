@@ -4,14 +4,9 @@ import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../constants/database_constants.dart';
-import '../models/token.dart';
 import '../models/user.dart';
 
 class DatabaseService {
-  static Future<Token> fetchTokens() async {
-    return Token.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.appDataCollection).doc(FirestoreConstants.tokenDocument).get()).data()!);
-  }
-
   static Future<Users?> getUser(String id) async {
     try {
       return Users.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).get()).data()!);

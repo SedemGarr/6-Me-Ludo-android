@@ -14,7 +14,7 @@ class BackButtonWidget extends StatelessWidget {
       onPressed: onPressed,
       icon: Icon(
         AppIcons.backIcon,
-        color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+        color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
       ),
     );
   }

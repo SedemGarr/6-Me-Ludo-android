@@ -22,7 +22,7 @@ class LanguageWidget extends StatelessWidget {
       subtitle: SettingsSubtitleWidget(text: DialogueService.languageSubtitleText.tr),
       trailing: DropdownButton<dynamic>(
         iconEnabledColor: Theme.of(context).primaryColor,
-        value: userProvider.getLocale(),
+        value: userProvider.getLocale().languageCode,
         items: DialogueService.getLocaleDropDownMenuItems(context),
         underline: const SizedBox.shrink(),
         onChanged: (dynamic value) {

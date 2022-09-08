@@ -1,3 +1,4 @@
+import 'package:six_me_ludo_android/models/game.dart';
 import '../utils/utils.dart';
 import 'user_settings.dart';
 
@@ -6,8 +7,8 @@ class Users {
   late String id;
   late String psuedonym;
   late int reputationValue;
-  late List<String> onGoingGames;
   late UserSettings settings;
+  List<Game> onGoingGames = [];
 
   Users({
     required this.id,
@@ -15,7 +16,6 @@ class Users {
     required this.avatar,
     required this.reputationValue,
     required this.settings,
-    required this.onGoingGames,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -24,12 +24,6 @@ class Users {
     psuedonym = json['psuedonym'];
     settings = UserSettings.fromJson(json['settings']);
     reputationValue = json['reputationValue'];
-    if (json['onGoingGames'] != null) {
-      onGoingGames = <String>[];
-      json['onGoingGames'].forEach((v) {
-        onGoingGames.add(v);
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -39,7 +33,6 @@ class Users {
     data['psuedonym'] = psuedonym;
     data['settings'] = settings.toJson();
     data['reputationValue'] = reputationValue;
-    data['onGoingGames'] = onGoingGames.map((v) => v).toList();
     return data;
   }
 
@@ -50,7 +43,6 @@ class Users {
       settings: UserSettings.getDefaultSettings(),
       psuedonym: Utils.getRandomPseudonym(),
       reputationValue: 0,
-      onGoingGames: [],
     );
   }
 
@@ -61,7 +53,6 @@ class Users {
       settings: UserSettings.getDefaultSettings(),
       psuedonym: Utils.getRandomPseudonym(),
       reputationValue: 0,
-      onGoingGames: [],
     );
   }
 

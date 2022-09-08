@@ -5,9 +5,9 @@ import 'package:line_icons/line_icons.dart';
 class AppIcons {
   static const IconData appIcon = Icons.filter_6;
   // ai personality
-  static const IconData pacifistIcon = Icons.abc;
-  static const IconData averageJoeIcon = Icons.abc;
-  static const IconData viciousIcon = Icons.abc;
+  static const IconData pacifistIcon = LineIcons.smilingFace;
+  static const IconData averageJoeIcon = LineIcons.neutralFace;
+  static const IconData viciousIcon = LineIcons.angryFace;
   static const IconData randomIcon = Icons.abc;
   //
   static const IconData googleIcon = FontAwesomeIcons.google;

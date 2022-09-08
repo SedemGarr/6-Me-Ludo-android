@@ -4,23 +4,18 @@ import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/models/swatch.dart';
 
 class PlayerConstants {
-
-
-static const String pacifist = 'pacifist';
-  static const int pacifistValue = -1;
+  static const String pacifist = 'pacifist';
+  static const int pacifistValue = 1;
   static const String averageJoe = 'averageJoe';
   static const int averageJoeValue = 0;
   static const String vicious = 'vicious';
-  static const int viciousValue = 1;
+  static const int viciousValue = -1;
   static const String randomPersonality = 'random';
-  
 
   static const IconData pacifistIcon = AppIcons.pacifistIcon;
   static const IconData averageJoeIcon = AppIcons.averageJoeIcon;
   static const IconData viciousIcon = AppIcons.viciousIcon;
   static const IconData randomIcon = AppIcons.randomIcon;
-
-
 
   static const Color errorColor = CSSColors.black;
   static const Color errorSelectedColor = CSSColors.black;
@@ -182,6 +177,16 @@ static const String pacifist = 'pacifist';
     Swatch(playerColor: CSSColors.red, playerSelectedColor: CSSColors.darkRed),
     Swatch(playerColor: CSSColors.yellow, playerSelectedColor: CSSColors.orange),
     Swatch(playerColor: CSSColors.green, playerSelectedColor: CSSColors.darkGreen),
-    Swatch(playerColor: CSSColors.aliceBlue, playerSelectedColor: CSSColors.aliceBlue),
+    Swatch(playerColor: CSSColors.orange, playerSelectedColor: CSSColors.orange),
   ];
+
+  static IconData parsePlayerReputationToIcon(int value) {
+    if (value.isNegative) {
+      return viciousIcon;
+    } else if (value == 0) {
+      return averageJoeIcon;
+    } else {
+      return pacifistIcon;
+    }
+  }
 }

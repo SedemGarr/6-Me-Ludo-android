@@ -127,7 +127,7 @@ class UserSettings {
       prefersStartAssist: true,
       prefersProfanity: false,
       maxPlayers: AppConstants.maxPlayerUpperLimit,
-      locale: Get.deviceLocale.toString(),
+      locale: DialogueService.englishUS.toString(),
     );
   }
 
