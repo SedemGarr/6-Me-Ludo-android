@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../constants/constants.dart';
+import '../constants/app_constants.dart';
+import '../constants/textstyle_constants.dart';
 import '../services/navigation_service.dart';
 import 'custom_elevated_button.dart';
 import 'custom_text_button.dart';

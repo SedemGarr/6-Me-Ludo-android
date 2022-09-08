@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/constants.dart';
+import '../constants/textstyle_constants.dart';
 import '../providers/user_provider.dart';
 import '../services/translations/dialogue_service.dart';
 

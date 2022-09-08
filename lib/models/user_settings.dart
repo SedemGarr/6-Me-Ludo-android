@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:six_me_ludo_android/models/user.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/player_constants.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
+import '../constants/textstyle_constants.dart';
 import '../utils/utils.dart';
 import 'player.dart';
 
@@ -9,25 +13,35 @@ class UserSettings {
   static const int normalSpeed = 250;
   static const int fastSpeed = 0;
 
-  static const noobSettings = 'noob';
-  static const mediumSettings = 'medium';
-  static const hardSettings = 'hard';
+  static List<Map<String, dynamic>> gameSpeedModes = [
+    {'value': fastSpeed, 'name': DialogueService.gameSpeedFastText.tr},
+    {'value': normalSpeed, 'name': DialogueService.gameSpeedNormalText.tr},
+    {'value': slowSpeed, 'name': DialogueService.gameSpeedSlowText.tr},
+  ];
+
+  static List<Map<String, dynamic>> preferredPersonalityType = [
+    {'value': PlayerConstants.pacifist, 'name': DialogueService.pacifistPersonalityType.tr},
+    {'value': PlayerConstants.averageJoe, 'name': DialogueService.averagePersonalityType.tr},
+    {'value': PlayerConstants.vicious, 'name': DialogueService.viciousPersonalityType.tr},
+    {'value': PlayerConstants.randomPersonality, 'name': DialogueService.randomPersonalityType.tr},
+  ];
 
   late int preferredSpeed;
-  late int preferredColor;
+  late int maxPlayers;
   late bool prefersDarkMode;
   late bool prefersAudio;
   late bool prefersStartAssist;
   late bool prefersAutoStart;
   late bool prefersCatchupAssist;
   late bool prefersAdaptiveAI;
+  late bool prefersProfanity;
+  late bool prefersAddAI;
   late String aiPersonalityPreference;
   late String locale;
 
   UserSettings({
     required this.locale,
     required this.prefersAutoStart,
-    required this.preferredColor,
     required this.preferredSpeed,
     required this.aiPersonalityPreference,
     required this.prefersAudio,
@@ -35,18 +49,51 @@ class UserSettings {
     required this.prefersCatchupAssist,
     required this.prefersAdaptiveAI,
     required this.prefersStartAssist,
+    required this.prefersProfanity,
+    required this.prefersAddAI,
+    required this.maxPlayers,
   });
+
+  static List<DropdownMenuItem<dynamic>> getGameSpeedDropDownMenuItems(BuildContext context) {
+    return gameSpeedModes
+        .map(
+          (e) => DropdownMenuItem(
+            value: e['value'],
+            child: Text(
+              e['name'],
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  static List<DropdownMenuItem<dynamic>> getPersonalityDropDownMenuItems(BuildContext context) {
+    return preferredPersonalityType
+        .map(
+          (e) => DropdownMenuItem(
+            value: e['value'],
+            child: Text(
+              e['name'],
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+            ),
+          ),
+        )
+        .toList();
+  }
 
   UserSettings.fromJson(Map<String, dynamic> json) {
     aiPersonalityPreference = json['aiPersonalityPreference'] ?? Player.randomPersonality;
     prefersCatchupAssist = json['prefersCatchupAssist'] ?? false;
-    preferredColor = json['preferredColor'] ?? 0;
     preferredSpeed = json['preferredSpeed'];
     prefersAudio = json['prefersAudio'];
     prefersDarkMode = json['prefersDarkMode'];
     prefersStartAssist = json['prefersStartAssist'];
+    prefersAddAI = json['prefersAddAI'] ?? true;
     prefersAdaptiveAI = json['prefersAdaptiveAI'] ?? true;
     prefersAutoStart = json['prefersAutoStart'] ?? false;
+    prefersProfanity = json['prefersProfanity'] ?? false;
+    maxPlayers = json['maxPlayers'] ?? AppConstants.maxPlayerUpperLimit;
     locale = json['locale'] ?? Get.deviceLocale.toString();
   }
 
@@ -60,83 +107,98 @@ class UserSettings {
     data['prefersCatchupAssist'] = prefersCatchupAssist;
     data['prefersAdaptiveAI'] = prefersAdaptiveAI;
     data['prefersAutoStart'] = prefersAutoStart;
-    data['preferredColor'] = preferredColor;
+    data['prefersProfanity'] = prefersProfanity;
+    data['prefersAddAI'] = prefersAddAI;
+    data['maxPlayers'] = maxPlayers;
     data['locale'] = locale;
     return data;
   }
 
   static UserSettings getDefaultSettings() {
     return UserSettings(
-      preferredColor: 0,
       preferredSpeed: normalSpeed,
       aiPersonalityPreference: Player.randomPersonality,
+      prefersAddAI: true,
       prefersAutoStart: false,
       prefersAudio: true,
       prefersDarkMode: Utils.getSystemDarkModeSetting(),
       prefersCatchupAssist: true,
       prefersAdaptiveAI: true,
       prefersStartAssist: true,
+      prefersProfanity: false,
+      maxPlayers: AppConstants.maxPlayerUpperLimit,
       locale: Get.deviceLocale.toString(),
     );
   }
 
-  static UserSettings getNoobSettings(Users user) {
-    return UserSettings(
-      preferredColor: user.settings.preferredColor,
-      preferredSpeed: slowSpeed,
-      aiPersonalityPreference: Player.pacifist,
-      prefersAutoStart: user.settings.prefersAutoStart,
-      prefersAudio: user.settings.prefersAudio,
-      prefersCatchupAssist: true,
-      prefersDarkMode: user.settings.prefersDarkMode,
-      prefersAdaptiveAI: false,
-      prefersStartAssist: true,
-      locale: user.settings.locale,
-    );
-  }
+  // static UserSettings getNoobSettings(Users user) {
+  //   return UserSettings(
+  //     preferredColor: user.settings.preferredColor,
+  //     preferredSpeed: slowSpeed,
+  //     prefersAddAI: user.settings.prefersAddAI,
+  //     aiPersonalityPreference: Player.pacifist,
+  //     prefersAutoStart: user.settings.prefersAutoStart,
+  //     prefersAudio: user.settings.prefersAudio,
+  //     prefersCatchupAssist: true,
+  //     prefersDarkMode: user.settings.prefersDarkMode,
+  //     prefersProfanity: user.settings.prefersProfanity,
+  //     prefersAdaptiveAI: false,
+  //     prefersStartAssist: true,
+  //     maxPlayers: user.settings.maxPlayers,
+  //     locale: user.settings.locale,
+  //   );
+  // }
 
-  static UserSettings getMediumSettings(Users user) {
-    return UserSettings(
-      preferredColor: user.settings.preferredColor,
-      preferredSpeed: normalSpeed,
-      aiPersonalityPreference: Player.averageJoe,
-      prefersAutoStart: user.settings.prefersAutoStart,
-      prefersAudio: user.settings.prefersAudio,
-      prefersCatchupAssist: false,
-      prefersDarkMode: user.settings.prefersDarkMode,
-      prefersAdaptiveAI: true,
-      prefersStartAssist: true,
-      locale: user.settings.locale,
-    );
-  }
+  // static UserSettings getMediumSettings(Users user) {
+  //   return UserSettings(
+  //     preferredColor: user.settings.preferredColor,
+  //     preferredSpeed: normalSpeed,
+  //     prefersAddAI: user.settings.prefersAddAI,
+  //     aiPersonalityPreference: Player.averageJoe,
+  //     prefersAutoStart: user.settings.prefersAutoStart,
+  //     prefersAudio: user.settings.prefersAudio,
+  //     prefersCatchupAssist: false,
+  //     prefersDarkMode: user.settings.prefersDarkMode,
+  //     prefersProfanity: user.settings.prefersProfanity,
+  //     prefersAdaptiveAI: true,
+  //     prefersStartAssist: true,
+  //     maxPlayers: user.settings.maxPlayers,
+  //     locale: user.settings.locale,
+  //   );
+  // }
 
-  static UserSettings getHardcoreSettings(Users user) {
-    return UserSettings(
-      preferredColor: user.settings.preferredColor,
-      preferredSpeed: fastSpeed,
-      aiPersonalityPreference: Player.vicious,
-      prefersAutoStart: false,
-      prefersAudio: user.settings.prefersAudio,
-      prefersCatchupAssist: false,
-      prefersDarkMode: user.settings.prefersDarkMode,
-      prefersAdaptiveAI: false,
-      prefersStartAssist: false,
-      locale: user.settings.locale,
-    );
-  }
+  // static UserSettings getHardcoreSettings(Users user) {
+  //   return UserSettings(
+  //     preferredColor: user.settings.preferredColor,
+  //     preferredSpeed: fastSpeed,
+  //     prefersAddAI: user.settings.prefersAddAI,
+  //     aiPersonalityPreference: Player.vicious,
+  //     prefersAutoStart: false,
+  //     prefersAudio: user.settings.prefersAudio,
+  //     prefersCatchupAssist: false,
+  //     prefersDarkMode: user.settings.prefersDarkMode,
+  //     prefersProfanity: user.settings.prefersProfanity,
+  //     prefersAdaptiveAI: false,
+  //     prefersStartAssist: false,
+  //     maxPlayers: user.settings.maxPlayers,
+  //     locale: user.settings.locale,
+  //   );
+  // }
 
   @override
   bool operator ==(other) {
     return (other is UserSettings) &&
         other.preferredSpeed == preferredSpeed &&
         other.aiPersonalityPreference == aiPersonalityPreference &&
+        other.prefersAddAI == prefersAddAI &&
         other.prefersAutoStart == prefersAutoStart &&
         other.prefersAudio == prefersAudio &&
         other.prefersCatchupAssist == prefersCatchupAssist &&
         other.prefersDarkMode == prefersDarkMode &&
         other.prefersAdaptiveAI == prefersAdaptiveAI &&
-        other.preferredColor == preferredColor &&
-        other.prefersStartAssist == prefersStartAssist;
+        other.prefersStartAssist == prefersStartAssist &&
+        other.prefersProfanity == prefersProfanity &&
+        other.maxPlayers == maxPlayers;
   }
 
   @override
@@ -145,9 +207,11 @@ class UserSettings {
       aiPersonalityPreference.hashCode ^
       prefersAutoStart.hashCode ^
       prefersAudio.hashCode ^
+      prefersAddAI.hashCode ^
       prefersCatchupAssist.hashCode ^
       prefersDarkMode.hashCode ^
       prefersAdaptiveAI.hashCode ^
-      preferredColor.hashCode ^
-      prefersStartAssist.hashCode;
+      prefersProfanity.hashCode ^
+      prefersStartAssist.hashCode ^
+      maxPlayers;
 }

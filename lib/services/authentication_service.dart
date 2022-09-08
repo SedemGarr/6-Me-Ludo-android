@@ -65,6 +65,19 @@ class AuthenticationService {
     try {
       await firebase.signOut();
       LocalStorageService.clearUser();
+      Utils.clearCache();
+    } catch (e) {
+      Utils.showToast(e.toString());
+    }
+
+    NavigationService.goToSplashScreenAfterLogOut();
+  }
+
+  static Future<void> deleteAccount(Users user, BuildContext context) async {
+    try {
+      // TODO implement delete account
+      LocalStorageService.clearUser();
+      Utils.clearCache();
     } catch (e) {
       Utils.showToast(e.toString());
     }

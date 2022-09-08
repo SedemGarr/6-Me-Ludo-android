@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:six_me_ludo_android/constants/constants.dart';
+
+import '../constants/icon_constants.dart';
 
 class InfoButtonWidget extends StatelessWidget {
   const InfoButtonWidget({super.key});

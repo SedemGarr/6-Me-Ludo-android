@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 
 import 'english.dart';
 
@@ -20,6 +21,7 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
             ),
           ),
         )
@@ -41,12 +43,73 @@ class DialogueService extends Translations {
   static const String noUserSelectedText = 'noUserSelectedText';
   // home
   static const String welcomeText = 'welcomeText';
+  static const String newGameText = 'newGameText';
   // game
   static const String startGameButtonText = 'startGameButtonText';
   static const String joinGameButtonText = 'joinGameButtonText';
   static const String orButtonText = 'orButtonText';
   static const String noGamesText = 'noGamesText';
-  //
+  // profile
+  static const String reputationValueText = 'reputationValueText';
+  // settings
+  static const String generalSettingsText = 'generalSettingsText';
+  static const String gameSettingsText = 'gameSettingsText';
+  static const String accountSettingsText = 'accountSettingsText';
+  // settings - dark mode
+  static const String darkModeTitleText = 'darkModeTitleText';
+  static const String darkModeSubtitleText = 'darkModeSubtitleText';
+  // settings - audio
+  static const String audioTitleText = 'audioTitleText';
+  static const String audioSubtitleText = 'audioSubtitleText';
+  // settings - language
+  static const String languageTitleText = 'languageTitleText';
+  static const String languageSubtitleText = 'languageSubtitleText';
+  // settings - add ai players
+  static const String addAIPlayersTitleText = 'addAIPlayersTitleText';
+  static const String addAIPlayersSubtitleText = 'addAIPlayersSubtitleText';
+  // settings - auto start
+  static const String autoStartTitleText = 'autoStartTitleText';
+  static const String autoStartSubtitleText = 'autoStartSubtitleText';
+  // settings - catch up assist
+  static const String catchUpAssistTitleText = 'catchUpAssistTitleText';
+  static const String catchUpAssistSubtitleText = 'catchUpAssistSubtitleText';
+  // settings - start assist
+  static const String startAssistTitleText = 'startAssistTitleText';
+  static const String startAssistSubtitleText = 'startAssistSubtitleText';
+  // settings - adaptive ai
+  static const String adaptiveAITitleText = 'adaptiveAITitleText';
+  static const String adaptiveAISubtitleText = 'adaptiveAISubtitleText';
+  // settings - ai personality type
+  static const String aIPersonalityTitleText = 'aIPersonalityTitleText';
+  static const String aIPersonalitySubtitleText = 'aIPersonalitySubtitleText';
+  static const String averagePersonalityType = 'averagePersonalityType';
+  static const String pacifistPersonalityType = 'pacifistPersonalityType';
+  static const String viciousPersonalityType = 'viciousPersonalityType';
+  static const String randomPersonalityType = 'randomPersonalityType';
+  // settings - game speed
+  static const String gameSpeedTitleText = 'gameSpeedTitleText';
+  static const String gameSpeedSubtitleText = 'gameSpeedSubtitleText';
+  static const String gameSpeedSlowText = 'gameSpeedSlowText';
+  static const String gameSpeedNormalText = 'gameSpeedNormalText';
+  static const String gameSpeedFastText = 'gameSpeedFastText';
+  // settings - profanity
+  static const String profaneMessagesTitleText = 'profaneMessagesTitleText';
+  static const String profaneMessagesSubtitleText = 'profaneMessagesSubtitleText';
+  // settings - sign out
+  static const String signOutTitleText = 'signOutTitleText';
+  static const String signOutSubtitleText = 'signOutSubtitleText';
+  static const String signOutDialogTitleText = 'signOutDialogTitleText';
+  static const String signOutDialogContentText = 'signOutDialogContentText';
+  static const String signOutDialogYesText = 'signOutDialogYesText';
+  static const String signOutDialogNoText = 'signOutDialogNoText';
+  // settings - delete account
+  static const String deleteAccountTitleText = 'deleteAccountTitleText';
+  static const String deleteAccountSubtitleText = 'deleteAccountSubtitleText';
+  static const String deleteAccountDialogTitleText = 'deleteAccountDialogTitleText';
+  static const String deleteAccountDialogContentText = 'deleteAccountDialogContentText';
+  static const String deleteAccountDialogYesText = 'deleteAccountDialogYesText';
+  static const String deleteAccountDialogNoText = 'deleteAccountDialogNoText';
+  // exit
   static const String exitAppDialogTitleText = 'exitAppDialogTitleText';
   static const String exitAppDialogContentText = 'exitAppDialogContentText';
   static const String exitAppDialogNoText = 'exitAppDialogNoText';

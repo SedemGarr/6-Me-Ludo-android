@@ -5,7 +5,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/no_games_widget.dart';
 import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
 
-import '../../../constants/constants.dart';
+import '../../../constants/app_constants.dart';
 
 class OngoingGamesListWidget extends StatelessWidget {
   const OngoingGamesListWidget({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/constants.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 
 class GameScreen extends StatelessWidget {

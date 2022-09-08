@@ -6,7 +6,8 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
-import '../../../constants/constants.dart';
+import '../../../constants/app_constants.dart';
+import '../../../constants/icon_constants.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/wayout_widget.dart';
 

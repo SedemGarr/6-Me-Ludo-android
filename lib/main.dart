@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
           locale: userProvider.getLocale(),
           translations: DialogueService(),
           fallbackLocale: DialogueService.englishUS,
-          defaultTransition: Transition.downToUp,
+          defaultTransition: Transition.native,
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),
         ),

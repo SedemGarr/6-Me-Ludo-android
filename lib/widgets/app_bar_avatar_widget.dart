@@ -12,9 +12,10 @@ class AppBarAvatarWidget extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
 
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+      padding: const EdgeInsets.only(left: 8.0),
       child: UserAvatarWidget(
         user: userProvider.getUser(),
+        isBackgroundTransparent: true,
       ),
     );
   }

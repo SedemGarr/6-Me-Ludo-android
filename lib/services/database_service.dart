@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
-import '../constants/constants.dart';
+import '../constants/database_constants.dart';
 import '../models/token.dart';
 import '../models/user.dart';
 

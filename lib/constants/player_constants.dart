@@ -1,8 +1,27 @@
 import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/models/swatch.dart';
 
 class PlayerConstants {
+
+
+static const String pacifist = 'pacifist';
+  static const int pacifistValue = -1;
+  static const String averageJoe = 'averageJoe';
+  static const int averageJoeValue = 0;
+  static const String vicious = 'vicious';
+  static const int viciousValue = 1;
+  static const String randomPersonality = 'random';
+  
+
+  static const IconData pacifistIcon = AppIcons.pacifistIcon;
+  static const IconData averageJoeIcon = AppIcons.averageJoeIcon;
+  static const IconData viciousIcon = AppIcons.viciousIcon;
+  static const IconData randomIcon = AppIcons.randomIcon;
+
+
+
   static const Color errorColor = CSSColors.black;
   static const Color errorSelectedColor = CSSColors.black;
   static const Color errorPathColor = CSSColors.black;

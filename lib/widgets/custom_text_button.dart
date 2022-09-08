@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/constants.dart';
+import '../constants/textstyle_constants.dart';
 
 class CustomTextButton extends StatelessWidget {
   final VoidCallback? onPressed;

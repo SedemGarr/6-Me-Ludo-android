@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,7 +14,7 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
 
-import '../constants/constants.dart';
+import '../constants/app_constants.dart';
 import '../services/country_service.dart';
 import '../widgets/choice_dialog.dart';
 
@@ -41,7 +42,7 @@ class Utils {
       return getRandomPseudonym();
     }
 
-    return convertToTitleCase(finalpseudonym.trim()).replaceAll(' ', '');
+    return convertToTitleCase(finalpseudonym.trim());
   }
 
   static bool isStringProfane(String value) {
@@ -119,6 +120,10 @@ class Utils {
       final license = await rootBundle.loadString('google_fonts/OFL.txt');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
+  }
+
+  static void clearCache() async {
+    await DefaultCacheManager().emptyCache();
   }
 
   static showExitDialog(BuildContext context) {
