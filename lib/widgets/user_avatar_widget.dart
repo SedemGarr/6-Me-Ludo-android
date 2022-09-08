@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:multiavatar/multiavatar.dart';
 
 import '../models/user.dart';
@@ -16,7 +17,7 @@ class UserAvatarWidget extends StatelessWidget {
         // TODO handle taps
       },
       child: CircleAvatar(
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: SvgPicture.string(
