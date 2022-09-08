@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
@@ -15,7 +14,7 @@ class DatabaseService {
 
   static Future<Users?> getUser(String id) async {
     try {
-      return Users.fromJson((await FirebaseDatabase.instance.ref("${RealTimeDatabaseConstants.userNode}/$id").get()).value as Map<String, dynamic>);
+      return Users.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).get()).data()!);
     } catch (e) {
       return null;
     }
@@ -38,7 +37,7 @@ class DatabaseService {
 
   static Future<void> updateUserData(Users user) async {
     try {
-      await FirebaseDatabase.instance.ref("${RealTimeDatabaseConstants.userNode}/${user.id}").update(user.toJson());
+      await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(user.id).set(user.toJson(), SetOptions(merge: true));
     } catch (e) {
       Utils.showToast(e.toString());
     }
