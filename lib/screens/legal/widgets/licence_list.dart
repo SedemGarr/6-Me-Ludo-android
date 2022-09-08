@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import '../../../constants/app_constants.dart';
 import '../../../models/license.dart';
 import '../../../utils/utils.dart';
@@ -22,12 +21,7 @@ class LicenseWidget extends StatelessWidget {
                 final List<License> licenses = snapshot.data!;
                 return AnimationLimiter(
                   child: ListView.separated(
-                      padding: EdgeInsets.only(
-                        top: 8.0,
-                        left: 8.0,
-                        right: 8.0,
-                        bottom: Get.height * 1 / 4,
-                      ),
+                      padding: AppConstants.listViewBottomPadding,
                       separatorBuilder: (context, index) {
                         return const Divider();
                       },
@@ -49,7 +43,10 @@ class LicenseWidget extends StatelessWidget {
                                 ),
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0,
+                                      horizontal: 24,
+                                    ),
                                     child: Text(
                                       license.text,
                                       style: TextStyle(color: Theme.of(context).colorScheme.onSurface),

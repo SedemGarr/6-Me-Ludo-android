@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 
@@ -44,6 +45,15 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
     }
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
+  }
+
+  void handleNewGameTap() {
+    if (hasReachedOngoingGamesLimit()) {
+      Utils.showToast(DialogueService.maxGamesText.tr);
+      return;
+    }
+
+    NavigationService.goToNewGameScreen();
   }
 
   void initialiseOnGoingGamesStream() {
@@ -129,6 +139,14 @@ class UserProvider with ChangeNotifier {
 
   void setGameSpeed(int value) {
     _user!.settings.preferredSpeed = value;
+    updateUser(true, true);
+  }
+
+  void setHumanPlayerNumber(int value, BuildContext context) {
+    _user!.settings.maxPlayers = value;
+
+    toggleAddAI(context, !(value == 4));
+
     updateUser(true, true);
   }
 
@@ -239,6 +257,10 @@ class UserProvider with ChangeNotifier {
 
   int getUserReputationValue() {
     return _user!.reputationValue;
+  }
+
+  int getUserHumanPlayerNumber() {
+    return _user!.settings.maxPlayers;
   }
 
   Users getUser() {

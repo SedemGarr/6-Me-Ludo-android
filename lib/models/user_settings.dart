@@ -82,6 +82,24 @@ class UserSettings {
         .toList();
   }
 
+  static List<DropdownMenuItem<dynamic>> getHumanPlayerDropDownMenuItems(BuildContext context) {
+    List<DropdownMenuItem<dynamic>> items = [];
+
+    for (var i = 1; i <= 4; i++) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i.toString(),
+            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+          ),
+        ),
+      );
+    }
+
+    return items;
+  }
+
   UserSettings.fromJson(Map<String, dynamic> json) {
     aiPersonalityPreference = json['aiPersonalityPreference'] ?? Player.randomPersonality;
     prefersCatchupAssist = json['prefersCatchupAssist'] ?? false;

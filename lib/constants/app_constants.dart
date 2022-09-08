@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppConstants {
   static const String appNameEnglish = '6-Me-Ludo';
@@ -13,13 +14,13 @@ class AppConstants {
   static const int maxPlayerUpperLimit = 4;
   static const int maxPseudonymLength = 30;
   static const int maxOngoingGamesNumber = 15;
-
+  static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;
+
   static const double appBorderRadiusValue = 4.0;
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
   static const Curve animationCurve = Curves.fastOutSlowIn;
-  static RoundedRectangleBorder appShape = RoundedRectangleBorder(
-    borderRadius: appBorderRadius,
-  );
+  static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
+  static EdgeInsets listViewBottomPadding = EdgeInsets.only(bottom: Get.height * 0.25);
 }

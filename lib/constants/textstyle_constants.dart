@@ -75,6 +75,12 @@ class TextStyles {
     );
   }
 
+  static TextStyle textFieldStyle(Color color) {
+    return TextStyle(
+      color: color,
+    );
+  }
+
   static TextStyle legalTextStyleNormal(Color color) {
     return TextStyle(
       color: color,

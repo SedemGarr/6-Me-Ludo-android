@@ -90,6 +90,10 @@ class Utils {
     return SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
   }
 
+  static void dismissKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
   static void showToast(String message) {
     Fluttertoast.showToast(
       msg: message,

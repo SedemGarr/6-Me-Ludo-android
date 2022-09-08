@@ -55,17 +55,25 @@ class DialogueService extends Translations {
   // home
   static const String welcomeText = 'welcomeText';
   static const String newGameText = 'newGameText';
-  // game
+  // game - starting
+  static const String newGameAppBarTitleText = 'newGameAppBarTitleText';
   static const String startGameButtonText = 'startGameButtonText';
   static const String joinGameButtonText = 'joinGameButtonText';
   static const String orButtonText = 'orButtonText';
   static const String noGamesText = 'noGamesText';
+  static const String maxGamesText = 'maxGamesText';
+  static const String hostGameFABText = 'hostGameFABText';
+  static const String joinGameFABText = 'joinGameFABText';
+  static const String joinGameHintText = 'joinGameHintText';
   // profile
   static const String reputationValueText = 'reputationValueText';
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';
   static const String accountSettingsText = 'accountSettingsText';
+  // settings - max players
+   static const String maxPlayersTitleText = 'maxPlayersTitleText';
+  static const String maxPlayersSubtitleText = 'maxPlayersSubtitleText';
   // settings - dark mode
   static const String darkModeTitleText = 'darkModeTitleText';
   static const String darkModeSubtitleText = 'darkModeSubtitleText';

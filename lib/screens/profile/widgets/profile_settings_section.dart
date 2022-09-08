@@ -6,8 +6,6 @@ class ProfileSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
-      child: SettingsList(),
-    );
+    return const SettingsList();
   }
 }

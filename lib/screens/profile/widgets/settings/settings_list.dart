@@ -3,12 +3,15 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/acc
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/game_section.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/general_section.dart';
 
+import '../../../../constants/app_constants.dart';
+
 class SettingsList extends StatelessWidget {
   const SettingsList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: AppConstants.listViewBottomPadding,
       children: const [
         GeneralSettingsSection(),
         GameSettingsSection(),

@@ -31,7 +31,7 @@ class OngoingGamesListWidget extends StatelessWidget {
               return AnimationLimiter(
                 child: ListView.builder(
                   itemCount: userProvider.getUserOngoingGamesLength(),
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: AppConstants.listViewBottomPadding,
                   itemBuilder: (context, index) {
                     return AnimationConfiguration.staggeredList(
                       position: index,

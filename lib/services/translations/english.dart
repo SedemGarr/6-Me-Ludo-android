@@ -29,17 +29,25 @@ class EnglishTranslation {
       // home
       DialogueService.welcomeText: 'Hi, ',
       DialogueService.newGameText: 'New Game',
-      // game
-      DialogueService.startGameButtonText: 'Start Game',
+      // game - starting
+      DialogueService.newGameAppBarTitleText: 'New Game',
+      DialogueService.startGameButtonText: 'Host Game',
       DialogueService.joinGameButtonText: 'Join Game',
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Games 😕',
+      DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
+      DialogueService.hostGameFABText: 'Host',
+      DialogueService.joinGameFABText: 'Join',
+      DialogueService.joinGameHintText: 'Please enter a game code',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       // settings
       DialogueService.generalSettingsText: 'General',
       DialogueService.gameSettingsText: 'Game',
       DialogueService.accountSettingsText: 'Account',
+      // settings - max players
+      DialogueService.maxPlayersTitleText: 'Number of Human Players',
+      DialogueService.maxPlayersSubtitleText: 'Select how many human players you want to add to your game',
       // settings - dark mode
       DialogueService.darkModeTitleText: 'Dark Mode',
       DialogueService.darkModeSubtitleText: 'Toggle dark mode on or off',

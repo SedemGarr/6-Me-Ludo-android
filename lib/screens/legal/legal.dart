@@ -15,6 +15,7 @@ class LegalScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        scrolledUnderElevation: 0,
         leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
         title: Text(
           DialogueService.licenceText.tr,
