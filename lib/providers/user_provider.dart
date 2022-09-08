@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 
 import '../models/game.dart';
 import '../models/user.dart';
@@ -63,11 +64,11 @@ class UserProvider with ChangeNotifier {
     _user!.onGoingGames = games;
   }
 
-  void handleUserAvatarOnTap(Users user) {
+  void handleUserAvatarOnTap(Users user, BuildContext context) {
     if (isMe(user.id)) {
       NavigationService.goToProfileScreen();
     } else {
-      // TODO show avatar dialog
+      showUserDialog(user: user, context: context);
     }
   }
 
