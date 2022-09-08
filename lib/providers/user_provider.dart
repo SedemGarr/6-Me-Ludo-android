@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
+import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 
+import '../models/game.dart';
 import '../models/user.dart';
 import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
@@ -14,6 +16,7 @@ import '../services/user_state_service.dart';
 
 class UserProvider with ChangeNotifier {
   late Users? _user;
+  late Stream<List<Game>> onGoingGamesStream;
 
   bool doesUserNeedToSignIn = false;
 
@@ -27,6 +30,7 @@ class UserProvider with ChangeNotifier {
 
     Future.delayed(const Duration(seconds: 5), () {
       if (hasUser()) {
+        initialiseOnGoingGamesStream();
         NavigationService.goToHomeScreen();
       } else {
         setDoesUserNeedToSignIn(true);
@@ -41,6 +45,10 @@ class UserProvider with ChangeNotifier {
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
+  void initialiseOnGoingGamesStream() {
+    onGoingGamesStream = DatabaseService.getOngoingGames(_user!);
+  }
+
   void setUser(Users user) {
     _user = user;
     notifyListeners();
@@ -49,6 +57,10 @@ class UserProvider with ChangeNotifier {
   void setDoesUserNeedToSignIn(bool value) {
     doesUserNeedToSignIn = value;
     notifyListeners();
+  }
+
+  void syncOnGoingGamesList(List<Game> games) {
+    _user!.onGoingGames = games;
   }
 
   void handleUserAvatarOnTap(Users user) {
@@ -224,12 +236,16 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.preferredSpeed;
   }
 
-   int getUserReputationValue() {
+  int getUserReputationValue() {
     return _user!.reputationValue;
   }
 
   Users getUser() {
     return _user!;
+  }
+
+  List<Game> getUserOngoingGames() {
+    return _user!.onGoingGames;
   }
 
   Locale getLocale() {

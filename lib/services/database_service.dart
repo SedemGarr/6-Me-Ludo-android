@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
@@ -7,6 +8,15 @@ import '../constants/database_constants.dart';
 import '../models/user.dart';
 
 class DatabaseService {
+  static Stream<List<Game>> getOngoingGames(Users user) {
+    return FirebaseFirestore.instance
+        .collection(FirestoreConstants.gamesCollection)
+        .where('playerIds', arrayContains: user.id)
+        .where('isDeleted', isEqualTo: false)
+        .snapshots()
+        .map((snapShot) => snapShot.docs.map((document) => Game.fromJson(document.data())).toList());
+  }
+
   static Future<Users?> getUser(String id) async {
     try {
       return Users.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).get()).data()!);

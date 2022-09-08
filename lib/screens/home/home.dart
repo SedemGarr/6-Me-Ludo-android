@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/new_game_fab.dart';
-import 'package:six_me_ludo_android/screens/home/widgets/ongoing_games_list.dart';
+import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_avatar_widget.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 
