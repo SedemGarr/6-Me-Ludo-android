@@ -26,14 +26,17 @@ class NewGameScreen extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          bottom: TabBar(tabs: [
-            Tab(
-              text: DialogueService.startGameButtonText.tr,
-            ),
-            Tab(
-              text: DialogueService.joinGameButtonText.tr,
-            ),
-          ]),
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: DialogueService.startGameButtonText.tr,
+              ),
+              Tab(
+                text: DialogueService.joinGameButtonText.tr,
+              ),
+            ],
+          ),
+          size: (kToolbarHeight + kTextTabBarHeight),
         ),
         body: const TabBarView(children: [HostGameView(), JoinGameView()]),
       ),
