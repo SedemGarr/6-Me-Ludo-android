@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/app_provider.dart';
@@ -12,7 +11,6 @@ import 'screens/splash/splash.dart';
 import 'services/translations/dialogue_service.dart';
 import 'utils/utils.dart';
 import 'widgets/app_lifecycle_manager.dart';
-import 'widgets/loading_widget.dart';
 
 Future<void> main() async {
   await Utils.initApp();
@@ -42,24 +40,17 @@ class MyApp extends StatelessWidget {
     ThemeProvider themeProvider = context.watch<ThemeProvider>();
 
     return AppLifeCycleManager(
-      child: GlobalLoaderOverlay(
-        disableBackButton: true,
-        useDefaultLoading: false,
-        overlayWidget: const LoadingWidget(),
-        overlayColor: Theme.of(context).colorScheme.onSurface,
-        child: GetMaterialApp(
-          title: DialogueService.appName.tr,
-          theme: themeProvider.getLightTheme(),
-          darkTheme: themeProvider.getDarkTheme(),
-          // themeMode: ThemeMode.dark,
-          themeMode: themeProvider.getThemeMode(),
-          locale: userProvider.getLocale(),
-          translations: DialogueService(),
-          fallbackLocale: DialogueService.englishUS,
-          defaultTransition: Transition.native,
-          debugShowCheckedModeBanner: false,
-          home: const SplashScreen(),
-        ),
+      child: GetMaterialApp(
+        title: DialogueService.appName.tr,
+        theme: themeProvider.getLightTheme(),
+        darkTheme: themeProvider.getDarkTheme(),
+        themeMode: themeProvider.getThemeMode(),
+        locale: userProvider.getLocale(),
+        translations: DialogueService(),
+        fallbackLocale: DialogueService.englishUS,
+        defaultTransition: Transition.native,
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen(),
       ),
     );
   }

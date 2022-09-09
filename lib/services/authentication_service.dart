@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -42,7 +41,6 @@ class AuthenticationService {
             userProvider.setUser(user);
             themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
             NavigationService.goToHomeScreen();
-            context.loaderOverlay.hide();
           } else {
             Utils.showToast(DialogueService.genericErrorText.tr);
           }

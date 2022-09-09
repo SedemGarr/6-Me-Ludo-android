@@ -25,7 +25,7 @@ class EnglishTranslation {
       DialogueService.welcomeDialogNoText: 'Exit',
       DialogueService.signInText: 'Sign in to continue',
       // welcome error
-      DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account. Please restart the app and try again',
+      DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account',
       // home
       DialogueService.welcomeText: 'Hi, ',
       DialogueService.newGameText: 'New Game',

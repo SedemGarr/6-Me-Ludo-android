@@ -3,14 +3,16 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution.dart';
 
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
 import 'package:six_me_ludo_android/widgets/legal_text.dart';
+import 'package:six_me_ludo_android/widgets/loading_widget.dart';
 import '../../../constants/app_constants.dart';
 import '../../../constants/icon_constants.dart';
-import '../../../utils/utils.dart';
 import '../../../widgets/wayout_widget.dart';
 
 class IntroAnimation extends StatefulWidget {
@@ -41,7 +43,7 @@ class _IntroAnimationState extends State<IntroAnimation> {
                   color: Theme.of(context).primaryColor,
                   borderRadius: AppConstants.appBorderRadius,
                 ),
-                child: AnimatedCrossFade(
+                child: CustomAnimatedCrossFade(
                   firstChild: Lottie.asset(
                     AppConstants.wayyyOutLottieAssetPath,
                     onLoaded: (p0) {
@@ -53,11 +55,11 @@ class _IntroAnimationState extends State<IntroAnimation> {
                     fit: BoxFit.cover,
                   ),
                   secondChild: const SizedBox(),
-                  firstCurve: AppConstants.animationCurve,
-                  secondCurve: AppConstants.animationCurve,
-                  sizeCurve: AppConstants.animationCurve,
-                  crossFadeState: isLoaded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                  duration: AppConstants.animationDuration,
+                  // firstCurve: AppConstants.animationCurve,
+                  // secondCurve: AppConstants.animationCurve,
+                  // sizeCurve: AppConstants.animationCurve,
+                  condition: isLoaded,
+                  // duration: AppConstants.animationDuration,
                 ),
               ),
             ),
@@ -65,45 +67,25 @@ class _IntroAnimationState extends State<IntroAnimation> {
               padding: const EdgeInsets.all(8.0),
               child: WayOutWidget(width: MediaQuery.of(context).size.width * 0.8),
             ),
-            if (userProvider.doesUserNeedToSignIn) const Spacer(),
-            if (userProvider.doesUserNeedToSignIn)
-              Column(
-                children: [
-                  CustomElevatedButton(
-                    iconData: AppIcons.googleIcon,
-                    onPressed: () {
-                      userProvider.setDoesUserNeedToSignIn(false);
-                      AuthenticationService.signInWithGoogle(context);
-                    },
-                    text: DialogueService.signInText.tr,
-                  ),
-                  const LegalText()
-                ],
-              ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DialogueService.animationByText.tr,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Utils.openURL(AppConstants.wayyyOutLottieAssetPage);
-                    },
-                    child: Text(
-                      AppConstants.lottieAnimationAuthor,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+            Expanded(
+                child: CustomAnimatedCrossFade(
+                    firstChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomElevatedButton(
+                          iconData: AppIcons.googleIcon,
+                          onPressed: () {
+                            userProvider.setDoesUserNeedToSignIn(false);
+                            AuthenticationService.signInWithGoogle(context);
+                          },
+                          text: DialogueService.signInText.tr,
+                        ),
+                        const LegalText()
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            )
+                    secondChild: const LoadingWidget(),
+                    condition: userProvider.doesUserNeedToSignIn)),
+            const AnimationAttributionWidget()
           ],
         ),
       ),

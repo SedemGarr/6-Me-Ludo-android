@@ -22,13 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
-  back_button_interceptor:
-    dependency: transitive
-    description:
-      name: back_button_interceptor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.1"
   badges:
     dependency: "direct main"
     description:
@@ -113,13 +106,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-  enum_to_string:
-    dependency: transitive
-    description:
-      name: enum_to_string
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -204,13 +190,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1+5"
-  flag:
-    dependency: "direct main"
-    description:
-      name: flag
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.0"
   flex_color_scheme:
     dependency: "direct main"
     description:
@@ -346,7 +325,7 @@ packages:
     source: hosted
     version: "0.10.2"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -408,13 +387,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  loader_overlay:
+  loading_animation_widget:
     dependency: "direct main"
     description:
-      name: loader_overlay
+      name: loading_animation_widget
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "1.2.0+3"
   lottie:
     dependency: "direct main"
     description:
