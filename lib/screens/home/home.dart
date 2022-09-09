@@ -9,6 +9,7 @@ import 'package:six_me_ludo_android/widgets/custom_fab.dart';
 
 import '../../services/translations/dialogue_service.dart';
 import '../../utils/utils.dart';
+import '../../widgets/custom_appbar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,15 +24,9 @@ class HomeScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            leading: const AppBarAvatarWidget(),
-            title: const AppBarTitleWidget(),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(8),
-              child: Container(),
-            ),
+          appBar: const CustomAppBarWidget(
+            leading: AppBarAvatarWidget(),
+            title: AppBarTitleWidget(),
           ),
           body: const OngoingGamesListWidget(),
           floatingActionButton: CustomFABWidget(

@@ -3,9 +3,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LoadingWidget extends StatelessWidget {
   final Color? color;
+
   final double? size;
 
-  const LoadingWidget({Key? key, this.color, this.size}) : super(key: key);
+  const LoadingWidget({
+    Key? key,
+    this.color,
+    this.size,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

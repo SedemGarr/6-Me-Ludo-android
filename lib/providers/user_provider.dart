@@ -20,6 +20,9 @@ class UserProvider with ChangeNotifier {
   late Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
 
+  // for loader
+  bool isLoading = false;
+
   // text editing controller
   TextEditingController pseudonymController = TextEditingController();
 
@@ -48,6 +51,14 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
     }
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
+  }
+
+  void setLoading(bool value, bool shouldRebuild) {
+    isLoading = value;
+
+    if (shouldRebuild) {
+      notifyListeners();
+    }
   }
 
   void handleNewGameTap() {

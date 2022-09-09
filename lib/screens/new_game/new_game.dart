@@ -7,6 +7,8 @@ import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 
+import '../../widgets/custom_appbar.dart';
+
 class NewGameScreen extends StatelessWidget {
   const NewGameScreen({super.key});
 
@@ -15,9 +17,7 @@ class NewGameScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          scrolledUnderElevation: 0,
+        appBar: CustomAppBarWidget(
           centerTitle: true,
           leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
           title: Text(

@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import '../../constants/textstyle_constants.dart';
 import '../../services/navigation_service.dart';
 import '../../services/translations/dialogue_service.dart';
+import '../../widgets/custom_appbar.dart';
 
 class LegalScreen extends StatelessWidget {
   const LegalScreen({Key? key}) : super(key: key);
@@ -13,9 +14,7 @@ class LegalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        scrolledUnderElevation: 0,
+      appBar: CustomAppBarWidget(
         leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
         title: Text(
           DialogueService.licenceText.tr,

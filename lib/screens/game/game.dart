@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
@@ -14,7 +15,7 @@ class GameScreen extends StatelessWidget {
     gameProvider.initialiseBoard(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const CustomAppBarWidget(),
       body: Container(
         decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2), borderRadius: BorderRadius.circular(2)),
         height: Get.width * 0.99,

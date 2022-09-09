@@ -57,12 +57,12 @@ class ThemeProvider with ChangeNotifier {
     if (isDark) {
       Get.changeThemeMode(ThemeMode.dark);
       Get.changeTheme(_darkThemeData);
-      notifyListeners();
     } else {
       Get.changeThemeMode(ThemeMode.light);
       Get.changeTheme(_lightThemeData);
-      notifyListeners();
     }
+
+    notifyListeners();
   }
 
   void setTheme(bool isDark, FlexScheme flexScheme) {
