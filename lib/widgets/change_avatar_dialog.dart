@@ -40,9 +40,7 @@ showChangeAvatarDialog({
                   ),
                   child: MultiAvatarWidget(avatar: userProvider.getUserAvatar(), isBackgroundTransparent: true)),
             ),
-            const SizedBox(
-              height: 8.0,
-            ),
+            const Divider(),
             SizedBox(
               height: Get.height * 1 / 2,
               width: Get.width,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:six_me_ludo_android/constants/player_constants.dart';
+
+import '../models/player.dart';
 
 class ReputationWidget extends StatelessWidget {
   final int value;
@@ -12,7 +13,7 @@ class ReputationWidget extends StatelessWidget {
     return IconButton(
       onPressed: null,
       icon: Icon(
-        PlayerConstants.parsePlayerReputationToIcon(value),
+        Player.parsePlayerReputationToIcon(value),
         color: color,
       ),
     );

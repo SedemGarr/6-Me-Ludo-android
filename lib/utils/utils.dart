@@ -13,6 +13,7 @@ import 'package:profanity_filter/profanity_filter.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
+import 'package:uuid/uuid.dart';
 
 import '../constants/app_constants.dart';
 import '../models/license.dart';
@@ -84,6 +85,10 @@ class Utils {
     avatars[0] = avatar;
 
     return avatars;
+  }
+
+  static String getAIPlayerId(Uuid uuid) {
+    return uuid.v1();
   }
 
   static String getDefaultcountryCode() {

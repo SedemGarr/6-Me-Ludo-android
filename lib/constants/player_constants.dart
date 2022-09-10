@@ -17,9 +17,7 @@ class PlayerConstants {
   static const IconData viciousIcon = AppIcons.viciousIcon;
   static const IconData randomIcon = AppIcons.randomIcon;
 
-  static const Color errorColor = CSSColors.black;
-  static const Color errorSelectedColor = CSSColors.black;
-  static const Color errorPathColor = CSSColors.black;
+ static const List<String> listOfRepuations = [pacifist, averageJoe, vicious];
 
   static List<Color> colors = [
     CSSColors.aliceBlue,
@@ -180,13 +178,5 @@ class PlayerConstants {
     Swatch(playerColor: CSSColors.orange, playerSelectedColor: CSSColors.orange),
   ];
 
-  static IconData parsePlayerReputationToIcon(int value) {
-    if (value.isNegative) {
-      return viciousIcon;
-    } else if (value == 0) {
-      return averageJoeIcon;
-    } else {
-      return pacifistIcon;
-    }
-  }
+  
 }

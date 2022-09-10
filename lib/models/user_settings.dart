@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 
 import '../constants/textstyle_constants.dart';
 import '../utils/utils.dart';
-import 'player.dart';
 
 class UserSettings {
   static const int slowSpeed = 500;
@@ -101,7 +100,7 @@ class UserSettings {
   }
 
   UserSettings.fromJson(Map<String, dynamic> json) {
-    aiPersonalityPreference = json['aiPersonalityPreference'] ?? Player.randomPersonality;
+    aiPersonalityPreference = json['aiPersonalityPreference'] ?? PlayerConstants.randomPersonality;
     prefersCatchupAssist = json['prefersCatchupAssist'] ?? false;
     preferredSpeed = json['preferredSpeed'];
     prefersAudio = json['prefersAudio'];
@@ -135,7 +134,7 @@ class UserSettings {
   static UserSettings getDefaultSettings() {
     return UserSettings(
       preferredSpeed: normalSpeed,
-      aiPersonalityPreference: Player.randomPersonality,
+      aiPersonalityPreference: PlayerConstants.randomPersonality,
       prefersAddAI: true,
       prefersAutoStart: false,
       prefersAudio: true,

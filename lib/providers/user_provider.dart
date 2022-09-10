@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/game.dart';
 import '../models/user.dart';
@@ -22,6 +23,9 @@ class UserProvider with ChangeNotifier {
 
   // for loader
   bool isLoading = false;
+
+  // ai player uuid
+  Uuid uuid = const Uuid();
 
   // text editing controller
   TextEditingController pseudonymController = TextEditingController();
