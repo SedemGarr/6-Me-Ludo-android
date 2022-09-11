@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:six_me_ludo_android/screens/home/home.dart';
+import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/screens/new_game/new_game.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import 'package:six_me_ludo_android/screens/splash/splash.dart';
@@ -8,7 +8,7 @@ import '../screens/legal/legal.dart';
 
 class NavigationService {
   static void goToHomeScreen() {
-    Get.offAll(() => const HomeScreen());
+    Get.offAll(() => const HomePageViewWrapper());
   }
 
   static void goToProfileScreen() {

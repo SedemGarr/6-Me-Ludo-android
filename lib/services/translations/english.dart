@@ -29,6 +29,8 @@ class EnglishTranslation {
       // home
       DialogueService.welcomeText: 'Hi, ',
       DialogueService.newGameText: 'New Game',
+      DialogueService.profileText: 'Profile',
+      DialogueService.homeText: 'Home',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
       DialogueService.startGameButtonText: 'Host Game',

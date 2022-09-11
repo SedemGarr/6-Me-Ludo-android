@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/providers/nav_provider.dart';
 
 import 'providers/app_provider.dart';
 import 'providers/game_provider.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
             ChangeNotifierProvider(create: (_) => AppProvider()),
             ChangeNotifierProvider(create: (_) => GameProvider()),
+            ChangeNotifierProvider(create: (_) => NavProvider()),
           ],
           child: const MyApp(),
         ),

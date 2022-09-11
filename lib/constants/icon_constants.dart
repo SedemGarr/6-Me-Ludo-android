@@ -4,6 +4,13 @@ import 'package:line_icons/line_icons.dart';
 
 class AppIcons {
   static const IconData appIcon = Icons.filter_6;
+  //
+  static const IconData homeIcon = Icons.home_outlined;
+  static const IconData homeActiveIcon = Icons.home;
+  static const IconData profileIcon = Icons.person_outline;
+  static const IconData profileActiveIcon = Icons.person;
+  static const IconData newGameIcon = Icons.play_circle_outline;
+  static const IconData newGameActiveIcon = Icons.play_circle;
   // ai personality
   static const IconData pacifistIcon = LineIcons.smilingFace;
   static const IconData averageJoeIcon = LineIcons.neutralFace;
@@ -15,8 +22,6 @@ class AppIcons {
   static const IconData backIcon = Icons.arrow_back_ios;
   static const IconData infoIcon = Icons.info;
   //
-  static const IconData newGameIcon = FontAwesomeIcons.a;
-  static const IconData joinGameIcon = FontAwesomeIcons.a;
   // settings
   static const IconData darkModeIcon = LineIcons.moon;
   static const IconData audioIcon = LineIcons.volumeDown;

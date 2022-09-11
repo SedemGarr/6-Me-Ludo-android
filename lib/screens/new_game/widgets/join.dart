@@ -7,8 +7,6 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/custom_textfield_widget.dart';
 
-import '../../../widgets/custom_fab.dart';
-
 class JoinGameView extends StatelessWidget {
   const JoinGameView({super.key});
 
@@ -31,7 +29,6 @@ class JoinGameView extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: gameProvider.isJoinGameCodeValidLength() ? CustomFABWidget(onPressed: () {}, text: DialogueService.joinGameFABText.tr) : null,
       ),
     );
   }

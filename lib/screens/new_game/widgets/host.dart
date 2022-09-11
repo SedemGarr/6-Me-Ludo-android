@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/max_players.dart';
-import 'package:six_me_ludo_android/widgets/custom_fab.dart';
 
 import '../../../constants/app_constants.dart';
-import '../../../services/translations/dialogue_service.dart';
 import '../../profile/widgets/settings/widgets/game/widgets/adaptive_ai.dart';
 import '../../profile/widgets/settings/widgets/game/widgets/add_ai_players.dart';
 import '../../profile/widgets/settings/widgets/game/widgets/ai_personality.dart';
@@ -35,7 +32,6 @@ class HostGameView extends StatelessWidget {
           ProfaneMessages(),
         ],
       ),
-      floatingActionButton: CustomFABWidget(onPressed: () {}, text: DialogueService.hostGameFABText.tr),
     );
   }
 }

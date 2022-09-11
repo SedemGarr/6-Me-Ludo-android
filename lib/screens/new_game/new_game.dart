@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/host.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/join.dart';
-import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 
+import '../../widgets/app_bar_title_widget.dart';
 import '../../widgets/custom_appbar.dart';
 
 class NewGameScreen extends StatelessWidget {
@@ -21,13 +19,7 @@ class NewGameScreen extends StatelessWidget {
       child: Scaffold(
         appBar: CustomAppBarWidget(
           centerTitle: true,
-          leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
-          title: Text(
-            DialogueService.newGameAppBarTitleText.tr,
-            style: TextStyles.appBarTitleStyle(Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          title: AppBarTitleWidget(text: DialogueService.newGameAppBarTitleText.tr),
           bottom: TabBar(
             tabs: [
               Tab(
