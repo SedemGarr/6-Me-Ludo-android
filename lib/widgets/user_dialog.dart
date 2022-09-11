@@ -4,6 +4,7 @@ import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/user.dart';
+import 'custom_list_tile.dart';
 
 showUserDialog({
   required Users user,
@@ -15,7 +16,7 @@ showUserDialog({
     builder: (BuildContext context) {
       return AlertDialog(
         shape: AppConstants.appShape,
-        title: ListTile(
+        title: CustomListTileWidget(
           title: Text(
             user.psuedonym,
             style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),

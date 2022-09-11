@@ -10,7 +10,21 @@ import 'board.dart';
 import 'game.dart';
 
 class Player {
-  
+  late String id;
+  late String psuedonym;
+  late String avatar;
+  late int reputationValue;
+  late int playerColor;
+  late int numberOfDieRolls;
+  late bool hasLeft;
+  late bool hasFinished;
+  late bool isAIPlayer;
+  late bool isPresent;
+  late int numberOfTimesKickerInSession;
+  late int numberOfTimesKickedInSession;
+  late List<int> validIndices;
+  late List<int> startBackKickIndices;
+  late List<Piece> pieces;
 
   static String getPlayerReputation(int value) {
     if (value.isNegative) {
@@ -274,7 +288,7 @@ class Player {
     required this.isPresent,
     required this.reputationValue,
     required this.numberOfTimesKickedInSession,
-    required this.numberOfTimesKickingInSession,
+    required this.numberOfTimesKickerInSession,
     required this.playerColor,
     required this.numberOfDieRolls,
     required this.psuedonym,
@@ -373,7 +387,7 @@ class Player {
       pieces: Piece.getDefaultPieces(playerNumber),
       playerColor: playerNumber,
       numberOfTimesKickedInSession: 0,
-      numberOfTimesKickingInSession: 0,
+      numberOfTimesKickerInSession: 0,
       hasLeft: false,
       hasFinished: false,
       isAIPlayer: false,
@@ -395,7 +409,7 @@ class Player {
       hasLeft: false,
       hasFinished: false,
       numberOfTimesKickedInSession: 0,
-      numberOfTimesKickingInSession: 0,
+      numberOfTimesKickerInSession: 0,
       isAIPlayer: false,
       isPresent: true,
       psuedonym: user.psuedonym,
@@ -415,7 +429,7 @@ class Player {
       hasLeft: false,
       hasFinished: false,
       numberOfTimesKickedInSession: 0,
-      numberOfTimesKickingInSession: 0,
+      numberOfTimesKickerInSession: 0,
       isAIPlayer: true,
       isPresent: true,
       psuedonym: Utils.getRandomPseudonym(),
@@ -448,10 +462,8 @@ class Player {
     psuedonym = json['psuedonym'];
     playerColor = json['playerColor'];
     numberOfDieRolls = json['numberOfDieRolls'];
-    countryCode = json['countryCode'];
-    languageCode = json['languageCode'];
     numberOfTimesKickedInSession = json['numberOfTimesKickedInSession'];
-    numberOfTimesKickingInSession = json['numberOfTimesKickingInSession'];
+    numberOfTimesKickerInSession = json['numberOfTimesKickerInSession'];
     hasLeft = json['hasLeft'];
     hasFinished = json['hasFinished'];
     isAIPlayer = json['isAIPlayer'];
@@ -484,14 +496,12 @@ class Player {
     data['psuedonym'] = psuedonym;
     data['playerColor'] = playerColor;
     data['numberOfDieRolls'] = numberOfDieRolls;
-    data['languageCode'] = languageCode;
     data['hasLeft'] = hasLeft;
     data['hasFinished'] = hasFinished;
     data['numberOfTimesKickedInSession'] = numberOfTimesKickedInSession;
-    data['numberOfTimesKickingInSession'] = numberOfTimesKickingInSession;
+    data['numberOfTimesKickerInSession'] = numberOfTimesKickerInSession;
     data['isAIPlayer'] = isAIPlayer;
     data['isPresent'] = isPresent;
-    data['countryCode'] = countryCode;
     data['validIndices'] = validIndices.map((v) => v).toList();
     data['startBackKickIndices'] = startBackKickIndices.map((v) => v).toList();
     data['pieces'] = pieces.map((v) => v.toJson()).toList();

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../providers/user_provider.dart';
 import '../../../../../../../services/translations/dialogue_service.dart';
+import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
 import '../../settings_title_widget.dart';
@@ -16,7 +17,7 @@ class DeleteAcountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return ListTile(
+    return CustomListTileWidget(
       onTap: () {
         userProvider.showDeleteAccountDialog(context);
       },

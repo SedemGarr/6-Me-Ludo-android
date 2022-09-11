@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/widgets/edit_profile_widget.dart';
 import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
 
 import '../../../providers/user_provider.dart';
+import '../../../widgets/custom_list_tile.dart';
 
 class ProfileSectionWidget extends StatelessWidget {
   const ProfileSectionWidget({super.key});
@@ -23,7 +24,7 @@ class ProfileSectionWidget extends StatelessWidget {
         child: Column(
           children: [
             const ProfileAvatarWidget(),
-            ListTile(
+            CustomListTileWidget(
               contentPadding: EdgeInsets.zero,
               leading: const EditProfileButton(),
               title: const ProfilePseudonymWidget(),

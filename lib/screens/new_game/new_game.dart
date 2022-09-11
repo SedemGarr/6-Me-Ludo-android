@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/host.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/join.dart';
@@ -16,6 +17,7 @@ class NewGameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      animationDuration: AppConstants.animationDuration,
       child: Scaffold(
         appBar: CustomAppBarWidget(
           centerTitle: true,
@@ -38,7 +40,10 @@ class NewGameScreen extends StatelessWidget {
           ),
           size: (kToolbarHeight + kTextTabBarHeight),
         ),
-        body: const TabBarView(children: [HostGameView(), JoinGameView()]),
+        body: const TabBarView(children: [
+          HostGameView(),
+          JoinGameView(),
+        ]),
       ),
     );
   }

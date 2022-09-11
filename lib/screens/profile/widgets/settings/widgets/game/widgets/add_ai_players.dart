@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
+import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../settings_subtitle_widget.dart';
 
 class AddAIPlayers extends StatelessWidget {
@@ -17,7 +18,7 @@ class AddAIPlayers extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return ListTile(
+    return CustomListTileWidget(
       leading: const SettingsIconWidget(iconData: AppIcons.addAIPlayersIcon),
       title: SettingsTitleWidget(text: DialogueService.addAIPlayersTitleText.tr),
       subtitle: SettingsSubtitleWidget(text: DialogueService.addAIPlayersSubtitleText.tr),

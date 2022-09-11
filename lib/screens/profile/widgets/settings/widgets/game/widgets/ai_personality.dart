@@ -9,6 +9,7 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 
 
 import '../../../../../../../models/user_settings.dart';
+import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../settings_subtitle_widget.dart';
 
 class AIPersonality extends StatelessWidget {
@@ -18,7 +19,7 @@ class AIPersonality extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return ListTile(
+    return CustomListTileWidget(
       leading: const SettingsIconWidget(iconData: AppIcons.aIPersonalityTypeIcon),
       title: SettingsTitleWidget(text: DialogueService.aIPersonalityTitleText.tr),
       subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),

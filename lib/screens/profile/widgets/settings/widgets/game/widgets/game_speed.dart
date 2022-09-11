@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
+import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../settings_subtitle_widget.dart';
 
 class GameSpeed extends StatelessWidget {
@@ -17,7 +18,7 @@ class GameSpeed extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return ListTile(
+    return CustomListTileWidget(
       leading: const SettingsIconWidget(iconData: AppIcons.gameSpeedIcon),
       title: SettingsTitleWidget(text: DialogueService.gameSpeedTitleText.tr),
       subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
