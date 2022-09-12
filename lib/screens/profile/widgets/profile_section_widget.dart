@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/profile_avatar_widget.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/profile_reputation_widget.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/profile_title_widget.dart';
@@ -19,7 +20,7 @@ class ProfileSectionWidget extends StatelessWidget {
 
     return Container(
       color: Get.isDarkMode ? null : Theme.of(context).primaryColor,
-      height: Get.height * 1 / 4,
+      height: AppConstants.customAppbarHeight,
       child: Center(
         child: Column(
           children: [

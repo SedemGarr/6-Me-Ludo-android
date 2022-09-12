@@ -1,6 +1,6 @@
 class FirestoreConstants {
   static const String userCollection = 'user-data';
-  static const String gamesCollection = 'games';
+  static const String gamesCollection = 'game-data';
   static const String threadCollection = 'game-threads';
   static const String statsCollection = 'stats';
   static const String legalCollection = 'legal';

@@ -42,7 +42,7 @@ showChangeAvatarDialog({
             ),
             const Divider(),
             SizedBox(
-              height: Get.height * 1 / 2,
+              height: AppConstants.changeAvatarGridviewHeight,
               width: Get.width,
               child: AnimationLimiter(
                 child: GridView.builder(

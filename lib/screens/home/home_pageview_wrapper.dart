@@ -9,6 +9,9 @@ import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import '../../utils/utils.dart';
 
 class HomePageViewWrapper extends StatelessWidget {
+
+static String routeName = '/HomePageViewWrapper';
+
   const HomePageViewWrapper({super.key});
 
   @override

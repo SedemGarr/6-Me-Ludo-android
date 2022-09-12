@@ -38,9 +38,14 @@ class EnglishTranslation {
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Games 😕',
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
-      DialogueService.hostGameFABText: 'Host',
+      DialogueService.hostGameFABText: 'Host New Game',
       DialogueService.joinGameFABText: 'Join',
       DialogueService.joinGameHintText: 'Please enter a game code',
+      // game - playing
+      DialogueService.playerTabText: 'Players',
+      DialogueService.boardTabText: 'Board',
+      DialogueService.chatTabText: 'Chat',
+      DialogueService.gameDeletedText: 'Sorry this game no longer exists',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       DialogueService.changeAvatarText: 'Change Your Avatar',
@@ -51,6 +56,7 @@ class EnglishTranslation {
       DialogueService.tooLongText: 'Sorry, this pseudonym is too long',
       DialogueService.tooShortText: 'Sorry, this pseudonym is too short',
       DialogueService.profaneStringText: 'Sorry, this is not an appropriate pseudonym',
+      DialogueService.youText: 'You',
       // settings
       DialogueService.generalSettingsText: 'General',
       DialogueService.gameSettingsText: 'Game',

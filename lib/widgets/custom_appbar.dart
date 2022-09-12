@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
@@ -14,6 +15,7 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
+      automaticallyImplyLeading: false,
       centerTitle: centerTitle ?? false,
       leading: leading,
       title: title,
@@ -23,5 +25,5 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(size ?? (kToolbarHeight + 4));
+  Size get preferredSize => Size.fromHeight(size ?? AppConstants.standardAppbarHeight);
 }

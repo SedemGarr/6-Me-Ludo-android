@@ -17,6 +17,12 @@ class AppConstants {
   static const int maxOngoingGamesNumber = 15;
   static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;
+  static const double standardAppbarHeight = kToolbarHeight + 4;
+  static const double standardTabbarHeight = kTextTabBarHeight;
+  static double customAppbarHeight = Get.height * 1 / 4;
+  static double customAppbarWithTabbarHeight = standardAppbarHeight + standardTabbarHeight;
+  static double profileAppbarHeight = customAppbarHeight + kToolbarHeight;
+  static double changeAvatarGridviewHeight = Get.height * 1 / 2;
 
   static const double appBorderRadiusValue = 4.0;
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);

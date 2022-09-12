@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
+import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -20,9 +24,6 @@ import '../services/user_state_service.dart';
 class UserProvider with ChangeNotifier {
   late Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
-
-  // for loader
-  bool isLoading = false;
 
   // ai player uuid
   Uuid uuid = const Uuid();
@@ -57,21 +58,13 @@ class UserProvider with ChangeNotifier {
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
-  void setLoading(bool value, bool shouldRebuild) {
-    isLoading = value;
-
-    if (shouldRebuild) {
-      notifyListeners();
-    }
-  }
-
-  void handleNewGameTap() {
+  void handleNewGameTap(AppProvider appProvider, GameProvider gameProvider) {
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
-    NavigationService.goToNewGameScreen();
+    gameProvider.hostGame(_user!, appProvider);
   }
 
   void initialiseOnGoingGamesStream() {
@@ -94,7 +87,11 @@ class UserProvider with ChangeNotifier {
 
   void handleUserAvatarOnTap(Users user, BuildContext context) {
     if (isMe(user.id)) {
-      NavigationService.goToProfileScreen();
+      if (Get.currentRoute == HomePageViewWrapper.routeName) {
+        context.read<NavProvider>().setBottomNavBarIndex(0, true);
+      } else {
+        Utils.showToast(DialogueService.youText.tr);
+      }
     } else {
       showUserDialog(user: user, context: context);
     }
@@ -176,6 +173,7 @@ class UserProvider with ChangeNotifier {
   void setAvatar(String avatar) {
     _user!.avatar = avatar;
     updateUser(true, true);
+    DatabaseService.updateOngoingGamesAfterUserChange(_user!);
   }
 
   void setPseudonymControllerValue(String value) {
@@ -206,8 +204,9 @@ class UserProvider with ChangeNotifier {
     }
 
     _user!.psuedonym = value;
-    updateUser(true, true);
     pseudonymController.clear();
+    updateUser(true, true);
+    DatabaseService.updateOngoingGamesAfterUserChange(_user!);
     NavigationService.genericGoBack();
   }
 

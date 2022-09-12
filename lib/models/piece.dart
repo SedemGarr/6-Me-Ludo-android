@@ -98,7 +98,7 @@ class Piece {
     }
   }
 
-  static final nullPiece = Piece(isBased: false, isHome: false, owner: -99, pieceNumber: -99, position: -99);
+  //static final nullPiece = Piece(isBased: false, isHome: false, owner: -99, pieceNumber: -99, position: -99);
 
   Piece.fromJson(Map<String, dynamic> json) {
     owner = json['owner'];

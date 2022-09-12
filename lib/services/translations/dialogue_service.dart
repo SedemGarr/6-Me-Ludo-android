@@ -67,6 +67,11 @@ class DialogueService extends Translations {
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
   static const String joinGameHintText = 'joinGameHintText';
+  // game - playing
+  static const String playerTabText = 'playerTabText';
+  static const String boardTabText = 'boardTabText';
+  static const String chatTabText = 'chatTabText';
+  static const String gameDeletedText = 'gameDeletedText';
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';
@@ -77,6 +82,7 @@ class DialogueService extends Translations {
   static const String tooShortText = 'tooShortText';
   static const String tooLongText = 'tooLongText';
   static const String profaneStringText = 'profaneStringText';
+  static const String youText = 'youText';
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';

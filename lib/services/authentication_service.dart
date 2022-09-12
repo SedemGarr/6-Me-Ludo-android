@@ -45,7 +45,8 @@ class AuthenticationService {
             Utils.showToast(DialogueService.genericErrorText.tr);
           }
         } catch (e) {
-          Utils.showToast(e.toString());
+          Utils.showToast(DialogueService.genericErrorText.tr);
+          debugPrint(e.toString());
         }
       } else {
         // if user is null
@@ -53,7 +54,8 @@ class AuthenticationService {
         Utils.showToast(DialogueService.noUserSelectedText.tr);
       }
     } catch (e) {
-      Utils.showToast(e.toString());
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
     }
   }
 
@@ -65,26 +67,28 @@ class AuthenticationService {
       LocalStorageService.clearUser();
       Utils.clearCache();
     } catch (e) {
-      Utils.showToast(e.toString());
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
     }
 
     NavigationService.goToSplashScreenAfterLogOut();
   }
 
   static Future<void> deleteAccount(Users user, BuildContext context) async {
-
     FirebaseAuth firebase = FirebaseAuth.instance;
     final signedInUser = firebase.currentUser;
 
     try {
       await DatabaseService.deleteUserData(user);
-      LocalStorageService.clearUser();
       await signedInUser!.delete();
+      LocalStorageService.clearUser();
       Utils.clearCache();
     } catch (e) {
-      Utils.showToast(e.toString());
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
     }
 
     NavigationService.goToSplashScreenAfterLogOut();
   }
+  
 }

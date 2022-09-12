@@ -18,15 +18,13 @@ class JoinGameView extends StatelessWidget {
       onTap: () {
         Utils.dismissKeyboard();
       },
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomTextFieldWidget(
-              controller: gameProvider.joinGameController,
-              maxLength: AppConstants.joinGameCodeLength,
-              hint: DialogueService.joinGameHintText.tr,
-            ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomTextFieldWidget(
+            controller: gameProvider.joinGameController,
+            maxLength: AppConstants.joinGameCodeLength,
+            hint: DialogueService.joinGameHintText.tr,
           ),
         ),
       ),

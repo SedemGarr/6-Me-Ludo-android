@@ -1,59 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/chat/chat.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
+import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
-class GameScreen extends StatelessWidget {
+class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
+
+  @override
+  State<GameScreen> createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
+  late GameProvider gameProvider;
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    tabController = TabController(initialIndex: 1, length: 3, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
     GameProvider gameProvider = context.watch<GameProvider>();
     gameProvider.initialiseBoard(context);
 
-    return Scaffold(
-      appBar: const CustomAppBarWidget(),
-      body: Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2), borderRadius: BorderRadius.circular(2)),
-        height: Get.width * 0.99,
-        width: Get.width * 0.99,
-        child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          reverse: true,
-          scrollDirection: Axis.horizontal,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 15),
-          itemCount: gameProvider.board.cells.length,
-          itemBuilder: (context, index) {
-            return AnimationConfiguration.staggeredGrid(
-              columnCount: 15,
-              position: index,
-              duration: AppConstants.animationDuration,
-              child: FlipAnimation(
-                child: FadeInAnimation(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    decoration: BoxDecoration(
-                      border: gameProvider.board.cells[index].border,
-                      color: gameProvider.board.cells[index].cellColor,
+    return StreamBuilder<Game>(
+        stream: gameProvider.currentGameStream,
+        initialData: gameProvider.currentGame,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingScreen();
+          } else if (snapshot.hasData) {
+            gameProvider.syncGameData(snapshot.data!);
+
+            return Scaffold(
+              appBar: CustomAppBarWidget(
+                bottom: TabBar(
+                  controller: tabController,
+                  tabs: [
+                    Tab(
+                      text: DialogueService.playerTabText.tr,
                     ),
-                    child:
-                        // Text(index.toString(), style: const TextStyle(color: Colors.white)),
-                        Center(
-                      child: Icon(
-                        gameProvider.board.cells[index].icon,
-                        color: gameProvider.board.cells[index].iconColor,
-                      ),
+                    Tab(
+                      text: DialogueService.boardTabText.tr,
                     ),
-                  ),
+                    Tab(
+                      text: DialogueService.chatTabText.tr,
+                    ),
+                  ],
                 ),
+                size: AppConstants.customAppbarWithTabbarHeight,
               ),
+              body: TabBarView(controller: tabController, children: const [PlayersWidget(), BoardWidget(), ChatWidget()]),
             );
-          },
-        ),
-      ),
-    );
+          } else {
+            Utils.showToast(DialogueService.gameDeletedText.tr);
+            return const LoadingScreen();
+          }
+        });
   }
 }

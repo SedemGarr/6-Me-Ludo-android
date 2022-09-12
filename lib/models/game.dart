@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
+import 'package:six_me_ludo_android/models/thread.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/models/user_settings.dart';
 import '../constants/player_constants.dart';
+import '../services/game_status_service.dart';
 import 'die.dart';
 import 'player.dart';
 
@@ -19,24 +21,22 @@ class Game {
   late bool hasFinished;
   late bool hasSessionEnded;
   late bool hasRestarted;
-  late bool isDeleted;
   late bool shouldAssistStart;
   late bool shouldAutoStart;
   late bool hasAdaptiveAI;
   late int maxPlayers;
   late int playerTurn;
-  late int elapsedTime;
   late Die die;
-  late Piece selectedPiece;
+  late Thread thread;
+  late Piece? selectedPiece;
   late UserSettings hostSettings;
   late List<Player> players;
-  late List<Player> finishedPlayers;
+  late List<String> finishedPlayers;
   late List<String> bannedPlayers;
   late List<String> kickedPlayers;
   late List<String> playerIds;
 
   Game({
-    required this.elapsedTime,
     required this.lastUpdatedBy,
     required this.lastUpdatedAt,
     required this.id,
@@ -55,13 +55,13 @@ class Game {
     required this.reaction,
     required this.players,
     required this.selectedPiece,
-    required this.isDeleted,
     required this.maxPlayers,
     required this.bannedPlayers,
     required this.kickedPlayers,
     required this.playerIds,
     required this.hasRestarted,
     required this.finishedPlayers,
+    required this.thread,
   });
 
   static Color determinePlayerColor(int colorIndex) {
@@ -80,16 +80,24 @@ class Game {
     }
   }
 
+  static Game autoFillWithAIPlayers(Game game, Users user) {
+    for (int i = 0; i < (4 - game.maxPlayers); i++) {
+      game.players.add(Player.getJoiningAIPlayer(i.toString(), game, user));
+      game.playerIds.add(i.toString());
+    }
+
+    return game;
+  }
+
   static Game getDefaultGame(Users user, String gameId) {
     return Game(
       hostSettings: user.settings,
-      reaction: Reaction.getBlankReaction(),
+      reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
       id: gameId,
       die: Die.getDefaultDie(),
       bannedPlayers: [],
       kickedPlayers: [],
       finishedPlayers: [],
-      elapsedTime: 0,
       lastUpdatedBy: user.id,
       lastUpdatedAt: '',
       canPass: false,
@@ -97,17 +105,17 @@ class Game {
       hasFinished: false,
       hasRestarted: false,
       hasSessionEnded: false,
-      hasAdaptiveAI:user.settings.prefersAdaptiveAI,
-      shouldAssistStart:user.settings.prefersStartAssist,
+      hasAdaptiveAI: user.settings.prefersAdaptiveAI,
+      shouldAssistStart: user.settings.prefersStartAssist,
       shouldAutoStart: user.settings.prefersAutoStart,
-      isDeleted: false,
       maxPlayers: user.settings.maxPlayers,
       playerTurn: 0,
-      selectedPiece: Piece.nullPiece,
+      selectedPiece: null,
       hasStarted: false,
       hostId: user.id,
       players: [Player.getDefaultPlayer(user, 0)],
       playerIds: [user.id],
+      thread: Thread.getDefaultThread(user, gameId),
     );
   }
 
@@ -116,7 +124,6 @@ class Game {
     hostSettings = UserSettings.fromJson(json['hostSettings']);
     reaction = Reaction.fromJson(json['reaction']);
     hostId = json['hostId'];
-    elapsedTime = json['elapsedTime'];
     hasFinished = json['hasFinished'];
     canPass = json['canPass'];
     canPlay = json['canPlay'];
@@ -126,7 +133,6 @@ class Game {
     shouldAssistStart = json['shouldAssistStart'];
     shouldAutoStart = json['shouldAutoStart'];
     hasAdaptiveAI = json['hasAdaptiveAI'];
-    isDeleted = json['isDeleted'];
     lastUpdatedBy = json['lastUpdatedBy'];
     lastUpdatedAt = json['lastUpdatedAt'] == null
         ? DateTime.parse(DateTime.now().toString()).toString()
@@ -136,7 +142,8 @@ class Game {
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);
-    selectedPiece = Piece.fromJson(json['selectedPiece']);
+    thread = Thread.fromJson(json['thread']);
+    selectedPiece = json['selectedPiece'] == null ? null : Piece.fromJson(json['selectedPiece']);
     if (json['bannedPlayers'] != null) {
       bannedPlayers = <String>[];
       json['bannedPlayers'].forEach((v) {
@@ -162,9 +169,9 @@ class Game {
       });
     }
     if (json['finishedPlayers'] != null) {
-      finishedPlayers = <Player>[];
+      finishedPlayers = <String>[];
       json['finishedPlayers'].forEach((v) {
-        finishedPlayers.add(Player.fromJson(v));
+        finishedPlayers.add(v);
       });
     }
   }
@@ -175,7 +182,6 @@ class Game {
     data['hostSettings'] = hostSettings.toJson();
     data['reaction'] = reaction.toJson();
     data['hostId'] = hostId;
-    data['elapsedTime'] = elapsedTime;
     data['canPass'] = canPass;
     data['canPlay'] = canPlay;
     data['hasStarted'] = hasStarted;
@@ -185,18 +191,18 @@ class Game {
     data['shouldAssistStart'] = shouldAssistStart;
     data['shouldAutoStart'] = shouldAutoStart;
     data['hasAdaptiveAI'] = hasAdaptiveAI;
-    data['isDeleted'] = isDeleted;
     data['lastUpdatedBy'] = lastUpdatedBy;
     data['lastUpdatedAt'] = lastUpdatedAt;
     data['maxPlayers'] = maxPlayers;
     data['playerTurn'] = playerTurn;
-    data['selectedPiece'] = selectedPiece.toJson();
+    data['selectedPiece'] = selectedPiece == null ? null : selectedPiece!.toJson();
     data['die'] = die.toJson();
+    data['thread'] = thread.toJson();
     data['bannedPlayers'] = bannedPlayers.map((v) => v).toList();
     data['kickedPlayers'] = kickedPlayers.map((v) => v).toList();
     data['playerIds'] = playerIds.map((v) => v).toList();
     data['players'] = players.map((v) => v.toJson()).toList();
-    data['finishedPlayers'] = finishedPlayers.map((v) => v.toJson()).toList();
+    data['finishedPlayers'] = finishedPlayers.map((v) => v).toList();
     return data;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/max_players.dart';
+import 'package:six_me_ludo_android/screens/new_game/widgets/new_game_button.dart';
 
 import '../../../constants/app_constants.dart';
 import '../../profile/widgets/settings/widgets/game/widgets/adaptive_ai.dart';
@@ -16,22 +17,21 @@ class HostGameView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: AppConstants.listViewBottomPadding,
-        children: const [
-          MaxPlayers(),
-          Divider(),
-          AddAIPlayers(),
-          AutoStart(),
-          CatchUpAssist(),
-          StartAssist(),
-          AdaptiveAI(),
-          AIPersonality(),
-          GameSpeed(),
-          ProfaneMessages(),
-        ],
-      ),
+    return ListView(
+      padding: AppConstants.listViewBottomPadding,
+      children: const [
+        MaxPlayers(),
+        NewGameButton(),
+        Divider(),
+        AddAIPlayers(),
+        AutoStart(),
+        CatchUpAssist(),
+        StartAssist(),
+        AdaptiveAI(),
+        AIPersonality(),
+        GameSpeed(),
+        ProfaneMessages(),
+      ],
     );
   }
 }

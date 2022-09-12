@@ -17,33 +17,35 @@ class OngoingGamesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return userProvider.hasOngoingGames()
-        ? StreamBuilder<List<Game>>(
-            stream: userProvider.onGoingGamesStream,
-            initialData: userProvider.getUserOngoingGames(),
-            builder: (BuildContext context, AsyncSnapshot<List<Game>> snapshot) {
-              if (!snapshot.hasData) {
-                return const LoadingWidget();
-              }
+    return StreamBuilder<List<Game>>(
+        stream: userProvider.onGoingGamesStream,
+        initialData: userProvider.getUserOngoingGames(),
+        builder: (BuildContext context, AsyncSnapshot<List<Game>> snapshot) {
+          if (snapshot.hasData) {
+            userProvider.syncOnGoingGamesList(snapshot.data!);
 
-              userProvider.syncOnGoingGamesList(snapshot.data!);
-
-              return AnimationLimiter(
-                child: ListView.builder(
-                  itemCount: userProvider.getUserOngoingGamesLength(),
-                  padding: AppConstants.listViewBottomPadding,
-                  itemBuilder: (context, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: AppConstants.animationDuration,
-                      child: CustomAnimationWidget(
-                        child: OnGoingGamesListItemWidget(index: index),
-                      ),
-                    );
-                  },
-                ),
-              );
-            })
-        : const NoGamesWidget();
+            return !userProvider.hasOngoingGames()
+                ? const NoGamesWidget()
+                : AnimationLimiter(
+                    child: ListView.builder(
+                      itemCount: userProvider.getUserOngoingGamesLength(),
+                      padding: AppConstants.listViewBottomPadding,
+                      itemBuilder: (context, index) {
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: AppConstants.animationDuration,
+                          child: CustomAnimationWidget(
+                            child: OnGoingGamesListItemWidget(index: index),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingWidget();
+          } else {
+            return const NoGamesWidget();
+          }
+        });
   }
 }
