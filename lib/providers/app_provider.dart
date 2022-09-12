@@ -4,8 +4,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AppProvider with ChangeNotifier {
   late PackageInfo _packageInfo;
 
-  // for loader
+  // for global loader
   bool isLoading = false;
+  // for splash screen
+  bool isSplashScreenLoaded = false;
 
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
@@ -33,5 +35,11 @@ class AppProvider with ChangeNotifier {
     if (shouldRebuild) {
       notifyListeners();
     }
+  }
+
+  void setSplashScreenLoaded(bool value) {
+    isSplashScreenLoaded = value;
+
+    notifyListeners();
   }
 }

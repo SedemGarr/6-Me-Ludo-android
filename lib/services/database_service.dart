@@ -21,12 +21,12 @@ class DatabaseService {
     }
   }
 
-  static Future<Users?> createUser(User user) async {
+  static Future<Users?> createUser(User user, bool isAnon) async {
     try {
       // check if user already exits in db
-      Users? newUser = await getUser(user.uid);
+      Users? newUser = isAnon ? null : await getUser(user.uid);
 
-      newUser ??= await Users.getDefaultUser(user.uid);
+      newUser ??= await Users.getDefaultUser(user.uid, isAnon);
 
       UserStateUpdateService.updateUser(newUser, true);
       return newUser;

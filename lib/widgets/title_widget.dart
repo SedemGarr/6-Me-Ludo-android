@@ -3,8 +3,9 @@ import 'package:six_me_ludo_android/constants/icon_constants.dart';
 
 class TitleWidget extends StatelessWidget {
   final double width;
+  final Color? color;
 
-  const TitleWidget({Key? key, required this.width}) : super(key: key);
+  const TitleWidget({Key? key, required this.width, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class TitleWidget extends StatelessWidget {
         fit: BoxFit.fitWidth,
         child: Icon(
           AppIcons.appIcon,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: color ?? Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );

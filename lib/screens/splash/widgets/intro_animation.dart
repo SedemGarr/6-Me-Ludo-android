@@ -1,33 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution.dart';
 
-import 'package:six_me_ludo_android/services/authentication_service.dart';
-import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
-import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
-import 'package:six_me_ludo_android/widgets/legal_text.dart';
-import 'package:six_me_ludo_android/widgets/loading_widget.dart';
 import '../../../constants/app_constants.dart';
-import '../../../constants/icon_constants.dart';
 import '../../../widgets/wayout_widget.dart';
 
-class IntroAnimation extends StatefulWidget {
+class IntroAnimation extends StatelessWidget {
   const IntroAnimation({Key? key}) : super(key: key);
 
   @override
-  State<IntroAnimation> createState() => _IntroAnimationState();
-}
-
-class _IntroAnimationState extends State<IntroAnimation> {
-  bool isLoaded = false;
-
-  @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = context.watch<UserProvider>();
+    AppProvider appProvider = context.watch<AppProvider>();
 
     return Center(
       child: SizedBox(
@@ -47,15 +33,13 @@ class _IntroAnimationState extends State<IntroAnimation> {
                   firstChild: Lottie.asset(
                     AppConstants.wayyyOutLottieAssetPath,
                     onLoaded: (p0) {
-                      setState(() {
-                        isLoaded = true;
-                      });
+                      appProvider.setSplashScreenLoaded(true);
                     },
                     repeat: true,
                     fit: BoxFit.cover,
                   ),
                   secondChild: const SizedBox(),
-                  condition: isLoaded,
+                  condition: appProvider.isSplashScreenLoaded,
                 ),
               ),
             ),
@@ -63,24 +47,7 @@ class _IntroAnimationState extends State<IntroAnimation> {
               padding: const EdgeInsets.all(8.0),
               child: WayOutWidget(width: MediaQuery.of(context).size.width * 0.8),
             ),
-            Expanded(
-                child: CustomAnimatedCrossFade(
-                    firstChild: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomElevatedButton(
-                          iconData: AppIcons.googleIcon,
-                          onPressed: () {
-                            userProvider.setDoesUserNeedToSignIn(false);
-                            AuthenticationService.signInWithGoogle(context);
-                          },
-                          text: DialogueService.signInText.tr,
-                        ),
-                        const LegalText()
-                      ],
-                    ),
-                    secondChild: const LoadingWidget(),
-                    condition: userProvider.doesUserNeedToSignIn)),
+            const Spacer(),
             const AnimationAttributionWidget()
           ],
         ),

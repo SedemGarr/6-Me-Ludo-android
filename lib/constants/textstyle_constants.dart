@@ -84,6 +84,7 @@ class TextStyles {
   static TextStyle legalTextStyleNormal(Color color) {
     return TextStyle(
       color: color,
+      fontWeight: FontWeight.bold,
     );
   }
 
@@ -93,4 +94,6 @@ class TextStyles {
       fontWeight: FontWeight.bold,
     );
   }
+
+ 
 }

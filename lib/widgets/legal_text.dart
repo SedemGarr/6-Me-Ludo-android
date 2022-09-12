@@ -10,38 +10,41 @@ class LegalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          text: DialogueService.signUpLegalese.tr,
-          style: TextStyles.legalTextStyleNormal(
-            Theme.of(context).colorScheme.onSurface,
-          ),
-          children: [
-            TextSpan(
-                text: DialogueService.termsText.tr,
-                style: TextStyles.legalTextStyleBold(
-                  Theme.of(context).colorScheme.primary,
-                ),
-                recognizer: TapGestureRecognizer()..onTap = () {}),
-            const TextSpan(
-              text: ' ',
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            text: DialogueService.signUpLegalese.tr,
+            style: TextStyles.legalTextStyleNormal(
+              Theme.of(context).colorScheme.onSurface,
             ),
-            TextSpan(
-              text: DialogueService.andText.tr,
-            ),
-            const TextSpan(
-              text: ' ',
-            ),
-            TextSpan(
+            children: [
+              TextSpan(
+                  text: DialogueService.termsText.tr,
+                  style: TextStyles.legalTextStyleBold(
+                    Theme.of(context).primaryColor,
+                  ),
+                  recognizer: TapGestureRecognizer()..onTap = () {}),
+              const TextSpan(
+                text: ' ',
+              ),
+              TextSpan(
+                text: DialogueService.andText.tr,
+              ),
+              const TextSpan(
+                text: ' ',
+              ),
+              TextSpan(
                 text: DialogueService.privacyText.tr,
                 style: TextStyles.legalTextStyleBold(
-                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).primaryColor,
                 ),
-                recognizer: TapGestureRecognizer()..onTap = () {}),
-          ],
+                recognizer: TapGestureRecognizer()..onTap = () {},
+              ),
+            ],
+          ),
         ),
       ),
     );

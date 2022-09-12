@@ -7,6 +7,7 @@ class Users {
   late String id;
   late String psuedonym;
   late int reputationValue;
+  late bool isAnon;
   late UserSettings settings;
   List<Game> onGoingGames = [];
 
@@ -16,6 +17,7 @@ class Users {
     required this.avatar,
     required this.reputationValue,
     required this.settings,
+    required this.isAnon,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class Users {
     psuedonym = json['psuedonym'];
     settings = UserSettings.fromJson(json['settings']);
     reputationValue = json['reputationValue'];
+    isAnon = json['isAnon'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,28 +36,30 @@ class Users {
     data['psuedonym'] = psuedonym;
     data['settings'] = settings.toJson();
     data['reputationValue'] = reputationValue;
+    data['isAnon'] = isAnon;
     return data;
   }
 
-  static Future<Users> getDefaultUser(String uid) async {
+  static Future<Users> getDefaultUser(String uid, bool isAnon) async {
     return Users(
       avatar: Utils.generateRandomUserAvatar(),
       id: uid,
       settings: UserSettings.getDefaultSettings(),
       psuedonym: Utils.getRandomPseudonym(),
       reputationValue: 0,
+      isAnon: isAnon,
     );
   }
 
-  static Future<Users> getTempUser() async {
-    return Users(
-      avatar: Utils.generateRandomUserAvatar(),
-      id: '',
-      settings: UserSettings.getDefaultSettings(),
-      psuedonym: Utils.getRandomPseudonym(),
-      reputationValue: 0,
-    );
-  }
+  // static Future<Users> getTempUser() async {
+  //   return Users(
+  //     avatar: Utils.generateRandomUserAvatar(),
+  //     id: '',
+  //     settings: UserSettings.getDefaultSettings(),
+  //     psuedonym: Utils.getRandomPseudonym(),
+  //     reputationValue: 0,
+  //   );
+  // }
 
   @override
   bool operator ==(other) {

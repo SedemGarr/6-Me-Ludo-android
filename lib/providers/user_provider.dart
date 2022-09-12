@@ -31,22 +31,22 @@ class UserProvider with ChangeNotifier {
   // text editing controller
   TextEditingController pseudonymController = TextEditingController();
 
-  bool doesUserNeedToSignIn = false;
-
   Future<void> initUser(BuildContext context) async {
+    late Users? tempUser;
+
     try {
-      _user = await LocalStorageService.getUser();
+      tempUser = await LocalStorageService.getUser();
     } catch (e) {
       debugPrint(e.toString());
-      _user = null;
+      tempUser = null;
     }
 
     Future.delayed(const Duration(seconds: 5), () {
-      if (hasUser()) {
-        initialiseOnGoingGamesStream();
+      if (tempUser != null) {
+        setUser(tempUser);
         NavigationService.goToHomeScreen();
       } else {
-        setDoesUserNeedToSignIn(true);
+        NavigationService.goToAuthScreen();
       }
     });
   }
@@ -73,11 +73,7 @@ class UserProvider with ChangeNotifier {
 
   void setUser(Users user) {
     _user = user;
-    notifyListeners();
-  }
-
-  void setDoesUserNeedToSignIn(bool value) {
-    doesUserNeedToSignIn = value;
+    initialiseOnGoingGamesStream();
     notifyListeners();
   }
 

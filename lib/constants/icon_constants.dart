@@ -18,6 +18,7 @@ class AppIcons {
   static const IconData randomIcon = Icons.abc;
   //
   static const IconData googleIcon = FontAwesomeIcons.google;
+  static const IconData anonIcon = FontAwesomeIcons.userSecret;
   // general
   static const IconData backIcon = Icons.arrow_back_ios;
   static const IconData infoIcon = Icons.info;

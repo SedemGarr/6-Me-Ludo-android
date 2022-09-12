@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import '../models/user.dart';
@@ -20,6 +21,9 @@ class AuthenticationService {
     FirebaseAuth auth = FirebaseAuth.instance;
     UserProvider userProvider = context.read<UserProvider>();
     ThemeProvider themeProvider = context.read<ThemeProvider>();
+    AppProvider appProvider = context.read<AppProvider>();
+
+    appProvider.setLoading(true, true);
 
     try {
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
@@ -35,25 +39,53 @@ class AuthenticationService {
         try {
           final UserCredential userCredential = await auth.signInWithCredential(credential);
 
-          Users? user = await DatabaseService.createUser(userCredential.user!);
+          Users? user = await DatabaseService.createUser(userCredential.user!, false);
 
           if (user != null) {
+            appProvider.setLoading(false, false);
             userProvider.setUser(user);
             themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
             NavigationService.goToHomeScreen();
           } else {
+            appProvider.setLoading(false, true);
             Utils.showToast(DialogueService.genericErrorText.tr);
           }
         } catch (e) {
+          appProvider.setLoading(false, true);
           Utils.showToast(DialogueService.genericErrorText.tr);
           debugPrint(e.toString());
         }
       } else {
         // if user is null
-        userProvider.setDoesUserNeedToSignIn(true);
+        appProvider.setLoading(false, true);
         Utils.showToast(DialogueService.noUserSelectedText.tr);
       }
     } catch (e) {
+      appProvider.setLoading(false, true);
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future<void> signInAnon(BuildContext context) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    UserProvider userProvider = context.read<UserProvider>();
+    AppProvider appProvider = context.read<AppProvider>();
+
+    appProvider.setLoading(true, true);
+
+    try {
+      UserCredential userCredential = await auth.signInAnonymously();
+
+      Users? user = await DatabaseService.createUser(userCredential.user!, true);
+
+      if (user != null) {
+        appProvider.setLoading(false, true);
+        userProvider.setUser(user);
+        NavigationService.goToHomeScreen();
+      }
+    } catch (e) {
+      appProvider.setLoading(false, true);
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
@@ -71,7 +103,7 @@ class AuthenticationService {
       debugPrint(e.toString());
     }
 
-    NavigationService.goToSplashScreenAfterLogOut();
+    NavigationService.goToAuthScreenAfterLogOut();
   }
 
   static Future<void> deleteAccount(Users user, BuildContext context) async {
@@ -88,7 +120,6 @@ class AuthenticationService {
       debugPrint(e.toString());
     }
 
-    NavigationService.goToSplashScreenAfterLogOut();
+    NavigationService.goToAuthScreenAfterLogOut();
   }
-  
 }

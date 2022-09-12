@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 
 import '../../../constants/app_constants.dart';
 import '../../../services/translations/dialogue_service.dart';
@@ -18,12 +19,12 @@ class AnimationAttributionWidget extends StatelessWidget {
           children: [
             TextSpan(
               text: DialogueService.animationByText.tr,
-              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onSurface),
             ),
             TextSpan(
               text: AppConstants.lottieAnimationAuthor,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+              style: TextStyles.legalTextStyleNormal(
+                Theme.of(context).primaryColor,
               ),
               recognizer: TapGestureRecognizer()..onTap = () => Utils.openURL(AppConstants.wayyyOutLottieAssetPage),
             ),

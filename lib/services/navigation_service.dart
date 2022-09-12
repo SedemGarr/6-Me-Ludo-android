@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/screens/auth/auth.dart';
 import 'package:six_me_ludo_android/screens/game/game.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
-import 'package:six_me_ludo_android/screens/splash/splash.dart';
 
 import '../screens/legal/legal.dart';
 
 class NavigationService {
+  static void goToAuthScreen() {
+    Get.offAll(() => const AuthScreen());
+  }
+
   static void goToHomeScreen() {
     Get.offAll(() => const HomePageViewWrapper());
   }
@@ -22,7 +26,7 @@ class NavigationService {
     Get.back();
   }
 
-  static goToSplashScreenAfterLogOut() {
-    Get.off(() => const SplashScreen());
+  static goToAuthScreenAfterLogOut() {
+    Get.off(() => const AuthScreen());
   }
 }

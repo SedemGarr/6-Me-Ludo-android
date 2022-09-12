@@ -49,7 +49,11 @@ class DialogueService extends Translations {
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
   static const String welcomeDialogNoText = 'welcomeDialogNoText';
   static const String welcomeDialogYesText = 'welcomeDialogYesText';
-  static const String signInText = 'signInText';
+  static const String signInGoogleText = 'signInGoogleText';
+  static const String signInAnonText = 'signInAnonText';
+  static const String anonWarningText = 'anonWarningText';
+  static const String welcomeEmojiText = 'welcomeEmojiText';
+  static const String welcomeSubtileText =  'welcomeSubtileText';
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home

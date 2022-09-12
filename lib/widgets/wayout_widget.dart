@@ -13,7 +13,13 @@ class WayOutWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: FittedBox(
         fit: BoxFit.fitWidth,
-        child: Text('wayyy out! games', style: GoogleFonts.shadowsIntoLight(color: Theme.of(context).colorScheme.onBackground, fontWeight: FontWeight.bold)),
+        child: Text(
+          'wayyy out! games',
+          style: GoogleFonts.shadowsIntoLight(
+            color: Theme.of(context).colorScheme.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
