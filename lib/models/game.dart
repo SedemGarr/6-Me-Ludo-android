@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/models/message.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
-import 'package:six_me_ludo_android/models/thread.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/models/user_settings.dart';
 import '../constants/player_constants.dart';
@@ -27,10 +27,10 @@ class Game {
   late int maxPlayers;
   late int playerTurn;
   late Die die;
-  late Thread thread;
   late Piece? selectedPiece;
   late UserSettings hostSettings;
   late List<Player> players;
+  late List<Message> thread;
   late List<String> finishedPlayers;
   late List<String> bannedPlayers;
   late List<String> kickedPlayers;
@@ -115,7 +115,7 @@ class Game {
       hostId: user.id,
       players: [Player.getDefaultPlayer(user, 0)],
       playerIds: [user.id],
-      thread: Thread.getDefaultThread(user, gameId),
+      thread: [],
     );
   }
 
@@ -142,7 +142,7 @@ class Game {
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);
-    thread = Thread.fromJson(json['thread']);
+
     selectedPiece = json['selectedPiece'] == null ? null : Piece.fromJson(json['selectedPiece']);
     if (json['bannedPlayers'] != null) {
       bannedPlayers = <String>[];
@@ -174,6 +174,12 @@ class Game {
         finishedPlayers.add(v);
       });
     }
+    if (json['thread'] != null) {
+      thread = <Message>[];
+      json['thread'].forEach((v) {
+        thread.add(Message.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -197,7 +203,7 @@ class Game {
     data['playerTurn'] = playerTurn;
     data['selectedPiece'] = selectedPiece == null ? null : selectedPiece!.toJson();
     data['die'] = die.toJson();
-    data['thread'] = thread.toJson();
+    data['thread'] = thread.map((v) => v.toJson()).toList();
     data['bannedPlayers'] = bannedPlayers.map((v) => v).toList();
     data['kickedPlayers'] = kickedPlayers.map((v) => v).toList();
     data['playerIds'] = playerIds.map((v) => v).toList();

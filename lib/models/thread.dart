@@ -15,7 +15,7 @@ class Thread {
     required this.bannedIds,
   });
 
-  static getDefaultThread(Users user, String id) {
+  static Thread getDefaultThread(Users user, String id) {
     return Thread(
       id: id,
       ownerId: user.id,
