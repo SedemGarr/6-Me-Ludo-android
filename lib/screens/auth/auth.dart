@@ -52,14 +52,18 @@ class AuthScreen extends StatelessWidget {
                     )),
                   ),
                   const Spacer(),
-                  Center(
-                    child: CustomElevatedButton(
-                      iconData: AppIcons.googleIcon,
-                      onPressed: () {
-                        AuthenticationService.signInWithGoogle(context);
-                      },
-                      text: DialogueService.signInGoogleText.tr,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          iconData: AppIcons.googleIcon,
+                          onPressed: () {
+                            AuthenticationService.signInWithGoogle(context);
+                          },
+                          text: DialogueService.signInGoogleText.tr,
+                        ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -70,14 +74,18 @@ class AuthScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Center(
-                    child: CustomElevatedButton(
-                      iconData: AppIcons.anonIcon,
-                      onPressed: () {
-                        AuthenticationService.signInAnon(context);
-                      },
-                      text: DialogueService.signInAnonText.tr,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          iconData: AppIcons.anonIcon,
+                          onPressed: () {
+                            AuthenticationService.signInAnon(context);
+                          },
+                          text: DialogueService.signInAnonText.tr,
+                        ),
+                      ),
+                    ],
                   ),
                   Expanded(
                     child: Center(
