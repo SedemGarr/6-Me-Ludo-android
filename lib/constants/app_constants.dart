@@ -14,7 +14,7 @@ class AppConstants {
   static const int maxPlayerUpperLimit = 4;
   static const int minPseudonymLength = 3;
   static const int maxPseudonymLength = 25;
-  static const int maxOngoingGamesNumber = 15;
+  static const int maxOngoingGamesNumber = 50;
   static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;
   static const double standardAppbarHeight = kToolbarHeight + 4;
@@ -29,5 +29,5 @@ class AppConstants {
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
   static const Curve animationCurve = Curves.fastOutSlowIn;
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
-  static EdgeInsets listViewBottomPadding = EdgeInsets.only(bottom: Get.height * 0.25);
+  static EdgeInsets listViewPadding = EdgeInsets.only(top: 8, bottom: Get.height * 0.25);
 }

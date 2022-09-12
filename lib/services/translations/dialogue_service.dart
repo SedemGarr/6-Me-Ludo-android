@@ -53,7 +53,7 @@ class DialogueService extends Translations {
   static const String signInAnonText = 'signInAnonText';
   static const String anonWarningText = 'anonWarningText';
   static const String welcomeEmojiText = 'welcomeEmojiText';
-  static const String welcomeSubtileText =  'welcomeSubtileText';
+  static const String welcomeSubtileText = 'welcomeSubtileText';
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home
@@ -71,6 +71,9 @@ class DialogueService extends Translations {
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
   static const String joinGameHintText = 'joinGameHintText';
+  // game - ongoing
+  static const String yourGameText = 'yourGameText';
+  static const String otherPlayersGameText = 'otherPlayersGameText';
   // game - playing
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';

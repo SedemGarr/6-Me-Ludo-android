@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
@@ -250,6 +251,14 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.aiPersonalityPreference;
   }
 
+  String parseGameNameText(Player host, List<Player> players) {
+    if (host.id == _user!.id) {
+      return DialogueService.yourGameText.tr;
+    } else {
+      return host.psuedonym + DialogueService.otherPlayersGameText.tr;
+    }
+  }
+
   bool hasUser() {
     return _user != null;
   }
@@ -324,6 +333,14 @@ class UserProvider with ChangeNotifier {
 
   List<Game> getUserOngoingGames() {
     return _user!.onGoingGames;
+  }
+
+  Game getOngoingGameAtIndex(int index) {
+    return _user!.onGoingGames[index];
+  }
+
+  Player getOngoingGamesHostPlayerAtIndex(int index) {
+    return _user!.onGoingGames[index].players[_user!.onGoingGames[index].players.indexWhere((player) => player.id == _user!.onGoingGames[index].hostId)];
   }
 
   Locale getLocale() {

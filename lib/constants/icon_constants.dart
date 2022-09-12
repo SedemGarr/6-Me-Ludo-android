@@ -4,7 +4,7 @@ import 'package:line_icons/line_icons.dart';
 
 class AppIcons {
   static const IconData appIcon = Icons.filter_6;
-  //
+  // home
   static const IconData homeIcon = Icons.home_outlined;
   static const IconData homeActiveIcon = Icons.home;
   static const IconData profileIcon = Icons.person_outline;
@@ -22,7 +22,8 @@ class AppIcons {
   // general
   static const IconData backIcon = Icons.arrow_back_ios;
   static const IconData infoIcon = Icons.info;
-  //
+  // game
+  static const IconData gameHasStartedIcon = LineIcons.dotCircle;
   // settings
   static const IconData darkModeIcon = LineIcons.moon;
   static const IconData audioIcon = LineIcons.volumeDown;

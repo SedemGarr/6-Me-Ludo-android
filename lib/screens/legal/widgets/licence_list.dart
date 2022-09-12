@@ -21,7 +21,7 @@ class LicenseWidget extends StatelessWidget {
                 final List<License> licenses = snapshot.data!;
                 return AnimationLimiter(
                   child: ListView.separated(
-                      padding: AppConstants.listViewBottomPadding,
+                      padding: AppConstants.listViewPadding,
                       separatorBuilder: (context, index) {
                         return const Divider();
                       },

@@ -11,7 +11,7 @@ class SettingsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: AppConstants.listViewBottomPadding,
+      padding: AppConstants.listViewPadding,
       children: const [
         GeneralSettingsSection(),
         GameSettingsSection(),

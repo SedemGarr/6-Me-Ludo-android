@@ -35,6 +35,9 @@ class EnglishTranslation {
       DialogueService.newGameText: 'New Game',
       DialogueService.profileText: 'Profile',
       DialogueService.homeText: 'Home',
+      // game - ongoing
+      DialogueService.yourGameText: 'Your Game',
+      DialogueService.otherPlayersGameText: '\'s game with you',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
       DialogueService.startGameButtonText: 'Host Game',

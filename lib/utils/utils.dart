@@ -10,6 +10,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -98,6 +99,10 @@ class Utils {
 
   static String getDeviceLanguageCode() {
     return Get.deviceLocale!.languageCode;
+  }
+
+  static String parseDateFromNow(String value) {
+    return Jiffy(value).fromNow();
   }
 
   static ThemeMode getSystemTheme() {

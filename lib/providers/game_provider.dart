@@ -44,7 +44,7 @@ class GameProvider with ChangeNotifier {
     try {
       Game newGame = await DatabaseService.createGame(user);
       initialiseGame(newGame);
-      appProvider.setLoading(false, false);
+      appProvider.setLoading(false, true);
       NavigationService.goToGameScreen();
     } catch (e) {
       appProvider.setLoading(false, true);
