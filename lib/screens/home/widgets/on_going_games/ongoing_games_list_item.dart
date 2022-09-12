@@ -7,6 +7,8 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO work on joining functionality
+
     return Container();
   }
 }

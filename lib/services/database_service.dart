@@ -73,7 +73,6 @@ class DatabaseService {
     return FirebaseFirestore.instance
         .collection(FirestoreConstants.gamesCollection)
         .where('playerIds', arrayContains: user.id)
-        .where('isDeleted', isEqualTo: false)
         .snapshots()
         .map((snapShot) => snapShot.docs.map((document) => Game.fromJson(document.data())).toList());
   }
