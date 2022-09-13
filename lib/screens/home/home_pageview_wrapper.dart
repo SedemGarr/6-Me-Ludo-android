@@ -6,11 +6,8 @@ import 'package:six_me_ludo_android/screens/home/widgets/bottom_navbar.dart';
 import 'package:six_me_ludo_android/screens/new_game/new_game.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 
-import '../../utils/utils.dart';
-
 class HomePageViewWrapper extends StatelessWidget {
-
-static String routeName = '/HomePageViewWrapper';
+  static String routeName = '/HomePageViewWrapper';
 
   const HomePageViewWrapper({super.key});
 
@@ -20,7 +17,7 @@ static String routeName = '/HomePageViewWrapper';
 
     return WillPopScope(
       onWillPop: () async {
-        Utils.showExitDialog(context);
+        navProvider.handleHomeWrapperBackPress(context);
         return false;
       },
       child: Scaffold(

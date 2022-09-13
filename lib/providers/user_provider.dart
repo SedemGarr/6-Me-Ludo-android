@@ -59,7 +59,10 @@ class UserProvider with ChangeNotifier {
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
-  void handleNewGameTap(AppProvider appProvider, GameProvider gameProvider) {
+  void handleNewGameTap(BuildContext context) {
+    GameProvider gameProvider = context.read<GameProvider>();
+    AppProvider appProvider = context.read<AppProvider>();
+
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
@@ -80,6 +83,7 @@ class UserProvider with ChangeNotifier {
 
   void syncOnGoingGamesList(List<Game> games) {
     _user!.onGoingGames = games;
+    _user!.onGoingGames.sort((b, a) => a.lastUpdatedAt.compareTo(b.lastUpdatedAt));
   }
 
   void handleUserAvatarOnTap(Users user, BuildContext context) {
@@ -233,6 +237,10 @@ class UserProvider with ChangeNotifier {
       onNo: () {},
       context: context,
     );
+  }
+
+  String getUserID() {
+    return _user!.id;
   }
 
   String getUserPseudonym() {

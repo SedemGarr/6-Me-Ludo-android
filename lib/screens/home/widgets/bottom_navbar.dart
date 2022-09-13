@@ -31,7 +31,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 activeIcon: const Icon(
                   AppIcons.profileActiveIcon,
                 ),
-                label: DialogueService.newGameText.tr,
+                label: DialogueService.profileText.tr,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(
@@ -40,7 +40,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 activeIcon: const Icon(
                   AppIcons.homeActiveIcon,
                 ),
-                label: DialogueService.newGameText.tr,
+                label: DialogueService.homeText.tr,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/widgets/multiavatar_widget.dart';
 
+import '../constants/app_constants.dart';
 import '../models/user.dart';
 
 class UserAvatarWidget extends StatelessWidget {
@@ -23,8 +24,8 @@ class UserAvatarWidget extends StatelessWidget {
       child: CircleAvatar(
         backgroundColor: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: MultiAvatarWidget(avatar: user.avatar, isBackgroundTransparent: isBackgroundTransparent),
+          padding: AppConstants.userAvatarAppBarPadding,
+          child: MultiAvatarWidget(avatar: user.avatar, isBackgroundTransparent: false),
         ),
       ),
     );

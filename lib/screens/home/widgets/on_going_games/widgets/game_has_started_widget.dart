@@ -8,9 +8,11 @@ class GameHasStarteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      AppIcons.gameHasStartedIcon,
-      color: !hasGameStarted ? Theme.of(context).primaryColor : Colors.transparent,
-    );
+    return hasGameStarted
+        ? Icon(
+            AppIcons.gameHasStartedIcon,
+            color: Theme.of(context).primaryColor,
+          )
+        : const SizedBox.shrink();
   }
 }

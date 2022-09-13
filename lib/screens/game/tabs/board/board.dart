@@ -22,11 +22,11 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Container(
             decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2), borderRadius: BorderRadius.circular(2)),
-            height: Get.width,
-            width: Get.width,
+            height: Get.width * 0.99,
+            width: Get.width * 0.99,
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               reverse: true,

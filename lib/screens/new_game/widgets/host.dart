@@ -12,11 +12,17 @@ import '../../profile/widgets/settings/widgets/game/widgets/game_speed.dart';
 import '../../profile/widgets/settings/widgets/game/widgets/profanity.dart';
 import '../../profile/widgets/settings/widgets/game/widgets/start_assist.dart';
 
-class HostGameView extends StatelessWidget {
+class HostGameView extends StatefulWidget {
   const HostGameView({super.key});
 
   @override
+  State<HostGameView> createState() => _HostGameViewState();
+}
+
+class _HostGameViewState extends State<HostGameView> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListView(
       padding: AppConstants.listViewPadding,
       children: const [
@@ -34,4 +40,7 @@ class HostGameView extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

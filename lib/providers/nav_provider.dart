@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../constants/app_constants.dart';
 
@@ -23,6 +24,14 @@ class NavProvider with ChangeNotifier {
 
     if (pageController.hasClients) {
       await pageController.animateToPage(index, duration: AppConstants.animationDuration, curve: AppConstants.animationCurve);
+    }
+  }
+
+  void handleHomeWrapperBackPress(BuildContext context) {
+    if (_bottomNavBarIndex != 1) {
+      setBottomNavBarIndex(1, true);
+    } else {
+      Utils.showExitDialog(context);
     }
   }
 

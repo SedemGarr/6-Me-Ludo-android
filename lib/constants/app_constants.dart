@@ -30,4 +30,6 @@ class AppConstants {
   static const Curve animationCurve = Curves.fastOutSlowIn;
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
   static EdgeInsets listViewPadding = EdgeInsets.only(top: 8, bottom: Get.height * 0.25);
+  static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
+  static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
 }

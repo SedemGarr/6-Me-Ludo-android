@@ -26,14 +26,19 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-
     tabController = TabController(initialIndex: 1, length: 3, vsync: this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    gameProvider = context.read<GameProvider>();
+    gameProvider.initialiseBoard(context);
   }
 
   @override
   Widget build(BuildContext context) {
     GameProvider gameProvider = context.watch<GameProvider>();
-    gameProvider.initialiseBoard(context);
 
     return StreamBuilder<Game>(
         stream: gameProvider.currentGameStream,

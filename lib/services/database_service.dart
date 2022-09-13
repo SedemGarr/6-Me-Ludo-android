@@ -8,7 +8,9 @@ import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../constants/database_constants.dart';
+import '../models/player.dart';
 import '../models/user.dart';
+import 'game_status_service.dart';
 
 class DatabaseService {
   // users
@@ -89,6 +91,14 @@ class DatabaseService {
     return mpGames;
   }
 
+  static Future<Game?> getGame(String id) async {
+    try {
+      return Game.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(id).get()).data()!);
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<Game> createGame(Users user) async {
     CollectionReference gameRef = FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection);
 
@@ -102,6 +112,14 @@ class DatabaseService {
     await updateGame(game, true, shouldCreate: true);
 
     return game;
+  }
+
+  static Future<void> addNewHumanPlayerToGame(Game game, Users user) async {
+    await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update({
+      "gameStatus": GameStatusService.playerJoined,
+      "players": FieldValue.arrayUnion([Player.getJoiningPlayer(user, game).toJson()]),
+      "playerIds": FieldValue.arrayUnion([user.id]),
+    });
   }
 
   static Future<void> updateOngoingGamesAfterUserChange(Users user) async {

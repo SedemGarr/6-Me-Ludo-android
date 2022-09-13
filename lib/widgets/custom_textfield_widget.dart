@@ -16,8 +16,8 @@ class CustomTextFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         filled: false,
-        hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface),
-        counterStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface),
+        hintStyle: TextStyles.textFieldStyle(Theme.of(context).primaryColor),
+        counterStyle: TextStyles.textFieldStyle(Theme.of(context).primaryColor),
       ),
       style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface),
       cursorColor: Theme.of(context).primaryColor,

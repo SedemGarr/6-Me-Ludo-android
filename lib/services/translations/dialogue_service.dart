@@ -74,6 +74,21 @@ class DialogueService extends Translations {
   // game - ongoing
   static const String yourGameText = 'yourGameText';
   static const String otherPlayersGameText = 'otherPlayersGameText';
+  static const String rejoinGameDialogTitleText = 'rejoinGameDialogTitleText';
+  static const String rejoinGameDialogContentText = 'rejoinGameDialogContentText';
+  static const String rejoinGameDialogYesText = 'rejoinGameDialogYesText';
+  static const String rejoinGameDialogNoText = 'rejoinGameDialogNoText';
+  static const String deleteGameDialogTitleText = 'deleteGameDialogTitleText';
+  static const String deleteGameDialogContentText = 'deleteGameDialogContentText';
+  static const String deleteGameDialogYesText = 'deleteGameDialogYesText';
+  static const String deleteGameDialogNoText = 'deleteGameDialogNoText';
+  static const String leaveGameDialogTitleText = 'leaveGameDialogTitleText';
+  static const String leaveGameDialogContentText = 'leaveGameDialogContentText';
+  static const String leaveGameDialogYesText = 'leaveGameDialogYesText';
+  static const String leaveGameDialogNoText = 'leaveGameDialogNoText';
+  static const String gameDoesNotExistText = 'gameDoesNotExistText';
+  static const String gameFullText = 'gameFullText';
+  static const String gameKickedText = 'gameKickedText';
   // game - playing
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';

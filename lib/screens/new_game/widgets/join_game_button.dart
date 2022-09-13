@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
 
-import '../../../providers/app_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../services/translations/dialogue_service.dart';
 
-class NewGameButton extends StatelessWidget {
-  const NewGameButton({super.key});
+class JoinGameButton extends StatelessWidget {
+  const JoinGameButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class NewGameButton extends StatelessWidget {
 
     return CustomTextButton(
       onPressed: () {
-        gameProvider.hostGame(userProvider.getUser(), appProvider);
+        gameProvider.joinGameWithCode(userProvider.getUser(), appProvider);
       },
-      text: DialogueService.hostGameFABText.tr,
+      text: DialogueService.joinGameFABText.tr,
       color: Theme.of(context).primaryColor,
     );
   }

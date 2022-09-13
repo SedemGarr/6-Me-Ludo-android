@@ -11,11 +11,17 @@ import '../../widgets/app_bar_title_widget.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/loading_screen.dart';
 
-class NewGameScreen extends StatelessWidget {
+class NewGameScreen extends StatefulWidget {
   const NewGameScreen({super.key});
 
   @override
+  State<NewGameScreen> createState() => _NewGameScreenState();
+}
+
+class _NewGameScreenState extends State<NewGameScreen> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     AppProvider appProvider = context.watch<AppProvider>();
 
     return appProvider.isLoading
@@ -46,4 +52,7 @@ class NewGameScreen extends StatelessWidget {
             ),
           );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
