@@ -22,7 +22,9 @@ class DiceFABWidget extends StatelessWidget {
 
     return CustomFABWidget(
       color: Colors.transparent,
-      onPressed: () {},
+      onPressed: () {
+        gameProvider.rollDie(game, userProvider.getUserID(), context);
+      },
       widget: DiceWidget(
         gameProvider: gameProvider,
         playerNumber: game.playerTurn,
