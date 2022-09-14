@@ -16,6 +16,7 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
 import 'package:uuid/uuid.dart';
+import 'package:clipboard/clipboard.dart';
 
 import '../constants/app_constants.dart';
 import '../models/license.dart';
@@ -138,6 +139,10 @@ class Utils {
     } else {
       showToast(DialogueService.genericErrorText.tr);
     }
+  }
+
+  static void copyToClipboard(String value) {
+    FlutterClipboard.copy(value);
   }
 
   static Future<void> initApp() async {

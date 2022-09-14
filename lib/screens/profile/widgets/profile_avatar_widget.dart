@@ -33,7 +33,7 @@ class ProfileAvatarWidget extends StatelessWidget {
           ),
           child: Padding(
             padding: AppConstants.userAvatarPadding,
-            child: MultiAvatarWidget(avatar: userProvider.getUserAvatar(), isBackgroundTransparent: false),
+            child: MultiAvatarWidget(avatar: userProvider.getUserAvatar(), isBackgroundTransparent: true),
           ),
         ),
       ),

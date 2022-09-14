@@ -5,8 +5,9 @@ import '../constants/icon_constants.dart';
 
 class BackButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
+  final Color? color;
 
-  const BackButtonWidget({super.key, required this.onPressed});
+  const BackButtonWidget({super.key, required this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class BackButtonWidget extends StatelessWidget {
       onPressed: onPressed,
       icon: Icon(
         AppIcons.backIcon,
-        color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+        color: color ?? (Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary),
       ),
     );
   }

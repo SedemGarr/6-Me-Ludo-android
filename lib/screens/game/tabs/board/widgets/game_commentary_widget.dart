@@ -22,7 +22,7 @@ class GameCommentaryWidget extends StatelessWidget {
               padding: AppConstants.bannerPadding,
               child: Text(
                 gameProvider.currentGame.reaction.reactionType,
-                style: TextStyles.appBarTitleStyle(Utils.getContrastingColor(gameProvider.playerSelectedColor)),
+                style: TextStyles.appBarTitleStyle(Utils.getContrastingColor(gameProvider.playerColor)),
                 textAlign: TextAlign.center,
                 maxLines: 10,
               ),

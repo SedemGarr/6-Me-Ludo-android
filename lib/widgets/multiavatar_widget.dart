@@ -14,6 +14,7 @@ class MultiAvatarWidget extends StatelessWidget {
       multiavatar(
         avatar,
         trBackground: isBackgroundTransparent,
+        
       ),
     );
   }

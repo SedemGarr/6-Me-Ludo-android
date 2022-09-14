@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
-import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
@@ -12,12 +10,15 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/chat.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/copy_button_widget.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/end_button_widget.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/restart_button_widget.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/start_button_widget.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
-import 'package:six_me_ludo_android/widgets/custom_fab.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
 class GameScreen extends StatefulWidget {
@@ -73,29 +74,27 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 child: Scaffold(
                   appBar: CustomAppBarWidget(
                     backgroundColor: gameProvider.playerSelectedColor,
-                    leading: BackButtonWidget(onPressed: () {
-                      NavigationService.genericGoBack();
-                    }),
+                    leading: BackButtonWidget(
+                        color: Utils.getContrastingColor(gameProvider.playerColor),
+                        onPressed: () {
+                          NavigationService.genericGoBack();
+                        }),
                     actions: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(AppIcons.aIPersonalityTypeIcon),
+                      RestartButtonWidget(
+                        gameProvider: gameProvider,
+                        userProvider: userProvider,
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(AppIcons.aIPersonalityTypeIcon),
+                      StartButtonWidget(
+                        gameProvider: gameProvider,
+                        userProvider: userProvider,
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(AppIcons.aIPersonalityTypeIcon),
+                      EndGameButtonWidget(
+                        gameProvider: gameProvider,
+                        userProvider: userProvider,
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(AppIcons.aIPersonalityTypeIcon),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(AppIcons.aIPersonalityTypeIcon),
+                      CopyGameIDButtonWidget(
+                        gameProvider: gameProvider,
+                        userProvider: userProvider,
                       ),
                     ],
                     bottom: TabBar(
@@ -123,6 +122,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                     ),
                     BoardWidget(
                       gameProvider: gameProvider,
+                      userProvider: userProvider,
                     ),
                     ChatWidget(
                       gameProvider: gameProvider,
@@ -130,15 +130,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                       userProvider: userProvider,
                     )
                   ]),
-                  floatingActionButton: CustomFABWidget(
-                    color: PlayerConstants.swatchList[gameProvider.currentGame.playerTurn].playerSelectedColor,
-                    onPressed: () {},
-                    widget: Icon(AppIcons.aIPersonalityTypeIcon),
-                  ),
                 ),
               );
             } else {
-              Utils.showToast(DialogueService.gameDeletedText.tr);
+              gameProvider.handleSuddenGameDeletion();
               return const LoadingScreen();
             }
           }),

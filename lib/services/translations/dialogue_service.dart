@@ -89,6 +89,7 @@ class DialogueService extends Translations {
   static const String gameDoesNotExistText = 'gameDoesNotExistText';
   static const String gameFullText = 'gameFullText';
   static const String gameKickedText = 'gameKickedText';
+  static const String gameDeletedToastText = 'gameDeletedToastText';
   // game - playing
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';
@@ -96,8 +97,21 @@ class DialogueService extends Translations {
   static const String gameDeletedText = 'gameDeletedText';
   static const String sendMessagesHereText = 'sendMessagesHereText';
   static const String playerBannedBannerText = 'playerBannedBannerText';
+  static const String reorderPlayersBannerText = 'reorderPlayersBannerText';
   static const String profaneMessageText = 'profaneMessageText';
   static const String chatLimitReachedText = 'chatLimitReachedText';
+  static const String restartGameText = 'restartGameText';
+  static const String yourGameHasBeenRestartedText = 'yourGameHasBeenRestartedText';
+  static const String restartGameDialogTitleText = 'restartGameDialogTitleText';
+  static const String restartGameDialogContentText = 'restartGameDialogContentText';
+  static const String restartGameDialogYesText = 'restartGameDialogYesText';
+  static const String restartGameDialogNoText = 'restartGameDialogNoText';
+  static const String startGameGamPageButtonText = 'startGameGamPageButtonText';
+  static const String endSessionText = 'endSessionText';
+  static const String copyGameTooltipText = 'copyGameTooltipText';
+  static const String endGameTooltipText = 'endGameTooltipText';
+  static const String leaveGameTooltipText = 'leaveGameTooltipText';
+  static const String gameIDCopiedToClipboardText = 'gameIDCopiedToClipboardText';
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';

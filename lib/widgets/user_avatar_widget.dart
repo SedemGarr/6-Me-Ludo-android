@@ -25,7 +25,7 @@ class UserAvatarWidget extends StatelessWidget {
         backgroundColor: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
         child: Padding(
           padding: AppConstants.userAvatarAppBarPadding,
-          child: MultiAvatarWidget(avatar: user.avatar, isBackgroundTransparent: false),
+          child: MultiAvatarWidget(avatar: user.avatar, isBackgroundTransparent: isBackgroundTransparent),
         ),
       ),
     );

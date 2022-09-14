@@ -66,6 +66,24 @@ class DatabaseService {
     }
   }
 
+  static Future<void> updateUserCouldKick(String id, int reputationValue) async {
+    try {
+      await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
+    } catch (e) {
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
+  }
+
+   static Future<void> updateUserKicked(String id, int reputationValue) async {
+    try {
+      await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
+    } catch (e) {
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
+  }
+
   // games
 
   static Stream<Game> getCurrentGameStream(String gameId) {
@@ -143,7 +161,6 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(gameId).update({
         "thread": FieldValue.arrayUnion([jsonMessage]),
       });
-      
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());

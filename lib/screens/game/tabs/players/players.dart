@@ -23,7 +23,10 @@ class PlayersWidget extends StatelessWidget {
           child: ReorderableListView.builder(
             footer: !game.hasStarted ? const ReorderPlayersBanner() : null,
             itemCount: players.length,
-            onReorder: (oldIndex, newIndex) {},
+            onReorder: (oldIndex, newIndex) {
+              gameProvider.reorderPlayerList(oldIndex, newIndex);
+            },
+            buildDefaultDragHandles: !game.hasStarted,
             itemBuilder: (context, index) {
               return PlayerListItemWidget(key: ValueKey(index), index: index);
             },

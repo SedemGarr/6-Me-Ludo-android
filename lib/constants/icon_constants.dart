@@ -24,6 +24,12 @@ class AppIcons {
   static const IconData infoIcon = Icons.info;
   // game
   static const IconData gameHasStartedIcon = LineIcons.dotCircle;
+  static const IconData restartIcon = LineIcons.alternateRedo;
+  static const IconData playIcon = LineIcons.play;
+  static const IconData stopIcon = LineIcons.stop;
+  static const IconData endGameIcon = LineIcons.times;
+  static const IconData leaveGameIcon = LineIcons.doorOpen;
+  static const IconData copyGameCodeIcon = LineIcons.copy;
   // settings
   static const IconData darkModeIcon = LineIcons.moon;
   static const IconData audioIcon = LineIcons.volumeDown;
