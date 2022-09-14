@@ -25,7 +25,6 @@ class AuthScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Spacer(),
                   Container(
@@ -45,25 +44,21 @@ class AuthScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: Center(
-                        child: Text(
+                    child: Text(
                       DialogueService.welcomeSubtileText.tr,
                       style: TextStyles.legalTextStyleBold(Theme.of(context).colorScheme.onSurface),
-                    )),
+                    ),
                   ),
                   const Spacer(),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          iconData: AppIcons.googleIcon,
-                          onPressed: () {
-                            AuthenticationService.signInWithGoogle(context);
-                          },
-                          text: DialogueService.signInGoogleText.tr,
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: Get.width * 1 / 3,
+                    child: CustomElevatedButton(
+                      iconData: AppIcons.googleIcon,
+                      onPressed: () {
+                        AuthenticationService.signInWithGoogle(context);
+                      },
+                      text: DialogueService.signInGoogleText.tr,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -74,18 +69,15 @@ class AuthScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          iconData: AppIcons.anonIcon,
-                          onPressed: () {
-                            AuthenticationService.signInAnon(context);
-                          },
-                          text: DialogueService.signInAnonText.tr,
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: Get.width * 1 / 3,
+                    child: CustomElevatedButton(
+                      iconData: AppIcons.anonIcon,
+                      onPressed: () {
+                        AuthenticationService.signInAnon(context);
+                      },
+                      text: DialogueService.signInAnonText.tr,
+                    ),
                   ),
                   Expanded(
                     child: Center(

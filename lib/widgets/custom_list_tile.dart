@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
+
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 class CustomListTileWidget extends StatelessWidget {
@@ -26,7 +28,7 @@ class CustomListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      dense: dense ?? true,
+      dense: dense ?? context.isPhone,
       leading: leading,
       title: title,
       subtitle: subtitle,

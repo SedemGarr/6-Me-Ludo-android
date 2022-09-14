@@ -36,8 +36,11 @@ class EnglishTranslation {
       DialogueService.profileText: 'Profile',
       DialogueService.homeText: 'Home',
       // game - ongoing
-      DialogueService.yourGameText: 'Your Game',
+      DialogueService.yourGameText: 'Your game',
       DialogueService.otherPlayersGameText: '\'s game with you',
+      DialogueService.oneOtherPlayerText: ' with one other player',
+      DialogueService.twoOtherPlayerText: ' with two other players',
+      DialogueService.threeOtherPlayerText: ' with three other players',
       DialogueService.rejoinGameDialogTitleText: 'Join Game?',
       DialogueService.rejoinGameDialogContentText: 'Are you sure you want to rejoin this game?',
       DialogueService.rejoinGameDialogYesText: 'Join',

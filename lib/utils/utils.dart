@@ -78,6 +78,11 @@ class Utils {
     return capitalizedWords.join(' ');
   }
 
+  static String getInitials(String name) {
+    int numberOfWords = name.trim().split(RegExp(' +')).length;
+    return name.isNotEmpty ? name.trim().split(RegExp(' +')).map((s) => s[0]).take(numberOfWords).join() : '';
+  }
+
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 

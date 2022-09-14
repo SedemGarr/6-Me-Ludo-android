@@ -23,7 +23,7 @@ class StartButtonWidget extends StatelessWidget {
       firstChild: Center(
         child: IconButton(
           onPressed: () async {
-            await gameProvider.forceStartGame(game, context);
+            await gameProvider.forceStartGame();
           },
           icon: Icon(
             AppIcons.playIcon,

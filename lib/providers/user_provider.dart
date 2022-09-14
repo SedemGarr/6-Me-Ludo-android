@@ -265,7 +265,18 @@ class UserProvider with ChangeNotifier {
 
   String parseGameNameText(Player host, List<Player> players) {
     if (host.id == _user!.id) {
-      return DialogueService.yourGameText.tr;
+      switch (players.length) {
+        case 1:
+          return DialogueService.yourGameText.tr;
+        case 2:
+          return DialogueService.yourGameText.tr + DialogueService.oneOtherPlayerText.tr;
+        case 3:
+          return DialogueService.yourGameText.tr + DialogueService.twoOtherPlayerText.tr;
+        case 4:
+          return DialogueService.yourGameText.tr + DialogueService.threeOtherPlayerText.tr;
+        default:
+          return '';
+      }
     } else {
       return host.psuedonym + DialogueService.otherPlayersGameText.tr;
     }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 import 'cell.dart';
 
 class Board {
+  static const int boardGridColumnCount = 15;
+  static const int boardGridCellCount = boardGridColumnCount * boardGridColumnCount;
+
   static final List<int> playerOneBaseIndices = [
     0,
     1,
@@ -280,21 +284,21 @@ class Board {
   }
 
   // cell icon color
-  static Color? determineCellIconColor(int index, BuildContext context) {
+  static Color? determineCellIconColor(int index) {
     if (index == 21) {
-      return Theme.of(context).scaffoldBackgroundColor;
+      return Utils.getContrastingColor(PlayerConstants.swatchList[0].playerColor);
     } else if (index == 7) {
       return PlayerConstants.swatchList[0].playerColor;
     } else if (index == 121) {
-      return Theme.of(context).scaffoldBackgroundColor;
+      return Utils.getContrastingColor(PlayerConstants.swatchList[2].playerColor);
     } else if (index == 105) {
       return PlayerConstants.swatchList[2].playerColor;
     } else if (index == 203) {
-      return Theme.of(context).scaffoldBackgroundColor;
+      return Utils.getContrastingColor(PlayerConstants.swatchList[1].playerColor);
     } else if (index == 217) {
       return PlayerConstants.swatchList[3].playerColor;
     } else if (index == 103) {
-      return Theme.of(context).scaffoldBackgroundColor;
+      return Utils.getContrastingColor(PlayerConstants.swatchList[3].playerColor);
     } else if (index == 119) {
       return PlayerConstants.swatchList[1].playerColor;
     } else if (index == 97) {
@@ -473,15 +477,15 @@ class Board {
     }
   }
 
-  static Board generateBoard(BuildContext context) {
+  static Board generateBoard() {
     List<Cell> cells = [];
-    for (int index = 0; index < 225; index++) {
+    for (int index = 0; index < boardGridCellCount; index++) {
       cells.add(
         Cell(
           cellColor: determineCellColor(index),
           border: determineCellBorder(index),
           icon: determineCellIcon(index),
-          iconColor: determineCellIconColor(index, context),
+          iconColor: determineCellIconColor(index),
           index: index,
         ),
       );

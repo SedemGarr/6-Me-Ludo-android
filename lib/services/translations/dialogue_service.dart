@@ -74,6 +74,9 @@ class DialogueService extends Translations {
   // game - ongoing
   static const String yourGameText = 'yourGameText';
   static const String otherPlayersGameText = 'otherPlayersGameText';
+  static const String oneOtherPlayerText = 'oneOtherPlayerText';
+  static const String twoOtherPlayerText = 'twoOtherPlayerText';
+  static const String threeOtherPlayerText = 'threeOtherPlayerText'; 
   static const String rejoinGameDialogTitleText = 'rejoinGameDialogTitleText';
   static const String rejoinGameDialogContentText = 'rejoinGameDialogContentText';
   static const String rejoinGameDialogYesText = 'rejoinGameDialogYesText';

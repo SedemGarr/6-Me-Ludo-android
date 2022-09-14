@@ -23,7 +23,7 @@ class RestartButtonWidget extends StatelessWidget {
       firstChild: Center(
         child: IconButton(
           onPressed: () {
-            game.hasSessionEnded ? gameProvider.restartGame(game, context) : gameProvider.showRestartGameDialog(game, context);
+            game.hasSessionEnded ? gameProvider.restartGame() : gameProvider.showRestartGameDialog(context);
           },
           icon: Icon(
             AppIcons.restartIcon,
