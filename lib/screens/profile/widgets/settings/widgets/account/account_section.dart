@@ -16,6 +16,7 @@ class AccountSettingsSection extends StatelessWidget {
       children: [
         SettingsHeaderWidget(text: DialogueService.accountSettingsText.tr),
         const SignOutWidget(),
+        const Divider(),
         const DeleteAcountWidget(),
       ],
     );

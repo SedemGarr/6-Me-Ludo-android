@@ -16,7 +16,9 @@ class GeneralSettingsSection extends StatelessWidget {
       children: [
         SettingsHeaderWidget(text: DialogueService.generalSettingsText.tr),
         const DarkModeWidget(),
+        const Divider(),
         const AudioWidget(),
+        const Divider(),
         const LanguageWidget(),
       ],
     );

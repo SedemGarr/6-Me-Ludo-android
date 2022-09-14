@@ -27,9 +27,10 @@ class OngoingGamesListWidget extends StatelessWidget {
             return !userProvider.hasOngoingGames()
                 ? const NoGamesWidget()
                 : AnimationLimiter(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemCount: userProvider.getUserOngoingGamesLength(),
                       padding: AppConstants.listViewPadding,
+                      separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
                         return AnimationConfiguration.staggeredList(
                           position: index,
