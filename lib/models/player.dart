@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/user.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../utils/utils.dart';
 import 'board.dart';
@@ -34,6 +36,24 @@ class Player {
     } else {
       return PlayerConstants.pacifist;
     }
+  }
+
+  static String getPlayerReputationName(int value) {
+    if (value.isNegative) {
+      return DialogueService.viciousPersonalityType.tr;
+    } else if (value == 0) {
+      return DialogueService.averagePersonalityType.tr;
+    } else {
+      return DialogueService.pacifistPersonalityType.tr;
+    }
+  }
+
+  static bool isPlayerBannedFromChat(List<String> bannedIds, String id) {
+    return bannedIds.contains(id);
+  }
+
+  static double getPlayerProgess(Player player) {
+    return player.pieces.where((element) => element.isHome).length / player.pieces.length;
   }
 
   static List<int> playerOneValidIndices = [

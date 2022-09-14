@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
+import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
@@ -44,7 +45,7 @@ class UserProvider with ChangeNotifier {
 
     Future.delayed(const Duration(seconds: 5), () {
       if (tempUser != null) {
-        setUser(tempUser);
+        setUser(tempUser, context.read<SoundProvider>());
         NavigationService.goToHomeScreen();
       } else {
         NavigationService.goToAuthScreen();
@@ -75,8 +76,9 @@ class UserProvider with ChangeNotifier {
     onGoingGamesStream = DatabaseService.getOngoingGames(_user!);
   }
 
-  void setUser(Users user) {
+  void setUser(Users user, SoundProvider soundProvider) {
     _user = user;
+    soundProvider.setPrefersSound(_user!.settings.prefersAudio);
     initialiseOnGoingGamesStream();
     notifyListeners();
   }
@@ -86,15 +88,15 @@ class UserProvider with ChangeNotifier {
     _user!.onGoingGames.sort((b, a) => a.lastUpdatedAt.compareTo(b.lastUpdatedAt));
   }
 
-  void handleUserAvatarOnTap(Users user, BuildContext context) {
-    if (isMe(user.id)) {
+  Future<void> handleUserAvatarOnTap(String id, BuildContext context) async {
+    if (isMe(id)) {
       if (Get.currentRoute == HomePageViewWrapper.routeName) {
         context.read<NavProvider>().setBottomNavBarIndex(0, true);
       } else {
         Utils.showToast(DialogueService.youText.tr);
       }
     } else {
-      showUserDialog(user: user, context: context);
+      showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
     }
   }
 
@@ -106,7 +108,9 @@ class UserProvider with ChangeNotifier {
   }
 
   void toggleAudio(BuildContext context, bool value) {
+    SoundProvider soundProvider = context.read<SoundProvider>();
     _user!.settings.prefersAudio = value;
+    soundProvider.setPrefersSound(_user!.settings.prefersAudio);
     updateUser(true, true);
   }
 
@@ -265,6 +269,10 @@ class UserProvider with ChangeNotifier {
     } else {
       return host.psuedonym + DialogueService.otherPlayersGameText.tr;
     }
+  }
+
+  String parsePlayerNameText(String name) {
+    return name == _user!.psuedonym ? 'You' : name;
   }
 
   bool hasUser() {

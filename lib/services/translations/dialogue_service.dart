@@ -94,6 +94,10 @@ class DialogueService extends Translations {
   static const String boardTabText = 'boardTabText';
   static const String chatTabText = 'chatTabText';
   static const String gameDeletedText = 'gameDeletedText';
+  static const String sendMessagesHereText = 'sendMessagesHereText';
+  static const String playerBannedBannerText = 'playerBannedBannerText';
+  static const String profaneMessageText = 'profaneMessageText';
+  static const String chatLimitReachedText = 'chatLimitReachedText';
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';

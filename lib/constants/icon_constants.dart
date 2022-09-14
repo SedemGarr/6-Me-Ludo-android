@@ -15,7 +15,7 @@ class AppIcons {
   static const IconData pacifistIcon = LineIcons.smilingFace;
   static const IconData averageJoeIcon = LineIcons.neutralFace;
   static const IconData viciousIcon = LineIcons.angryFace;
-  static const IconData randomIcon = Icons.abc;
+  static const IconData randomIcon = LineIcons.robot;
   //
   static const IconData googleIcon = FontAwesomeIcons.google;
   static const IconData anonIcon = FontAwesomeIcons.userSecret;
@@ -40,4 +40,7 @@ class AppIcons {
   static const IconData gameSpeedIcon = LineIcons.alternateTachometer;
   static const IconData maxHumanPlayerIcon = LineIcons.alternateTachometer;
   static const IconData editProfileIcon = LineIcons.pen;
+  static const IconData slowGameSpeedIcon = LineIcons.wheelchair;
+  static const IconData normalGameSpeedIcon = LineIcons.walking;
+  static const IconData fastGameSpeedIcon = LineIcons.running;
 }

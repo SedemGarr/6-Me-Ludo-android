@@ -7,6 +7,7 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:six_me_ludo_android/utils/utils.dart';
 import '../models/user.dart';
 
+import '../providers/sound_provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/user_provider.dart';
 import 'database_service.dart';
@@ -22,6 +23,7 @@ class AuthenticationService {
     UserProvider userProvider = context.read<UserProvider>();
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
 
     appProvider.setLoading(true, true);
 
@@ -43,7 +45,7 @@ class AuthenticationService {
 
           if (user != null) {
             appProvider.setLoading(false, false);
-            userProvider.setUser(user);
+            userProvider.setUser(user, soundProvider);
             themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
             NavigationService.goToHomeScreen();
           } else {
@@ -71,6 +73,7 @@ class AuthenticationService {
     FirebaseAuth auth = FirebaseAuth.instance;
     UserProvider userProvider = context.read<UserProvider>();
     AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
 
     appProvider.setLoading(true, true);
 
@@ -81,7 +84,7 @@ class AuthenticationService {
 
       if (user != null) {
         appProvider.setLoading(false, true);
-        userProvider.setUser(user);
+        userProvider.setUser(user, soundProvider);
         NavigationService.goToHomeScreen();
       }
     } catch (e) {

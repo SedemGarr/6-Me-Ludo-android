@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../constants/database_constants.dart';
+import '../models/message.dart';
 import '../models/player.dart';
 import '../models/user.dart';
 import 'game_status_service.dart';
@@ -130,6 +131,22 @@ class DatabaseService {
       game.players[game.players.indexWhere((element) => element.id == user.id)].avatar = user.avatar;
       game.players[game.players.indexWhere((element) => element.id == user.id)].psuedonym = user.psuedonym;
       await updateGame(game, false);
+    }
+  }
+
+  static Future<void> sendGameChat(String id, String gameId, String message) async {
+    try {
+      Message messageObject = Message(body: message, createdById: id, createdAt: '', seenBy: [id]);
+
+      Map<String, dynamic> jsonMessage = messageObject.toJson();
+
+      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(gameId).update({
+        "thread": FieldValue.arrayUnion([jsonMessage]),
+      });
+      
+    } catch (e) {
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
     }
   }
 

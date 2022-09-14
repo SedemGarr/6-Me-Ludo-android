@@ -19,7 +19,7 @@ class UserAvatarWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        userProvider.handleUserAvatarOnTap(user, context);
+        userProvider.handleUserAvatarOnTap(user.id, context);
       },
       child: CircleAvatar(
         backgroundColor: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,

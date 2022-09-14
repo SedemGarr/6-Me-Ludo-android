@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_list_item.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/reorder_players_banner.dart';
 
-class PlayersWidget extends StatefulWidget {
-  const PlayersWidget({super.key});
+import '../../../../models/game.dart';
+import '../../../../models/player.dart';
+import '../board/widgets/game_settings_widget.dart';
 
-  @override
-  State<PlayersWidget> createState() => _PlayersWidgetState();
-}
+class PlayersWidget extends StatelessWidget {
+  final GameProvider gameProvider;
 
-class _PlayersWidgetState extends State<PlayersWidget> with AutomaticKeepAliveClientMixin {
+  const PlayersWidget({super.key, required this.gameProvider});
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    return Container();
-  }
+    Game game = gameProvider.currentGame;
+    List<Player> players = game.players;
 
-  @override
-  bool get wantKeepAlive => true;
+    return Column(
+      children: [
+        Expanded(
+          child: ReorderableListView.builder(
+            footer: !game.hasStarted ? const ReorderPlayersBanner() : null,
+            itemCount: players.length,
+            onReorder: (oldIndex, newIndex) {},
+            itemBuilder: (context, index) {
+              return PlayerListItemWidget(key: ValueKey(index), index: index);
+            },
+          ),
+        ),
+        GameSettingsWidget(
+          gameProvider: gameProvider,
+        ),
+      ],
+    );
+  }
 }

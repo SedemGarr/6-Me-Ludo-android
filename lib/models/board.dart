@@ -282,19 +282,19 @@ class Board {
   // cell icon color
   static Color? determineCellIconColor(int index, BuildContext context) {
     if (index == 21) {
-      return Theme.of(context).colorScheme.onSurface;
+      return Theme.of(context).scaffoldBackgroundColor;
     } else if (index == 7) {
       return PlayerConstants.swatchList[0].playerColor;
     } else if (index == 121) {
-      return Theme.of(context).colorScheme.onSurface;
+      return Theme.of(context).scaffoldBackgroundColor;
     } else if (index == 105) {
       return PlayerConstants.swatchList[2].playerColor;
     } else if (index == 203) {
-      return Theme.of(context).colorScheme.onSurface;
+      return Theme.of(context).scaffoldBackgroundColor;
     } else if (index == 217) {
       return PlayerConstants.swatchList[3].playerColor;
     } else if (index == 103) {
-      return Theme.of(context).colorScheme.onSurface;
+      return Theme.of(context).scaffoldBackgroundColor;
     } else if (index == 119) {
       return PlayerConstants.swatchList[1].playerColor;
     } else if (index == 97) {

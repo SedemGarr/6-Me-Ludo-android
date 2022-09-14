@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_constants.dart';
-import '../constants/textstyle_constants.dart';
 
 class CustomFABWidget extends StatelessWidget {
   final VoidCallback onPressed;
-  final String text;
+  final Widget widget;
+  final Color color;
 
-  const CustomFABWidget({super.key, required this.onPressed, required this.text});
+  const CustomFABWidget({super.key, required this.onPressed, required this.widget, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +15,8 @@ class CustomFABWidget extends StatelessWidget {
       elevation: 0,
       shape: AppConstants.appShape,
       onPressed: onPressed,
-      label: Text(
-        text,
-        style: TextStyles.fabStyle(Theme.of(context).colorScheme.onPrimaryContainer),
-      ),
+      label: widget,
+      backgroundColor: color,
     );
   }
 }

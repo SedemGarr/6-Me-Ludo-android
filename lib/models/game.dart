@@ -179,6 +179,7 @@ class Game {
       json['thread'].forEach((v) {
         thread.add(Message.fromJson(v));
       });
+      thread = [...thread.reversed.toList()];
     }
   }
 

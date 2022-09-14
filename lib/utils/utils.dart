@@ -113,6 +113,10 @@ class Utils {
     return SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
   }
 
+  static Color getContrastingColor(Color color) {
+    return color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+  }
+
   static FieldValue getServerTimestamp() {
     return FieldValue.serverTimestamp();
   }

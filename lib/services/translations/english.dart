@@ -68,6 +68,10 @@ class EnglishTranslation {
       DialogueService.boardTabText: 'Board',
       DialogueService.chatTabText: 'Chat',
       DialogueService.gameDeletedText: 'Sorry this game no longer exists',
+      DialogueService.sendMessagesHereText: 'Send Messages here',
+      DialogueService.playerBannedBannerText: 'You have been banned from the chat',
+      DialogueService.profaneMessageText: 'Sorry, you cannot send this message',
+      DialogueService.chatLimitReachedText: 'Chat limit reached',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       DialogueService.changeAvatarText: 'Change Your Avatar',
