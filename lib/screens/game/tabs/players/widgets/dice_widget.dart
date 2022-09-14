@@ -1,41 +1,40 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/player_constants.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 
+import '../../../../../constants/icon_constants.dart';
 
 class DiceWidget extends StatefulWidget {
   final bool shouldAnimate;
-  final bool isPlayerTurn;
   final int value;
   final int playerNumber;
-  final int playerColor;
-  final Color? startColour;
-  final Color? endColour;
-  
+  final GameProvider gameProvider;
 
-  const DiceWidget(
-      {Key? key,
-      required this.shouldAnimate,
-      required this.playerColor,
-      required this.isPlayerTurn,
-      required this.playerNumber,
-      required this.value,
-      required this.startColour,
-      required this.swatches,
-      required this.endColour})
-      : super(key: key);
+  const DiceWidget({
+    Key? key,
+    required this.shouldAnimate,
+    required this.playerNumber,
+    required this.value,
+    required this.gameProvider,
+  }) : super(key: key);
 
   @override
-  _DiceWidgetState createState() => _DiceWidgetState();
+  DiceWidgetState createState() => DiceWidgetState();
 }
 
-class _DiceWidgetState extends State<DiceWidget> {
+class DiceWidgetState extends State<DiceWidget> {
   late int value;
-
   late Timer timer;
+  late List<Color> animationColours;
+  late bool isPlayerTurn;
+  late Color startColor;
+  late Color endColor;
 
   int animationColorIndex = 0;
-  late List<Color> animationColours;
 
   Random random = Random();
 
@@ -63,8 +62,8 @@ class _DiceWidgetState extends State<DiceWidget> {
   }
 
   void animateColours() {
-    if (widget.isPlayerTurn && !widget.shouldAnimate) {
-      animationColours = [widget.startColour!, widget.endColour!];
+    if (isPlayerTurn && !widget.shouldAnimate) {
+      animationColours = [startColor, endColor];
       timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
         if (animationColorIndex + 1 < animationColours.length) {
           setState(() {
@@ -81,6 +80,11 @@ class _DiceWidgetState extends State<DiceWidget> {
 
   @override
   void initState() {
+    isPlayerTurn = widget.shouldAnimate
+        ? widget.gameProvider.currentGame.playerTurn == widget.playerNumber
+        : widget.gameProvider.currentGame.playerTurn == widget.playerNumber && !widget.gameProvider.currentGame.hasSessionEnded;
+    startColor = PlayerConstants.swatchList[widget.playerNumber].playerColor;
+    endColor = PlayerConstants.swatchList[widget.playerNumber].playerSelectedColor;
     initializeWidget();
     animateColours();
     super.initState();
@@ -88,7 +92,7 @@ class _DiceWidgetState extends State<DiceWidget> {
 
   @override
   void dispose() {
-    if (widget.shouldAnimate || widget.isPlayerTurn) {
+    if (widget.shouldAnimate || isPlayerTurn) {
       timer.cancel();
     }
     super.dispose();
@@ -96,33 +100,35 @@ class _DiceWidgetState extends State<DiceWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(2.0),
-      ),
-      child: AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        decoration: BoxDecoration(
-          color: widget.isPlayerTurn && !widget.shouldAnimate ? animationColours[animationColorIndex] : Game.determinePlayerColor(widget.playerColor, widget.swatches),
-          borderRadius: BorderRadius.circular(2.0),
-        ),
-        padding: const EdgeInsets.all(8.0),
-        key: widget.key,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          transitionBuilder: (child, animation) {
-            return RotationTransition(
-              turns: animation,
-              child: child,
-            );
-          },
-          child: Icon(
-            diceValues[value],
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Game.determinePlayerColor(widget.playerColor, widget.swatches).computeLuminance() > 0.5
-                ? ThemeService.darkTheme.scaffoldBackgroundColor
-                : ThemeService.lightTheme.scaffoldBackgroundColor,
-            key: ValueKey(value),
+    return SizedBox(
+      width: double.infinity,
+      child: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: Card(
+          shape: AppConstants.appShape,
+          margin: EdgeInsets.zero,
+          child: AnimatedContainer(
+            duration: AppConstants.animationDuration,
+            decoration: BoxDecoration(
+              color: isPlayerTurn && !widget.shouldAnimate ? animationColours[animationColorIndex] : startColor,
+              borderRadius: AppConstants.appBorderRadius,
+            ),
+            key: widget.key,
+            child: AnimatedSwitcher(
+              duration: AppConstants.animationDuration,
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: animation,
+                  child: child,
+                );
+              },
+              child: Icon(
+                diceValues[value],
+                // size: MediaQuery.of(context).size.width * 0.07,
+                color: Utils.getContrastingColor(startColor),
+                key: ValueKey(value),
+              ),
+            ),
           ),
         ),
       ),

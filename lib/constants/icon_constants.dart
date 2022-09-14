@@ -30,6 +30,14 @@ class AppIcons {
   static const IconData endGameIcon = LineIcons.times;
   static const IconData leaveGameIcon = LineIcons.doorOpen;
   static const IconData copyGameCodeIcon = LineIcons.copy;
+  // game - dice
+  static const IconData staticDieIcon = LineIcons.diceD6;
+  static const IconData oneDieIcon = LineIcons.diceOne;
+  static const IconData twoDieIcon = LineIcons.diceTwo;
+  static const IconData threeDieIcon = LineIcons.diceThree;
+  static const IconData fourDieIcon = LineIcons.diceFour;
+  static const IconData fiveDieIcon = LineIcons.diceFive;
+  static const IconData sixDieIcon = LineIcons.diceSix;
   // settings
   static const IconData darkModeIcon = LineIcons.moon;
   static const IconData audioIcon = LineIcons.volumeDown;

@@ -11,12 +11,12 @@ class CustomFABWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
+    return FloatingActionButton.large(
       elevation: 0,
       shape: AppConstants.appShape,
       onPressed: onPressed,
-      label: widget,
       backgroundColor: color,
+      child: widget,
     );
   }
 }

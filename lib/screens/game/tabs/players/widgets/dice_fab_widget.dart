@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/dice_widget.dart';
 
-import '../../../../../constants/player_constants.dart';
 import '../../../../../providers/game_provider.dart';
 import '../../../../../widgets/custom_fab.dart';
 
@@ -16,12 +16,19 @@ class DiceFABWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Game game = gameProvider.currentGame;
+    int value = game.die.rolledValue;
+    bool isDieRolling = game.die.isRolling;
+
     return CustomFABWidget(
-      color: PlayerConstants.swatchList[gameProvider.currentGame.playerTurn].playerSelectedColor,
+      color: Colors.transparent,
       onPressed: () {},
       widget: DiceWidget(
         gameProvider: gameProvider,
-        userProvider: userProvider,
+        playerNumber: game.playerTurn,
+        shouldAnimate: isDieRolling,
+        value: isDieRolling ? 0 : value,
+        key: UniqueKey(),
       ),
     );
   }

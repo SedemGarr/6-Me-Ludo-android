@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_commentary_widget.dart';
 
 import '../../../../constants/app_constants.dart';
+import '../../../../models/game.dart';
 import '../../../../providers/game_provider.dart';
 import '../players/widgets/dice_FAB_widget.dart';
 
@@ -26,6 +27,8 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
 
     GameProvider gameProvider = context.watch<GameProvider>();
     UserProvider userProvider = context.watch<UserProvider>();
+
+    Game game = gameProvider.currentGame;
 
     return Scaffold(
       body: Column(
@@ -72,10 +75,12 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
           const Spacer(),
         ],
       ),
-      floatingActionButton: DiceFABWidget(
-        gameProvider: gameProvider,
-        userProvider: userProvider,
-      ),
+      floatingActionButton: game.hasSessionEnded || !game.hasStarted
+          ? null
+          : DiceFABWidget(
+              gameProvider: gameProvider,
+              userProvider: userProvider,
+            ),
     );
   }
 

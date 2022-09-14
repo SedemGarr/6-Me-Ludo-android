@@ -22,7 +22,6 @@ class StartButtonWidget extends StatelessWidget {
     return CustomAnimatedCrossFade(
       firstChild: Center(
         child: IconButton(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
           onPressed: () async {
             await gameProvider.forceStartGame(game, context);
           },
@@ -34,18 +33,19 @@ class StartButtonWidget extends StatelessWidget {
         ),
       ),
       secondChild: gameProvider.isPlayerHost(userProvider.getUserID())
-          ? IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              onPressed: game.hasStarted && game.hasSessionEnded
-                  ? null
-                  : () {
-                      gameProvider.endSession(game);
-                    },
-              icon: Icon(
-                AppIcons.stopIcon,
-                color: Utils.getContrastingColor(gameProvider.playerColor),
+          ? Center(
+              child: IconButton(
+                onPressed: game.hasStarted && game.hasSessionEnded
+                    ? null
+                    : () {
+                        gameProvider.endSession(game);
+                      },
+                icon: Icon(
+                  AppIcons.stopIcon,
+                  color: Utils.getContrastingColor(gameProvider.playerColor),
+                ),
+                tooltip: game.hasStarted && game.hasSessionEnded ? null : DialogueService.endSessionText.tr,
               ),
-              tooltip: game.hasStarted && game.hasSessionEnded ? null : DialogueService.endSessionText.tr,
             )
           : const SizedBox.shrink(),
       condition: !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1,
