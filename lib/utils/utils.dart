@@ -141,7 +141,7 @@ class Utils {
   }
 
   static void openURL(String url) async {
-    if (await launchUrlString(url)) {
+    if (await launchUrlString(url, mode: LaunchMode.externalApplication)) {
     } else {
       showToast(DialogueService.genericErrorText.tr);
     }
