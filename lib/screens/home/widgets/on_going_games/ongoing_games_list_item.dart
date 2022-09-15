@@ -25,7 +25,11 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
     Player host = userProvider.getOngoingGamesHostPlayerAtIndex(index);
 
     return CustomListTileWidget(
-      leading: GameOwnerAvatarWidget(avatar: host.avatar),
+      leading: GameOwnerAvatarWidget(
+        id: host.id,
+        avatar: host.avatar,
+        playerColor: host.playerColor,
+        ),
       title: GameNameWidget(host: host, players: game.players),
       subtitle: GameDateWidget(lastUpdatedAt: game.lastUpdatedAt),
       trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),

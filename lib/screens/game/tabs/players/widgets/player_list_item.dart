@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_progress_widget.dart';
+import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
-import '../../../../../constants/app_constants.dart';
 import '../../../../../constants/player_constants.dart';
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
@@ -12,7 +12,6 @@ import '../../../../../providers/game_provider.dart';
 import '../../../../../providers/user_provider.dart';
 import '../../../../../utils/utils.dart';
 import '../../../../../widgets/custom_list_tile.dart';
-import '../../../../../widgets/multiavatar_widget.dart';
 import '../../../../../widgets/reputation_widget.dart';
 
 class PlayerListItemWidget extends StatelessWidget {
@@ -38,6 +37,7 @@ class PlayerListItemWidget extends StatelessWidget {
       key: key,
       color: Get.isDarkMode ? playerSelectedColor : playerColor,
       child: CustomListTileWidget(
+        contentPadding: player.playerColor == game.playerTurn ? const EdgeInsets.all(8.0) : null,
         dense: false,
         leading: GestureDetector(
           onTap: isAI || isMe
@@ -45,15 +45,10 @@ class PlayerListItemWidget extends StatelessWidget {
               : () {
                   userProvider.handleUserAvatarOnTap(player.id, context);
                 },
-          child: CircleAvatar(
-            backgroundColor: contrastingColor,
-            child: Padding(
-              padding: AppConstants.userAvatarAppBarPadding,
-              child: CircleAvatar(
-                backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
-                child: MultiAvatarWidget(avatar: player.avatar, isBackgroundTransparent: true),
-              ),
-            ),
+          child: UserAvatarWidget(
+            avatar: player.avatar,
+            backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
+            borderColor: contrastingColor,
           ),
         ),
         title: Text(

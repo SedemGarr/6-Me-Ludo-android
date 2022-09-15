@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:six_me_ludo_android/widgets/multiavatar_widget.dart';
 import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
+import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/user.dart';
@@ -23,7 +23,12 @@ showUserDialog({
           ),
           trailing: ReputationWidget(value: user.reputationValue, color: Theme.of(context).colorScheme.onSurface),
         ),
-        content: MultiAvatarWidget(avatar: user.avatar, isBackgroundTransparent: true),
+        content: UserAvatarWidget(
+          // id: user.id,
+          backgroundColor: Theme.of(context).primaryColor,
+          borderColor: Theme.of(context).colorScheme.onSurface,
+          avatar: user.avatar,
+        ),
       );
     },
   );

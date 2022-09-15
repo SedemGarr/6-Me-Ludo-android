@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
-import 'package:six_me_ludo_android/widgets/multiavatar_widget.dart';
+import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
@@ -32,13 +32,12 @@ showChangeAvatarDialog({
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: AnimatedContainer(
-                  duration: AppConstants.animationDuration,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: MultiAvatarWidget(avatar: userProvider.getUserAvatar(), isBackgroundTransparent: true)),
+              child: UserAvatarWidget(
+                avatar: userProvider.getUserAvatar(),
+                backgroundColor: Theme.of(context).primaryColor,
+                borderColor: Theme.of(context).colorScheme.onSurface,
+                shouldExpand: true,
+              ),
             ),
             const Divider(),
             SizedBox(
@@ -62,16 +61,10 @@ showChangeAvatarDialog({
                           onTap: () {
                             userProvider.setAvatar(avatarList[index]);
                           },
-                          child: AnimatedContainer(
-                            duration: AppConstants.animationDuration,
-                            decoration: BoxDecoration(
-                              color: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: MultiAvatarWidget(
-                              avatar: avatarList[index],
-                              isBackgroundTransparent: true,
-                            ),
+                          child: UserAvatarWidget(
+                            avatar: avatarList[index],
+                            backgroundColor: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
+                            borderColor: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
