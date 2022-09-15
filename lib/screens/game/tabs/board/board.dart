@@ -1,3 +1,4 @@
+import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -32,17 +33,19 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
 
     return Scaffold(
       body: AbsorbPointer(
-        absorbing: !(game.playerTurn == gameProvider.playerNumber),
+        absorbing: !gameProvider.isPlayerTurn(),
         child: Column(
           children: [
             GameCommentaryWidget(gameProvider: gameProvider),
             Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              decoration: BoxDecoration(border: Border.all(color: CSSColors.black)),
               height: Get.width,
               width: Get.width,
               child: Stack(
                 children: [
-                  const BoardGridWidget(),
+                  BoardGridWidget(
+                    gameProvider: gameProvider,
+                  ),
                   PieceGridWidget(gameProvider: gameProvider, userProvider: userProvider),
                 ],
               ),

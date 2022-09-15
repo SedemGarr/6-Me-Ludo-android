@@ -20,12 +20,7 @@ class PieceGridWidget extends StatelessWidget {
       reverse: true,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            gameProvider.handleMovePieceTap(index);
-          },
-          child: PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index),
-        );
+        return PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index);
       },
     );
   }

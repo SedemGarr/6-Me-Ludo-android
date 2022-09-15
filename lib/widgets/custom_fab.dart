@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants/app_constants.dart';
 
 class CustomFABWidget extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Widget widget;
   final Color color;
 

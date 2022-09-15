@@ -42,7 +42,7 @@ class GameProvider with ChangeNotifier {
   late int playerNumber;
   late Color playerColor;
   late Color playerSelectedColor;
-  late List<int> validIndices;
+  late List<int> validMoveIndices;
 
   bool isJoinGameCodeValidLength() {
     return joinGameController.text.length == AppConstants.joinGameCodeLength;
@@ -54,6 +54,10 @@ class GameProvider with ChangeNotifier {
 
   bool doesPlayerOwnPiece(Piece piece) {
     return piece.owner == playerNumber;
+  }
+
+  bool canPlayerRollDie() {
+    return !currentGame.hasSessionEnded && isPlayerTurn() && !currentGame.die.isRolling && currentGame.die.rolledValue == 0;
   }
 
   int getGameChatCount() {
@@ -169,7 +173,7 @@ class GameProvider with ChangeNotifier {
           // }
         }
 
-        validIndices = [...highLightedIndices];
+        validMoveIndices = [...highLightedIndices];
 
         if (highLightedIndices.contains(index)) {
           if (doesIndexHaveEnemyPiece(index)) {
@@ -187,7 +191,7 @@ class GameProvider with ChangeNotifier {
       } else {
         if (dieValue == 6) {
           if (Player.getPlayerStartIndex(playerNumber) == index) {
-            validIndices = [Player.getPlayerStartIndex(playerNumber)];
+            validMoveIndices = [Player.getPlayerStartIndex(playerNumber)];
             if (doesIndexHaveEnemyPiece(index)) {
               return PlayerConstants.swatchList[currentGame.players[playerNumber].playerColor].playerSelectedColor;
             } else {
@@ -217,16 +221,20 @@ class GameProvider with ChangeNotifier {
     playerNumber = game.playerIds.indexWhere((element) => element == id);
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
-    validIndices = game.players[playerNumber].validIndices;
+    validMoveIndices = [];
   }
 
   void syncGameData(BuildContext context, Game game, String id) {
+    checkIfPlayerIsKickedFromGame(game, id);
+    checkIfPlayerHasLeftGame(game);
+    checkIfGameHasStarted(game);
+    checkIfGameHasReStarted(game);
     checkIfNewMessageHasArrived(game, id, context);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == id);
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
-    validIndices = game.players[playerNumber].validIndices;
+    startGame(id);
   }
 
   void checkIfNewMessageHasArrived(Game newGame, String id, BuildContext context) {
@@ -238,12 +246,56 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  void checkIfPlayerIsKickedFromGame(Game game, String id) {
+    if (game.kickedPlayers.contains(id)) {
+      goBack();
+      Utils.showToast(DialogueService.gameKickedText.tr);
+    }
+  }
+
+  void checkIfPlayerHasLeftGame(Game game) {
+    for (int i = 0; i < game.players.length; i++) {
+      if (game.players[i].hasLeft && !currentGame.players[i].hasLeft) {
+        Utils.showToast(currentGame.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+      }
+    }
+  }
+
+  void checkIfGameHasStarted(Game game) {
+    if (!currentGame.hasStarted && game.hasStarted) {
+      Utils.showToast(DialogueService.gameHasStartedText.tr);
+    }
+  }
+
+  void checkIfGameHasReStarted(Game game) {
+    if (currentGame.hasStarted && game.hasRestarted && game.hasRestarted != currentGame.hasRestarted) {
+      Utils.showToast(DialogueService.gameHasStartedText.tr);
+    }
+  }
+
+  Future<void> startGame(String id) async {
+    if (isPlayerHost(id)) {
+      if (!currentGame.hasStarted && !currentGame.hasFinished) {
+        if (currentGame.maxPlayers == currentGame.players.length) {
+          if (currentGame.shouldAutoStart) {
+            // flipChangeColorCardWhenStartingGame();
+            await startGame(id);
+          }
+        }
+      }
+    }
+  }
+
   void copyGameID() {
     Utils.showToast(DialogueService.gameIDCopiedToClipboardText.tr);
     Utils.copyToClipboard(currentGame.id);
   }
 
   void handleSuddenGameDeletion() {
+    goBack();
+  }
+
+  void goBack() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Utils.showToast(DialogueService.gameDeletedText.tr);
       NavigationService.genericGoBack();
@@ -389,6 +441,8 @@ class GameProvider with ChangeNotifier {
   }
 
   bool getIndexHitDefermentStatus(int index) {
+    // return true;
+
     int dieValue = currentGame.die.rolledValue;
 
     if (currentGame.selectedPiece == null || !doesPlayerOwnPiece(currentGame.selectedPiece!)) {
@@ -415,12 +469,13 @@ class GameProvider with ChangeNotifier {
           //  }
         }
 
-        validIndices = [...highLightedIndices];
+        validMoveIndices = [...highLightedIndices];
 
         if (highLightedIndices.contains(index)) {
           if (doesIndexHaveEnemyPiece(index)) {
             return true;
           } else {
+            //   print('here');
             return false;
           }
         } else {
@@ -429,7 +484,8 @@ class GameProvider with ChangeNotifier {
       } else {
         if (dieValue == 6) {
           if (Player.getPlayerStartIndex(playerNumber) == index) {
-            validIndices = [Player.getPlayerStartIndex(playerNumber)];
+            validMoveIndices = [Player.getPlayerStartIndex(playerNumber)];
+
             if (doesIndexHaveEnemyPiece(index)) {
               return true;
             } else {
@@ -446,18 +502,19 @@ class GameProvider with ChangeNotifier {
   }
 
   bool doesIndexHaveEnemyPiece(int index) {
+    bool doesIndexHaveEnemyPiece = false;
     for (int i = 0; i < currentGame.players.length; i++) {
       for (int j = 0; j < currentGame.players[i].pieces.length; j++) {
-        if ((validIndices.contains(currentGame.players[i].pieces[j].position) ||
+        if ((validMoveIndices.contains(currentGame.players[i].pieces[j].position) ||
                 currentGame.players[currentGame.playerTurn].startBackKickIndices.contains(currentGame.players[i].pieces[j].position)) &&
             currentGame.players[i].pieces[j].owner != playerNumber) {
           if (currentGame.players[i].pieces[j].position == index) {
-            return true;
+            doesIndexHaveEnemyPiece = true;
           }
         }
       }
     }
-    return false;
+    return doesIndexHaveEnemyPiece;
   }
 
   bool isPlayerTurn() {
@@ -1067,7 +1124,7 @@ class GameProvider with ChangeNotifier {
   Future<void> handleMovePieceTap(int index) async {
     if (currentGame.canPlay && checkIfPlayerCanMove()) {
       if (currentGame.selectedPiece != null) {
-        if (validIndices.contains(index)) {
+        if (validMoveIndices.contains(index)) {
           currentGame.canPlay = false;
           notifyListeners();
           await movePiece(index, currentGame.selectedPiece);

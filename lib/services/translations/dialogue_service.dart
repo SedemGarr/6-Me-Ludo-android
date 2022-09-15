@@ -76,7 +76,7 @@ class DialogueService extends Translations {
   static const String otherPlayersGameText = 'otherPlayersGameText';
   static const String oneOtherPlayerText = 'oneOtherPlayerText';
   static const String twoOtherPlayerText = 'twoOtherPlayerText';
-  static const String threeOtherPlayerText = 'threeOtherPlayerText'; 
+  static const String threeOtherPlayerText = 'threeOtherPlayerText';
   static const String rejoinGameDialogTitleText = 'rejoinGameDialogTitleText';
   static const String rejoinGameDialogContentText = 'rejoinGameDialogContentText';
   static const String rejoinGameDialogYesText = 'rejoinGameDialogYesText';
@@ -115,6 +115,9 @@ class DialogueService extends Translations {
   static const String endGameTooltipText = 'endGameTooltipText';
   static const String leaveGameTooltipText = 'leaveGameTooltipText';
   static const String gameIDCopiedToClipboardText = 'gameIDCopiedToClipboardText';
+  static const String playerHasLeftText = 'playerHasLeftText';
+  static const String gameHasStartedText = 'gameHasStartedText';
+  static const String gameHasRestarted = 'gameHasRestarted';
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';

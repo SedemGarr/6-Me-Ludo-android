@@ -1,3 +1,4 @@
+import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -412,7 +413,7 @@ class Board {
         index == 39 ||
         index == 24 ||
         index == 9) {
-      return const Border(top: BorderSide(color: Colors.black, width: 1));
+      return const Border(top: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 215 ||
         index == 200 ||
         index == 185 ||
@@ -424,7 +425,7 @@ class Board {
         index == 35 ||
         index == 20 ||
         index == 5) {
-      return const Border(bottom: BorderSide(color: Colors.black, width: 1));
+      return const Border(bottom: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 135 ||
         index == 136 ||
         index == 137 ||
@@ -436,25 +437,29 @@ class Board {
         index == 147 ||
         index == 148 ||
         index == 149) {
-      return const Border(right: BorderSide(color: Colors.black, width: 1));
+      return const Border(right: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 75 || index == 76 || index == 127 || index == 77 || index == 78 || index == 79 || index == 85 || index == 86 || index == 87 || index == 88 || index == 89) {
-      return const Border(left: BorderSide(color: Colors.black, width: 1));
+      return const Border(left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 144 || index == 96) {
-      return const Border(top: BorderSide(color: Colors.black, width: 1), right: BorderSide(color: Colors.black, width: 1));
+      return const Border(top: BorderSide(color: CSSColors.black, width: 1), right: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 84 || index == 126) {
-      return const Border(top: BorderSide(color: Colors.black, width: 1), left: BorderSide(color: Colors.black, width: 1));
+      return const Border(top: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 80 || index == 128) {
-      return const Border(bottom: BorderSide(color: Colors.black, width: 1), left: BorderSide(color: Colors.black, width: 1));
+      return const Border(bottom: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 140 || index == 98) {
-      return const Border(bottom: BorderSide(color: Colors.black, width: 1), right: BorderSide(color: Colors.black, width: 1));
+      return const Border(bottom: BorderSide(color: CSSColors.black, width: 1), right: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 6 || index == 7 || index == 8) {
-      return const Border(top: BorderSide(color: Colors.black, width: 1), bottom: BorderSide(color: Colors.black, width: 1), left: BorderSide(color: Colors.black, width: 1));
+      return const Border(
+          top: BorderSide(color: CSSColors.black, width: 1), bottom: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 216 || index == 217 || index == 218) {
-      return const Border(top: BorderSide(color: Colors.black, width: 1), bottom: BorderSide(color: Colors.black, width: 1), right: BorderSide(color: Colors.black, width: 1));
+      return const Border(
+          top: BorderSide(color: CSSColors.black, width: 1), bottom: BorderSide(color: CSSColors.black, width: 1), right: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 120 || index == 105 || index == 90) {
-      return const Border(right: BorderSide(color: Colors.black, width: 1), bottom: BorderSide(color: Colors.black, width: 1), left: BorderSide(color: Colors.black, width: 1));
+      return const Border(
+          right: BorderSide(color: CSSColors.black, width: 1), bottom: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 134 || index == 119 || index == 104) {
-      return const Border(right: BorderSide(color: Colors.black, width: 1), top: BorderSide(color: Colors.black, width: 1), left: BorderSide(color: Colors.black, width: 1));
+      return const Border(
+          right: BorderSide(color: CSSColors.black, width: 1), top: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 61 ||
         index == 64 ||
         index == 16 ||
@@ -471,9 +476,9 @@ class Board {
         index == 199 ||
         index == 151 ||
         index == 154) {
-      return Border.all(color: Colors.black, width: 2);
+      return Border.all(color: CSSColors.black, width: 2);
     } else {
-      return Border.all(color: Colors.black, width: 1);
+      return Border.all(color: CSSColors.black, width: 1);
     }
   }
 

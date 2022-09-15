@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/board.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 
 import '../../../../../constants/app_constants.dart';
 
 class BoardGridWidget extends StatelessWidget {
-  const BoardGridWidget({super.key});
+  final GameProvider gameProvider;
+
+  const BoardGridWidget({super.key, required this.gameProvider});
 
   @override
   Widget build(BuildContext context) {
-    GameProvider gameProvider = context.watch<GameProvider>();
-
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       reverse: true,

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:css_colors/css_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class Utils {
   }
 
   static Color getContrastingColor(Color color) {
-    return color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+    return color.computeLuminance() > 0.5 ? CSSColors.black : CSSColors.white;
   }
 
   static FieldValue getServerTimestamp() {

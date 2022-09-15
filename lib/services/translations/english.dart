@@ -89,6 +89,9 @@ class EnglishTranslation {
       DialogueService.endGameTooltipText: 'End Game',
       DialogueService.leaveGameTooltipText: 'Leave Game',
       DialogueService.gameIDCopiedToClipboardText: 'The game ID has been copied to your clipboard',
+      DialogueService.playerHasLeftText: ' has left the game',
+      DialogueService.gameHasStartedText: 'The game has started',
+      DialogueService.gameHasRestarted: 'The host has restarted the game',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       DialogueService.changeAvatarText: 'Change Your Avatar',

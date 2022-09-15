@@ -1,3 +1,4 @@
+import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
@@ -40,7 +41,7 @@ class PieceWidget extends StatelessWidget {
                     ? PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerSelectedColor
                     : PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Theme.of(context).textTheme.subtitle2!.color!, width: 1),
+                  side: const BorderSide(color: CSSColors.black),
                   borderRadius: AppConstants.appBorderRadius,
                 ),
                 child: Center(
@@ -62,6 +63,23 @@ class PieceWidget extends StatelessWidget {
       }
     }
 
-    return const SizedBox.shrink();
+    return GestureDetector(
+      onTap: () {
+        gameProvider.handleMovePieceTap(index);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: Text(
+              index.toString(),
+              style: const TextStyle(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
