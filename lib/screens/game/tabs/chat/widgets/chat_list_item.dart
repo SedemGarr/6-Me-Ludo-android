@@ -39,7 +39,7 @@ class ChatListItem extends StatelessWidget {
           textAlign: textAlign,
         ),
         subtitle: Text(
-          !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body) ? DialogueService.messageContainsProfanityText : message.body,
+          !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body) ? DialogueService.messageContainsProfanityText.tr : message.body,
           style: TextStyles.chatListSubtitleStyle(
             Theme.of(context).colorScheme.onSurface,
             !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),
