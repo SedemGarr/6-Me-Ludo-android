@@ -104,6 +104,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                           text: DialogueService.boardTabText.tr,
                         ),
                         Tab(
+                          //  text: DialogueService.chatTabText.tr,
                           text: DialogueService.chatTabText.tr + gameProvider.getGameChatUnreadCountAsString(userProvider.getUserID()),
                         ),
                       ],

@@ -204,7 +204,7 @@ class Game {
     data['playerTurn'] = playerTurn;
     data['selectedPiece'] = selectedPiece == null ? null : selectedPiece!.toJson();
     data['die'] = die.toJson();
-    data['thread'] = thread.map((v) => v.toJson()).toList();
+    data['thread'] = thread.map((v) => v.toJson()).toList().reversed.toList();
     data['bannedPlayers'] = bannedPlayers.map((v) => v).toList();
     data['kickedPlayers'] = kickedPlayers.map((v) => v).toList();
     data['playerIds'] = playerIds.map((v) => v).toList();
