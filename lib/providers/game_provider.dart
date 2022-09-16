@@ -236,6 +236,13 @@ class GameProvider with ChangeNotifier {
     checkIfNewMessageHasArrived(game, id, context);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == id);
+
+    if (playerNumber == -1) {
+      // if player has left game or for some reason cannot be found
+      goBack();
+      return;
+    }
+
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
     startGame(id);
