@@ -34,6 +34,13 @@ class TextStyles {
     );
   }
 
+  static TextStyle chatListSubtitleStyle(Color color, bool isItalic) {
+    return TextStyle(
+      color: color,
+      fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
+    );
+  }
+
   static TextStyle dialogTitleStyle(Color color) {
     return TextStyle(
       color: color,

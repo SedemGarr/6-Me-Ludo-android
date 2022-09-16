@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../constants/textstyle_constants.dart';
@@ -38,8 +39,11 @@ class ChatListItem extends StatelessWidget {
           textAlign: textAlign,
         ),
         subtitle: Text(
-          message.body,
-          style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+          !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body) ? DialogueService.messageContainsProfanityText : message.body,
+          style: TextStyles.chatListSubtitleStyle(
+            Theme.of(context).colorScheme.onSurface,
+            !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),
+          ),
           textAlign: textAlign,
         ),
       ),

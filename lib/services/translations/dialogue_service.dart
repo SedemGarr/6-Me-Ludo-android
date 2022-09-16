@@ -118,6 +118,7 @@ class DialogueService extends Translations {
   static const String playerHasLeftText = 'playerHasLeftText';
   static const String gameHasStartedText = 'gameHasStartedText';
   static const String gameHasRestarted = 'gameHasRestarted';
+  static const String messageContainsProfanityText = 'messageContainsProfanityText'; 
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';

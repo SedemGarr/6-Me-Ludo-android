@@ -18,15 +18,17 @@ class EndGameButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Game game = gameProvider.currentGame;
 
-    return IconButton(
-      onPressed: () {
-        gameProvider.showLeaveOrDeleteGameDialog(game, userProvider.getUserID(), context);
-      },
-      icon: Icon(
-        gameProvider.isPlayerHost(userProvider.getUserID()) ? AppIcons.endGameIcon : AppIcons.leaveGameIcon,
-        color: Utils.getContrastingColor(gameProvider.playerColor),
+    return Center(
+      child: IconButton(
+        onPressed: () {
+          gameProvider.showLeaveOrDeleteGameDialog(game, userProvider.getUserID(), context);
+        },
+        icon: Icon(
+          gameProvider.isPlayerHost(userProvider.getUserID()) ? AppIcons.endGameIcon : AppIcons.leaveGameIcon,
+          color: Utils.getContrastingColor(gameProvider.playerColor),
+        ),
+        tooltip: gameProvider.isPlayerHost(userProvider.getUserID()) ? DialogueService.endGameTooltipText.tr : DialogueService.leaveGameTooltipText.tr,
       ),
-      tooltip: gameProvider.isPlayerHost(userProvider.getUserID()) ? DialogueService.endGameTooltipText.tr : DialogueService.leaveGameTooltipText.tr,
     );
   }
 }

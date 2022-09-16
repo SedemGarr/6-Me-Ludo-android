@@ -16,15 +16,17 @@ class CopyGameIDButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return gameProvider.isPlayerHost(userProvider.getUserID())
-        ? IconButton(
-            onPressed: () {
-              gameProvider.copyGameID();
-            },
-            icon: Icon(
-              AppIcons.copyGameCodeIcon,
-              color: Utils.getContrastingColor(gameProvider.playerColor),
+        ? Center(
+            child: IconButton(
+              onPressed: () {
+                gameProvider.copyGameID();
+              },
+              icon: Icon(
+                AppIcons.copyGameCodeIcon,
+                color: Utils.getContrastingColor(gameProvider.playerColor),
+              ),
+              tooltip: DialogueService.copyGameTooltipText.tr,
             ),
-            tooltip: DialogueService.copyGameTooltipText.tr,
           )
         : const SizedBox.shrink();
   }

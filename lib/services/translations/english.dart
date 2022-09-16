@@ -92,6 +92,7 @@ class EnglishTranslation {
       DialogueService.playerHasLeftText: ' has left the game',
       DialogueService.gameHasStartedText: 'The game has started',
       DialogueService.gameHasRestarted: 'The host has restarted the game',
+      DialogueService.messageContainsProfanityText: 'This message has been hidden due to your profanity settings',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       DialogueService.changeAvatarText: 'Change Your Avatar',
