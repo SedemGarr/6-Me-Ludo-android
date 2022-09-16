@@ -51,7 +51,7 @@ class AuthScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   SizedBox(
-                    width: Get.width * 1 / 3,
+                    width: Get.width * 2 / 3,
                     child: CustomElevatedButton(
                       iconData: AppIcons.googleIcon,
                       onPressed: () {
@@ -70,7 +70,7 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: Get.width * 1 / 3,
+                    width: Get.width * 2 / 3,
                     child: CustomElevatedButton(
                       iconData: AppIcons.anonIcon,
                       onPressed: () {

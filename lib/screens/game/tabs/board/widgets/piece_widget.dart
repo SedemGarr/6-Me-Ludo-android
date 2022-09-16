@@ -18,7 +18,7 @@ class PieceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
 
     for (int i = 0; i < game.players.length; i++) {
       for (int j = 0; j < game.players[i].pieces.length; j++) {

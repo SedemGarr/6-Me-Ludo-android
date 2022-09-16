@@ -93,6 +93,8 @@ class EnglishTranslation {
       DialogueService.gameHasStartedText: 'The game has started',
       DialogueService.gameHasRestarted: 'The host has restarted the game',
       DialogueService.messageContainsProfanityText: 'This message has been hidden due to your profanity settings',
+      DialogueService. playerIsPresentText : 'Present in game',
+  DialogueService. playerIsNotPresentText : 'Absent from game',
       // game - playing - commentary
       DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
       DialogueService.waitingForParticularPlayerText: 'Waiting for ',

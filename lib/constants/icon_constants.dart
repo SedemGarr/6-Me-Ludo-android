@@ -30,6 +30,9 @@ class AppIcons {
   static const IconData endGameIcon = LineIcons.times;
   static const IconData leaveGameIcon = LineIcons.doorOpen;
   static const IconData copyGameCodeIcon = LineIcons.copy;
+  static const IconData kickPlayerIcon = LineIcons.userSlash;
+  static const IconData banPlayerIcon = LineIcons.commentSlash;
+  static const IconData unBanPlayerIcon = LineIcons.comment;
   // game - dice
   static const IconData staticDieIcon = LineIcons.diceD6;
   static const IconData oneDieIcon = LineIcons.diceOne;

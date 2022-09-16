@@ -48,7 +48,7 @@ class NavProvider with ChangeNotifier {
     if (gameScreenTabController.index != 1) {
       gameScreenTabController.animateTo(1);
     } else {
-      gameProvider.togglePresence();
+      gameProvider.setGamePresence(false);
       NavigationService.genericGoBack();
     }
   }

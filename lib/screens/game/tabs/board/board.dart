@@ -29,7 +29,7 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
     GameProvider gameProvider = context.watch<GameProvider>();
     UserProvider userProvider = context.watch<UserProvider>();
 
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
 
     return Scaffold(
       body: AbsorbPointer(

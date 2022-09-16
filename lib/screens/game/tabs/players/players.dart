@@ -14,7 +14,7 @@ class PlayersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
     List<Player> players = game.players;
 
     return Column(

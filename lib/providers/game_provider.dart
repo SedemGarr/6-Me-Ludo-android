@@ -37,7 +37,7 @@ class GameProvider with ChangeNotifier {
   TextEditingController gameChatController = TextEditingController();
 
   // game
-  late Game currentGame;
+  late Game? currentGame;
   late Stream<Game> currentGameStream;
   late int playerNumber;
   late Color playerColor;
@@ -49,7 +49,7 @@ class GameProvider with ChangeNotifier {
   }
 
   bool isPlayerHost(String id) {
-    return currentGame.hostId == id;
+    return currentGame!.hostId == id;
   }
 
   bool doesPlayerOwnPiece(Piece piece) {
@@ -57,61 +57,65 @@ class GameProvider with ChangeNotifier {
   }
 
   bool canPlayerRollDie() {
-    return !currentGame.hasSessionEnded && isPlayerTurn() && !currentGame.die.isRolling && currentGame.die.rolledValue == 0;
+    return !currentGame!.hasSessionEnded && isPlayerTurn() && !currentGame!.die.isRolling && currentGame!.die.rolledValue == 0;
   }
 
   int getGameChatCount() {
-    return currentGame.thread.length;
+    return currentGame!.thread.length;
   }
 
   String getGameChatUnreadCountAsString(String id) {
-    int unreadCount = currentGame.thread.where((element) => !element.seenBy.contains(id)).length;
+    int unreadCount = currentGame!.thread.where((element) => !element.seenBy.contains(id)).length;
 
-    if (currentGame.bannedPlayers.contains(id) || unreadCount == 0) {
+    if (currentGame!.bannedPlayers.contains(id) || unreadCount == 0) {
       return '';
     }
 
     return ' - $unreadCount';
   }
 
-  String getPlayerNameFromId(String id) {
-    int playerNumber = currentGame.playerIds.indexWhere((element) => element == id);
+  String parsePlayerPresenceText(bool isPresent) {
+    return isPresent ? DialogueService.playerIsPresentText.tr : DialogueService.playerIsNotPresentText.tr;
+  }
 
-    return currentGame.players[playerNumber].psuedonym;
+  String getPlayerNameFromId(String id) {
+    int playerNumber = currentGame!.playerIds.indexWhere((element) => element == id);
+
+    return currentGame!.players[playerNumber].psuedonym;
   }
 
   String getGameStatusText() {
-    if (!currentGame.hasStarted && !currentGame.hasFinished) {
-      int numberOfPlayersToJoin = currentGame.maxPlayers - currentGame.players.length;
+    if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
+      int numberOfPlayersToJoin = currentGame!.maxPlayers - currentGame!.players.length;
       return numberOfPlayersToJoin == 1
           ? DialogueService.waitingForOneMoreText.tr
           : numberOfPlayersToJoin == 0
               ? ''
               : DialogueService.waitingForText.tr + numberOfPlayersToJoin.toString() + DialogueService.morePlayersText.tr;
-    } else if (currentGame.hasStarted && !currentGame.hasSessionEnded) {
+    } else if (currentGame!.hasStarted && !currentGame!.hasSessionEnded) {
       if (isPlayerTurn()) {
-        if (currentGame.die.lastRolledBy == currentGame.players[playerNumber].id) {
-          if (currentGame.die.isRolling) {
+        if (currentGame!.die.lastRolledBy == currentGame!.players[playerNumber].id) {
+          if (currentGame!.die.isRolling) {
             return DialogueService.youHaveRolledTheDieText.tr;
           } else {
-            if (currentGame.die.rolledValue == 0) {
+            if (currentGame!.die.rolledValue == 0) {
               return DialogueService.yourTurnOnceMoreText.tr;
             } else {
-              return DialogueService.youHaveRolledAText.tr + currentGame.die.rolledValue.toString();
+              return DialogueService.youHaveRolledAText.tr + currentGame!.die.rolledValue.toString();
             }
           }
         } else {
           return DialogueService.yourTurnText.tr;
         }
       } else {
-        if (currentGame.die.lastRolledBy == currentGame.players[currentGame.playerTurn].id) {
-          if (currentGame.die.isRolling) {
-            return currentGame.players[currentGame.playerTurn].psuedonym + DialogueService.hasRolledTheDieText.tr;
+        if (currentGame!.die.lastRolledBy == currentGame!.players[currentGame!.playerTurn].id) {
+          if (currentGame!.die.isRolling) {
+            return currentGame!.players[currentGame!.playerTurn].psuedonym + DialogueService.hasRolledTheDieText.tr;
           } else {
-            return currentGame.players[currentGame.playerTurn].psuedonym + DialogueService.hasRolledAText.tr + currentGame.die.rolledValue.toString();
+            return currentGame!.players[currentGame!.playerTurn].psuedonym + DialogueService.hasRolledAText.tr + currentGame!.die.rolledValue.toString();
           }
         }
-        return DialogueService.waitingForParticularPlayerText.tr + currentGame.players[currentGame.playerTurn].psuedonym;
+        return DialogueService.waitingForParticularPlayerText.tr + currentGame!.players[currentGame!.playerTurn].psuedonym;
       }
     } else {
       return '';
@@ -147,25 +151,25 @@ class GameProvider with ChangeNotifier {
   }
 
   Color getSelectedPiecePathColour(int index, Color boardColour) {
-    int dieValue = currentGame.die.rolledValue;
+    int dieValue = currentGame!.die.rolledValue;
 
-    if (currentGame.selectedPiece == null || !doesPlayerOwnPiece(currentGame.selectedPiece!)) {
+    if (currentGame!.selectedPiece == null || !doesPlayerOwnPiece(currentGame!.selectedPiece!)) {
       return boardColour;
     } else {
-      if (!currentGame.selectedPiece!.isBased) {
+      if (!currentGame!.selectedPiece!.isBased) {
         List<int> highLightedIndices = [];
-        int playerNumber = currentGame.selectedPiece!.owner;
-        int positionIndex = currentGame.players[playerNumber].validIndices.indexWhere((element) => element == currentGame.selectedPiece!.position);
+        int playerNumber = currentGame!.selectedPiece!.owner;
+        int positionIndex = currentGame!.players[playerNumber].validIndices.indexWhere((element) => element == currentGame!.selectedPiece!.position);
 
-        if (positionIndex + (dieValue) < currentGame.players[playerNumber].validIndices.length) {
-          highLightedIndices.add(currentGame.players[playerNumber].validIndices[positionIndex + dieValue]);
+        if (positionIndex + (dieValue) < currentGame!.players[playerNumber].validIndices.length) {
+          highLightedIndices.add(currentGame!.players[playerNumber].validIndices[positionIndex + dieValue]);
         }
         if (positionIndex - (dieValue) >= 0) {
-          highLightedIndices.add(currentGame.players[playerNumber].validIndices[positionIndex - dieValue]);
+          highLightedIndices.add(currentGame!.players[playerNumber].validIndices[positionIndex - dieValue]);
         }
         if (positionIndex - (dieValue) < 0) {
           // if (game.die.rolledValue != 1) {
-          if (currentGame.players[currentGame.playerTurn].startBackKickIndices[(positionIndex - currentGame.die.rolledValue).abs() - 1] == index) {
+          if (currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(positionIndex - currentGame!.die.rolledValue).abs() - 1] == index) {
             if (doesIndexHaveEnemyPiece(index)) {
               highLightedIndices.add(index);
             }
@@ -177,12 +181,12 @@ class GameProvider with ChangeNotifier {
 
         if (highLightedIndices.contains(index)) {
           if (doesIndexHaveEnemyPiece(index)) {
-            return PlayerConstants.swatchList[currentGame.players[playerNumber].playerColor].playerSelectedColor;
+            return PlayerConstants.swatchList[currentGame!.players[playerNumber].playerColor].playerSelectedColor;
           } else {
             if (doesIndexContainFriendlyPiece(index)) {
               return boardColour;
             } else {
-              return PlayerConstants.swatchList[currentGame.players[playerNumber].playerColor].playerSelectedColor;
+              return PlayerConstants.swatchList[currentGame!.players[playerNumber].playerColor].playerSelectedColor;
             }
           }
         } else {
@@ -193,12 +197,12 @@ class GameProvider with ChangeNotifier {
           if (Player.getPlayerStartIndex(playerNumber) == index) {
             validMoveIndices = [Player.getPlayerStartIndex(playerNumber)];
             if (doesIndexHaveEnemyPiece(index)) {
-              return PlayerConstants.swatchList[currentGame.players[playerNumber].playerColor].playerSelectedColor;
+              return PlayerConstants.swatchList[currentGame!.players[playerNumber].playerColor].playerSelectedColor;
             } else {
               if (doesIndexContainFriendlyPiece(index)) {
                 return boardColour;
               } else {
-                return PlayerConstants.swatchList[currentGame.players[playerNumber].playerColor].playerSelectedColor;
+                return PlayerConstants.swatchList[currentGame!.players[playerNumber].playerColor].playerSelectedColor;
               }
             }
           } else {
@@ -217,7 +221,7 @@ class GameProvider with ChangeNotifier {
 
   void initialiseGame(Game game, String id) {
     currentGame = game;
-    currentGameStream = DatabaseService.getCurrentGameStream(currentGame.id);
+    currentGameStream = DatabaseService.getCurrentGameStream(currentGame!.id);
     playerNumber = game.playerIds.indexWhere((element) => element == id);
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
@@ -238,7 +242,7 @@ class GameProvider with ChangeNotifier {
   }
 
   void checkIfNewMessageHasArrived(Game newGame, String id, BuildContext context) {
-    if (newGame.thread.length != currentGame.thread.length) {
+    if (newGame.thread.length != currentGame!.thread.length) {
       if (newGame.thread[newGame.thread.length - 1].createdById != id) {
         SoundProvider soundProvider = context.read<SoundProvider>();
         soundProvider.playSound(GameStatusService.newMessageReceived);
@@ -248,36 +252,36 @@ class GameProvider with ChangeNotifier {
 
   void checkIfPlayerIsKickedFromGame(Game game, String id) {
     if (game.kickedPlayers.contains(id)) {
-      goBack();
       Utils.showToast(DialogueService.gameKickedText.tr);
+      goBack();
     }
   }
 
   void checkIfPlayerHasLeftGame(Game game) {
     for (int i = 0; i < game.players.length; i++) {
-      if (game.players[i].hasLeft && !currentGame.players[i].hasLeft) {
-        Utils.showToast(currentGame.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+      if (game.players[i].hasLeft && !currentGame!.players[i].hasLeft) {
+        Utils.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
       }
     }
   }
 
   void checkIfGameHasStarted(Game game) {
-    if (!currentGame.hasStarted && game.hasStarted) {
+    if (!currentGame!.hasStarted && game.hasStarted) {
       Utils.showToast(DialogueService.gameHasStartedText.tr);
     }
   }
 
   void checkIfGameHasReStarted(Game game) {
-    if (currentGame.hasStarted && game.hasRestarted && game.hasRestarted != currentGame.hasRestarted) {
+    if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
       Utils.showToast(DialogueService.gameHasStartedText.tr);
     }
   }
 
   Future<void> startGame(String id) async {
     if (isPlayerHost(id)) {
-      if (!currentGame.hasStarted && !currentGame.hasFinished) {
-        if (currentGame.maxPlayers == currentGame.players.length) {
-          if (currentGame.shouldAutoStart) {
+      if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
+        if (currentGame!.maxPlayers == currentGame!.players.length) {
+          if (currentGame!.shouldAutoStart) {
             // flipChangeColorCardWhenStartingGame();
             await forceStartGame();
           }
@@ -286,18 +290,26 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  void showGameIdSnackbar(String id) {
+    if (isPlayerHost(id) && !currentGame!.hasStarted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        copyGameID();
+      });
+    }
+  }
+
   void copyGameID() {
     Utils.showToast(DialogueService.gameIDCopiedToClipboardText.tr);
-    Utils.copyToClipboard(currentGame.id);
+    Utils.copyToClipboard(currentGame!.id);
   }
 
   void handleSuddenGameDeletion() {
+    Utils.showToast(DialogueService.gameDeletedText.tr);
     goBack();
   }
 
   void goBack() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Utils.showToast(DialogueService.gameDeletedText.tr);
       NavigationService.genericGoBack();
     });
   }
@@ -305,65 +317,65 @@ class GameProvider with ChangeNotifier {
   Move getValidMove() {
     List<Move> availableMoves = [];
 
-    for (int j = 0; j < currentGame.players[currentGame.playerTurn].pieces.length; j++) {
+    for (int j = 0; j < currentGame!.players[currentGame!.playerTurn].pieces.length; j++) {
       // handle six roll
-      if (currentGame.players[currentGame.playerTurn].pieces[j].isBased && !currentGame.players[currentGame.playerTurn].pieces[j].isHome && currentGame.die.rolledValue == 6) {
-        if (!doesIndexContainFriendlyPiece(Player.getPlayerStartIndex(currentGame.playerTurn))) {
+      if (currentGame!.players[currentGame!.playerTurn].pieces[j].isBased && !currentGame!.players[currentGame!.playerTurn].pieces[j].isHome && currentGame!.die.rolledValue == 6) {
+        if (!doesIndexContainFriendlyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn))) {
           availableMoves.add(Move(
-              piece: currentGame.players[currentGame.playerTurn].pieces[j],
+              piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
               direction: Direction.forward,
-              destinationIndex: Player.getPlayerStartIndex(currentGame.playerTurn),
-              isGoingHome: Player.getPlayerHomeIndex(currentGame.playerTurn) == Player.getPlayerStartIndex(currentGame.playerTurn),
-              isStartingKick: doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame.playerTurn)),
-              isKick: doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame.playerTurn))));
+              destinationIndex: Player.getPlayerStartIndex(currentGame!.playerTurn),
+              isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == Player.getPlayerStartIndex(currentGame!.playerTurn),
+              isStartingKick: doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn)),
+              isKick: doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn))));
         }
       }
 
       // forward movement
-      if (!currentGame.players[currentGame.playerTurn].pieces[j].isBased && !currentGame.players[currentGame.playerTurn].pieces[j].isHome) {
-        List<int> validIndices = Player.getPlayerValidIndices(currentGame.playerTurn);
-        int piecePosition = validIndices.indexWhere((element) => element == currentGame.players[currentGame.playerTurn].pieces[j].position);
+      if (!currentGame!.players[currentGame!.playerTurn].pieces[j].isBased && !currentGame!.players[currentGame!.playerTurn].pieces[j].isHome) {
+        List<int> validIndices = Player.getPlayerValidIndices(currentGame!.playerTurn);
+        int piecePosition = validIndices.indexWhere((element) => element == currentGame!.players[currentGame!.playerTurn].pieces[j].position);
         //
-        if (validIndices.asMap().containsKey(piecePosition + currentGame.die.rolledValue)) {
-          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition + currentGame.die.rolledValue])) {
+        if (validIndices.asMap().containsKey(piecePosition + currentGame!.die.rolledValue)) {
+          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])) {
             availableMoves.add(Move(
-                piece: currentGame.players[currentGame.playerTurn].pieces[j],
+                piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
                 direction: Direction.forward,
-                destinationIndex: validIndices[piecePosition + currentGame.die.rolledValue],
-                isGoingHome: Player.getPlayerHomeIndex(currentGame.playerTurn) == validIndices[piecePosition + currentGame.die.rolledValue],
+                destinationIndex: validIndices[piecePosition + currentGame!.die.rolledValue],
+                isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == validIndices[piecePosition + currentGame!.die.rolledValue],
                 isStartingKick: false,
-                isKick: doesIndexContainEnemyPiece(validIndices[piecePosition + currentGame.die.rolledValue])));
+                isKick: doesIndexContainEnemyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])));
           }
         }
 
         // backward movement
-        if (validIndices.asMap().containsKey(piecePosition - currentGame.die.rolledValue)) {
-          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition - currentGame.die.rolledValue])) {
-            Game tempGame = Game.fromJson(currentGame.toJson());
-            tempGame.selectedPiece = currentGame.players[currentGame.playerTurn].pieces[j];
+        if (validIndices.asMap().containsKey(piecePosition - currentGame!.die.rolledValue)) {
+          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition - currentGame!.die.rolledValue])) {
+            Game tempGame = Game.fromJson(currentGame!.toJson());
+            tempGame.selectedPiece = currentGame!.players[currentGame!.playerTurn].pieces[j];
             //
             if (doesIndexContainEnemyPiece(getAIPlayerDestination(tempGame, false))) {
               availableMoves.add(Move(
-                  piece: currentGame.players[currentGame.playerTurn].pieces[j],
+                  piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
                   direction: Direction.backward,
-                  destinationIndex: validIndices[piecePosition - currentGame.die.rolledValue],
-                  isGoingHome: Player.getPlayerHomeIndex(currentGame.playerTurn) == validIndices[piecePosition - currentGame.die.rolledValue],
+                  destinationIndex: validIndices[piecePosition - currentGame!.die.rolledValue],
+                  isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == validIndices[piecePosition - currentGame!.die.rolledValue],
                   isStartingKick: false,
                   isKick: true));
             }
           }
         } else {
-          if (currentGame.players[currentGame.playerTurn].startBackKickIndices.asMap().containsKey((piecePosition - currentGame.die.rolledValue).abs() - 1)) {
-            Game tempGame = Game.fromJson(currentGame.toJson());
-            tempGame.selectedPiece = currentGame.players[currentGame.playerTurn].pieces[j];
+          if (currentGame!.players[currentGame!.playerTurn].startBackKickIndices.asMap().containsKey((piecePosition - currentGame!.die.rolledValue).abs() - 1)) {
+            Game tempGame = Game.fromJson(currentGame!.toJson());
+            tempGame.selectedPiece = currentGame!.players[currentGame!.playerTurn].pieces[j];
 
-            if (doesIndexContainEnemyPiece(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1])) {
+            if (doesIndexContainEnemyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
               availableMoves.add(Move(
-                  piece: currentGame.players[currentGame.playerTurn].pieces[j],
+                  piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
                   direction: Direction.backward,
-                  destinationIndex: currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1],
-                  isGoingHome: Player.getPlayerHomeIndex(currentGame.playerTurn) ==
-                      currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1],
+                  destinationIndex: currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1],
+                  isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) ==
+                      currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1],
                   isStartingKick: false,
                   isKick: true));
             }
@@ -373,8 +385,8 @@ class GameProvider with ChangeNotifier {
     }
 
     // factor in ai personality so moves they are not entirely random
-    if (currentGame.players[currentGame.playerTurn].isAIPlayer) {
-      switch (Player.getPlayerReputation(currentGame.players[currentGame.playerTurn].reputationValue)) {
+    if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
+      switch (Player.getPlayerReputation(currentGame!.players[currentGame!.playerTurn].reputationValue)) {
         case PlayerConstants.pacifist:
           // remove all kicks if possible but allow starting kicks otherwise ai may enter infinite loop
           availableMoves = availableMoves.where((element) => !element.isKick).toList().isEmpty && availableMoves.where((element) => element.isStartingKick).toList().isNotEmpty
@@ -425,12 +437,12 @@ class GameProvider with ChangeNotifier {
   int determineDieValue() {
     int randomValue = (Random().nextInt(6) + 1);
 
-    if (currentGame.shouldAssistStart) {
-      if (currentGame.players[currentGame.playerTurn].numberOfDieRolls == 0) {
+    if (currentGame!.shouldAssistStart) {
+      if (currentGame!.players[currentGame!.playerTurn].numberOfDieRolls == 0) {
         return 6;
       }
 
-      if (currentGame.hostSettings.prefersCatchupAssist && currentGame.players[currentGame.playerTurn].pieces.where((element) => element.isBased).length == 4) {
+      if (currentGame!.hostSettings.prefersCatchupAssist && currentGame!.players[currentGame!.playerTurn].pieces.where((element) => element.isBased).length == 4) {
         return 6;
       }
 
@@ -443,25 +455,25 @@ class GameProvider with ChangeNotifier {
   bool getIndexHitDefermentStatus(int index) {
     // return true;
 
-    int dieValue = currentGame.die.rolledValue;
+    int dieValue = currentGame!.die.rolledValue;
 
-    if (currentGame.selectedPiece == null || !doesPlayerOwnPiece(currentGame.selectedPiece!)) {
+    if (currentGame!.selectedPiece == null || !doesPlayerOwnPiece(currentGame!.selectedPiece!)) {
       return false;
     } else {
-      if (!currentGame.selectedPiece!.isBased) {
+      if (!currentGame!.selectedPiece!.isBased) {
         List<int> highLightedIndices = [];
-        int playerNumber = currentGame.selectedPiece!.owner;
-        int positionIndex = currentGame.players[playerNumber].validIndices.indexWhere((element) => element == currentGame.selectedPiece!.position);
+        int playerNumber = currentGame!.selectedPiece!.owner;
+        int positionIndex = currentGame!.players[playerNumber].validIndices.indexWhere((element) => element == currentGame!.selectedPiece!.position);
 
-        if (positionIndex + (dieValue) < currentGame.players[playerNumber].validIndices.length) {
-          highLightedIndices.add(currentGame.players[playerNumber].validIndices[positionIndex + dieValue]);
+        if (positionIndex + (dieValue) < currentGame!.players[playerNumber].validIndices.length) {
+          highLightedIndices.add(currentGame!.players[playerNumber].validIndices[positionIndex + dieValue]);
         }
         if (positionIndex - (dieValue) >= 0) {
-          highLightedIndices.add(currentGame.players[playerNumber].validIndices[positionIndex - dieValue]);
+          highLightedIndices.add(currentGame!.players[playerNumber].validIndices[positionIndex - dieValue]);
         }
         if (positionIndex - (dieValue) < 0) {
-          //  if (currentGame.die.rolledValue != 1) {
-          if (currentGame.players[currentGame.playerTurn].startBackKickIndices[(positionIndex - currentGame.die.rolledValue).abs() - 1] == index) {
+          //  if (currentGame!.die.rolledValue != 1) {
+          if (currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(positionIndex - currentGame!.die.rolledValue).abs() - 1] == index) {
             if (doesIndexHaveEnemyPiece(index)) {
               highLightedIndices.add(index);
             }
@@ -503,12 +515,12 @@ class GameProvider with ChangeNotifier {
 
   bool doesIndexHaveEnemyPiece(int index) {
     bool doesIndexHaveEnemyPiece = false;
-    for (int i = 0; i < currentGame.players.length; i++) {
-      for (int j = 0; j < currentGame.players[i].pieces.length; j++) {
-        if ((validMoveIndices.contains(currentGame.players[i].pieces[j].position) ||
-                currentGame.players[currentGame.playerTurn].startBackKickIndices.contains(currentGame.players[i].pieces[j].position)) &&
-            currentGame.players[i].pieces[j].owner != playerNumber) {
-          if (currentGame.players[i].pieces[j].position == index) {
+    for (int i = 0; i < currentGame!.players.length; i++) {
+      for (int j = 0; j < currentGame!.players[i].pieces.length; j++) {
+        if ((validMoveIndices.contains(currentGame!.players[i].pieces[j].position) ||
+                currentGame!.players[currentGame!.playerTurn].startBackKickIndices.contains(currentGame!.players[i].pieces[j].position)) &&
+            currentGame!.players[i].pieces[j].owner != playerNumber) {
+          if (currentGame!.players[i].pieces[j].position == index) {
             doesIndexHaveEnemyPiece = true;
           }
         }
@@ -518,32 +530,32 @@ class GameProvider with ChangeNotifier {
   }
 
   bool isPlayerTurn() {
-    return currentGame.playerTurn == playerNumber;
+    return currentGame!.playerTurn == playerNumber;
   }
 
   bool checkIfPlayerCanMove() {
-    return currentGame.playerTurn == playerNumber && !currentGame.die.isRolling && currentGame.die.rolledValue != 0;
+    return currentGame!.playerTurn == playerNumber && !currentGame!.die.isRolling && currentGame!.die.rolledValue != 0;
   }
 
   bool isOnlyOnePlayerLeft() {
-    return currentGame.players.where((element) => !element.hasLeft || !currentGame.kickedPlayers.contains(element.id)).length == 1;
+    return currentGame!.players.where((element) => !element.hasLeft || !currentGame!.kickedPlayers.contains(element.id)).length == 1;
   }
 
   bool checkIfGameHasEnded() {
-    if (!currentGame.hasSessionEnded) {
+    if (!currentGame!.hasSessionEnded) {
       bool areAllPiecesHome = true;
 
-      for (int i = 0; i < currentGame.players.length; i++) {
-        if (!currentGame.players[i].hasLeft || currentGame.kickedPlayers.contains(currentGame.players[i].id)) {
-          for (int j = 0; j < currentGame.players[i].pieces.length; j++) {
-            if (!currentGame.players[i].pieces[j].isHome) {
+      for (int i = 0; i < currentGame!.players.length; i++) {
+        if (!currentGame!.players[i].hasLeft || currentGame!.kickedPlayers.contains(currentGame!.players[i].id)) {
+          for (int j = 0; j < currentGame!.players[i].pieces.length; j++) {
+            if (!currentGame!.players[i].pieces[j].isHome) {
               areAllPiecesHome = false;
             }
           }
         }
       }
 
-      if (areAllPiecesHome || currentGame.players.where((element) => !element.hasLeft).length - currentGame.finishedPlayers.length == 1) {
+      if (areAllPiecesHome || currentGame!.players.where((element) => !element.hasLeft).length - currentGame!.finishedPlayers.length == 1) {
         return true;
       } else {
         return false;
@@ -553,14 +565,14 @@ class GameProvider with ChangeNotifier {
   }
 
   bool wasPreviousRollNotASix() {
-    return currentGame.die.rolledValue != 6;
+    return currentGame!.die.rolledValue != 6;
   }
 
   bool doesIndexContainFriendlyPiece(int index) {
-    for (int i = 0; i < currentGame.players.length; i++) {
-      for (int j = 0; j < currentGame.players[i].pieces.length; j++) {
-        if (currentGame.players[i].pieces[j].position == index) {
-          if (currentGame.players[i].pieces[j].owner == currentGame.playerTurn) {
+    for (int i = 0; i < currentGame!.players.length; i++) {
+      for (int j = 0; j < currentGame!.players[i].pieces.length; j++) {
+        if (currentGame!.players[i].pieces[j].position == index) {
+          if (currentGame!.players[i].pieces[j].owner == currentGame!.playerTurn) {
             return true;
           }
         }
@@ -571,10 +583,10 @@ class GameProvider with ChangeNotifier {
   }
 
   bool doesIndexContainEnemyPiece(int index) {
-    for (int i = 0; i < currentGame.players.length; i++) {
-      for (int j = 0; j < currentGame.players[i].pieces.length; j++) {
-        if (currentGame.players[i].pieces[j].position == index) {
-          if (currentGame.players[i].pieces[j].owner != currentGame.playerTurn) {
+    for (int i = 0; i < currentGame!.players.length; i++) {
+      for (int j = 0; j < currentGame!.players[i].pieces.length; j++) {
+        if (currentGame!.players[i].pieces[j].position == index) {
+          if (currentGame!.players[i].pieces[j].owner != currentGame!.playerTurn) {
             return true;
           }
         }
@@ -589,34 +601,34 @@ class GameProvider with ChangeNotifier {
   }
 
   bool isPieceSelected(Piece piece) {
-    if (currentGame.selectedPiece == null) {
+    if (currentGame!.selectedPiece == null) {
       return false;
     } else {
-      return currentGame.selectedPiece!.owner == piece.owner && currentGame.selectedPiece!.pieceNumber == piece.pieceNumber;
+      return currentGame!.selectedPiece!.owner == piece.owner && currentGame!.selectedPiece!.pieceNumber == piece.pieceNumber;
     }
   }
 
   bool isMovePlayerPossible() {
-    for (int j = 0; j < currentGame.players[currentGame.playerTurn].pieces.length; j++) {
-      if (!currentGame.players[currentGame.playerTurn].pieces[j].isBased && !currentGame.players[currentGame.playerTurn].pieces[j].isHome) {
-        List<int> validIndices = Player.getPlayerValidIndices(currentGame.playerTurn);
-        int piecePosition = validIndices.indexWhere((element) => element == currentGame.players[currentGame.playerTurn].pieces[j].position);
+    for (int j = 0; j < currentGame!.players[currentGame!.playerTurn].pieces.length; j++) {
+      if (!currentGame!.players[currentGame!.playerTurn].pieces[j].isBased && !currentGame!.players[currentGame!.playerTurn].pieces[j].isHome) {
+        List<int> validIndices = Player.getPlayerValidIndices(currentGame!.playerTurn);
+        int piecePosition = validIndices.indexWhere((element) => element == currentGame!.players[currentGame!.playerTurn].pieces[j].position);
 
         // if forward move is possible
-        if (validIndices.asMap().containsKey(piecePosition + currentGame.die.rolledValue)) {
-          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition + currentGame.die.rolledValue])) {
+        if (validIndices.asMap().containsKey(piecePosition + currentGame!.die.rolledValue)) {
+          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])) {
             return true;
           }
         }
 
         // if backward move is possible
-        if (validIndices.asMap().containsKey(piecePosition - currentGame.die.rolledValue)) {
-          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition - currentGame.die.rolledValue])) {
+        if (validIndices.asMap().containsKey(piecePosition - currentGame!.die.rolledValue)) {
+          if (!doesIndexContainFriendlyPiece(validIndices[piecePosition - currentGame!.die.rolledValue])) {
             return true;
           }
         } else {
-          if (!doesIndexContainFriendlyPiece(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1])) {
-            if (doesIndexContainEnemyPiece(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1])) {
+          if (!doesIndexContainFriendlyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
+            if (doesIndexContainEnemyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
               return true;
             }
           }
@@ -629,36 +641,36 @@ class GameProvider with ChangeNotifier {
 
   bool canPlayerKick() {
     if (isMovePlayerPossible()) {
-      for (int i = 0; i < currentGame.players[currentGame.playerTurn].pieces.length; i++) {
+      for (int i = 0; i < currentGame!.players[currentGame!.playerTurn].pieces.length; i++) {
         // if the piece is not home
-        if (!currentGame.players[currentGame.playerTurn].pieces[i].isHome) {
+        if (!currentGame!.players[currentGame!.playerTurn].pieces[i].isHome) {
           // first check if based pieces can kick by checking if the user has a 6
-          if (currentGame.players[currentGame.playerTurn].pieces[i].isBased) {
-            if (currentGame.die.rolledValue == 6) {
-              if (doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame.playerTurn))) {
+          if (currentGame!.players[currentGame!.playerTurn].pieces[i].isBased) {
+            if (currentGame!.die.rolledValue == 6) {
+              if (doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn))) {
                 return true;
               }
             }
           } else {
             // check pieces in play
-            List<int> validIndices = Player.getPlayerValidIndices(currentGame.playerTurn);
-            int piecePosition = validIndices.indexWhere((element) => element == currentGame.players[currentGame.playerTurn].pieces[i].position);
+            List<int> validIndices = Player.getPlayerValidIndices(currentGame!.playerTurn);
+            int piecePosition = validIndices.indexWhere((element) => element == currentGame!.players[currentGame!.playerTurn].pieces[i].position);
 
             // does forwards index exist?
-            if (validIndices.asMap().containsKey(piecePosition + currentGame.die.rolledValue)) {
-              if (doesIndexContainEnemyPiece(validIndices[piecePosition + currentGame.die.rolledValue])) {
+            if (validIndices.asMap().containsKey(piecePosition + currentGame!.die.rolledValue)) {
+              if (doesIndexContainEnemyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])) {
                 return true;
               }
             }
 
             // does backwards index exist?
-            if (validIndices.asMap().containsKey(piecePosition - currentGame.die.rolledValue)) {
-              if (doesIndexContainEnemyPiece(validIndices[piecePosition - currentGame.die.rolledValue])) {
+            if (validIndices.asMap().containsKey(piecePosition - currentGame!.die.rolledValue)) {
+              if (doesIndexContainEnemyPiece(validIndices[piecePosition - currentGame!.die.rolledValue])) {
                 return true;
               }
             } else {
-              if (!doesIndexContainFriendlyPiece(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1])) {
-                if (doesIndexContainEnemyPiece(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1])) {
+              if (!doesIndexContainFriendlyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
+                if (doesIndexContainEnemyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
                   return true;
                 }
               }
@@ -674,25 +686,25 @@ class GameProvider with ChangeNotifier {
   Game incrementCouldHaveBeenKicked(index) {
     int playerNumber = 1000;
 
-    for (var i = 0; i < currentGame.players.length; i++) {
-      for (var j = 0; j < currentGame.players[i].pieces.length; j++) {
-        if (currentGame.players[i].pieces[j].position == index) {
+    for (var i = 0; i < currentGame!.players.length; i++) {
+      for (var j = 0; j < currentGame!.players[i].pieces.length; j++) {
+        if (currentGame!.players[i].pieces[j].position == index) {
           playerNumber = i;
         }
       }
     }
 
-    if (currentGame.players[playerNumber].isAIPlayer) {
-      currentGame.players[playerNumber].setReputationValue(currentGame.players[playerNumber].reputationValue + 1);
+    if (currentGame!.players[playerNumber].isAIPlayer) {
+      currentGame!.players[playerNumber].setReputationValue(currentGame!.players[playerNumber].reputationValue + 1);
     }
-    return currentGame;
+    return currentGame!;
   }
 
   Game incrementKickStats(int kickerIndex, int kickedIndex) {
-    currentGame.players[kickedIndex].numberOfTimesKickedInSession++;
-    currentGame.players[kickerIndex].numberOfTimesKickerInSession++;
+    currentGame!.players[kickedIndex].numberOfTimesKickedInSession++;
+    currentGame!.players[kickerIndex].numberOfTimesKickerInSession++;
 
-    return currentGame;
+    return currentGame!;
   }
 
   Game resetGamePiecesToDefaultAfterPlayerLeaves(Game game, String id) {
@@ -701,11 +713,11 @@ class GameProvider with ChangeNotifier {
   }
 
   Game resetKickStats() {
-    for (Player player in currentGame.players) {
+    for (Player player in currentGame!.players) {
       player.numberOfTimesKickedInSession = 0;
       player.numberOfTimesKickerInSession = 0;
     }
-    return currentGame;
+    return currentGame!;
   }
 
   Future<void> hostGame(Users user, AppProvider appProvider) async {
@@ -741,11 +753,11 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> joinGameWithCode(Users user, AppProvider appProvider) async {
-    if (joinGameController.text.length == AppConstants.joinGameCodeLength) {
+    if (isJoinGameCodeValidLength()) {
       appProvider.setLoading(true, true);
 
       try {
-        Game? newGame = await DatabaseService.getGame(joinGameController.text);
+        Game? newGame = await DatabaseService.getGame(joinGameController.text.trim());
 
         // does game exist?
         if (newGame == null) {
@@ -774,7 +786,8 @@ class GameProvider with ChangeNotifier {
 
           // add new player
           await DatabaseService.addNewHumanPlayerToGame(newGame, user);
-          initialiseGame(newGame, user.id);
+          newGame = await DatabaseService.getGame(newGame.id);
+          initialiseGame(newGame!, user.id);
           appProvider.setLoading(false, true);
           NavigationService.goToGameScreen();
         }
@@ -792,12 +805,12 @@ class GameProvider with ChangeNotifier {
     if (gameChatController.text.isNotEmpty) {
       String value = gameChatController.text.trim();
 
-      if (!currentGame.hostSettings.prefersProfanity && Utils.isStringProfane(value)) {
+      if (!currentGame!.hostSettings.prefersProfanity && Utils.isStringProfane(value)) {
         Utils.showToast(DialogueService.profaneMessageText.tr);
         return;
       }
       soundProvider.playSound(GameStatusService.newMessageSent);
-      DatabaseService.sendGameChat(id, currentGame.id, value);
+      DatabaseService.sendGameChat(id, currentGame!.id, value);
     }
 
     gameChatController.clear();
@@ -806,9 +819,9 @@ class GameProvider with ChangeNotifier {
 
   Future<void> handleGameChatReadStatus(VisibilityInfo visibilityInfo, String id, int index) async {
     if (visibilityInfo.visibleFraction == 1) {
-      if (!currentGame.thread[index].seenBy.contains(id)) {
-        currentGame.thread[index].seenBy.add(id);
-        await DatabaseService.updateGame(currentGame, false);
+      if (!currentGame!.thread[index].seenBy.contains(id)) {
+        currentGame!.thread[index].seenBy.add(id);
+        await DatabaseService.updateGame(currentGame!, false);
       }
     }
   }
@@ -895,50 +908,52 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> rollDieForAIPlayer() async {
-    if (!currentGame.hasSessionEnded) {
-      Future.delayed(Duration(milliseconds: currentGame.hostSettings.preferredSpeed), () async {
-        await rollDie(currentGame.players[currentGame.playerTurn].id);
+    if (!currentGame!.hasSessionEnded) {
+      Future.delayed(Duration(milliseconds: currentGame!.hostSettings.preferredSpeed), () async {
+        await rollDie(currentGame!.players[currentGame!.playerTurn].id);
       });
     }
   }
 
   Future<void> rollDie(String userId) async {
-    if (!currentGame.hasSessionEnded) {
+    if (!currentGame!.hasSessionEnded) {
       bool areAllPiecesBased = true;
 
-      currentGame.die.isRolling = true;
-      currentGame.die.lastRolledBy = userId;
-      currentGame.die.rolledValue = 0;
-      currentGame.players[currentGame.playerTurn].numberOfDieRolls++;
-      currentGame.selectedPiece = null;
-      currentGame.hasRestarted = false;
-      currentGame.canPass = false;
-      await DatabaseService.updateGame(currentGame, true);
+      currentGame!.players[currentGame!.playerTurn].isPresent = true;
+
+      currentGame!.die.isRolling = true;
+      currentGame!.die.lastRolledBy = userId;
+      currentGame!.die.rolledValue = 0;
+      currentGame!.players[currentGame!.playerTurn].numberOfDieRolls++;
+      currentGame!.selectedPiece = null;
+      currentGame!.hasRestarted = false;
+      currentGame!.canPass = false;
+      await DatabaseService.updateGame(currentGame!, true);
 
       Future.delayed(const Duration(milliseconds: 1000), () async {
-        currentGame.die.isRolling = false;
-        currentGame.die.lastRolledBy = userId;
-        currentGame.reaction = Reaction.parseGameStatus(GameStatusService.playerRoll);
-        currentGame.die.rolledValue = determineDieValue();
+        currentGame!.die.isRolling = false;
+        currentGame!.die.lastRolledBy = userId;
+        currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.playerRoll);
+        currentGame!.die.rolledValue = determineDieValue();
 
-        await DatabaseService.updateGame(currentGame, true);
+        await DatabaseService.updateGame(currentGame!, true);
 
         // check if user has no valid moves
-        Future.delayed(Duration(milliseconds: currentGame.hostSettings.preferredSpeed), () async {
-          for (int i = 0; i < currentGame.players[currentGame.playerTurn].pieces.length; i++) {
-            if (!currentGame.players[currentGame.playerTurn].pieces[i].isBased) {
+        Future.delayed(Duration(milliseconds: currentGame!.hostSettings.preferredSpeed), () async {
+          for (int i = 0; i < currentGame!.players[currentGame!.playerTurn].pieces.length; i++) {
+            if (!currentGame!.players[currentGame!.playerTurn].pieces[i].isBased) {
               areAllPiecesBased = false;
             }
           }
 
-          if (currentGame.die.rolledValue != 6 && areAllPiecesBased) {
-            currentGame.reaction = Reaction.parseGameStatus(GameStatusService.blank);
-            await incrementTurn(currentGame);
+          if (currentGame!.die.rolledValue != 6 && areAllPiecesBased) {
+            currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.blank);
+            await incrementTurn(currentGame!);
           } else {
-            if (currentGame.players[currentGame.playerTurn].isAIPlayer) {
+            if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
               handleAIPlayerGameLogic();
             } else {
-              Game tempGame = Game.fromJson(currentGame.toJson());
+              Game tempGame = Game.fromJson(currentGame!.toJson());
               tempGame.canPass = true;
               tempGame.canPlay = true;
               await DatabaseService.updateGame(tempGame, true);
@@ -950,14 +965,14 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> handleAIPlayerGameLogic() async {
-    if (!currentGame.hasSessionEnded) {
-      Future.delayed(Duration(milliseconds: currentGame.hostSettings.preferredSpeed), () async {
+    if (!currentGame!.hasSessionEnded) {
+      Future.delayed(Duration(milliseconds: currentGame!.hostSettings.preferredSpeed), () async {
         try {
           // determine valid moves
           Move move = getValidMove();
-          currentGame.selectedPiece = move.piece;
+          currentGame!.selectedPiece = move.piece;
 
-          if (currentGame.selectedPiece == null) {
+          if (currentGame!.selectedPiece == null) {
             await passTurn();
           } else {
             await movePiece(move.destinationIndex, move.piece);
@@ -971,50 +986,50 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> passTurn() async {
-    if (!currentGame.hasSessionEnded) {
-      currentGame.selectedPiece = null;
-      await incrementTurn(currentGame);
+    if (!currentGame!.hasSessionEnded) {
+      currentGame!.selectedPiece = null;
+      await incrementTurn(currentGame!);
     }
   }
 
   Future<void> movePiece(int destinationIndex, Piece? selectedPiece) async {
-    if (!currentGame.hasSessionEnded) {
-      currentGame.canPass = false;
+    if (!currentGame!.hasSessionEnded) {
+      currentGame!.canPass = false;
 
       // AI REPUTATION
-      if (currentGame.hasAdaptiveAI) {
-        for (int i = 0; i < currentGame.players[currentGame.playerTurn].pieces.length; i++) {
+      if (currentGame!.hasAdaptiveAI) {
+        for (int i = 0; i < currentGame!.players[currentGame!.playerTurn].pieces.length; i++) {
           // if the piece is not home
-          if (!currentGame.players[currentGame.playerTurn].pieces[i].isHome) {
+          if (!currentGame!.players[currentGame!.playerTurn].pieces[i].isHome) {
             // first check if based pieces can kick by checking if the user has a 6
-            if (currentGame.players[currentGame.playerTurn].pieces[i].isBased) {
-              if (currentGame.die.rolledValue == 6) {
-                if (doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame.playerTurn))) {
-                  currentGame = incrementCouldHaveBeenKicked(Player.getPlayerStartIndex(currentGame.playerTurn));
+            if (currentGame!.players[currentGame!.playerTurn].pieces[i].isBased) {
+              if (currentGame!.die.rolledValue == 6) {
+                if (doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn))) {
+                  currentGame = incrementCouldHaveBeenKicked(Player.getPlayerStartIndex(currentGame!.playerTurn));
                 }
               }
             } else {
               // check pieces in play
-              List<int> validIndices = Player.getPlayerValidIndices(currentGame.playerTurn);
-              int piecePosition = validIndices.indexWhere((element) => element == currentGame.players[currentGame.playerTurn].pieces[i].position);
+              List<int> validIndices = Player.getPlayerValidIndices(currentGame!.playerTurn);
+              int piecePosition = validIndices.indexWhere((element) => element == currentGame!.players[currentGame!.playerTurn].pieces[i].position);
 
               // does forwards index exist?
-              if (validIndices.asMap().containsKey(piecePosition + currentGame.die.rolledValue)) {
-                if (doesIndexContainEnemyPiece(validIndices[piecePosition + currentGame.die.rolledValue])) {
-                  currentGame = incrementCouldHaveBeenKicked(validIndices[piecePosition + currentGame.die.rolledValue]);
+              if (validIndices.asMap().containsKey(piecePosition + currentGame!.die.rolledValue)) {
+                if (doesIndexContainEnemyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])) {
+                  currentGame = incrementCouldHaveBeenKicked(validIndices[piecePosition + currentGame!.die.rolledValue]);
                 }
               }
 
               // does backwards index exist?
-              if (validIndices.asMap().containsKey(piecePosition - currentGame.die.rolledValue)) {
-                if (doesIndexContainEnemyPiece(validIndices[piecePosition - currentGame.die.rolledValue])) {
-                  currentGame = incrementCouldHaveBeenKicked(validIndices[piecePosition - currentGame.die.rolledValue]);
+              if (validIndices.asMap().containsKey(piecePosition - currentGame!.die.rolledValue)) {
+                if (doesIndexContainEnemyPiece(validIndices[piecePosition - currentGame!.die.rolledValue])) {
+                  currentGame = incrementCouldHaveBeenKicked(validIndices[piecePosition - currentGame!.die.rolledValue]);
                 }
               } else {
-                if (currentGame.players[currentGame.playerTurn].startBackKickIndices.asMap().containsKey((piecePosition - currentGame.die.rolledValue).abs() - 1)) {
-                  if (doesIndexContainEnemyPiece(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1])) {
+                if (currentGame!.players[currentGame!.playerTurn].startBackKickIndices.asMap().containsKey((piecePosition - currentGame!.die.rolledValue).abs() - 1)) {
+                  if (doesIndexContainEnemyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
                     currentGame =
-                        incrementCouldHaveBeenKicked(currentGame.players[currentGame.playerTurn].startBackKickIndices[(piecePosition - currentGame.die.rolledValue).abs() - 1]);
+                        incrementCouldHaveBeenKicked(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1]);
                   }
                 }
               }
@@ -1026,42 +1041,43 @@ class GameProvider with ChangeNotifier {
       // HUMAN REPUTATION
       if (canPlayerKick()) {
         // if player is human, check if a kick is possible and update reputation
-        if (!currentGame.players[currentGame.playerTurn].isAIPlayer) {
-          currentGame.players[currentGame.playerTurn].setReputationValue(currentGame.players[currentGame.playerTurn].reputationValue + 1);
-          await updateUserCouldKick(currentGame);
+        if (!currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
+          currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue + 1);
+          await updateUserCouldKick(currentGame!);
         }
       }
 
-      for (int i = 0; i < currentGame.players.length; i++) {
-        for (int j = 0; j < currentGame.players[i].pieces.length; j++) {
-          if (currentGame.players[i].pieces[j].position == destinationIndex) {
-            if (currentGame.players[i].pieces[j].owner != currentGame.playerTurn) {
+      for (int i = 0; i < currentGame!.players.length; i++) {
+        for (int j = 0; j < currentGame!.players[i].pieces.length; j++) {
+          if (currentGame!.players[i].pieces[j].position == destinationIndex) {
+            if (currentGame!.players[i].pieces[j].owner != currentGame!.playerTurn) {
               // kick player
-              currentGame.players[i].pieces[j].isBased = true;
-              currentGame.players[i].pieces[j].isHome = false;
-              currentGame.players[i].pieces[j].position = Piece.determineInitialPiecePosition(currentGame.players[i].pieces[j].owner, currentGame.players[i].pieces[j].pieceNumber);
+              currentGame!.players[i].pieces[j].isBased = true;
+              currentGame!.players[i].pieces[j].isHome = false;
+              currentGame!.players[i].pieces[j].position =
+                  Piece.determineInitialPiecePosition(currentGame!.players[i].pieces[j].owner, currentGame!.players[i].pieces[j].pieceNumber);
 
-              currentGame = incrementKickStats(currentGame.playerTurn, currentGame.players[i].pieces[j].owner);
+              currentGame = incrementKickStats(currentGame!.playerTurn, currentGame!.players[i].pieces[j].owner);
 
               // handle adaptive ai - increment kick
-              if (currentGame.hasAdaptiveAI && currentGame.players[i].isAIPlayer) {
-                currentGame.players[i].setReputationValue(currentGame.players[i].reputationValue - 1);
+              if (currentGame!.hasAdaptiveAI && currentGame!.players[i].isAIPlayer) {
+                currentGame!.players[i].setReputationValue(currentGame!.players[i].reputationValue - 1);
               }
 
               // update user kick stats
-              if (!currentGame.players[currentGame.playerTurn].isAIPlayer) {
-                currentGame.players[currentGame.playerTurn].setReputationValue(currentGame.players[currentGame.playerTurn].reputationValue - 1);
-                // await updateUserKicked(currentGame);
-                updateUserKicked(currentGame);
+              if (!currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
+                currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue - 1);
+                // await updateUserKicked(currentGame!);
+                updateUserKicked(currentGame!);
               }
 
-              // set currentGame status
-              currentGame.reaction = Reaction.parseGameStatus(GameStatusService.playerKick);
+              // set currentGame! status
+              currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.playerKick);
               // make the move
               await incrementPlayerPosition(destinationIndex, false, selectedPiece!.isBased);
               return;
             } else {
-              if (currentGame.players[i].pieces[j].isHome) {
+              if (currentGame!.players[i].pieces[j].isHome) {
                 await incrementPlayerPosition(destinationIndex, false, false);
               } else {
                 // stack pieces
@@ -1074,8 +1090,8 @@ class GameProvider with ChangeNotifier {
         }
       }
 
-      if (Player.getPlayerHomeIndex(currentGame.playerTurn) == destinationIndex) {
-        currentGame.reaction = Reaction.parseGameStatus(GameStatusService.playerHome);
+      if (Player.getPlayerHomeIndex(currentGame!.playerTurn) == destinationIndex) {
+        currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.playerHome);
         // go home
         await incrementPlayerPosition(destinationIndex, true, false);
       } else if (selectedPiece!.isBased) {
@@ -1097,95 +1113,95 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> incrementPlayerPosition(int destinationIndex, bool isGoingHome, bool isLeavingBase) async {
-    if (!currentGame.hasSessionEnded) {
-      int selectedPieceNumber = currentGame.players[currentGame.playerTurn].pieces.indexWhere((element) => element.pieceNumber == currentGame.selectedPiece!.pieceNumber);
+    if (!currentGame!.hasSessionEnded) {
+      int selectedPieceNumber = currentGame!.players[currentGame!.playerTurn].pieces.indexWhere((element) => element.pieceNumber == currentGame!.selectedPiece!.pieceNumber);
 
       // SET PIECE DESTINATION
-      currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].position = destinationIndex;
+      currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].position = destinationIndex;
 
       if (isGoingHome) {
-        currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].isHome = true;
-        currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].isBased = true;
-        currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].position = Piece.determineInitialPiecePosition(
-            currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].owner, currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].pieceNumber);
+        currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].isHome = true;
+        currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].isBased = true;
+        currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].position = Piece.determineInitialPiecePosition(
+            currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].owner, currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].pieceNumber);
       }
 
       if (isLeavingBase) {
-        currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].isHome = false;
-        currentGame.players[currentGame.playerTurn].pieces[selectedPieceNumber].isBased = false;
+        currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].isHome = false;
+        currentGame!.players[currentGame!.playerTurn].pieces[selectedPieceNumber].isBased = false;
       }
 
-      currentGame.selectedPiece = null;
+      currentGame!.selectedPiece = null;
 
-      await incrementTurn(currentGame);
+      await incrementTurn(currentGame!);
     }
   }
 
   Future<void> handleMovePieceTap(int index) async {
-    if (currentGame.canPlay && checkIfPlayerCanMove()) {
-      if (currentGame.selectedPiece != null) {
+    if (currentGame!.canPlay && checkIfPlayerCanMove()) {
+      if (currentGame!.selectedPiece != null) {
         if (validMoveIndices.contains(index)) {
-          currentGame.canPlay = false;
+          currentGame!.canPlay = false;
           notifyListeners();
-          await movePiece(index, currentGame.selectedPiece);
+          await movePiece(index, currentGame!.selectedPiece);
         }
       }
     }
   }
 
   Future<void> selectPiece(Piece piece) async {
-    if (isPlayerTurn() && checkIfPlayerCanMove() && currentGame.canPass) {
+    if (isPlayerTurn() && checkIfPlayerCanMove() && currentGame!.canPass) {
       if (!piece.isHome && doesPlayerOwnPiece(piece)) {
-        currentGame.selectedPiece = Piece.fromJson(piece.toJson());
+        currentGame!.selectedPiece = Piece.fromJson(piece.toJson());
         notifyListeners();
-        await DatabaseService.updateGame(currentGame, true);
+        await DatabaseService.updateGame(currentGame!, true);
       }
     }
   }
 
   Future<void> forceStartGame() async {
-    currentGame.hasStarted = true;
-    currentGame.canPlay = true;
-    currentGame.maxPlayers = currentGame.players.length;
-    currentGame.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
+    currentGame!.hasStarted = true;
+    currentGame!.canPlay = true;
+    currentGame!.maxPlayers = currentGame!.players.length;
+    currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
 
-    await DatabaseService.updateGame(currentGame, true);
+    await DatabaseService.updateGame(currentGame!, true);
 
     // get ai player to start game
-    if (currentGame.players[0].isAIPlayer) {
-      await rollDie(currentGame.players[0].id);
+    if (currentGame!.players[0].isAIPlayer) {
+      await rollDie(currentGame!.players[0].id);
     }
   }
 
   Future<void> restartGame() async {
-    currentGame.hasFinished = false;
-    currentGame.hasSessionEnded = false;
-    currentGame.hasStarted = true;
-    currentGame.hasRestarted = true;
-    currentGame.canPlay = true;
-    currentGame.playerTurn = 0;
-    currentGame.finishedPlayers = [];
-    currentGame.reaction = Reaction.parseGameStatus(GameStatusService.blank);
-    currentGame.die = Die.getDefaultDie();
-    currentGame.selectedPiece = null;
+    currentGame!.hasFinished = false;
+    currentGame!.hasSessionEnded = false;
+    currentGame!.hasStarted = true;
+    currentGame!.hasRestarted = true;
+    currentGame!.canPlay = true;
+    currentGame!.playerTurn = 0;
+    currentGame!.finishedPlayers = [];
+    currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.blank);
+    currentGame!.die = Die.getDefaultDie();
+    currentGame!.selectedPiece = null;
 
-    for (int i = 0; i < currentGame.players.length; i++) {
-      currentGame.players[i].pieces = Piece.getDefaultPieces(i);
-      currentGame.players[i].hasFinished = false;
-      currentGame.players[i].numberOfDieRolls = 0;
+    for (int i = 0; i < currentGame!.players.length; i++) {
+      currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
+      currentGame!.players[i].hasFinished = false;
+      currentGame!.players[i].numberOfDieRolls = 0;
     }
 
     currentGame = resetKickStats();
 
     Utils.showToast(DialogueService.yourGameHasBeenRestartedText.tr);
 
-    await DatabaseService.updateGame(currentGame, true);
+    await DatabaseService.updateGame(currentGame!, true);
 
     notifyListeners();
 
-    // get ai player to start currentGame
-    if (currentGame.players[0].isAIPlayer) {
-      await rollDie(currentGame.players[0].id);
+    // get ai player to start currentGame!
+    if (currentGame!.players[0].isAIPlayer) {
+      await rollDie(currentGame!.players[0].id);
     }
   }
 
@@ -1194,24 +1210,30 @@ class GameProvider with ChangeNotifier {
       newIndex = newIndex - 1;
     }
 
-    String id = currentGame.playerIds.removeAt(oldIndex);
-    Player player = currentGame.players.removeAt(oldIndex);
+    String id = currentGame!.playerIds.removeAt(oldIndex);
+    Player player = currentGame!.players.removeAt(oldIndex);
 
-    currentGame.playerIds.insert(newIndex, id);
-    currentGame.players.insert(newIndex, player);
+    currentGame!.playerIds.insert(newIndex, id);
+    currentGame!.players.insert(newIndex, player);
 
-    for (int i = 0; i < currentGame.players.length; i++) {
-      currentGame.players[i].pieces = Piece.getDefaultPieces(i);
-      currentGame.players[i].validIndices = Player.getPlayerValidIndices(i);
-      currentGame.players[i].playerColor = i;
+    for (int i = 0; i < currentGame!.players.length; i++) {
+      currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
+      currentGame!.players[i].validIndices = Player.getPlayerValidIndices(i);
+      currentGame!.players[i].playerColor = i;
     }
 
-    await DatabaseService.updateGame(currentGame, true);
+    await DatabaseService.updateGame(currentGame!, true);
   }
 
-  Future<void> togglePresence() async {
-    currentGame.players[playerNumber].isPresent = false;
-    DatabaseService.updateGame(currentGame, false);
+  Future<void> setGamePresence(bool value) async {
+    currentGame!.players[playerNumber].isPresent = value;
+    DatabaseService.updateGame(currentGame!, false);
+  }
+
+  Future<void> handleGameAppLifecycleChange(bool value) async {
+    if (currentGame != null) {
+      await setGamePresence(value);
+    }
   }
 
   Future<void> endSession(Game game) async {

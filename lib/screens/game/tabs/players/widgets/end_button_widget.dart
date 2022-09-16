@@ -16,7 +16,7 @@ class EndGameButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
 
     return Center(
       child: IconButton(

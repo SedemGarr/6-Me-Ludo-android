@@ -21,7 +21,7 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
 
     Message message = game.thread[index];
     bool isMe = message.createdById == userProvider.getUserID();

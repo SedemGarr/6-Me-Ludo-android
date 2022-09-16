@@ -119,6 +119,8 @@ class DialogueService extends Translations {
   static const String gameHasStartedText = 'gameHasStartedText';
   static const String gameHasRestarted = 'gameHasRestarted';
   static const String messageContainsProfanityText = 'messageContainsProfanityText';
+  static const String playerIsPresentText = 'playerIsPresentText';
+  static const String playerIsNotPresentText = 'playerIsNotPresentText';
   // game - playing - commentary
   static const String yourTurnText = 'yourTurnText';
   static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';

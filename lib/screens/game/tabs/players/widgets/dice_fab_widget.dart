@@ -16,7 +16,7 @@ class DiceFABWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
     int value = game.die.rolledValue;
     bool isDieRolling = game.die.isRolling;
 

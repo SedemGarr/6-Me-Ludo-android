@@ -81,8 +81,8 @@ class DiceWidgetState extends State<DiceWidget> {
   @override
   void initState() {
     isPlayerTurn = widget.shouldAnimate
-        ? widget.gameProvider.currentGame.playerTurn == widget.playerNumber
-        : widget.gameProvider.currentGame.playerTurn == widget.playerNumber && !widget.gameProvider.currentGame.hasSessionEnded;
+        ? widget.gameProvider.currentGame!.playerTurn == widget.playerNumber
+        : widget.gameProvider.currentGame!.playerTurn == widget.playerNumber && !widget.gameProvider.currentGame!.hasSessionEnded;
     startColor = PlayerConstants.swatchList[widget.playerNumber].playerColor;
     endColor = PlayerConstants.swatchList[widget.playerNumber].playerSelectedColor;
     initializeWidget();

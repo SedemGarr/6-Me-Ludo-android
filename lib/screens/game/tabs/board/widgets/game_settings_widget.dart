@@ -13,7 +13,7 @@ class GameSettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

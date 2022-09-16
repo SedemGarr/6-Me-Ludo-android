@@ -20,7 +20,7 @@ class ChatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GameProvider gameProvider = context.watch<GameProvider>();
-    Game game = gameProvider.currentGame;
+    Game game = gameProvider.currentGame!;
 
     return Column(
       children: [

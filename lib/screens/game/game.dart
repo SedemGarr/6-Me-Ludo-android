@@ -14,7 +14,6 @@ import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/copy_butto
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/end_button_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/restart_button_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/start_button_widget.dart';
-import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
@@ -31,12 +30,15 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   late GameProvider gameProvider;
   late NavProvider navProvider;
+  late UserProvider userProvider;
 
   @override
   void initState() {
     super.initState();
     gameProvider = context.read<GameProvider>();
+    userProvider = context.read<UserProvider>();
     gameProvider.initialiseBoard();
+    gameProvider.showGameIdSnackbar(userProvider.getUserID());
     navProvider = context.read<NavProvider>();
     navProvider.initialiseGameScreenTabController(this);
   }
@@ -72,7 +74,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                     leading: BackButtonWidget(
                         color: Utils.getContrastingColor(gameProvider.playerColor),
                         onPressed: () {
-                          NavigationService.genericGoBack();
+                          navProvider.handleGameScreenBackPress(gameProvider);
                         }),
                     actions: [
                       RestartButtonWidget(
