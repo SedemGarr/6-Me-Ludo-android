@@ -37,8 +37,7 @@ class PlayerListItemWidget extends StatelessWidget {
       key: key,
       color: Get.isDarkMode ? playerSelectedColor : playerColor,
       child: CustomListTileWidget(
-        contentPadding: player.playerColor == game.playerTurn ? const EdgeInsets.all(8.0) : null,
-        dense: false,
+        dense: !(player.playerColor == game.playerTurn && game.hasStarted && !game.hasSessionEnded),
         leading: GestureDetector(
           onTap: isAI || isMe
               ? null

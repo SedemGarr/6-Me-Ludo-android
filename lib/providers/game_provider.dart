@@ -279,7 +279,7 @@ class GameProvider with ChangeNotifier {
         if (currentGame.maxPlayers == currentGame.players.length) {
           if (currentGame.shouldAutoStart) {
             // flipChangeColorCardWhenStartingGame();
-            await startGame(id);
+            await forceStartGame();
           }
         }
       }
