@@ -65,23 +65,25 @@ class PlayerListItemWidget extends StatelessWidget {
           hasStarted: game.hasStarted,
         ),
         trailing: ReputationWidget(value: player.reputationValue, color: contrastingColor),
-        children: !isAI && isHost && !isMe
+        children: !isAI && !isMe
             ? [
                 CustomListTileWidget(
                   title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      KickPlayerWidget(
-                        color: contrastingColor,
-                        isKicked: isKicked,
-                      ),
-                      BanPlayerWidget(
-                        color: contrastingColor,
-                        isBanned: isBanned,
-                      ),
-                    ],
-                  ),
+                  trailing: !isAI && isHost && !isMe
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            KickPlayerWidget(
+                              color: contrastingColor,
+                              isKicked: isKicked,
+                            ),
+                            BanPlayerWidget(
+                              color: contrastingColor,
+                              isBanned: isBanned,
+                            ),
+                          ],
+                        )
+                      : null,
                 ),
               ]
             : [],
