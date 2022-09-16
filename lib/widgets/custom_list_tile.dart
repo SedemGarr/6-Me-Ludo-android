@@ -12,6 +12,7 @@ class CustomListTileWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final EdgeInsets? contentPadding;
+  final double? minLeadingWidth;
 
   const CustomListTileWidget({
     super.key,
@@ -23,20 +24,22 @@ class CustomListTileWidget extends StatelessWidget {
     this.onTap,
     this.onLongPress,
     this.contentPadding,
+    this.minLeadingWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      minLeadingWidth: minLeadingWidth,
       dense: dense ?? context.isPhone,
-      leading: leading,
-      title: title,
-      subtitle: subtitle,
-      trailing: trailing,
       contentPadding: contentPadding,
       shape: AppConstants.appShape,
       onTap: onTap,
       onLongPress: onLongPress,
+      leading: leading,
+      title: title,
+      subtitle: subtitle,
+      trailing: trailing,
     );
   }
 }

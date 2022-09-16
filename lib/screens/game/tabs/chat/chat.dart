@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/game.dart';
@@ -15,7 +13,12 @@ class ChatWidget extends StatelessWidget {
   final UserProvider userProvider;
   final SoundProvider soundProvider;
 
-  const ChatWidget({super.key, required this.gameProvider, required this.userProvider, required this.soundProvider,});
+  const ChatWidget({
+    super.key,
+    required this.gameProvider,
+    required this.userProvider,
+    required this.soundProvider,
+  });
 
   @override
   Widget build(BuildContext context) {

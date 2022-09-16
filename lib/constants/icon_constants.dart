@@ -22,6 +22,7 @@ class AppIcons {
   // general
   static const IconData backIcon = LineIcons.angleLeft;
   static const IconData infoIcon = Icons.info;
+  static const IconData userIcon = LineIcons.user;
   // game
   static const IconData gameHasStartedIcon = LineIcons.dotCircle;
   static const IconData restartIcon = LineIcons.alternateRedo;

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../constants/textstyle_constants.dart';
@@ -25,6 +28,9 @@ class ChatListItem extends StatelessWidget {
 
     Message message = game.thread[index];
     bool isMe = message.createdById == userProvider.getUserID();
+    int playerNumber = game.playerIds.indexWhere((element) => element == message.createdById);
+
+    Color playerColor = Get.isDarkMode ? PlayerConstants.swatchList[playerNumber].playerSelectedColor : PlayerConstants.swatchList[playerNumber].playerColor;
     TextAlign textAlign = isMe ? TextAlign.end : TextAlign.start;
 
     return VisibilityDetector(
@@ -33,6 +39,12 @@ class ChatListItem extends StatelessWidget {
         gameProvider.handleGameChatReadStatus(visibilityInfo, userProvider.getUserID(), index);
       },
       child: CustomListTileWidget(
+        leading: isMe
+            ? null
+            : UserAvatarWidget(backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface),
+        trailing: isMe
+            ? UserAvatarWidget(backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface)
+            : null,
         title: Text(
           isMe ? DialogueService.youText.tr : gameProvider.getPlayerNameFromId(message.createdById),
           style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
