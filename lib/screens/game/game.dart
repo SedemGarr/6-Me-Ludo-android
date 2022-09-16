@@ -41,11 +41,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     navProvider.initialiseGameScreenTabController(this);
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     GameProvider gameProvider = context.watch<GameProvider>();
@@ -55,7 +50,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
     return WillPopScope(
       onWillPop: () async {
-        navProvider.handleGameScreenBackPress();
+        navProvider.handleGameScreenBackPress(gameProvider);
         return false;
       },
       child: StreamBuilder<Game>(

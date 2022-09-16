@@ -84,34 +84,34 @@ class GameProvider with ChangeNotifier {
     if (!currentGame.hasStarted && !currentGame.hasFinished) {
       int numberOfPlayersToJoin = currentGame.maxPlayers - currentGame.players.length;
       return numberOfPlayersToJoin == 1
-          ? 'Waiting for 1 more player'
+          ? DialogueService.waitingForOneMoreText.tr
           : numberOfPlayersToJoin == 0
               ? ''
-              : 'Waiting for $numberOfPlayersToJoin more players...';
+              : DialogueService.waitingForText.tr + numberOfPlayersToJoin.toString() + DialogueService.morePlayersText.tr;
     } else if (currentGame.hasStarted && !currentGame.hasSessionEnded) {
       if (isPlayerTurn()) {
         if (currentGame.die.lastRolledBy == currentGame.players[playerNumber].id) {
           if (currentGame.die.isRolling) {
-            return 'You have rolled the die';
+            return DialogueService.youHaveRolledTheDieText.tr;
           } else {
             if (currentGame.die.rolledValue == 0) {
-              return 'It\'s your turn once more';
+              return DialogueService.yourTurnOnceMoreText.tr;
             } else {
-              return 'You have rolled a ${currentGame.die.rolledValue}';
+              return DialogueService.youHaveRolledAText.tr + currentGame.die.rolledValue.toString();
             }
           }
         } else {
-          return 'It\'s your turn. Please click the die to roll it';
+          return DialogueService.yourTurnText.tr;
         }
       } else {
         if (currentGame.die.lastRolledBy == currentGame.players[currentGame.playerTurn].id) {
           if (currentGame.die.isRolling) {
-            return '${currentGame.players[currentGame.playerTurn].psuedonym} has rolled the die';
+            return currentGame.players[currentGame.playerTurn].psuedonym + DialogueService.hasRolledTheDieText.tr;
           } else {
-            return '${currentGame.players[currentGame.playerTurn].psuedonym} has rolled a ${currentGame.die.rolledValue}';
+            return currentGame.players[currentGame.playerTurn].psuedonym + DialogueService.hasRolledAText.tr + currentGame.die.rolledValue.toString();
           }
         }
-        return 'Waiting for ${currentGame.players[currentGame.playerTurn].psuedonym}';
+        return DialogueService.waitingForParticularPlayerText.tr + currentGame.players[currentGame.playerTurn].psuedonym;
       }
     } else {
       return '';
@@ -1207,6 +1207,11 @@ class GameProvider with ChangeNotifier {
     }
 
     await DatabaseService.updateGame(currentGame, true);
+  }
+
+  Future<void> togglePresence() async {
+    currentGame.players[playerNumber].isPresent = false;
+    DatabaseService.updateGame(currentGame, false);
   }
 
   Future<void> endSession(Game game) async {

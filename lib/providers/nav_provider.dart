@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../constants/app_constants.dart';
@@ -43,10 +44,11 @@ class NavProvider with ChangeNotifier {
     }
   }
 
-  void handleGameScreenBackPress() {
+  void handleGameScreenBackPress(GameProvider gameProvider) {
     if (gameScreenTabController.index != 1) {
       gameScreenTabController.animateTo(1);
     } else {
+      gameProvider.togglePresence();
       NavigationService.genericGoBack();
     }
   }

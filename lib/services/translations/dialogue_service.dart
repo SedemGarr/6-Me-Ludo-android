@@ -118,7 +118,18 @@ class DialogueService extends Translations {
   static const String playerHasLeftText = 'playerHasLeftText';
   static const String gameHasStartedText = 'gameHasStartedText';
   static const String gameHasRestarted = 'gameHasRestarted';
-  static const String messageContainsProfanityText = 'messageContainsProfanityText'; 
+  static const String messageContainsProfanityText = 'messageContainsProfanityText';
+  // game - playing - commentary
+  static const String yourTurnText = 'yourTurnText';
+  static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';
+  static const String youHaveRolledTheDieText = 'youHaveRolledTheDieText';
+  static const String yourTurnOnceMoreText = 'yourTurnOnceMoreText';
+  static const String youHaveRolledAText = 'youHaveRolledAText';
+  static const String waitingForOneMoreText = 'waitingForOneMoreText';
+  static const String hasRolledTheDieText = 'hasRolledTheDieText';
+  static const String waitingForText = 'waitingForText';
+  static const String morePlayersText = 'morePlayersText';
+  static const String hasRolledAText = 'hasRolledAText';
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';

@@ -93,6 +93,17 @@ class EnglishTranslation {
       DialogueService.gameHasStartedText: 'The game has started',
       DialogueService.gameHasRestarted: 'The host has restarted the game',
       DialogueService.messageContainsProfanityText: 'This message has been hidden due to your profanity settings',
+      // game - playing - commentary
+      DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
+      DialogueService.waitingForParticularPlayerText: 'Waiting for ',
+      DialogueService.youHaveRolledTheDieText: 'You have rolled the die',
+      DialogueService.yourTurnOnceMoreText: 'It\'s your turn once more',
+      DialogueService.youHaveRolledAText: 'You have rolled a ',
+      DialogueService.waitingForOneMoreText: 'Waiting for 1 more player',
+      DialogueService.hasRolledTheDieText: ' has rolled the die',
+      DialogueService.waitingForText: 'Waiting for ',
+      DialogueService.morePlayersText: ' more players...',
+      DialogueService.hasRolledAText: ' has rolled a ',
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       DialogueService.changeAvatarText: 'Change Your Avatar',
