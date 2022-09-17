@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
@@ -17,41 +18,81 @@ class CustomBottomNavBar extends StatelessWidget {
 
     return appProvider.isLoading
         ? const SizedBox.shrink()
-        : BottomNavigationBar(
+        : NavigationBar(
+            animationDuration: AppConstants.animationDuration,
             elevation: 0,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            currentIndex: navProvider.getBottomNavBarIndex(),
-            onTap: (index) async => navProvider.setBottomNavBarIndex(index, true),
-            items: [
-              BottomNavigationBarItem(
+            height: kBottomNavigationBarHeight,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+            selectedIndex: navProvider.getBottomNavBarIndex(),
+            onDestinationSelected: (index) async => navProvider.setBottomNavBarIndex(index, true),
+            destinations: [
+              NavigationDestination(
                 icon: const Icon(
                   AppIcons.profileIcon,
                 ),
-                activeIcon: const Icon(
+                selectedIcon: const Icon(
                   AppIcons.profileActiveIcon,
                 ),
                 label: DialogueService.profileText.tr,
               ),
-              BottomNavigationBarItem(
+              NavigationDestination(
                 icon: const Icon(
                   AppIcons.homeIcon,
                 ),
-                activeIcon: const Icon(
+                selectedIcon: const Icon(
                   AppIcons.homeActiveIcon,
                 ),
                 label: DialogueService.homeText.tr,
               ),
-              BottomNavigationBarItem(
+              NavigationDestination(
                 icon: const Icon(
                   AppIcons.newGameIcon,
                 ),
-                activeIcon: const Icon(
+                selectedIcon: const Icon(
                   AppIcons.newGameActiveIcon,
                 ),
                 label: DialogueService.newGameText.tr,
               ),
             ],
           );
+
+    // return appProvider.isLoading
+    //     ? const SizedBox.shrink()
+    //     : BottomNavigationBar(
+    //         elevation: 0,
+    //         showSelectedLabels: false,
+    //         showUnselectedLabels: false,
+    //         currentIndex: navProvider.getBottomNavBarIndex(),
+    //         onTap: (index) async => navProvider.setBottomNavBarIndex(index, true),
+    //         items: [
+    //           BottomNavigationBarItem(
+    //             icon: const Icon(
+    //               AppIcons.profileIcon,
+    //             ),
+    //             activeIcon: const Icon(
+    //               AppIcons.profileActiveIcon,
+    //             ),
+    //             label: DialogueService.profileText.tr,
+    //           ),
+    //           BottomNavigationBarItem(
+    //             icon: const Icon(
+    //               AppIcons.homeIcon,
+    //             ),
+    //             activeIcon: const Icon(
+    //               AppIcons.homeActiveIcon,
+    //             ),
+    //             label: DialogueService.homeText.tr,
+    //           ),
+    //           BottomNavigationBarItem(
+    //             icon: const Icon(
+    //               AppIcons.newGameIcon,
+    //             ),
+    //             activeIcon: const Icon(
+    //               AppIcons.newGameActiveIcon,
+    //             ),
+    //             label: DialogueService.newGameText.tr,
+    //           ),
+    //         ],
+    //       );
   }
 }

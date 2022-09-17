@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_avatar_widget.dart';
@@ -18,8 +19,12 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBarWidget(
-        leading: const AppBarAvatarWidget(),
-        centerTitle: true,
+        actions: const [AppBarAvatarWidget()],
+        centerTitle: false,
+        leading: Icon(
+          AppIcons.appIcon,
+          color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+        ),
         title: AppBarTitleWidget(
           text: DialogueService.welcomeText.tr + userProvider.getUserPseudonym(),
         ),
