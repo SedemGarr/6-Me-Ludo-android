@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';

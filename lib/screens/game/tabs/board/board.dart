@@ -6,10 +6,10 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/board_grid_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_commentary_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/piece_grid_widget.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/die_wrapper.dart';
 
 import '../../../../models/game.dart';
 import '../../../../providers/game_provider.dart';
-import '../players/widgets/dice_FAB_widget.dart';
 
 class BoardWidget extends StatefulWidget {
   final GameProvider gameProvider;
@@ -59,7 +59,7 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
           : DiceFABWidget(
               gameProvider: gameProvider,
               userProvider: userProvider,
-            ),
+              ),
     );
   }
 
