@@ -61,3 +61,4 @@ flutter:
   assets:
     - google_fonts/
     - assets/lottie/
+    - assets/sounds/

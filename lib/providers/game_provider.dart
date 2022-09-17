@@ -249,8 +249,8 @@ class GameProvider with ChangeNotifier {
   }
 
   void checkIfNewMessageHasArrived(Game newGame, String id, BuildContext context) {
-    if (newGame.thread.length != currentGame!.thread.length) {
-      if (newGame.thread[newGame.thread.length - 1].createdById != id) {
+    if (newGame.thread.length > currentGame!.thread.length) {
+      if (newGame.thread.first.createdById != id) {
         SoundProvider soundProvider = context.read<SoundProvider>();
         soundProvider.playSound(GameStatusService.newMessageReceived);
       }

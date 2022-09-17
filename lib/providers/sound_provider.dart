@@ -5,12 +5,10 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import '../services/game_status_service.dart';
 
 class SoundProvider with ChangeNotifier {
-// TODO fix sound issue
-
   late bool prefersAudio = true;
 
   Random random = Random();
-  final player = AssetsAudioPlayer();
+  final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
   static const AudioFocusStrategy audioFocusStrategy = AudioFocusStrategy.request(resumeAfterInterruption: true, resumeOthersPlayersAfterDone: true);
   static const HeadPhoneStrategy headPhoneStrategy = HeadPhoneStrategy.none;
@@ -31,9 +29,9 @@ class SoundProvider with ChangeNotifier {
 
   List<String> gameFinishURLs = [];
 
-  List<String> newMessageReceivedPaths = ['assets/sounds/receive_message.mp3'];
+  List<String> newMessageReceivedPaths = ['assets/sounds/receive.mp3'];
 
-  List<String> newMessageSentPaths = ['assets/sounds/send_message.mp3'];
+  List<String> newMessageSentPaths = ['assets/sounds/send.mp3'];
 
   void setPrefersSound(bool value) {
     prefersAudio = value;
@@ -67,10 +65,10 @@ class SoundProvider with ChangeNotifier {
           playSpecificSound(gameFinishURLs[random.nextInt(gameFinishURLs.length)]);
           break;
         case GameStatusService.newMessageReceived:
-          playSpecificSound(newMessageReceivedPaths[random.nextInt(newMessageReceivedPaths.length)]);
+          playSpecificSound(newMessageReceivedPaths[0]);
           break;
         case GameStatusService.newMessageSent:
-          playSpecificSound(newMessageSentPaths[random.nextInt(newMessageSentPaths.length)]);
+          playSpecificSound(newMessageSentPaths[0]);
           break;
         default:
       }
@@ -79,12 +77,12 @@ class SoundProvider with ChangeNotifier {
 
   void playSpecificSound(String path) async {
     try {
-      await player.open(
+      await assetsAudioPlayer.open(
         Audio(path),
         audioFocusStrategy: audioFocusStrategy,
         headPhoneStrategy: headPhoneStrategy,
       );
-      player.play();
+      assetsAudioPlayer.play();
     } catch (e) {
       debugPrint(e.toString());
     }
