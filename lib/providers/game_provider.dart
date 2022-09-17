@@ -838,6 +838,7 @@ class GameProvider with ChangeNotifier {
       await DatabaseService.deleteGame(game);
     } else {
       game.players[game.players.indexWhere((element) => element.id == id)].hasLeft = true;
+      game.thread.removeWhere((element) => element.createdById == id);
       game = resetGamePiecesToDefaultAfterPlayerLeaves(game, id);
       if (isOnlyOnePlayerLeft()) {
         await DatabaseService.deleteGame(game);
