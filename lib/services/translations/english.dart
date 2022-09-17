@@ -109,6 +109,7 @@ class EnglishTranslation {
       DialogueService.kickPlayerDialogYesText: 'Kick',
       DialogueService.kickPlayerDialogNoText: 'Cancel',
       DialogueService.playerKickedFromGameTrailingText: 'Player kicked from game',
+      DialogueService.passTurnButtonText: 'Pass Turn',
       // game - playing - commentary
       DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
       DialogueService.waitingForParticularPlayerText: 'Waiting for ',

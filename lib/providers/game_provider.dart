@@ -246,6 +246,10 @@ class GameProvider with ChangeNotifier {
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
     startGame(id);
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   notifyListeners();
+    // });
   }
 
   void checkIfNewMessageHasArrived(Game newGame, String id, BuildContext context) {
@@ -1027,7 +1031,7 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> passTurn() async {
-    if (!currentGame!.hasSessionEnded) {
+    if (!currentGame!.hasSessionEnded && isPlayerTurn()) {
       currentGame!.selectedPiece = null;
       await incrementTurn(currentGame!);
     }

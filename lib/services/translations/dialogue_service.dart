@@ -135,6 +135,7 @@ class DialogueService extends Translations {
   static const String kickPlayerDialogYesText = 'kickPlayerDialogYesText';
   static const String kickPlayerDialogNoText = 'kickPlayerDialogNoText';
   static const String playerKickedFromGameTrailingText = 'playerKickedFromGameTrailingText';
+  static const String passTurnButtonText = 'passTurnButtonText';
   // game - playing - commentary
   static const String yourTurnText = 'yourTurnText';
   static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';
