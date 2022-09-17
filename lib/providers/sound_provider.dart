@@ -5,6 +5,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import '../services/game_status_service.dart';
 
 class SoundProvider with ChangeNotifier {
+// TODO fix sound issue
+
   late bool prefersAudio = true;
 
   Random random = Random();

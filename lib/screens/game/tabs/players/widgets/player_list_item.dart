@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/ban_player
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/kick_player_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_presence_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_progress_widget.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
 import '../../../../../constants/player_constants.dart';
@@ -33,10 +34,9 @@ class PlayerListItemWidget extends StatelessWidget {
     bool isAI = player.isAIPlayer;
     bool isMe = userProvider.isMe(player.id);
     bool isHost = gameProvider.isPlayerHost(userProvider.getUserID());
-    bool isKicked = game.finishedPlayers.contains(player.id);
-    bool isBanned = game.bannedPlayers.contains(player.id);
-    Color playerColor = PlayerConstants.swatchList[players[index].playerColor].playerColor;
-    Color playerSelectedColor = PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
+    bool isKicked = game.kickedPlayers.contains(player.id);
+    Color playerColor = isKicked ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
+    Color playerSelectedColor = isKicked ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
     Color contrastingColor = Utils.getContrastingColor(playerColor);
 
     return Container(
@@ -60,12 +60,21 @@ class PlayerListItemWidget extends StatelessWidget {
           userProvider.parsePlayerNameText(player.psuedonym),
           style: TextStyles.listTitleStyle(contrastingColor),
         ),
-        subtitle: PlayerProgressWidget(
-          player: player,
-          hasStarted: game.hasStarted,
-        ),
-        trailing: ReputationWidget(value: player.reputationValue, color: contrastingColor),
-        children: !isAI && !isMe
+        subtitle: isKicked
+            ? null
+            : PlayerProgressWidget(
+                player: player,
+                hasStarted: game.hasStarted,
+                playerColor: playerColor,
+                playerSelectedColor: playerSelectedColor,
+              ),
+        trailing: isKicked
+            ? Text(
+                DialogueService.playerKickedFromGameTrailingText.tr,
+                style: TextStyles.listSubtitleStyle(contrastingColor),
+              )
+            : ReputationWidget(value: player.reputationValue, color: contrastingColor),
+        children: !isAI && !isMe && !isKicked
             ? [
                 CustomListTileWidget(
                   title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),
@@ -75,11 +84,13 @@ class PlayerListItemWidget extends StatelessWidget {
                           children: [
                             KickPlayerWidget(
                               color: contrastingColor,
-                              isKicked: isKicked,
+                              gameProvider: gameProvider,
+                              player: player,
                             ),
                             BanPlayerWidget(
                               color: contrastingColor,
-                              isBanned: isBanned,
+                              gameProvider: gameProvider,
+                              player: player,
                             ),
                           ],
                         )

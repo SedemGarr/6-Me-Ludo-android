@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/board.dart';
-import 'package:six_me_ludo_android/models/message.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
@@ -287,17 +286,8 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> startGame(String id) async {
-    if (isPlayerHost(id)) {
-      if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
-        if (currentGame!.maxPlayers == currentGame!.players.length) {
-          if (currentGame!.shouldAutoStart) {
-            // flipChangeColorCardWhenStartingGame();
-            await forceStartGame();
-          }
-        }
-      }
-    }
+  void removePlayerMessages(String id) {
+    currentGame!.thread.removeWhere((element) => element.createdById == id);
   }
 
   void showGameIdSnackbar(String id) {
@@ -322,6 +312,19 @@ class GameProvider with ChangeNotifier {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       NavigationService.genericGoBack();
     });
+  }
+
+  Future<void> startGame(String id) async {
+    if (isPlayerHost(id)) {
+      if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
+        if (currentGame!.maxPlayers == currentGame!.players.length) {
+          if (currentGame!.shouldAutoStart) {
+            // flipChangeColorCardWhenStartingGame();
+            await forceStartGame();
+          }
+        }
+      }
+    }
   }
 
   Move getValidMove() {
@@ -836,16 +839,39 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  Future<void> togglePlayerBanFromChat(Player player, BuildContext context) async {
+    if (currentGame!.bannedPlayers.contains(player.id)) {
+      currentGame!.bannedPlayers.remove(player.id);
+      Utils.showToast(player.psuedonym + DialogueService.playerUnBannedText.tr);
+    } else {
+      showBanPlayerDialog(player, context);
+    }
+
+    await DatabaseService.updateGame(currentGame!, true);
+  }
+
+  Future<void> kickPlayerFromGame(Player player) async {
+    currentGame!.kickedPlayers.add(player.id);
+    currentGame = resetGamePiecesToDefaultAfterPlayerLeaves(currentGame!, player.id);
+    currentGame!.players[currentGame!.players.indexWhere((element) => element.id == player.id)].hasLeft = true;
+    removePlayerMessages(player.id);
+    Utils.showToast(player.psuedonym + DialogueService.playerKickedFromGameText.tr);
+
+    await DatabaseService.updateGame(currentGame!, true);
+
+    if (!currentGame!.hasStarted || currentGame!.hasSessionEnded) {
+      Future.delayed(const Duration(seconds: 1), () async {
+        await removePlayerFromGame(currentGame!, player.id);
+      });
+    }
+  }
+
   Future<void> leaveGame(Game game, String id) async {
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game);
     } else {
       game.players[game.players.indexWhere((element) => element.id == id)].hasLeft = true;
-      for (Message element in game.thread) {
-        if (element.createdById == id) {
-          element.isDeleted = true;
-        }
-      }
+      removePlayerMessages(id);
       game = resetGamePiecesToDefaultAfterPlayerLeaves(game, id);
       if (isOnlyOnePlayerLeft()) {
         await DatabaseService.deleteGame(game);
@@ -1262,6 +1288,36 @@ class GameProvider with ChangeNotifier {
   Future<void> deleteGame(Game game) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
     DatabaseService.deleteGame(game);
+  }
+
+  showBanPlayerDialog(Player player, BuildContext context) {
+    return showChoiceDialog(
+      titleMessage: DialogueService.banPlayerDialogTitleText.tr,
+      contentMessage: DialogueService.banPlayerDialogContentText.tr,
+      yesMessage: DialogueService.banPlayerDialogYesText.tr,
+      noMessage: DialogueService.banPlayerDialogNoText.tr,
+      onYes: () {
+        currentGame!.bannedPlayers.add(player.id);
+        removePlayerMessages(player.id);
+        Utils.showToast(player.psuedonym + DialogueService.playerBannedText.tr);
+      },
+      onNo: () {},
+      context: context,
+    );
+  }
+
+  showKickPlayerDialog(Player player, BuildContext context) {
+    return showChoiceDialog(
+      titleMessage: DialogueService.kickPlayerDialogTitleText.tr,
+      contentMessage: DialogueService.kickPlayerDialogContentText.tr,
+      yesMessage: DialogueService.kickPlayerDialogYesText.tr,
+      noMessage: DialogueService.kickPlayerDialogNoText.tr,
+      onYes: () {
+        kickPlayerFromGame(player);
+      },
+      onNo: () {},
+      context: context,
+    );
   }
 
   showRestartGameDialog(BuildContext context) {

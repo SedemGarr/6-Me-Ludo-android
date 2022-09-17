@@ -17,7 +17,7 @@ class PlayerConstants {
   static const IconData viciousIcon = AppIcons.viciousIcon;
   static const IconData randomIcon = AppIcons.randomIcon;
 
- static const List<String> listOfRepuations = [pacifist, averageJoe, vicious];
+  static const List<String> listOfRepuations = [pacifist, averageJoe, vicious];
 
   static List<Color> colors = [
     CSSColors.aliceBlue,
@@ -170,6 +170,8 @@ class PlayerConstants {
     CSSColors.yellowGreen,
   ];
 
+  static const Color kickedColor = CSSColors.darkSlateGray;
+
   static List<Swatch> swatchList = [
     Swatch(playerColor: CSSColors.blue, playerSelectedColor: CSSColors.darkBlue),
     Swatch(playerColor: CSSColors.red, playerSelectedColor: CSSColors.darkRed),
@@ -177,6 +179,4 @@ class PlayerConstants {
     Swatch(playerColor: CSSColors.green, playerSelectedColor: CSSColors.darkGreen),
     Swatch(playerColor: CSSColors.orange, playerSelectedColor: CSSColors.orange),
   ];
-
-  
 }

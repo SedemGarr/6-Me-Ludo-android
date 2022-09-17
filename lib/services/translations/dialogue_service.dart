@@ -121,8 +121,20 @@ class DialogueService extends Translations {
   static const String messageContainsProfanityText = 'messageContainsProfanityText';
   static const String playerIsPresentText = 'playerIsPresentText';
   static const String playerIsNotPresentText = 'playerIsNotPresentText';
-  static const String messageDeletedTitleText = 'messageDeletedTitleText';
   static const String messageDeletedSubtitleText = 'messageDeletedSubtitleText';
+  static const String playerBannedText = 'playerBannedText';
+  static const String playerUnBannedText = 'playerUnBannedText';
+  static const String messageBannedText = 'messageBannedText';
+  static const String playerKickedFromGameText = 'playerKickedFromGameText';
+  static const String banPlayerDialogTitleText = 'banPlayerDialogTitleText';
+  static const String banPlayerDialogContentText = 'banPlayerDialogContentText';
+  static const String banPlayerDialogYesText = 'banPlayerDialogYesText';
+  static const String banPlayerDialogNoText = 'banPlayerDialogNoText';
+  static const String kickPlayerDialogTitleText = 'kickPlayerDialogTitleText';
+  static const String kickPlayerDialogContentText = 'kickPlayerDialogContentText';
+  static const String kickPlayerDialogYesText = 'kickPlayerDialogYesText';
+  static const String kickPlayerDialogNoText = 'kickPlayerDialogNoText';
+  static const String playerKickedFromGameTrailingText = 'playerKickedFromGameTrailingText';
   // game - playing - commentary
   static const String yourTurnText = 'yourTurnText';
   static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/chat_form_field.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/chat_list_item.dart';
+import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
 
 import '../../../../providers/sound_provider.dart';
 import '../../../../providers/user_provider.dart';
@@ -28,12 +31,20 @@ class ChatWidget extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: ListView.builder(
-            reverse: true,
-            itemCount: game.thread.length,
-            itemBuilder: (context, index) {
-              return ChatListItem(index: index);
-            },
+          child: AnimationLimiter(
+            child: ListView.builder(
+              reverse: true,
+              itemCount: game.thread.length,
+              itemBuilder: (context, index) {
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  duration: AppConstants.animationDuration,
+                  child: CustomAnimationWidget(
+                    child: ChatListItem(index: index),
+                  ),
+                );
+              },
+            ),
           ),
         ),
         ChatFormFieldWidget(

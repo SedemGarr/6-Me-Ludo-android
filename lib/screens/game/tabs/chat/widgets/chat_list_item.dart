@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
+
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
@@ -29,32 +30,31 @@ class ChatListItem extends StatelessWidget {
     bool isMe = message.createdById == userProvider.getUserID();
     TextAlign textAlign = isMe ? TextAlign.end : TextAlign.start;
 
-    if (message.isDeleted) {
+    int playerNumber = game.playerIds.indexWhere((element) => element == message.createdById);
+    Color playerColor = Get.isDarkMode ? PlayerConstants.swatchList[playerNumber].playerSelectedColor : PlayerConstants.swatchList[playerNumber].playerColor;
+
+    if (!userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body)) {
       return VisibilityDetector(
         key: ValueKey(index),
         onVisibilityChanged: (visibilityInfo) {
           gameProvider.handleGameChatReadStatus(visibilityInfo, userProvider.getUserID(), index);
         },
         child: CustomListTileWidget(
+          leading: isMe
+              ? null
+              : UserAvatarWidget(
+                  backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface),
+          trailing: isMe
+              ? UserAvatarWidget(backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface)
+              : null,
           title: Text(
-            DialogueService.messageDeletedTitleText.tr,
-            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
-            textAlign: textAlign,
-          ),
-          subtitle: Text(
-            DialogueService.messageDeletedSubtitleText.tr,
-            style: TextStyles.chatListSubtitleStyle(
-              Theme.of(context).colorScheme.onSurface,
-              true,
-            ),
+            DialogueService.messageContainsProfanityText.tr,
+            style: TextStyles.chatListSubtitleStyle(Theme.of(context).colorScheme.onSurface, true),
             textAlign: textAlign,
           ),
         ),
       );
     } else {
-      int playerNumber = game.playerIds.indexWhere((element) => element == message.createdById);
-      Color playerColor = Get.isDarkMode ? PlayerConstants.swatchList[playerNumber].playerSelectedColor : PlayerConstants.swatchList[playerNumber].playerColor;
-
       return VisibilityDetector(
         key: ValueKey(index),
         onVisibilityChanged: (visibilityInfo) {
@@ -74,7 +74,7 @@ class ChatListItem extends StatelessWidget {
             textAlign: textAlign,
           ),
           subtitle: Text(
-            !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body) ? DialogueService.messageContainsProfanityText.tr : message.body,
+            message.body,
             style: TextStyles.chatListSubtitleStyle(
               Theme.of(context).colorScheme.onSurface,
               !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),

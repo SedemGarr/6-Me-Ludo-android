@@ -84,7 +84,14 @@ class UserProvider with ChangeNotifier {
   }
 
   void syncOnGoingGamesList(List<Game> games) {
-    _user!.onGoingGames = games;
+    _user!.onGoingGames = [];
+
+    for (Game element in games) {
+      if (!element.kickedPlayers.contains(_user!.id) || !(element.players[element.players.indexWhere((element) => element.id == _user!.id)].hasLeft)) {
+        _user!.onGoingGames.add(element);
+      }
+    }
+
     _user!.onGoingGames.sort((b, a) => a.lastUpdatedAt.compareTo(b.lastUpdatedAt));
   }
 
