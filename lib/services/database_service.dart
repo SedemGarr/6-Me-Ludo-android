@@ -75,7 +75,7 @@ class DatabaseService {
     }
   }
 
-   static Future<void> updateUserKicked(String id, int reputationValue) async {
+  static Future<void> updateUserKicked(String id, int reputationValue) async {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
@@ -154,7 +154,7 @@ class DatabaseService {
 
   static Future<void> sendGameChat(String id, String gameId, String message) async {
     try {
-      Message messageObject = Message(body: message, createdById: id, createdAt: '', seenBy: [id]);
+      Message messageObject = Message(body: message, createdById: id, createdAt: '', seenBy: [id], isDeleted: false);
 
       Map<String, dynamic> jsonMessage = messageObject.toJson();
 

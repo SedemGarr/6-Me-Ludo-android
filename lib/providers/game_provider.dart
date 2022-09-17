@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/board.dart';
+import 'package:six_me_ludo_android/models/message.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
@@ -265,9 +266,11 @@ class GameProvider with ChangeNotifier {
   }
 
   void checkIfPlayerHasLeftGame(Game game) {
-    for (int i = 0; i < game.players.length; i++) {
-      if (game.players[i].hasLeft && !currentGame!.players[i].hasLeft) {
-        Utils.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+    if (game.players.length < currentGame!.players.length) {
+      for (var i = 0; i < currentGame!.players.length; i++) {
+        if (!game.players.contains(currentGame!.players[i])) {
+          Utils.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+        }
       }
     }
   }
@@ -838,7 +841,11 @@ class GameProvider with ChangeNotifier {
       await DatabaseService.deleteGame(game);
     } else {
       game.players[game.players.indexWhere((element) => element.id == id)].hasLeft = true;
-      game.thread.removeWhere((element) => element.createdById == id);
+      for (Message element in game.thread) {
+        if (element.createdById == id) {
+          element.isDeleted = true;
+        }
+      }
       game = resetGamePiecesToDefaultAfterPlayerLeaves(game, id);
       if (isOnlyOnePlayerLeft()) {
         await DatabaseService.deleteGame(game);
