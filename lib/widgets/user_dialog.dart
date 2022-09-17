@@ -24,10 +24,10 @@ showUserDialog({
           trailing: ReputationWidget(value: user.reputationValue, color: Theme.of(context).colorScheme.onSurface),
         ),
         content: UserAvatarWidget(
-          // id: user.id,
           backgroundColor: Theme.of(context).primaryColor,
           borderColor: Theme.of(context).colorScheme.onSurface,
           avatar: user.avatar,
+          shouldExpand: true,
         ),
       );
     },
