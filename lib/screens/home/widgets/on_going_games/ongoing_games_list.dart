@@ -24,7 +24,7 @@ class OngoingGamesListWidget extends StatelessWidget {
           if (snapshot.hasData) {
             userProvider.syncOnGoingGamesList(snapshot.data!);
 
-            return userProvider.hasOngoingGames()
+            return !userProvider.hasOngoingGames()
                 ? const NoGamesWidget()
                 : AnimationLimiter(
                     child: ListView.separated(
