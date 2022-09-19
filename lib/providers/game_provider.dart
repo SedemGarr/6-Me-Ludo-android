@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
@@ -1027,7 +1027,7 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> passTurn() async {
-    if (!currentGame!.hasSessionEnded && isPlayerTurn()) {
+    if (!currentGame!.hasSessionEnded) {
       currentGame!.selectedPiece = null;
       await incrementTurn(currentGame!);
     }
@@ -1274,6 +1274,27 @@ class GameProvider with ChangeNotifier {
   Future<void> handleGameAppLifecycleChange(bool value) async {
     if (currentGame != null) {
       await setGamePresence(value);
+    }
+  }
+
+  Future<void> handleGamePopupSelection(int value, String id, BuildContext context) async {
+    switch (value) {
+      case 0:
+        currentGame!.hasSessionEnded ? restartGame() : showRestartGameDialog(context);
+        break;
+      case 1:
+        if (!currentGame!.hasStarted && isPlayerHost(id) && currentGame!.players.length > 1) {
+          forceStartGame();
+        } else {
+          endSession(currentGame!);
+        }
+        break;
+      case 2:
+        showLeaveOrDeleteGameDialog(currentGame!, id, context);
+        break;
+      case 3:
+        copyGameID();
+        break;
     }
   }
 

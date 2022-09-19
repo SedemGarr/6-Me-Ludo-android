@@ -110,6 +110,12 @@ class EnglishTranslation {
       DialogueService.kickPlayerDialogNoText: 'Cancel',
       DialogueService.playerKickedFromGameTrailingText: 'Player kicked from game',
       DialogueService.passTurnButtonText: 'Pass Turn',
+      // game - controls
+      DialogueService.restartGamePopupText: 'Restart Game',
+      DialogueService.startSessionPopupText: 'Start Session',
+      DialogueService.stopSessionPopupText: 'Stop Session',
+      DialogueService.endGamePopupText: 'End Game',
+      DialogueService.copyGameIDPopupText: 'Copy Game ID',
       // game - playing - commentary
       DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
       DialogueService.waitingForParticularPlayerText: 'Waiting for ',

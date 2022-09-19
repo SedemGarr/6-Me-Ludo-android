@@ -15,12 +15,12 @@ class GameSettingsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Game game = gameProvider.currentGame!;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Tooltip(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: Tooltip(
             message: DialogueService.startAssistTitleText.tr,
             child: Icon(
               AppIcons.autoStartIcon,
@@ -31,7 +31,10 @@ class GameSettingsWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-          Tooltip(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Tooltip(
             message: DialogueService.catchUpAssistTitleText.tr,
             child: Icon(
               AppIcons.catchUpAssistIcon,
@@ -42,7 +45,10 @@ class GameSettingsWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-          Tooltip(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Tooltip(
             message: DialogueService.startAssistTitleText.tr,
             child: Icon(
               AppIcons.startAssistIcon,
@@ -53,7 +59,10 @@ class GameSettingsWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-          Tooltip(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Tooltip(
             message: DialogueService.adaptiveAITitleText.tr,
             child: Icon(
               AppIcons.adaptiveAIIcon,
@@ -64,7 +73,10 @@ class GameSettingsWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-          Tooltip(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Tooltip(
             message: DialogueService.aIPersonalityTitleText.tr,
             child: Icon(
               game.players.where((element) => element.isAIPlayer).isNotEmpty
@@ -77,15 +89,18 @@ class GameSettingsWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-          Tooltip(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Tooltip(
             message: DialogueService.gameSpeedTitleText.tr,
             child: Icon(
               gameProvider.gameSpeedPreferenceIcon(game.hostSettings.preferredSpeed),
               color: Get.isDarkMode ? gameProvider.playerSelectedColor : gameProvider.playerColor,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

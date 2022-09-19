@@ -88,6 +88,19 @@ class TextStyles {
     );
   }
 
+  static TextStyle tabbarTextStyle(Color color, bool isBold) {
+    return TextStyle(
+      color: color,
+      fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+    );
+  }
+
+  static TextStyle popupMenuStyle() {
+    return const TextStyle(
+      fontWeight: FontWeight.bold,
+    );
+  }
+
   static TextStyle legalTextStyleNormal(Color color) {
     return TextStyle(
       color: color,
@@ -101,6 +114,4 @@ class TextStyles {
       fontWeight: FontWeight.bold,
     );
   }
-
- 
 }

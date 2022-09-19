@@ -13,6 +13,7 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
+      padding: EdgeInsets.zero,
       icon: Icon(
         AppIcons.backIcon,
         color: color ?? (Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary),

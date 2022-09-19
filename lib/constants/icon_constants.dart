@@ -23,6 +23,7 @@ class AppIcons {
   static const IconData backIcon = LineIcons.angleLeft;
   static const IconData infoIcon = Icons.info;
   static const IconData userIcon = LineIcons.user;
+  static const IconData menuIcon = LineIcons.verticalEllipsis;
   // game
   static const IconData gameHasStartedIcon = LineIcons.dotCircle;
   static const IconData restartIcon = LineIcons.alternateRedo;
@@ -34,6 +35,7 @@ class AppIcons {
   static const IconData kickPlayerIcon = LineIcons.userSlash;
   static const IconData banPlayerIcon = LineIcons.commentSlash;
   static const IconData unBanPlayerIcon = LineIcons.comment;
+  static const IconData skipTurnIcon = LineIcons.forward;
   // game - dice
   static const IconData staticDieIcon = LineIcons.diceD6;
   static const IconData oneDieIcon = LineIcons.diceOne;

@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
 
 import '../../../../models/game.dart';
 import '../../../../models/player.dart';
-import '../board/widgets/game_settings_widget.dart';
 
 class PlayersWidget extends StatelessWidget {
   final GameProvider gameProvider;
@@ -39,9 +38,6 @@ class PlayersWidget extends StatelessWidget {
               },
             ),
           ),
-        ),
-        GameSettingsWidget(
-          gameProvider: gameProvider,
         ),
       ],
     );

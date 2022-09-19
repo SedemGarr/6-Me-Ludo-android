@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/icon_constants.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_settings_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/chat.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/copy_button_widget.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/end_button_widget.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/restart_button_widget.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/start_button_widget.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/pass_button_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
@@ -50,6 +50,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     NavProvider navProvider = context.watch<NavProvider>();
     SoundProvider soundProvider = context.watch<SoundProvider>();
 
+    Game game = gameProvider.currentGame!;
+
     return WillPopScope(
       onWillPop: () async {
         navProvider.handleGameScreenBackPress(gameProvider);
@@ -76,23 +78,54 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         onPressed: () {
                           navProvider.handleGameScreenBackPress(gameProvider);
                         }),
+                    title: GameSettingsWidget(gameProvider: gameProvider),
                     actions: [
-                      RestartButtonWidget(
-                        gameProvider: gameProvider,
-                        userProvider: userProvider,
-                      ),
-                      StartButtonWidget(
-                        gameProvider: gameProvider,
-                        userProvider: userProvider,
-                      ),
-                      EndGameButtonWidget(
-                        gameProvider: gameProvider,
-                        userProvider: userProvider,
-                      ),
-                      CopyGameIDButtonWidget(
-                        gameProvider: gameProvider,
-                        userProvider: userProvider,
-                      ),
+                      if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass) PassButtonWidget(gameProvider: gameProvider),
+                      PopupMenuButton(
+                        icon: Icon(
+                          AppIcons.menuIcon,
+                          color: Utils.getContrastingColor(gameProvider.playerColor),
+                        ),
+                        onSelected: (value) {
+                          gameProvider.handleGamePopupSelection(value, userProvider.getUserID(), context);
+                        },
+                        itemBuilder: (context) {
+                          return [
+                            if (game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()))
+                              PopupMenuItem(
+                                value: 0,
+                                child: Text(
+                                  DialogueService.restartGamePopupText.tr,
+                                  style: TextStyles.popupMenuStyle(),
+                                ),
+                              ),
+                            PopupMenuItem(
+                              value: 1,
+                              child: Text(
+                                !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
+                                    ? DialogueService.startSessionPopupText.tr
+                                    : DialogueService.stopSessionPopupText.tr,
+                                style: TextStyles.popupMenuStyle(),
+                              ),
+                            ),
+                            PopupMenuItem(
+                              value: 2,
+                              child: Text(
+                                DialogueService.endGamePopupText.tr,
+                                style: TextStyles.popupMenuStyle(),
+                              ),
+                            ),
+                            if (gameProvider.isPlayerHost(userProvider.getUserID()))
+                              PopupMenuItem(
+                                value: 3,
+                                child: Text(
+                                  DialogueService.copyGameIDPopupText.tr,
+                                  style: TextStyles.popupMenuStyle(),
+                                ),
+                              ),
+                          ];
+                        },
+                      )
                     ],
                     bottom: TabBar(
                       controller: navProvider.gameScreenTabController,

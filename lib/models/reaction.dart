@@ -18,6 +18,10 @@ class Reaction {
     return data;
   }
 
+  bool hasReaction() {
+    return reactionType != GameStatusService.blank;
+  }
+
   static Reaction getBlankReaction() {
     return Reaction(reactionType: GameStatusService.blank, reactionURL: '');
   }

@@ -29,9 +29,9 @@ class SoundProvider with ChangeNotifier {
 
   List<String> gameFinishURLs = [];
 
-  List<String> newMessageReceivedPaths = ['assets/sounds/receive.mp3'];
+  String newMessageReceivedPath = 'assets/sounds/receive.mp3';
 
-  List<String> newMessageSentPaths = ['assets/sounds/send.mp3'];
+  String newMessageSentPath = 'assets/sounds/send.mp3';
 
   void setPrefersSound(bool value) {
     prefersAudio = value;
@@ -65,10 +65,10 @@ class SoundProvider with ChangeNotifier {
           playSpecificSound(gameFinishURLs[random.nextInt(gameFinishURLs.length)]);
           break;
         case GameStatusService.newMessageReceived:
-          playSpecificSound(newMessageReceivedPaths[0]);
+          playSpecificSound(newMessageReceivedPath);
           break;
         case GameStatusService.newMessageSent:
-          playSpecificSound(newMessageSentPaths[0]);
+          playSpecificSound(newMessageSentPath);
           break;
         default:
       }
