@@ -47,6 +47,7 @@ class AppIcons {
   // settings
   static const IconData darkModeIcon = LineIcons.moon;
   static const IconData audioIcon = LineIcons.volumeDown;
+  static const IconData wakelockIcon = LineIcons.lock;
   static const IconData languageIcon = LineIcons.language;
   static const IconData signOutIcon = LineIcons.arrowLeft;
   static const IconData deleteAccountIcon = LineIcons.trash;

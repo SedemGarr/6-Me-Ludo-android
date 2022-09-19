@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
-import 'package:six_me_ludo_android/providers/app_provider.dart';
-import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
@@ -14,6 +12,7 @@ import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/new_game_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 import 'package:uuid/uuid.dart';
 
@@ -62,15 +61,12 @@ class UserProvider with ChangeNotifier {
   }
 
   void handleNewGameTap(BuildContext context) {
-    GameProvider gameProvider = context.read<GameProvider>();
-    AppProvider appProvider = context.read<AppProvider>();
-
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
-    gameProvider.hostGame(_user!, appProvider);
+    showNewGameDialog(context: context);
   }
 
   void initialiseOnGoingGamesStream() {
@@ -156,6 +152,11 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  void toggleWakelock(BuildContext context, bool value) {
+    _user!.settings.prefersWakelock = value;
+    updateUser(true, true);
+  }
+
   void setLanguageCode(Locale locale) {
     if (locale.languageCode != parseUserLocale(_user!.settings.locale).languageCode) {
       _user!.settings.locale = locale.toString();
@@ -221,6 +222,12 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
     DatabaseService.updateOngoingGamesAfterUserChange(_user!);
     NavigationService.genericGoBack();
+  }
+
+  void handleWakelockLogic(bool value) {
+    if (getUserWakelock()) {
+      Utils.setWakeLock(value);
+    }
   }
 
   void showSignOutDialog(BuildContext context) {
@@ -340,6 +347,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserProfaneMessages() {
     return _user!.settings.prefersProfanity;
+  }
+
+  bool getUserWakelock() {
+    return _user!.settings.prefersWakelock;
   }
 
   bool isAvatarSelected(String avatar) {

@@ -177,6 +177,9 @@ class DialogueService extends Translations {
   // settings - audio
   static const String audioTitleText = 'audioTitleText';
   static const String audioSubtitleText = 'audioSubtitleText';
+  // settings - wakelock
+  static const String wakelockTitleText = 'wakelockTitleText';
+  static const String wakelockSubtitleText = 'wakelockSubtitleText';
   // settings - language
   static const String languageTitleText = 'languageTitleText';
   static const String languageSubtitleText = 'languageSubtitleText';

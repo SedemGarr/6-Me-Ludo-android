@@ -21,6 +21,8 @@ import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
 class GameScreen extends StatefulWidget {
+  static String routeName = '/GameScreen';
+
   const GameScreen({super.key});
 
   @override
@@ -37,10 +39,17 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     super.initState();
     gameProvider = context.read<GameProvider>();
     userProvider = context.read<UserProvider>();
+    navProvider = context.read<NavProvider>();
     gameProvider.initialiseBoard();
     gameProvider.showGameIdSnackbar(userProvider.getUserID());
-    navProvider = context.read<NavProvider>();
+    userProvider.handleWakelockLogic(true);
     navProvider.initialiseGameScreenTabController(this);
+  }
+
+  @override
+  void dispose() {
+    userProvider.handleWakelockLogic(false);
+    super.dispose();
   }
 
   @override

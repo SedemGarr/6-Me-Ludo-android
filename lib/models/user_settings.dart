@@ -35,6 +35,7 @@ class UserSettings {
   late bool prefersAdaptiveAI;
   late bool prefersProfanity;
   late bool prefersAddAI;
+  late bool prefersWakelock;
   late String aiPersonalityPreference;
   late String locale;
 
@@ -50,6 +51,7 @@ class UserSettings {
     required this.prefersStartAssist,
     required this.prefersProfanity,
     required this.prefersAddAI,
+    required this.prefersWakelock,
     required this.maxPlayers,
   });
 
@@ -110,6 +112,7 @@ class UserSettings {
     prefersAdaptiveAI = json['prefersAdaptiveAI'] ?? true;
     prefersAutoStart = json['prefersAutoStart'] ?? false;
     prefersProfanity = json['prefersProfanity'] ?? false;
+    prefersWakelock = json['prefersWakelock'] ?? true;
     maxPlayers = json['maxPlayers'] ?? AppConstants.maxPlayerUpperLimit;
     locale = json['locale'] ?? Get.deviceLocale.toString();
   }
@@ -126,6 +129,7 @@ class UserSettings {
     data['prefersAutoStart'] = prefersAutoStart;
     data['prefersProfanity'] = prefersProfanity;
     data['prefersAddAI'] = prefersAddAI;
+    data['prefersWakelock'] = prefersWakelock;
     data['maxPlayers'] = maxPlayers;
     data['locale'] = locale;
     return data;
@@ -143,6 +147,7 @@ class UserSettings {
       prefersAdaptiveAI: true,
       prefersStartAssist: true,
       prefersProfanity: false,
+      prefersWakelock: true,
       maxPlayers: AppConstants.maxPlayerUpperLimit,
       locale: DialogueService.englishUS.toString(),
     );
@@ -215,6 +220,7 @@ class UserSettings {
         other.prefersAdaptiveAI == prefersAdaptiveAI &&
         other.prefersStartAssist == prefersStartAssist &&
         other.prefersProfanity == prefersProfanity &&
+        other.prefersWakelock == prefersWakelock &&
         other.maxPlayers == maxPlayers;
   }
 
@@ -230,5 +236,6 @@ class UserSettings {
       prefersAdaptiveAI.hashCode ^
       prefersProfanity.hashCode ^
       prefersStartAssist.hashCode ^
+      prefersWakelock.hashCode ^
       maxPlayers;
 }

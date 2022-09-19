@@ -15,6 +15,7 @@ import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
+import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../constants/icon_constants.dart';
@@ -733,11 +734,11 @@ class GameProvider with ChangeNotifier {
     return currentGame!;
   }
 
-  Future<void> hostGame(Users user, AppProvider appProvider) async {
+  Future<void> hostGame(Users user, Uuid uuid, AppProvider appProvider) async {
     appProvider.setLoading(true, true);
 
     try {
-      Game newGame = await DatabaseService.createGame(user);
+      Game newGame = await DatabaseService.createGame(user, uuid);
       initialiseGame(newGame, user.id);
       appProvider.setLoading(false, true);
       NavigationService.goToGameScreen();

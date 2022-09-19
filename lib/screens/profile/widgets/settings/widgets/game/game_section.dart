@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/gam
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/auto_start.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/catch_up_assist.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/game_speed.dart';
-import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/profanity.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/start_assist.dart';
 
 import '../../../../../../services/translations/dialogue_service.dart';
@@ -34,8 +33,6 @@ class GameSettingsSection extends StatelessWidget {
         const AIPersonality(),
         const Divider(),
         const GameSpeed(),
-        const Divider(),
-        const ProfaneMessages(),
       ],
     );
   }

@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:uuid/uuid.dart';
 
 import '../constants/database_constants.dart';
 import '../models/message.dart';
@@ -118,13 +119,13 @@ class DatabaseService {
     }
   }
 
-  static Future<Game> createGame(Users user) async {
+  static Future<Game> createGame(Users user, Uuid uuid) async {
     CollectionReference gameRef = FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection);
 
     Game game = Game.getDefaultGame(user, gameRef.doc().id);
 
     if (user.settings.prefersAddAI) {
-      game = Game.autoFillWithAIPlayers(game, user);
+      game = Game.autoFillWithAIPlayers(game, user, uuid);
       game.maxPlayers = 4;
     }
 

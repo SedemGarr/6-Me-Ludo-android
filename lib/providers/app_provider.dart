@@ -9,6 +9,8 @@ class AppProvider with ChangeNotifier {
   // for splash screen
   bool isSplashScreenLoaded = false;
 
+  // TODO  fix reputation
+
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
   }

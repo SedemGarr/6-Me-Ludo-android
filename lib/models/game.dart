@@ -4,6 +4,8 @@ import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/models/user_settings.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:uuid/uuid.dart';
 import '../constants/player_constants.dart';
 import '../services/game_status_service.dart';
 import 'die.dart';
@@ -80,10 +82,12 @@ class Game {
     }
   }
 
-  static Game autoFillWithAIPlayers(Game game, Users user) {
+  static Game autoFillWithAIPlayers(Game game, Users user, Uuid uuid) {
     for (int i = 0; i < (4 - game.maxPlayers); i++) {
-      game.players.add(Player.getJoiningAIPlayer(i.toString(), game, user));
-      game.playerIds.add(i.toString());
+      String id = Utils.getAIPlayerId(uuid);
+
+      game.players.add(Player.getJoiningAIPlayer(id, game, user));
+      game.playerIds.add(id);
     }
 
     return game;

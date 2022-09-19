@@ -151,6 +151,9 @@ class EnglishTranslation {
       // settings - audio
       DialogueService.audioTitleText: 'Audio',
       DialogueService.audioSubtitleText: 'Toggle game sounds on or off',
+      // settings - wakelock
+      DialogueService.wakelockTitleText: 'Wakelock',
+      DialogueService.wakelockSubtitleText: 'Toggle whether the screen should not automatically lock during games',
       // settings - language
       DialogueService.languageTitleText: 'Language',
       DialogueService.languageSubtitleText: 'Choose application language',

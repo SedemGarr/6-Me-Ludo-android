@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
 import 'package:uuid/uuid.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../constants/app_constants.dart';
 import '../models/license.dart';
@@ -149,6 +150,10 @@ class Utils {
 
   static void copyToClipboard(String value) {
     FlutterClipboard.copy(value);
+  }
+
+  static void setWakeLock(bool value) {
+    Wakelock.toggle(enable: value);
   }
 
   static Future<void> initApp() async {
