@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/bottom_navbar.dart';
-import 'package:six_me_ludo_android/screens/new_game/new_game.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 
 class HomePageViewWrapper extends StatelessWidget {
@@ -25,9 +24,8 @@ class HomePageViewWrapper extends StatelessWidget {
           controller: navProvider.pageController,
           onPageChanged: (index) => navProvider.setBottomNavBarIndex(index, false),
           children: const [
-            ProfileScreen(),
             HomeScreen(),
-            NewGameScreen(),
+            ProfileScreen(),
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar(),

@@ -9,13 +9,19 @@ class NoGamesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        DialogueService.noGamesText.tr,
-        style: TextStyles.noGamesStyle(
-          Theme.of(context).colorScheme.onSurface,
+    return ListView(
+      primary: true,
+      shrinkWrap: true,
+      children: [
+        Center(
+          child: Text(
+            DialogueService.noGamesText.tr,
+            style: TextStyles.noGamesStyle(
+              Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

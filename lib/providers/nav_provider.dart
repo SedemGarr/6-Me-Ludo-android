@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/screens/home/home.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../constants/app_constants.dart';
 import '../services/navigation_service.dart';
 
 class NavProvider with ChangeNotifier {
-  int _bottomNavBarIndex = 1;
+  int _bottomNavBarIndex = HomeScreen.routeIndex;
   //
   PageController pageController = PageController(
-    initialPage: 1,
+    initialPage: HomeScreen.routeIndex,
     keepPage: true,
   );
 
@@ -37,8 +38,8 @@ class NavProvider with ChangeNotifier {
   }
 
   void handleHomeWrapperBackPress(BuildContext context) {
-    if (_bottomNavBarIndex != 1) {
-      setBottomNavBarIndex(1, true);
+    if (_bottomNavBarIndex != HomeScreen.routeIndex) {
+      setBottomNavBarIndex(HomeScreen.routeIndex, true);
     } else {
       Utils.showExitDialog(context);
     }

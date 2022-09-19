@@ -9,6 +9,7 @@ import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
+import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -98,7 +99,7 @@ class UserProvider with ChangeNotifier {
   Future<void> handleUserAvatarOnTap(String id, BuildContext context) async {
     if (isMe(id)) {
       if (Get.currentRoute == HomePageViewWrapper.routeName) {
-        context.read<NavProvider>().setBottomNavBarIndex(0, true);
+        context.read<NavProvider>().setBottomNavBarIndex(ProfileScreen.routeIndex, true);
       } else {
         Utils.showToast(DialogueService.youText.tr);
       }

@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/providers/game_provider.dart';
-import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
 
-import '../../../providers/app_provider.dart';
-import '../../../providers/user_provider.dart';
-import '../../../services/translations/dialogue_service.dart';
+import '../../../constants/icon_constants.dart';
+import '../../../widgets/new_game_dialog.dart';
 
 class NewGameButton extends StatelessWidget {
   const NewGameButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = context.watch<UserProvider>();
-    GameProvider gameProvider = context.watch<GameProvider>();
-    AppProvider appProvider = context.watch<AppProvider>();
-
-    return CustomTextButton(
+    return IconButton(
       onPressed: () {
-        gameProvider.hostGame(userProvider.getUser(), appProvider);
+        showNewGameDialog(context: context);
       },
-      text: DialogueService.hostGameFABText.tr,
-      color: Theme.of(context).primaryColor,
+      icon: Icon(AppIcons.newGameActiveIcon, color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary),
     );
   }
 }

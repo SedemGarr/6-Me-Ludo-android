@@ -62,7 +62,7 @@ class EnglishTranslation {
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
       DialogueService.hostGameFABText: 'Host New Game',
       DialogueService.joinGameFABText: 'Join Game',
-      DialogueService.joinGameHintText: 'Please enter a game code',
+      DialogueService.joinGameHintText: 'Enter a game code to join a game',
       DialogueService.gameKickedText: 'Sorry, you have been kicked from this game',
       DialogueService.gameDoesNotExistText: 'Sorry this game does not exist. It may have been deleted',
       DialogueService.gameFullText: 'Sorry, this game is full',

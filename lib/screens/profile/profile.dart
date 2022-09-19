@@ -13,6 +13,8 @@ import '../../widgets/custom_appbar.dart';
 import '../../widgets/loading_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
+  static int routeIndex = 1;
+
   const ProfileScreen({super.key});
 
   @override
@@ -25,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
             appBar: CustomAppBarWidget(
               centerTitle: true,
               title: AppBarTitleWidget(text: DialogueService.profileText.tr),
-              leading: const InfoButtonWidget(),
+              actions: const [InfoButtonWidget()],
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(AppConstants.profileAppbarHeight),
                 child: const ProfileSectionWidget(),

@@ -15,7 +15,7 @@ class InfoButtonWidget extends StatelessWidget {
       },
       icon: Icon(
         AppIcons.infoIcon,
-        color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+        color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
       ),
     );
   }

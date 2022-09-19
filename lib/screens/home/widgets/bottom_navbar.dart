@@ -28,15 +28,6 @@ class CustomBottomNavBar extends StatelessWidget {
             destinations: [
               NavigationDestination(
                 icon: const Icon(
-                  AppIcons.profileIcon,
-                ),
-                selectedIcon: const Icon(
-                  AppIcons.profileActiveIcon,
-                ),
-                label: DialogueService.profileText.tr,
-              ),
-              NavigationDestination(
-                icon: const Icon(
                   AppIcons.homeIcon,
                 ),
                 selectedIcon: const Icon(
@@ -46,13 +37,23 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
               NavigationDestination(
                 icon: const Icon(
-                  AppIcons.newGameIcon,
+                  AppIcons.profileIcon,
                 ),
                 selectedIcon: const Icon(
-                  AppIcons.newGameActiveIcon,
+                  AppIcons.profileActiveIcon,
                 ),
-                label: DialogueService.newGameText.tr,
+                label: DialogueService.profileText.tr,
               ),
+
+              // NavigationDestination(
+              //   icon: const Icon(
+              //     AppIcons.newGameIcon,
+              //   ),
+              //   selectedIcon: const Icon(
+              //     AppIcons.newGameActiveIcon,
+              //   ),
+              //   label: DialogueService.newGameText.tr,
+              // ),
             ],
           );
 
