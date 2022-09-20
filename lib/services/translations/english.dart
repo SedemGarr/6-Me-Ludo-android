@@ -27,7 +27,7 @@ class EnglishTranslation {
       DialogueService.signInAnonText: 'Sign in Anonymously',
       DialogueService.anonWarningText: 'Anonymous accounts do not persist and will be lost permanently if you sign out',
       DialogueService.welcomeEmojiText: 'Hello there, 👋',
-      DialogueService.welcomeSubtileText: 'Welcome to 6-Me-Ludo',
+      DialogueService.welcomeSubtileText: 'Welcome to 6-Me-Ludo!',
       // welcome error
       DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account',
       // home

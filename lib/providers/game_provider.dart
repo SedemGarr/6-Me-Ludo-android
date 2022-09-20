@@ -41,7 +41,7 @@ class GameProvider with ChangeNotifier {
   TextEditingController gameChatController = TextEditingController();
 
   // game
-  late Game? currentGame;
+  Game? currentGame;
   late Stream<Game> currentGameStream;
   late int playerNumber;
   late Color playerColor;

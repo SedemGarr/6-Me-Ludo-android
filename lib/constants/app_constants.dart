@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppConstants {
-  static const String appNameEnglish = '6-Me-Ludo';
+  static const String appNameEnglish = '6-Me-Ludo!';
   static const String lottieAnimationAuthor = 'Abdul Latif';
   static const String defaultCountryCode = 'GH';
   static const String wayyyOutLottieAssetPath = 'assets/lottie/wayyyout3.json';
