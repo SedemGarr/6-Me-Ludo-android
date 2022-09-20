@@ -137,6 +137,10 @@ class DialogueService extends Translations {
   static const String kickPlayerDialogNoText = 'kickPlayerDialogNoText';
   static const String playerKickedFromGameTrailingText = 'playerKickedFromGameTrailingText';
   static const String passTurnButtonText = 'passTurnButtonText';
+  static const String noWinnerText = 'noWinnerText';
+  static const String gameWinnerText = 'gameWinnerText';
+  static const String gameViciousText = 'gameViciousText';
+  static const String gamePunchingBagText = 'gamePunchingBagText';
   // game - controls
   static const String restartGamePopupText = 'restartGamePopupText';
   static const String startSessionPopupText = 'startSessionPopupText';

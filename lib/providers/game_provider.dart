@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,7 @@ import '../services/game_status_service.dart';
 
 class GameProvider with ChangeNotifier {
   late Board board;
+  late ConfettiController confettiController;
 
   // text controllers
   TextEditingController joinGameController = TextEditingController();
@@ -60,6 +62,14 @@ class GameProvider with ChangeNotifier {
 
   bool canPlayerRollDie() {
     return !currentGame!.hasSessionEnded && isPlayerTurn() && !currentGame!.die.isRolling && currentGame!.die.rolledValue == 0;
+  }
+
+  bool hasWinner() {
+    return currentGame!.finishedPlayers.isNotEmpty;
+  }
+
+  bool hasViciousOrPunchingBag() {
+    return currentGame!.players.where((element) => element.numberOfTimesKickerInSession != 0 || element.numberOfTimesKickedInSession != 0).isNotEmpty;
   }
 
   int getGameChatCount() {
@@ -150,6 +160,22 @@ class GameProvider with ChangeNotifier {
       default:
         return AppIcons.gameSpeedIcon;
     }
+  }
+
+  Player getWinnerPlayer() {
+    return currentGame!.players.firstWhere((element) => element.id == currentGame!.finishedPlayers.first);
+  }
+
+  Player getViciousPlayer() {
+    List<Player> listOfPlayers = [...currentGame!.players];
+    listOfPlayers.sort((b, a) => a.numberOfTimesKickerInSession.compareTo(b.numberOfTimesKickerInSession));
+    return listOfPlayers.first;
+  }
+
+  Player getPunchingBagPlayer() {
+    List<Player> listOfPlayers = [...currentGame!.players];
+    listOfPlayers.sort((b, a) => a.numberOfTimesKickedInSession.compareTo(b.numberOfTimesKickedInSession));
+    return listOfPlayers.first;
   }
 
   Color getSelectedPiecePathColour(int index, Color boardColour) {
@@ -308,6 +334,12 @@ class GameProvider with ChangeNotifier {
   void handleSuddenGameDeletion() {
     Utils.showToast(DialogueService.gameDeletedText.tr);
     goBack();
+  }
+
+  void handleConfettiDisplay(String id) {
+    if (id == currentGame!.finishedPlayers.first) {
+      confettiController.play();
+    }
   }
 
   void goBack() {

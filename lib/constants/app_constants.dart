@@ -29,8 +29,12 @@ class AppConstants {
   static const double appBorderRadiusValue = 4.0;
 
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
+  static const Duration confettiDuration = Duration(seconds: 5);
+
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
+
   static const Curve animationCurve = Curves.fastOutSlowIn;
+
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
   static EdgeInsets listViewPadding = EdgeInsets.only(top: 8, bottom: Get.height * 0.25);

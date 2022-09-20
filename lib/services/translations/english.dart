@@ -69,7 +69,7 @@ class EnglishTranslation {
       DialogueService.gameFullText: 'Sorry, this game is full',
       // game - playing
       DialogueService.playerTabText: 'Players',
-      DialogueService.boardTabText: 'Board',
+      DialogueService.boardTabText: 'Game',
       DialogueService.chatTabText: 'Chat',
       DialogueService.gameDeletedText: 'Sorry this game no longer exists',
       DialogueService.sendMessagesHereText: 'Send Messages here',
@@ -111,6 +111,10 @@ class EnglishTranslation {
       DialogueService.kickPlayerDialogNoText: 'Cancel',
       DialogueService.playerKickedFromGameTrailingText: 'Player kicked from game',
       DialogueService.passTurnButtonText: 'Pass Turn',
+      DialogueService.noWinnerText: 'No one made it to the end',
+      DialogueService.gameWinnerText: 'Winner!',
+      DialogueService.gameViciousText: 'Cold-Blooded',
+      DialogueService.gamePunchingBagText: 'Punching Bag',
       // game - controls
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',

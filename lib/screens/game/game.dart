@@ -10,6 +10,7 @@ import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/end_game_screen/end_game_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_settings_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/chat.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
@@ -109,7 +110,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 value: 0,
                                 child: Text(
                                   DialogueService.restartGamePopupText.tr,
-                                  style: TextStyles.popupMenuStyle(),
+                                  style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                                 ),
                               ),
                             PopupMenuItem(
@@ -118,14 +119,14 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
                                     ? DialogueService.startSessionPopupText.tr
                                     : DialogueService.stopSessionPopupText.tr,
-                                style: TextStyles.popupMenuStyle(),
+                                style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                               ),
                             ),
                             PopupMenuItem(
                               value: 2,
                               child: Text(
                                 DialogueService.endGamePopupText.tr,
-                                style: TextStyles.popupMenuStyle(),
+                                style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                               ),
                             ),
                             if (gameProvider.isPlayerHost(userProvider.getUserID()))
@@ -133,7 +134,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 value: 3,
                                 child: Text(
                                   DialogueService.copyGameIDPopupText.tr,
-                                  style: TextStyles.popupMenuStyle(),
+                                  style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                                 ),
                               ),
                           ];
@@ -163,10 +164,16 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                     PlayersWidget(
                       gameProvider: gameProvider,
                     ),
-                    BoardWidget(
-                      gameProvider: gameProvider,
-                      userProvider: userProvider,
-                    ),
+                    if (!game.hasSessionEnded)
+                      BoardWidget(
+                        gameProvider: gameProvider,
+                        userProvider: userProvider,
+                      )
+                    else
+                      EndGameWidget(
+                        gameProvider: gameProvider,
+                        userProvider: userProvider,
+                      ),
                     ChatWidget(
                       gameProvider: gameProvider,
                       soundProvider: soundProvider,

@@ -95,8 +95,9 @@ class TextStyles {
     );
   }
 
-  static TextStyle popupMenuStyle() {
-    return const TextStyle(
+  static TextStyle popupMenuStyle(Color color) {
+    return TextStyle(
+      color: color,
       fontWeight: FontWeight.bold,
     );
   }
@@ -104,14 +105,12 @@ class TextStyles {
   static TextStyle legalTextStyleNormal(Color color) {
     return TextStyle(
       color: color,
-      fontWeight: FontWeight.bold,
     );
   }
 
   static TextStyle legalTextStyleBold(Color color) {
     return TextStyle(
       color: color,
-      fontWeight: FontWeight.bold,
     );
   }
 }

@@ -18,8 +18,7 @@ class ProfileSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return Container(
-      color: Get.isDarkMode ? null : Theme.of(context).primaryColor,
+    return SizedBox(
       height: AppConstants.customAppbarHeight,
       child: Center(
         child: Column(
