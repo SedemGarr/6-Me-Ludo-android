@@ -39,7 +39,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
       onLongPress: () {
         gameProvider.showLeaveOrDeleteGameDialog(
           game,
-          userProvider.getUserID(),
+          userProvider.getUser(),
           context,
         );
       },

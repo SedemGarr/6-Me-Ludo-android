@@ -73,7 +73,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingScreen();
             } else if (snapshot.hasData) {
-              gameProvider.syncGameData(context, snapshot.data!, userProvider.getUserID());
+              gameProvider.syncGameData(context, snapshot.data!, userProvider.getUser());
 
               return GestureDetector(
                 onTap: () {
@@ -89,14 +89,18 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         }),
                     title: GameSettingsWidget(gameProvider: gameProvider),
                     actions: [
-                      if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass) PassButtonWidget(gameProvider: gameProvider),
+                      if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass)
+                        PassButtonWidget(
+                          gameProvider: gameProvider,
+                          userProvider: userProvider,
+                        ),
                       PopupMenuButton(
                         icon: Icon(
                           AppIcons.menuIcon,
                           color: Utils.getContrastingColor(gameProvider.playerColor),
                         ),
                         onSelected: (value) {
-                          gameProvider.handleGamePopupSelection(value, userProvider.getUserID(), context);
+                          gameProvider.handleGamePopupSelection(value, userProvider.getUser(), context);
                         },
                         itemBuilder: (context) {
                           return [

@@ -29,7 +29,7 @@ class PieceWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 if (gameProvider.getIndexHitDefermentStatus(index)) {
-                  gameProvider.handleMovePieceTap(index);
+                  gameProvider.handleMovePieceTap(index, userProvider.getUser());
                 } else {
                   gameProvider.selectPiece(game.players[i].pieces[j]);
                 }
@@ -65,7 +65,7 @@ class PieceWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        gameProvider.handleMovePieceTap(index);
+        gameProvider.handleMovePieceTap(index, userProvider.getUser());
       },
       child: Column(
         mainAxisSize: MainAxisSize.max,

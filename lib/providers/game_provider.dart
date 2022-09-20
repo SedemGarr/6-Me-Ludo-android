@@ -11,6 +11,7 @@ import 'package:six_me_ludo_android/models/board.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
+import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -229,14 +230,14 @@ class GameProvider with ChangeNotifier {
     validMoveIndices = [];
   }
 
-  void syncGameData(BuildContext context, Game game, String id) {
-    checkIfPlayerIsKickedFromGame(game, id);
+  void syncGameData(BuildContext context, Game game, Users user) {
+    checkIfPlayerIsKickedFromGame(game, user.id);
     checkIfPlayerHasLeftGame(game);
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
-    checkIfNewMessageHasArrived(game, id, context);
+    checkIfNewMessageHasArrived(game, user.id, context);
     currentGame = game;
-    playerNumber = game.playerIds.indexWhere((element) => element == id);
+    playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
     if (playerNumber == -1) {
       // if player has left game or for some reason cannot be found
@@ -246,7 +247,7 @@ class GameProvider with ChangeNotifier {
 
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
-    startGame(id);
+    startGame(user);
   }
 
   void checkIfNewMessageHasArrived(Game newGame, String id, BuildContext context) {
@@ -315,13 +316,13 @@ class GameProvider with ChangeNotifier {
     });
   }
 
-  Future<void> startGame(String id) async {
-    if (isPlayerHost(id)) {
+  Future<void> startGame(Users user) async {
+    if (isPlayerHost(user.id)) {
       if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
         if (currentGame!.maxPlayers == currentGame!.players.length) {
           if (currentGame!.shouldAutoStart) {
             // flipChangeColorCardWhenStartingGame();
-            await forceStartGame();
+            await forceStartGame(user);
           }
         }
       }
@@ -867,7 +868,7 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> leaveGame(Game game, String id) async {
+  Future<void> leaveGame(Game game, String id, Users user) async {
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game);
     } else {
@@ -882,7 +883,7 @@ class GameProvider with ChangeNotifier {
           return;
         }
         if (game.playerTurn == game.players[game.players.indexWhere((element) => element.id == id)].playerColor) {
-          await incrementTurn(game);
+          await incrementTurn(game, user);
         }
         game.reaction = Reaction.parseGameStatus(GameStatusService.playerLeft);
         await DatabaseService.updateGame(game, true);
@@ -903,7 +904,7 @@ class GameProvider with ChangeNotifier {
     await DatabaseService.updateGame(game, true);
   }
 
-  Future<void> incrementTurn(Game game) async {
+  Future<void> incrementTurn(Game game, Users user) async {
     if (!game.hasSessionEnded) {
       // check if previous move has ended the game
       if (game.players[game.playerTurn].pieces.where((element) => !element.isHome).isEmpty) {
@@ -934,9 +935,9 @@ class GameProvider with ChangeNotifier {
             game.kickedPlayers.contains(game.players[game.playerTurn].id) ||
             game.players[game.playerTurn].hasFinished ||
             game.players[game.playerTurn].pieces.where((element) => element.isHome).length == 4) {
-          await incrementTurn(game);
+          await incrementTurn(game, user);
         } else if (game.players[game.playerTurn].isAIPlayer) {
-          await rollDieForAIPlayer();
+          await rollDieForAIPlayer(user);
         } else {
           game.lastUpdatedBy = game.players[game.playerTurn].id;
           game.die.rolledValue = 0;
@@ -949,15 +950,15 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> rollDieForAIPlayer() async {
+  Future<void> rollDieForAIPlayer(Users user) async {
     if (!currentGame!.hasSessionEnded) {
       Future.delayed(Duration(milliseconds: currentGame!.hostSettings.preferredSpeed), () async {
-        await rollDie(currentGame!.players[currentGame!.playerTurn].id);
+        await rollDie(currentGame!.players[currentGame!.playerTurn].id, user);
       });
     }
   }
 
-  Future<void> rollDie(String userId) async {
+  Future<void> rollDie(String userId, Users user) async {
     if (!currentGame!.hasSessionEnded) {
       bool areAllPiecesBased = true;
 
@@ -990,10 +991,10 @@ class GameProvider with ChangeNotifier {
 
           if (currentGame!.die.rolledValue != 6 && areAllPiecesBased) {
             currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.blank);
-            await incrementTurn(currentGame!);
+            await incrementTurn(currentGame!, user);
           } else {
             if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
-              handleAIPlayerGameLogic();
+              handleAIPlayerGameLogic(user);
             } else {
               Game tempGame = Game.fromJson(currentGame!.toJson());
               tempGame.canPass = true;
@@ -1006,7 +1007,7 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> handleAIPlayerGameLogic() async {
+  Future<void> handleAIPlayerGameLogic(Users user) async {
     if (!currentGame!.hasSessionEnded) {
       Future.delayed(Duration(milliseconds: currentGame!.hostSettings.preferredSpeed), () async {
         try {
@@ -1015,26 +1016,26 @@ class GameProvider with ChangeNotifier {
           currentGame!.selectedPiece = move.piece;
 
           if (currentGame!.selectedPiece == null) {
-            await passTurn();
+            await passTurn(user);
           } else {
-            await movePiece(move.destinationIndex, move.piece);
+            await movePiece(move.destinationIndex, move.piece, user);
           }
         } catch (e) {
-          await passTurn();
+          await passTurn(user);
           Utils.showToast(DialogueService.genericErrorText.tr);
         }
       });
     }
   }
 
-  Future<void> passTurn() async {
+  Future<void> passTurn(Users user) async {
     if (!currentGame!.hasSessionEnded) {
       currentGame!.selectedPiece = null;
-      await incrementTurn(currentGame!);
+      await incrementTurn(currentGame!, user);
     }
   }
 
-  Future<void> movePiece(int destinationIndex, Piece? selectedPiece) async {
+  Future<void> movePiece(int destinationIndex, Piece? selectedPiece, Users user) async {
     if (!currentGame!.hasSessionEnded) {
       currentGame!.canPass = false;
 
@@ -1085,7 +1086,7 @@ class GameProvider with ChangeNotifier {
         // if player is human, check if a kick is possible and update reputation
         if (!currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
           currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue + 1);
-          await updateUserCouldKick(currentGame!);
+          await updateUserCouldKick(currentGame!, user);
         }
       }
 
@@ -1103,24 +1104,24 @@ class GameProvider with ChangeNotifier {
 
               // handle adaptive ai - increment kick
               if (currentGame!.hasAdaptiveAI && currentGame!.players[i].isAIPlayer) {
-                currentGame!.players[i].setReputationValue(currentGame!.players[i].reputationValue - 1);
+                currentGame!.players[i].setReputationValue(currentGame!.players[i].reputationValue - 2);
               }
 
               // update user kick stats
               if (!currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
-                currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue - 1);
+                currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue - 2);
                 // await updateUserKicked(currentGame!);
-                updateUserKicked(currentGame!);
+                updateUserKicked(currentGame!, user);
               }
 
               // set currentGame! status
               currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.playerKick);
               // make the move
-              await incrementPlayerPosition(destinationIndex, false, selectedPiece!.isBased);
+              await incrementPlayerPosition(destinationIndex, false, selectedPiece!.isBased, user);
               return;
             } else {
               if (currentGame!.players[i].pieces[j].isHome) {
-                await incrementPlayerPosition(destinationIndex, false, false);
+                await incrementPlayerPosition(destinationIndex, false, false, user);
               } else {
                 // stack pieces
                 Utils.showToast('Can\'t make that move');
@@ -1135,26 +1136,42 @@ class GameProvider with ChangeNotifier {
       if (Player.getPlayerHomeIndex(currentGame!.playerTurn) == destinationIndex) {
         currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.playerHome);
         // go home
-        await incrementPlayerPosition(destinationIndex, true, false);
+        await incrementPlayerPosition(destinationIndex, true, false, user);
       } else if (selectedPiece!.isBased) {
         // coming out of base
-        await incrementPlayerPosition(destinationIndex, false, true);
+        await incrementPlayerPosition(destinationIndex, false, true, user);
       } else {
         // make normal move
-        await incrementPlayerPosition(destinationIndex, false, false);
+        await incrementPlayerPosition(destinationIndex, false, false, user);
       }
     }
   }
 
-  Future<void> updateUserCouldKick(Game game) async {
-    await DatabaseService.updateUserCouldKick(game.players[game.playerTurn].id, game.players[game.playerTurn].reputationValue);
+  Future<void> updateUserCouldKick(Game game, Users user) async {
+    String id = game.players[game.playerTurn].id;
+    int reputationValue = game.players[game.playerTurn].reputationValue;
+
+    if (id == user.id) {
+      user.reputationValue = reputationValue;
+      LocalStorageService.setUser(user);
+    }
+
+    await DatabaseService.updateUserCouldKick(id, reputationValue);
   }
 
-  Future<void> updateUserKicked(Game game) async {
-    await DatabaseService.updateUserKicked(game.players[game.playerTurn].id, game.players[game.playerTurn].reputationValue);
+  Future<void> updateUserKicked(Game game, Users user) async {
+    String id = game.players[game.playerTurn].id;
+    int reputationValue = game.players[game.playerTurn].reputationValue;
+
+    if (id == user.id) {
+      user.reputationValue = reputationValue;
+      LocalStorageService.setUser(user);
+    }
+
+    await DatabaseService.updateUserKicked(id, reputationValue);
   }
 
-  Future<void> incrementPlayerPosition(int destinationIndex, bool isGoingHome, bool isLeavingBase) async {
+  Future<void> incrementPlayerPosition(int destinationIndex, bool isGoingHome, bool isLeavingBase, Users user) async {
     if (!currentGame!.hasSessionEnded) {
       int selectedPieceNumber = currentGame!.players[currentGame!.playerTurn].pieces.indexWhere((element) => element.pieceNumber == currentGame!.selectedPiece!.pieceNumber);
 
@@ -1175,17 +1192,17 @@ class GameProvider with ChangeNotifier {
 
       currentGame!.selectedPiece = null;
 
-      await incrementTurn(currentGame!);
+      await incrementTurn(currentGame!, user);
     }
   }
 
-  Future<void> handleMovePieceTap(int index) async {
+  Future<void> handleMovePieceTap(int index, Users user) async {
     if (currentGame!.canPlay && checkIfPlayerCanMove()) {
       if (currentGame!.selectedPiece != null) {
         if (validMoveIndices.contains(index)) {
           currentGame!.canPlay = false;
           notifyListeners();
-          await movePiece(index, currentGame!.selectedPiece);
+          await movePiece(index, currentGame!.selectedPiece, user);
         }
       }
     }
@@ -1201,7 +1218,7 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> forceStartGame() async {
+  Future<void> forceStartGame(Users user) async {
     currentGame!.hasStarted = true;
     currentGame!.canPlay = true;
     currentGame!.maxPlayers = currentGame!.players.length;
@@ -1211,11 +1228,11 @@ class GameProvider with ChangeNotifier {
 
     // get ai player to start game
     if (currentGame!.players[0].isAIPlayer) {
-      await rollDie(currentGame!.players[0].id);
+      await rollDie(currentGame!.players[0].id, user);
     }
   }
 
-  Future<void> restartGame() async {
+  Future<void> restartGame(Users user) async {
     currentGame!.hasFinished = false;
     currentGame!.hasSessionEnded = false;
     currentGame!.hasStarted = true;
@@ -1243,7 +1260,7 @@ class GameProvider with ChangeNotifier {
 
     // get ai player to start currentGame!
     if (currentGame!.players[0].isAIPlayer) {
-      await rollDie(currentGame!.players[0].id);
+      await rollDie(currentGame!.players[0].id, user);
     }
   }
 
@@ -1278,20 +1295,20 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> handleGamePopupSelection(int value, String id, BuildContext context) async {
+  Future<void> handleGamePopupSelection(int value, Users user, BuildContext context) async {
     switch (value) {
       case 0:
-        currentGame!.hasSessionEnded ? restartGame() : showRestartGameDialog(context);
+        currentGame!.hasSessionEnded ? restartGame(user) : showRestartGameDialog(context, user);
         break;
       case 1:
-        if (!currentGame!.hasStarted && isPlayerHost(id) && currentGame!.players.length > 1) {
-          forceStartGame();
+        if (!currentGame!.hasStarted && isPlayerHost(user.id) && currentGame!.players.length > 1) {
+          forceStartGame(user);
         } else {
           endSession(currentGame!);
         }
         break;
       case 2:
-        showLeaveOrDeleteGameDialog(currentGame!, id, context);
+        showLeaveOrDeleteGameDialog(currentGame!, user, context);
         break;
       case 3:
         copyGameID();
@@ -1342,7 +1359,7 @@ class GameProvider with ChangeNotifier {
     );
   }
 
-  showRestartGameDialog(BuildContext context) {
+  showRestartGameDialog(BuildContext context, Users user) {
     return showChoiceDialog(
         context: context,
         titleMessage: DialogueService.restartGameDialogTitleText.tr,
@@ -1350,7 +1367,7 @@ class GameProvider with ChangeNotifier {
         yesMessage: DialogueService.restartGameDialogYesText.tr,
         noMessage: DialogueService.restartGameDialogNoText.tr,
         onYes: () async {
-          await restartGame();
+          await restartGame(user);
         },
         onNo: () {});
   }
@@ -1369,8 +1386,8 @@ class GameProvider with ChangeNotifier {
     );
   }
 
-  Future<void> showLeaveOrDeleteGameDialog(Game game, String id, BuildContext context) async {
-    if (id == game.hostId) {
+  Future<void> showLeaveOrDeleteGameDialog(Game game, Users user, BuildContext context) async {
+    if (user.id == game.hostId) {
       // delete game
       showChoiceDialog(
         titleMessage: DialogueService.deleteGameDialogTitleText.tr,
@@ -1391,7 +1408,7 @@ class GameProvider with ChangeNotifier {
         yesMessage: DialogueService.leaveGameDialogYesText.tr,
         noMessage: DialogueService.leaveGameDialogNoText.tr,
         onYes: () async {
-          await leaveGame(game, id);
+          await leaveGame(game, user.id, user);
         },
         onNo: () {},
         context: context,
