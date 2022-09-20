@@ -19,14 +19,14 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData initLightTheme() {
     return FlexColorScheme.light(colors: FlexColor.schemes[getScheme()]!.light).toTheme.copyWith(
-          textTheme: GoogleFonts.spaceGroteskTextTheme(),
+          textTheme: GoogleFonts.gaeguTextTheme(),
           useMaterial3: true,
         );
   }
 
   ThemeData initDarkTheme() {
     return FlexColorScheme.dark(colors: FlexColor.schemes[getScheme()]!.dark).toTheme.copyWith(
-          textTheme: GoogleFonts.spaceGroteskTextTheme(),
+          textTheme: GoogleFonts.gaeguTextTheme(),
           useMaterial3: true,
         );
   }
@@ -66,8 +66,8 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void setTheme(bool isDark, FlexScheme flexScheme) {
-    ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(textTheme: GoogleFonts.spaceGroteskTextTheme());
-    ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(textTheme: GoogleFonts.spaceGroteskTextTheme());
+    ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(textTheme: GoogleFonts.gaeguTextTheme());
+    ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(textTheme: GoogleFonts.gaeguTextTheme());
 
     if (isDark) {
       Get.changeTheme(darkTheme);

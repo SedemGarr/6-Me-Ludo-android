@@ -53,6 +53,7 @@ class EnglishTranslation {
       DialogueService.leaveGameDialogContentText: 'Are you sure you want to leave this game?',
       DialogueService.leaveGameDialogYesText: 'Leave',
       DialogueService.leaveGameDialogNoText: 'Cancel',
+      DialogueService.lastPlayedAtText: 'Last played ',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
       DialogueService.startGameButtonText: 'Host Game',

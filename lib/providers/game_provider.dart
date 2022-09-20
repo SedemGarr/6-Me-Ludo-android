@@ -556,6 +556,18 @@ class GameProvider with ChangeNotifier {
     return currentGame!.players.where((element) => !element.hasLeft || !currentGame!.kickedPlayers.contains(element.id)).length == 1;
   }
 
+  bool checkIfAllHumanPlayersAreDone() {
+    List<Player> humanPlayers = currentGame!.players.where((element) => !element.isAIPlayer).toList();
+
+    for (var i = 0; i < humanPlayers.length; i++) {
+      if (humanPlayers[i].pieces.where((element) => element.isHome).length != 4) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   bool checkIfGameHasEnded() {
     if (!currentGame!.hasSessionEnded) {
       bool areAllPiecesHome = true;
@@ -570,12 +582,9 @@ class GameProvider with ChangeNotifier {
         }
       }
 
-      if (areAllPiecesHome || currentGame!.players.where((element) => !element.hasLeft).length - currentGame!.finishedPlayers.length == 1) {
-        return true;
-      } else {
-        return false;
-      }
+      return areAllPiecesHome || checkIfAllHumanPlayersAreDone() || currentGame!.players.where((element) => !element.hasLeft).length - currentGame!.finishedPlayers.length == 1;
     }
+
     return false;
   }
 
