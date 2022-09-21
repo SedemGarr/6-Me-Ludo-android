@@ -4,10 +4,10 @@ A Ludo game built with Flutter and powered by Firebase.
 
 ## Features
 
-Up to 4 player multiplayer
-AI players
-Distinct AI personalities
-A reputation system
+- Up to 4 player multiplayer
+- AI players
+- Distinct AI personalities
+- A reputation system
 
 ## Installation
 
@@ -21,7 +21,7 @@ Enable Cloud Firestore and the RTDB.
 
 Enable Anonymous and Google Sign in for authentication.
 
-Upload the gifs in the other_assets folder to Firebase Storage and update the urls in the GameStatusService class if necessary
+Upload the gifs in the other_assets folder to Firebase Storage and update the urls in the GameStatusService class if necessary.
 
 Don't forget to download the google services json file.
 
