@@ -18,6 +18,7 @@ class EnglishTranslation {
       DialogueService.andText: 'and',
       DialogueService.versionText: 'Version ',
       DialogueService.copyrightText: 'Copyright ',
+      DialogueService.zapsplatText: 'Sounds from Zapsplat',
       // welcome dialog
       DialogueService.welcomeDialogTitleText: 'Hi!',
       DialogueService.welcomeDialogContentText: 'Welcome to 6-Me-Ludo. Sign in to continue',

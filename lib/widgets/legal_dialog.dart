@@ -49,6 +49,11 @@ showLegalDialog({
               textAlign: TextAlign.center,
               style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
             ),
+            Text(
+              DialogueService.zapsplatText.tr,
+              textAlign: TextAlign.center,
+              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
+            ),
           ],
         ),
         actions: [

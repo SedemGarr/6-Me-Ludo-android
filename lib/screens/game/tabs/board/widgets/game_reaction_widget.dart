@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/models/game.dart';
@@ -22,9 +23,10 @@ class GameReactionWidget extends StatelessWidget {
             height: Get.height * 1 / 7,
             child: ClipRRect(
               borderRadius: AppConstants.appBorderRadius,
-              child: Image.asset(
-                game.reaction.reactionURL,
+              child: CachedNetworkImage(
+                imageUrl: game.reaction.reactionURL,
                 fit: BoxFit.fitHeight,
+                errorWidget: (context, url, error) => const SizedBox.shrink(),
               ),
             ),
           ),
