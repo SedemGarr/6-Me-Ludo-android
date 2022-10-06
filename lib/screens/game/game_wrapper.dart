@@ -21,16 +21,16 @@ import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
-class GameScreen extends StatefulWidget {
+class GameScreenWrapper extends StatefulWidget {
   static String routeName = '/GameScreen';
 
-  const GameScreen({super.key});
+  const GameScreenWrapper({super.key});
 
   @override
-  State<GameScreen> createState() => _GameScreenState();
+  State<GameScreenWrapper> createState() => _GameScreenWrapperState();
 }
 
-class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
+class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTickerProviderStateMixin {
   late GameProvider gameProvider;
   late NavProvider navProvider;
   late UserProvider userProvider;
@@ -44,7 +44,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     gameProvider.initialiseBoard();
     gameProvider.showGameIdSnackbar(userProvider.getUserID());
     userProvider.handleWakelockLogic(true);
-    navProvider.initialiseGameScreenTabController(this);
+    navProvider.initialiseGameScreenTabController(this, gameProvider.getGameTabControllerLength());
   }
 
   @override
@@ -150,9 +150,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         Tab(
                           text: DialogueService.boardTabText.tr,
                         ),
-                        Tab(
-                          text: DialogueService.chatTabText.tr + gameProvider.getGameChatUnreadCountAsString(userProvider.getUserID()),
-                        ),
+                        if (!game.isOffline)
+                          Tab(
+                            text: DialogueService.chatTabText.tr + gameProvider.getGameChatUnreadCountAsString(userProvider.getUserID()),
+                          ),
                       ],
                       unselectedLabelColor: Utils.getContrastingColor(gameProvider.playerColor),
                       labelColor: Utils.getContrastingColor(gameProvider.playerColor),
@@ -174,11 +175,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         gameProvider: gameProvider,
                         userProvider: userProvider,
                       ),
-                    ChatWidget(
-                      gameProvider: gameProvider,
-                      soundProvider: soundProvider,
-                      userProvider: userProvider,
-                    )
+                    if (!game.isOffline)
+                      ChatWidget(
+                        gameProvider: gameProvider,
+                        soundProvider: soundProvider,
+                        userProvider: userProvider,
+                      )
                   ]),
                 ),
               );

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/screens/game/game.dart';
+import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 
 class AppLifeCycleManager extends StatefulWidget {
   final Widget child;
@@ -40,7 +40,7 @@ class AppLifeCycleManagerState extends State<AppLifeCycleManager> with WidgetsBi
         break;
       case AppLifecycleState.resumed:
         await gameProvider.handleGameAppLifecycleChange(true);
-        if (Get.currentRoute == GameScreen.routeName) {
+        if (Get.currentRoute == GameScreenWrapper.routeName) {
           userProvider.handleWakelockLogic(true);
         }
         break;

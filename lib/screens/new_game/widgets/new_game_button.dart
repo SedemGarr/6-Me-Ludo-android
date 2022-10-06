@@ -14,7 +14,7 @@ class NewGameButton extends StatelessWidget {
 
     return IconButton(
       onPressed: () {
-        userProvider.handleNewGameTap(context);
+        userProvider.handleNewGameTap();
       },
       icon: Icon(AppIcons.newGameActiveIcon, color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary),
     );

@@ -38,6 +38,7 @@ class Thread {
       json['messages'].forEach((v) {
         messages.add(Message.fromJson(v));
       });
+      messages = [...messages.reversed.toList()];
     }
   }
 
@@ -46,7 +47,7 @@ class Thread {
     data['ownerId'] = ownerId;
     data['id'] = id;
     data['bannedIds'] = bannedIds.map((v) => v).toList();
-    data['messages'] = messages.map((v) => v.toJson()).toList();
+    data['messages'] = messages.map((v) => v.toJson()).toList().reversed.toList();
     return data;
   }
 }

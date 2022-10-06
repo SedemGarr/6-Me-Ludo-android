@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:six_me_ludo_android/models/message.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
 import 'package:six_me_ludo_android/models/user.dart';
@@ -26,13 +25,13 @@ class Game {
   late bool shouldAssistStart;
   late bool shouldAutoStart;
   late bool hasAdaptiveAI;
+  late bool isOffline;
   late int maxPlayers;
   late int playerTurn;
   late Die die;
   late Piece? selectedPiece;
   late UserSettings hostSettings;
   late List<Player> players;
-  late List<Message> thread;
   late List<String> finishedPlayers;
   late List<String> bannedPlayers;
   late List<String> kickedPlayers;
@@ -53,6 +52,7 @@ class Game {
     required this.shouldAutoStart,
     required this.hostId,
     required this.hostSettings,
+    required this.isOffline,
     required this.hasAdaptiveAI,
     required this.reaction,
     required this.players,
@@ -63,7 +63,6 @@ class Game {
     required this.playerIds,
     required this.hasRestarted,
     required this.finishedPlayers,
-    required this.thread,
   });
 
   static Color determinePlayerColor(int colorIndex) {
@@ -93,7 +92,7 @@ class Game {
     return game;
   }
 
-  static Game getDefaultGame(Users user, String gameId) {
+  static Game getDefaultGame(Users user, String gameId, bool isOffline) {
     return Game(
       hostSettings: user.settings,
       reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
@@ -109,6 +108,7 @@ class Game {
       hasFinished: false,
       hasRestarted: false,
       hasSessionEnded: false,
+      isOffline: isOffline,
       hasAdaptiveAI: user.settings.prefersAdaptiveAI,
       shouldAssistStart: user.settings.prefersStartAssist,
       shouldAutoStart: user.settings.prefersAutoStart,
@@ -119,7 +119,6 @@ class Game {
       hostId: user.id,
       players: [Player.getDefaultPlayer(user, 0)],
       playerIds: [user.id],
-      thread: [],
     );
   }
 
@@ -137,6 +136,7 @@ class Game {
     shouldAssistStart = json['shouldAssistStart'];
     shouldAutoStart = json['shouldAutoStart'];
     hasAdaptiveAI = json['hasAdaptiveAI'];
+    isOffline = json['isOffline'];
     lastUpdatedBy = json['lastUpdatedBy'];
     lastUpdatedAt = json['lastUpdatedAt'] == null
         ? DateTime.parse(DateTime.now().toString()).toString()
@@ -178,13 +178,6 @@ class Game {
         finishedPlayers.add(v);
       });
     }
-    if (json['thread'] != null) {
-      thread = <Message>[];
-      json['thread'].forEach((v) {
-        thread.add(Message.fromJson(v));
-      });
-      thread = [...thread.reversed.toList()];
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -204,11 +197,11 @@ class Game {
     data['hasAdaptiveAI'] = hasAdaptiveAI;
     data['lastUpdatedBy'] = lastUpdatedBy;
     data['lastUpdatedAt'] = lastUpdatedAt;
+    data['isOffline'] = isOffline;
     data['maxPlayers'] = maxPlayers;
     data['playerTurn'] = playerTurn;
     data['selectedPiece'] = selectedPiece == null ? null : selectedPiece!.toJson();
     data['die'] = die.toJson();
-    data['thread'] = thread.map((v) => v.toJson()).toList().reversed.toList();
     data['bannedPlayers'] = bannedPlayers.map((v) => v).toList();
     data['kickedPlayers'] = kickedPlayers.map((v) => v).toList();
     data['playerIds'] = playerIds.map((v) => v).toList();
@@ -216,4 +209,12 @@ class Game {
     data['finishedPlayers'] = finishedPlayers.map((v) => v).toList();
     return data;
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Game && other.id == id);
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

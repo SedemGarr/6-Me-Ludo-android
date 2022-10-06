@@ -96,6 +96,10 @@ class Utils {
     return avatars;
   }
 
+  static String getOfflineGameId(Uuid uuid) {
+    return uuid.v1();
+  }
+
   static String getAIPlayerId(Uuid uuid) {
     return uuid.v1();
   }
@@ -109,7 +113,7 @@ class Utils {
   }
 
   static String parseDateFromNow(String value) {
-    return Jiffy(value).fromNow();
+    return value.isEmpty ? Jiffy(DateTime.now()).fromNow() : Jiffy(value).fromNow();
   }
 
   static ThemeMode getSystemTheme() {

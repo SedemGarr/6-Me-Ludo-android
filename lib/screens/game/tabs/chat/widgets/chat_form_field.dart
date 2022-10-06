@@ -26,7 +26,7 @@ class ChatFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return gameProvider.currentGame!.thread.length > AppConstants.gameThreadMessageLimit
+    return gameProvider.getGameChatCount() > AppConstants.gameThreadMessageLimit
         ? const ChatLimitBannerWidget()
         : CustomAnimatedCrossFade(
             firstChild: const PlayerBannedBannerWidget(),

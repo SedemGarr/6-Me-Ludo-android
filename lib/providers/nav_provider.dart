@@ -33,8 +33,8 @@ class NavProvider with ChangeNotifier {
     }
   }
 
-  void initialiseGameScreenTabController(TickerProvider vsync) {
-    gameScreenTabController = TabController(initialIndex: 1, length: 3, vsync: vsync);
+  void initialiseGameScreenTabController(TickerProvider vsync, int length) {
+    gameScreenTabController = TabController(initialIndex: 1, length: length, vsync: vsync);
   }
 
   void handleHomeWrapperBackPress(BuildContext context) {

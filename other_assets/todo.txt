@@ -1,8 +1,7 @@
 fix leave session popup
-chat issues
 game gridview logic
 offline mode
 
 tweak ai logic
 clean up code
-switch to firebase RTDB (move thread to separate object, use firestore)
+switch to firebase RTDB

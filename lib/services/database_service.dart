@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import '../constants/database_constants.dart';
 import '../models/message.dart';
 import '../models/player.dart';
+import '../models/thread.dart';
 import '../models/user.dart';
 import 'game_status_service.dart';
 
@@ -91,6 +92,10 @@ class DatabaseService {
     return FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(gameId).snapshots().map((snapshot) => Game.fromJson(snapshot.data()!));
   }
 
+  static Stream<Thread> getCurrentThreadStream(String gameId) {
+    return FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(gameId).snapshots().map((snapshot) => Thread.fromJson(snapshot.data()!));
+  }
+
   static Stream<List<Game>> getOngoingGames(Users user) {
     return FirebaseFirestore.instance
         .collection(FirestoreConstants.gamesCollection)
@@ -119,10 +124,17 @@ class DatabaseService {
     }
   }
 
-  static Future<Game> createGame(Users user, Uuid uuid) async {
-    CollectionReference gameRef = FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection);
+  static Future<Thread?> getThread(String id) async {
+    try {
+      return Thread.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).get()).data()!);
+    } catch (e) {
+      return null;
+    }
+  }
 
-    Game game = Game.getDefaultGame(user, gameRef.doc().id);
+  static Future<Game> createGame(Users user, Uuid uuid, bool isOffline) async {
+    DocumentReference gameRef = FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc();
+    Game game = Game.getDefaultGame(user, gameRef.id, isOffline);
 
     if (user.settings.prefersAddAI) {
       game = Game.autoFillWithAIPlayers(game, user, uuid);
@@ -132,6 +144,14 @@ class DatabaseService {
     await updateGame(game, true, shouldCreate: true);
 
     return game;
+  }
+
+  static Future<Thread> createThread(Users user, String id) async {
+    Thread thread = Thread.getDefaultThread(user, id);
+
+    await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).set(thread.toJson());
+
+    return thread;
   }
 
   static Future<void> addNewHumanPlayerToGame(Game game, Users user) async {
@@ -159,8 +179,8 @@ class DatabaseService {
 
       Map<String, dynamic> jsonMessage = messageObject.toJson();
 
-      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(gameId).update({
-        "thread": FieldValue.arrayUnion([jsonMessage]),
+      await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(gameId).update({
+        "messages": FieldValue.arrayUnion([jsonMessage]),
       });
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
@@ -189,7 +209,10 @@ class DatabaseService {
   static Future<void> deleteGame(Game game) async {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).delete();
-      await deleteThread(game.id);
+
+      if (!game.isOffline) {
+        await deleteThread(game.id);
+      }
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());

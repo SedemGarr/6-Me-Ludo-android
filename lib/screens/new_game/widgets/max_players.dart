@@ -19,6 +19,7 @@ class MaxPlayers extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: CustomListTileWidget(
+        //   leading: const SettingsIconWidget(iconData: AppIcons.maxHumanPlayerIcon),
         title: SettingsTitleWidget(text: DialogueService.maxPlayersTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.maxPlayersSubtitleText.tr),
         trailing: DropdownButton<dynamic>(

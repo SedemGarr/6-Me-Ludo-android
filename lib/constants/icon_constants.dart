@@ -59,7 +59,7 @@ class AppIcons {
   static const IconData profaneIcon = Icons.explicit;
   static const IconData aIPersonalityTypeIcon = LineIcons.brain;
   static const IconData gameSpeedIcon = LineIcons.alternateTachometer;
-  static const IconData maxHumanPlayerIcon = LineIcons.alternateTachometer;
+  static const IconData maxHumanPlayerIcon = LineIcons.user;
   static const IconData editProfileIcon = LineIcons.pen;
   static const IconData slowGameSpeedIcon = LineIcons.wheelchair;
   static const IconData normalGameSpeedIcon = LineIcons.walking;

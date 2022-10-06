@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:math';
 
 import 'package:confetti/confetti.dart';
@@ -28,6 +26,7 @@ import '../models/move.dart';
 import '../models/piece.dart';
 import '../models/player.dart';
 import '../models/reaction.dart';
+import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/user_settings.dart';
 import '../services/game_status_service.dart';
@@ -42,11 +41,15 @@ class GameProvider with ChangeNotifier {
 
   // game
   Game? currentGame;
-  late Stream<Game> currentGameStream;
+  Stream<Game>? currentGameStream;
   late int playerNumber;
   late Color playerColor;
   late Color playerSelectedColor;
   late List<int> validMoveIndices;
+
+  // thread
+  Thread? currentThread;
+  Stream<Thread>? currentThreadStream;
 
   bool isJoinGameCodeValidLength() {
     return joinGameController.text.length == AppConstants.joinGameCodeLength;
@@ -72,12 +75,16 @@ class GameProvider with ChangeNotifier {
     return currentGame!.players.where((element) => element.numberOfTimesKickerInSession != 0 || element.numberOfTimesKickedInSession != 0).isNotEmpty;
   }
 
+  int getGameTabControllerLength() {
+    return currentGame!.isOffline ? 2 : 3;
+  }
+
   int getGameChatCount() {
-    return currentGame!.thread.length;
+    return currentThread!.messages.length;
   }
 
   String getGameChatUnreadCountAsString(String id) {
-    int unreadCount = currentGame!.thread.where((element) => !element.seenBy.contains(id)).length;
+    int unreadCount = currentThread!.messages.where((element) => !element.seenBy.contains(id)).length;
 
     if (currentGame!.bannedPlayers.contains(id) || unreadCount == 0) {
       return '';
@@ -247,13 +254,19 @@ class GameProvider with ChangeNotifier {
     board = Board.generateBoard();
   }
 
-  void initialiseGame(Game game, String id) {
+  void initialiseGame(Game game, Thread? thread, String id) {
+    // game
     currentGame = game;
     currentGameStream = DatabaseService.getCurrentGameStream(currentGame!.id);
     playerNumber = game.playerIds.indexWhere((element) => element == id);
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
     validMoveIndices = [];
+    // thread
+    if (thread != null) {
+      currentThread = thread;
+      currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
+    }
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {
@@ -261,7 +274,6 @@ class GameProvider with ChangeNotifier {
     checkIfPlayerHasLeftGame(game);
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
-    checkIfNewMessageHasArrived(game, user.id, context);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
@@ -276,9 +288,13 @@ class GameProvider with ChangeNotifier {
     startGame(user);
   }
 
-  void checkIfNewMessageHasArrived(Game newGame, String id, BuildContext context) {
-    if (newGame.thread.length > currentGame!.thread.length) {
-      if (newGame.thread.first.createdById != id) {
+  void syncThreadData(BuildContext context, Thread thread, Users user) {
+    checkIfNewMessageHasArrived(thread, user.id, context);
+  }
+
+  void checkIfNewMessageHasArrived(Thread newThread, String id, BuildContext context) {
+    if (newThread.messages.length > currentThread!.messages.length) {
+      if (newThread.messages.first.createdById != id) {
         SoundProvider soundProvider = context.read<SoundProvider>();
         soundProvider.playSound(GameStatusService.newMessageReceived);
       }
@@ -315,14 +331,16 @@ class GameProvider with ChangeNotifier {
   }
 
   void removePlayerMessages(String id) {
-    currentGame!.thread.removeWhere((element) => element.createdById == id);
+    currentThread!.messages.removeWhere((element) => element.createdById == id);
   }
 
   void showGameIdSnackbar(String id) {
     if (isPlayerHost(id) && !currentGame!.hasStarted) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        copyGameID();
-      });
+      if (!currentGame!.isOffline) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          copyGameID();
+        });
+      }
     }
   }
 
@@ -776,12 +794,14 @@ class GameProvider with ChangeNotifier {
     return currentGame!;
   }
 
-  Future<void> hostGame(Users user, Uuid uuid, AppProvider appProvider) async {
+  Future<void> hostGame(Users user, Uuid uuid, AppProvider appProvider, bool isOffline) async {
     appProvider.setLoading(true, true);
 
     try {
-      Game newGame = await DatabaseService.createGame(user, uuid);
-      initialiseGame(newGame, user.id);
+      Game newGame = await DatabaseService.createGame(user, uuid, isOffline);
+      Thread? newThread = isOffline ? null : await DatabaseService.createThread(user, newGame.id);
+
+      initialiseGame(newGame, newThread, user.id);
       appProvider.setLoading(false, true);
       NavigationService.goToGameScreen();
     } catch (e) {
@@ -798,9 +818,9 @@ class GameProvider with ChangeNotifier {
       game.players[playerNumber].hasLeft = false;
       game.players[playerNumber].isPresent = true;
 
-      DatabaseService.updateGame(game, false);
+      await DatabaseService.updateGame(game, false);
 
-      initialiseGame(game, id);
+      initialiseGame(game, await DatabaseService.getThread(game.id), id);
       NavigationService.goToGameScreen();
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
@@ -843,7 +863,7 @@ class GameProvider with ChangeNotifier {
           // add new player
           await DatabaseService.addNewHumanPlayerToGame(newGame, user);
           newGame = await DatabaseService.getGame(newGame.id);
-          initialiseGame(newGame!, user.id);
+          initialiseGame(newGame!, await DatabaseService.getThread(newGame.id), user.id);
           appProvider.setLoading(false, true);
           NavigationService.goToGameScreen();
         }
@@ -875,8 +895,9 @@ class GameProvider with ChangeNotifier {
 
   Future<void> handleGameChatReadStatus(VisibilityInfo visibilityInfo, String id, int index) async {
     if (visibilityInfo.visibleFraction == 1) {
-      if (!currentGame!.thread[index].seenBy.contains(id)) {
-        currentGame!.thread[index].seenBy.add(id);
+      if (!currentThread!.messages[index].seenBy.contains(id)) {
+        currentThread!.messages[index].seenBy.add(id);
+
         await DatabaseService.updateGame(currentGame!, false);
       }
     }
@@ -1012,6 +1033,7 @@ class GameProvider with ChangeNotifier {
       currentGame!.selectedPiece = null;
       currentGame!.hasRestarted = false;
       currentGame!.canPass = false;
+
       await DatabaseService.updateGame(currentGame!, true);
 
       Future.delayed(const Duration(milliseconds: 1000), () async {
@@ -1327,12 +1349,14 @@ class GameProvider with ChangeNotifier {
 
   Future<void> setGamePresence(bool value) async {
     currentGame!.players[playerNumber].isPresent = value;
-    DatabaseService.updateGame(currentGame!, false);
+    await DatabaseService.updateGame(currentGame!, false);
   }
 
   Future<void> handleGameAppLifecycleChange(bool value) async {
     if (currentGame != null) {
-      await setGamePresence(value);
+      if (!currentGame!.isOffline) {
+        await setGamePresence(value);
+      }
     }
   }
 
@@ -1362,11 +1386,13 @@ class GameProvider with ChangeNotifier {
     game.hasStarted = true;
     game.hasSessionEnded = true;
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
+
     await DatabaseService.updateGame(game, true);
   }
 
   Future<void> deleteGame(Game game) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
+
     DatabaseService.deleteGame(game);
   }
 

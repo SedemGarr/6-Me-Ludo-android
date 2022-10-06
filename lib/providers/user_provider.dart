@@ -12,7 +12,6 @@ import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
-import 'package:six_me_ludo_android/widgets/new_game_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 import 'package:uuid/uuid.dart';
 
@@ -60,13 +59,13 @@ class UserProvider with ChangeNotifier {
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
-  void handleNewGameTap(BuildContext context) {
+  void handleNewGameTap() {
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
-    showNewGameDialog(context: context);
+    NavigationService.goToNewGameScreen();
   }
 
   void initialiseOnGoingGamesStream() {
@@ -355,6 +354,10 @@ class UserProvider with ChangeNotifier {
 
   bool isAvatarSelected(String avatar) {
     return _user!.avatar == avatar;
+  }
+
+  bool isGameOffline() {
+    return _user!.settings.maxPlayers == 1;
   }
 
   int getUserOngoingGamesLength() {

@@ -26,7 +26,7 @@ class ChatListItem extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
     Game game = gameProvider.currentGame!;
-    Message message = game.thread[index];
+    Message message = gameProvider.currentThread!.messages[index];
     bool isMe = message.createdById == userProvider.getUserID();
     TextAlign textAlign = isMe ? TextAlign.end : TextAlign.start;
 
