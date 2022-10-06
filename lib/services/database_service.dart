@@ -187,11 +187,20 @@ class DatabaseService {
   }
 
   static Future<void> deleteGame(Game game) async {
-    await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).delete();
-    await deleteThread(game.id);
+    try {
+      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).delete();
+      await deleteThread(game.id);
+    } catch (e) {
+      Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
   }
 
   static Future<void> deleteThread(String id) async {
-    // await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).delete();
+    try {
+      await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).delete();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
