@@ -27,7 +27,6 @@ dependencies:
   flutter_fadein: ^2.0.0
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^1.1.4
-  fluttertoast: ^8.0.9
   font_awesome_flutter: ^10.1.0
   get: ^4.6.5
   get_storage: ^2.0.3

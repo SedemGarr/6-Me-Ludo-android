@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
@@ -134,10 +133,26 @@ class Utils {
   }
 
   static void showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
+    // Fluttertoast.showToast(
+    //   msg: message,
+    //   toastLength: Toast.LENGTH_LONG,
+    //   gravity: ToastGravity.BOTTOM,
+    // );
+
+    Get.snackbar(
+      '',
+      message,
+      animationDuration: AppConstants.animationDuration,
+      backgroundColor: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.surface : Theme.of(Get.context!).primaryColor,
+      borderRadius: AppConstants.appBorderRadiusValue,
+      colorText: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.onSurface : Theme.of(Get.context!).colorScheme.onPrimary,
+      forwardAnimationCurve: AppConstants.animationCurve,
+      isDismissible: true,
+      overlayBlur: 1.0,
+      reverseAnimationCurve: AppConstants.animationCurve,
+      snackPosition: SnackPosition.BOTTOM,
+      snackStyle: SnackStyle.GROUNDED,
+      titleText: const SizedBox.shrink(),
     );
   }
 
