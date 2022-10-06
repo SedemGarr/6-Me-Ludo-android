@@ -188,5 +188,10 @@ class DatabaseService {
 
   static Future<void> deleteGame(Game game) async {
     await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).delete();
+    await deleteThread(game.id);
+  }
+
+  static Future<void> deleteThread(String id) async {
+    // await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).delete();
   }
 }

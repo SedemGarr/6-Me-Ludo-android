@@ -22,6 +22,10 @@ class NavigationService {
     await Get.to(() => const LegalScreen());
   }
 
+  static void goToBackToHomeScreen() {
+    Get.offAll(() => const HomePageViewWrapper());
+  }
+
   static void genericGoBack() {
     Get.back();
   }

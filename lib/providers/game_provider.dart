@@ -332,8 +332,8 @@ class GameProvider with ChangeNotifier {
   }
 
   void handleSuddenGameDeletion() {
-    Utils.showToast(DialogueService.gameDeletedText.tr);
     goBack();
+    Utils.showToast(DialogueService.gameDeletedText.tr);
   }
 
   void handleConfettiDisplay(String id) {
@@ -344,7 +344,7 @@ class GameProvider with ChangeNotifier {
 
   void goBack() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      NavigationService.genericGoBack();
+      NavigationService.goToBackToHomeScreen();
     });
   }
 
@@ -370,7 +370,7 @@ class GameProvider with ChangeNotifier {
         if (!doesIndexContainFriendlyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn))) {
           availableMoves.add(Move(
               piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
-              direction: Direction.forward,
+              direction: Direction.forward.parseToString(),
               destinationIndex: Player.getPlayerStartIndex(currentGame!.playerTurn),
               isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == Player.getPlayerStartIndex(currentGame!.playerTurn),
               isStartingKick: doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn)),
@@ -387,7 +387,7 @@ class GameProvider with ChangeNotifier {
           if (!doesIndexContainFriendlyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])) {
             availableMoves.add(Move(
                 piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
-                direction: Direction.forward,
+                direction: Direction.forward.parseToString(),
                 destinationIndex: validIndices[piecePosition + currentGame!.die.rolledValue],
                 isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == validIndices[piecePosition + currentGame!.die.rolledValue],
                 isStartingKick: false,
@@ -404,7 +404,7 @@ class GameProvider with ChangeNotifier {
             if (doesIndexContainEnemyPiece(getAIPlayerDestination(tempGame, false))) {
               availableMoves.add(Move(
                   piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
-                  direction: Direction.backward,
+                  direction: Direction.backward.parseToString(),
                   destinationIndex: validIndices[piecePosition - currentGame!.die.rolledValue],
                   isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == validIndices[piecePosition - currentGame!.die.rolledValue],
                   isStartingKick: false,
@@ -419,7 +419,7 @@ class GameProvider with ChangeNotifier {
             if (doesIndexContainEnemyPiece(currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
               availableMoves.add(Move(
                   piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
-                  direction: Direction.backward,
+                  direction: Direction.backward.parseToString(),
                   destinationIndex: currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1],
                   isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) ==
                       currentGame!.players[currentGame!.playerTurn].startBackKickIndices[(piecePosition - currentGame!.die.rolledValue).abs() - 1],
@@ -446,8 +446,8 @@ class GameProvider with ChangeNotifier {
           break;
         case PlayerConstants.averageJoe:
           // try as much as possible to avoid back-kicks unless absolutely necessary
-          if (availableMoves.where((element) => element.direction == Direction.forward).toList().isNotEmpty) {
-            availableMoves = availableMoves.where((element) => element.direction == Direction.forward).toList();
+          if (availableMoves.where((element) => element.direction == Direction.forward.parseToString()).toList().isNotEmpty) {
+            availableMoves = availableMoves.where((element) => element.direction == Direction.forward.parseToString()).toList();
           }
           // try and prioritize home moves
           if (canPlayerGoHome(availableMoves)) {
