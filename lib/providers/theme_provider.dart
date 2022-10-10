@@ -3,6 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:six_me_ludo_android/models/user.dart';
 import '../services/local_storage_service.dart';
 import '../utils/utils.dart';
 
@@ -38,8 +39,24 @@ class ThemeProvider with ChangeNotifier {
   FlexScheme getScheme() {
     Random random = Random();
 
-    return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+    if (LocalStorageService.isThereLocalUser()) {
+      Users user = LocalStorageService.getLocalUser()!;
+
+      if (user.settings.theme.isEmpty) {
+        return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+      } else {
+        return FlexColor.schemes.keys.toList().firstWhere((element) => element.name == user.settings.theme);
+      }
+    } else {
+      return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+    }
   }
+
+  // FlexScheme getScheme() {
+  //   Random random = Random();
+
+  //   return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+  // }
 
   Color getSettingsColorListByIndex(FlexScheme flexScheme, bool isDark) {
     if (isDark) {

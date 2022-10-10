@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -156,6 +157,24 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  Future<void> setCustomTheme(FlexScheme flexScheme, BuildContext context) async {
+    //NavigationService.genericGoBack();
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    _user!.settings.theme = flexScheme.name;
+    themeProvider.setTheme(_user!.settings.prefersDarkMode, flexScheme);
+    Utils.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name);
+    await updateUser(true, true);
+  }
+
+  Future<void> setThemeToRandom(BuildContext context) async {
+    NavigationService.genericGoBack();
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    _user!.settings.theme = '';
+    themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getScheme());
+    Utils.showToast(DialogueService.setThemeToRandomText.tr);
+    await updateUser(true, true);
+  }
+
   void setLanguageCode(Locale locale) {
     if (locale.languageCode != parseUserLocale(_user!.settings.locale).languageCode) {
       _user!.settings.locale = locale.toString();
@@ -277,6 +296,14 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.aiPersonalityPreference;
   }
 
+  String getThemeName() {
+    if (_user!.settings.theme == '') {
+      return DialogueService.randomThemeText.tr;
+    } else {
+      return DialogueService.currentThemeText.tr + Utils.convertToTitleCase(_user!.settings.theme);
+    }
+  }
+
   String parseGameNameText(Player host, List<Player> players) {
     if (host.id == _user!.id) {
       switch (players.length) {
@@ -354,6 +381,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserStartAssist() {
     return _user!.settings.prefersStartAssist;
+  }
+
+  bool isThemeSelected(String value) {
+    return _user!.settings.theme == value;
   }
 
   bool getUserProfaneMessages() {

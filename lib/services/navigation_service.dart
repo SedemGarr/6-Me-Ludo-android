@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 
 import '../screens/legal/legal.dart';
 import '../screens/new_game/new_game.dart';
+import '../screens/profile/widgets/settings/widgets/general/widgets/theme_selector.dart';
 
 class NavigationService {
   static void goToAuthScreen() {
@@ -21,6 +22,10 @@ class NavigationService {
 
   static Future<void> goToGameScreen() async {
     await Get.to(() => const GameScreenWrapper());
+  }
+
+  static Future<void> goToThemeSelector() async {
+    await Get.to(() => const ThemeSelectionScreen());
   }
 
   static Future<void> goToLegalScreen() async {

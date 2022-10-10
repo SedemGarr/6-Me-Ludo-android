@@ -185,6 +185,13 @@ class DialogueService extends Translations {
   // settings - audio
   static const String audioTitleText = 'audioTitleText';
   static const String audioSubtitleText = 'audioSubtitleText';
+  // settings - theme
+  static const String themeTitleText = 'themeTitleText';
+  static const String themeSubtitleText = 'themeSubtitleText';
+  static const String setThemeToRandomText = 'setThemeToRandomText';
+  static const String setThemeToValueText = 'setThemeToValueText';
+  static const String randomThemeText = 'randomThemeText';
+  static const String currentThemeText = 'curentThemeText';
   // settings - wakelock
   static const String wakelockTitleText = 'wakelockTitleText';
   static const String wakelockSubtitleText = 'wakelockSubtitleText';

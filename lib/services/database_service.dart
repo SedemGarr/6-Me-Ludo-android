@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/game.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -193,6 +195,8 @@ class DatabaseService {
   }
 
   static Future<void> deleteGame(String gameID, Users user) async {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+
     try {
       await user.removeOngoingGameIDFromList(gameID);
 
@@ -204,6 +208,13 @@ class DatabaseService {
           user.onGoingGameIDs.remove(gameID);
           updateUserData(user);
         }
+      }
+
+      if (gameProvider.currentGame!.id == gameID) {
+        gameProvider.currentGame = null;
+        gameProvider.currentGameStream = null;
+        gameProvider.currentThread = null;
+        gameProvider.currentThreadStream = null;
       }
 
       await FirebaseDatabase.instance.ref('games/$gameID').set(null);

@@ -19,6 +19,7 @@ class CustomBottomNavBar extends StatelessWidget {
     return appProvider.isLoading
         ? const SizedBox.shrink()
         : NavigationBar(
+            backgroundColor: Colors.transparent,
             animationDuration: AppConstants.animationDuration,
             elevation: 0,
             height: kBottomNavigationBarHeight,

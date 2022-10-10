@@ -159,6 +159,13 @@ class EnglishTranslation {
       // settings - audio
       DialogueService.audioTitleText: 'Audio',
       DialogueService.audioSubtitleText: 'Toggle game sounds on or off',
+      // settings - theme
+      DialogueService.themeTitleText: 'Theme',
+      DialogueService.themeSubtitleText: 'Select your preferred theme',
+      DialogueService.setThemeToRandomText: 'Set theme to random',
+      DialogueService.setThemeToValueText: 'Set theme to ',
+      DialogueService.randomThemeText: 'Random Theme Selected',
+      DialogueService.currentThemeText: 'Current Theme: ',
       // settings - wakelock
       DialogueService.wakelockTitleText: 'Wakelock',
       DialogueService.wakelockSubtitleText: 'Toggle whether the screen should not automatically lock during games',
