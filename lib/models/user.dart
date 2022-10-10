@@ -69,21 +69,21 @@ class Users {
     );
   }
 
-  void addOngoingGameIDToList(String gameID) {
+  Future<void> addOngoingGameIDToList(String gameID) async {
     if (!onGoingGameIDs.contains(gameID)) {
       onGoingGameIDs.add(gameID);
-      updateUser();
+      await updateUser();
     }
   }
 
-  void removeOngoingGameIDFromList(String gameID) {
+  Future<void> removeOngoingGameIDFromList(String gameID) async {
     if (onGoingGameIDs.contains(gameID)) {
       onGoingGameIDs.remove(gameID);
-      updateUser();
+      await updateUser();
     }
   }
 
-  void updateUser() {
+  Future<void> updateUser() async {
     Get.context!.read<UserProvider>().setAndUpdateUser(
           Users(
             id: id,

@@ -69,7 +69,7 @@ class UserProvider with ChangeNotifier {
       });
     }
 
-    UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
+    await UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
   void handleNewGameTap() {

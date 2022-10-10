@@ -818,24 +818,25 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> reJoinGame(Game game, String id, AppProvider appProvider) async {
+  Future<void> reJoinGame(Game game, Users user, AppProvider appProvider) async {
     appProvider.setLoading(true, true);
 
     try {
       if (await DatabaseService.getGame(game.id) == null) {
+        await user.removeOngoingGameIDFromList(game.id);
         appProvider.setLoading(false, true);
         Utils.showToast(DialogueService.gameDeletedToastText.tr);
         return;
       }
 
-      int playerNumber = game.playerIds.indexWhere((element) => element == id);
+      int playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
       game.players[playerNumber].hasLeft = false;
       game.players[playerNumber].isPresent = true;
 
       await DatabaseService.updateGame(game, false);
 
-      initialiseGame(game, (await DatabaseService.getThread(game.id))!, id);
+      initialiseGame(game, (await DatabaseService.getThread(game.id))!, user.id);
       appProvider.setLoading(false, true);
       NavigationService.goToGameScreen();
     } catch (e) {
@@ -870,7 +871,7 @@ class GameProvider with ChangeNotifier {
           if (newGame.playerIds.contains(user.id)) {
             // rejoin
             appProvider.setLoading(false, true);
-            reJoinGame(newGame, user.id, appProvider);
+            reJoinGame(newGame, user, appProvider);
             return;
           } else if (newGame.players.length == newGame.maxPlayers) {
             // full
@@ -950,7 +951,7 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> leaveGame(Game game, String id, Users user) async {
-    user.removeOngoingGameIDFromList(game.id);
+    await user.removeOngoingGameIDFromList(game.id);
 
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game.id, user);
@@ -1411,7 +1412,7 @@ class GameProvider with ChangeNotifier {
 
   Future<void> deleteGame(Game game, Users user) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
-    user.removeOngoingGameIDFromList(game.id);
+    await user.removeOngoingGameIDFromList(game.id);
     DatabaseService.deleteGame(game.id, user);
   }
 
@@ -1458,14 +1459,14 @@ class GameProvider with ChangeNotifier {
         onNo: () {});
   }
 
-  Future<void> showRejoinGameDialog(Game game, String id, BuildContext context) async {
+  Future<void> showRejoinGameDialog(Game game, Users user, BuildContext context) async {
     showChoiceDialog(
       titleMessage: DialogueService.rejoinGameDialogTitleText.tr,
       contentMessage: DialogueService.rejoinGameDialogContentText.tr,
       yesMessage: DialogueService.rejoinGameDialogYesText.tr,
       noMessage: DialogueService.rejoinGameDialogNoText.tr,
       onYes: () {
-        reJoinGame(game, id, context.read<AppProvider>());
+        reJoinGame(game, user, context.read<AppProvider>());
       },
       onNo: () {},
       context: context,

@@ -125,7 +125,7 @@ class DatabaseService {
 
     await updateGame(game, true, shouldCreate: true);
 
-    user.addOngoingGameIDToList(game.id);
+    await user.addOngoingGameIDToList(game.id);
 
     return game;
   }
@@ -145,7 +145,7 @@ class DatabaseService {
     newGame.players.add(Player.getJoiningPlayer(user, game));
     newGame.playerIds.add(user.id);
 
-    user.addOngoingGameIDToList(game.id);
+    await user.addOngoingGameIDToList(game.id);
 
     await updateGame(newGame, true);
   }
@@ -194,7 +194,7 @@ class DatabaseService {
 
   static Future<void> deleteGame(String gameID, Users user) async {
     try {
-      user.removeOngoingGameIDFromList(gameID);
+      await user.removeOngoingGameIDFromList(gameID);
 
       Game game = (await getGame(gameID))!;
 

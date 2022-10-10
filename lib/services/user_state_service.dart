@@ -3,10 +3,10 @@ import 'database_service.dart';
 import 'local_storage_service.dart';
 
 class UserStateUpdateService {
-  static void updateUser(Users user, bool shouldUpdateOnline) {
+  static Future<void> updateUser(Users user, bool shouldUpdateOnline) async {
     LocalStorageService.setUser(user);
     if (shouldUpdateOnline) {
-      DatabaseService.updateUserData(user);
+      await DatabaseService.updateUserData(user);
     }
   }
 }
