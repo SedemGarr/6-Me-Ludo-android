@@ -63,10 +63,6 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
     NavProvider navProvider = context.watch<NavProvider>();
     SoundProvider soundProvider = context.watch<SoundProvider>();
 
-    Users user = userProvider.getUser();
-    Game game = gameProvider.currentGame!;
-    bool isHost = user.id == game.hostId;
-
     return WillPopScope(
       onWillPop: () async {
         navProvider.handleGameScreenBackPress(gameProvider);
@@ -79,6 +75,10 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingScreen();
             } else if (snapshot.hasData) {
+              Users user = userProvider.getUser();
+              Game game = gameProvider.currentGame!;
+              bool isHost = user.id == game.hostId;
+
               gameProvider.syncGameData(context, snapshot.data!, userProvider.getUser());
 
               return StreamBuilder<Thread>(
