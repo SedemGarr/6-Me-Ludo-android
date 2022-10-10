@@ -131,7 +131,11 @@ class GameProvider with ChangeNotifier {
           if (currentGame!.die.isRolling) {
             return currentGame!.players[currentGame!.playerTurn].psuedonym + DialogueService.hasRolledTheDieText.tr;
           } else {
-            return currentGame!.players[currentGame!.playerTurn].psuedonym + DialogueService.hasRolledAText.tr + currentGame!.die.rolledValue.toString();
+            if (currentGame!.die.rolledValue == 0) {
+              return DialogueService.waitingForParticularPlayerText.tr + currentGame!.players[currentGame!.playerTurn].psuedonym;
+            } else {
+              return currentGame!.players[currentGame!.playerTurn].psuedonym + DialogueService.hasRolledAText.tr + currentGame!.die.rolledValue.toString();
+            }
           }
         }
         return DialogueService.waitingForParticularPlayerText.tr + currentGame!.players[currentGame!.playerTurn].psuedonym;
