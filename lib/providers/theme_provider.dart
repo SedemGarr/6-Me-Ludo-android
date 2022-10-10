@@ -99,11 +99,17 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void setLightTheme(ThemeData themeData) {
-    _lightThemeData = themeData;
+    _lightThemeData = themeData.copyWith(
+      textTheme: GoogleFonts.patrickHandTextTheme(),
+      useMaterial3: true,
+    );
   }
 
   void setDarkTheme(ThemeData themeData) {
-    _darkThemeData = themeData;
+    _darkThemeData = themeData.copyWith(
+      textTheme: GoogleFonts.patrickHandTextTheme(),
+      useMaterial3: true,
+    );
   }
 
   ThemeData getLightTheme() {

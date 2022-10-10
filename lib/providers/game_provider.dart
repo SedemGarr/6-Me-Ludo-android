@@ -1374,9 +1374,14 @@ class GameProvider with ChangeNotifier {
     await DatabaseService.updateGame(currentGame!, false);
   }
 
-  Future<void> handleGameAppLifecycleChange(bool value) async {
+  Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
     if (currentGame != null) {
-      await setGamePresence(value);
+      Game? tempGame = await DatabaseService.getGame(currentGame!.id);
+      if (tempGame != null) {
+        await setGamePresence(value);
+      } else {
+        await user.removeOngoingGameIDFromList(currentGame!.id);
+      }
     }
   }
 
