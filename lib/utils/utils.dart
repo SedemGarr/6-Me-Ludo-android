@@ -137,21 +137,23 @@ class Utils {
   }
 
   static void showToast(String message) {
-    Get.snackbar(
-      '',
-      message,
-      animationDuration: AppConstants.animationDuration,
-      backgroundColor: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.surface : Theme.of(Get.context!).primaryColor,
-      borderRadius: AppConstants.appBorderRadiusValue,
-      colorText: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.onSurface : Theme.of(Get.context!).colorScheme.onPrimary,
-      forwardAnimationCurve: AppConstants.animationCurve,
-      isDismissible: true,
-      overlayBlur: 1.0,
-      reverseAnimationCurve: AppConstants.animationCurve,
-      snackPosition: SnackPosition.BOTTOM,
-      snackStyle: SnackStyle.GROUNDED,
-      titleText: const SizedBox.shrink(),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.snackbar(
+        '',
+        message,
+        animationDuration: AppConstants.animationDuration,
+        backgroundColor: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.surface : Theme.of(Get.context!).primaryColor,
+        borderRadius: AppConstants.appBorderRadiusValue,
+        colorText: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.onSurface : Theme.of(Get.context!).colorScheme.onPrimary,
+        forwardAnimationCurve: AppConstants.animationCurve,
+        isDismissible: true,
+        overlayBlur: 1.0,
+        reverseAnimationCurve: AppConstants.animationCurve,
+        snackPosition: SnackPosition.BOTTOM,
+        snackStyle: SnackStyle.GROUNDED,
+        titleText: const SizedBox.shrink(),
+      );
+    });
   }
 
   static void openURL(String url) async {

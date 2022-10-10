@@ -75,11 +75,11 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingScreen();
             } else if (snapshot.hasData) {
+              gameProvider.syncGameData(context, snapshot.data!, userProvider.getUser());
+
               Users user = userProvider.getUser();
               Game game = gameProvider.currentGame!;
               bool isHost = user.id == game.hostId;
-
-              gameProvider.syncGameData(context, snapshot.data!, userProvider.getUser());
 
               return StreamBuilder<Thread>(
                   stream: gameProvider.currentThreadStream,
