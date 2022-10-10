@@ -15,7 +15,7 @@ class AppIcons {
   static const IconData pacifistIcon = LineIcons.smilingFace;
   static const IconData averageJoeIcon = LineIcons.neutralFace;
   static const IconData viciousIcon = LineIcons.angryFace;
-  static const IconData randomIcon = LineIcons.dice;
+  static const IconData randomIcon = LineIcons.robot;
   //
   static const IconData googleIcon = FontAwesomeIcons.google;
   static const IconData anonIcon = FontAwesomeIcons.userSecret;
@@ -50,6 +50,7 @@ class AppIcons {
   static const IconData themeIcon = LineIcons.palette;
   static const IconData themeArrowIcon = LineIcons.angleRight;
   static const IconData themeSelectedIcon = LineIcons.circle;
+  static const IconData randomThemeIcon = LineIcons.dice;
   static const IconData wakelockIcon = LineIcons.lock;
   static const IconData languageIcon = LineIcons.language;
   static const IconData signOutIcon = LineIcons.arrowLeft;

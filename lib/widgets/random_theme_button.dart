@@ -17,7 +17,7 @@ class RandomThemeButtonWidget extends StatelessWidget {
         userProvider.setThemeToRandom(context);
       },
       icon: Icon(
-        AppIcons.randomIcon,
+        AppIcons.randomThemeIcon,
         color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
       ),
     );
