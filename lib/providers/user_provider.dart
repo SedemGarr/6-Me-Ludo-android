@@ -42,9 +42,9 @@ class UserProvider with ChangeNotifier {
       tempUser = null;
     }
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () async {
       if (tempUser != null) {
-        setUser(tempUser, context.read<SoundProvider>());
+        setUser((await DatabaseService.getUser(tempUser.id))!, context.read<SoundProvider>());
         NavigationService.goToHomeScreen();
       } else {
         NavigationService.goToAuthScreen();

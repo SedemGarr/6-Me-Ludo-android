@@ -357,8 +357,8 @@ class GameProvider with ChangeNotifier {
   }
 
   void handleSuddenGameDeletion() {
-    goBack();
     Utils.showToast(DialogueService.gameDeletedText.tr);
+    goBack();
   }
 
   void handleConfettiDisplay(String id) {
