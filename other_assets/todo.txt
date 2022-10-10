@@ -1,4 +1,5 @@
-fix leave session popup
-
+- long term
+deep links
+push notifications
 tweak ai logic
 clean up code

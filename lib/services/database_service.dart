@@ -147,7 +147,7 @@ class DatabaseService {
 
     user.addOngoingGameIDToList(game.id);
 
-    updateGame(newGame, true);
+    await updateGame(newGame, true);
   }
 
   static Future<void> updateOngoingGamesAfterUserChange(Users user) async {

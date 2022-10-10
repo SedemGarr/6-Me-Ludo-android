@@ -11,6 +11,7 @@ import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
 
 import '../../../../models/game.dart';
 import '../../../../models/player.dart';
+import '../../../../models/user.dart';
 
 class OnGoingGamesListItemWidget extends StatefulWidget {
   final String id;
@@ -35,10 +36,15 @@ class _OnGoingGamesListItemWidgetState extends State<OnGoingGamesListItemWidget>
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
 
+    Users user = userProvider.getUser();
+
     return FutureBuilder<Game?>(
       future: getGame,
       builder: (context, snapshot) {
-        if (snapshot.data == null || !snapshot.hasData) {
+        if (snapshot.data == null) {
+          user.removeOngoingGameIDFromList(widget.id);
+          return const SizedBox.shrink();
+        } else if (!snapshot.hasData) {
           return const SizedBox.shrink();
         } else {
           Game game = snapshot.data!;

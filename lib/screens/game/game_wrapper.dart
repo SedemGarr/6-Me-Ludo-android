@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/models/game.dart';
+import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
@@ -62,7 +63,9 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
     NavProvider navProvider = context.watch<NavProvider>();
     SoundProvider soundProvider = context.watch<SoundProvider>();
 
+    Users user = userProvider.getUser();
     Game game = gameProvider.currentGame!;
+    bool isHost = user.id == game.hostId;
 
     return WillPopScope(
       onWillPop: () async {
@@ -121,19 +124,20 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                                         style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                                       ),
                                     ),
-                                  PopupMenuItem(
-                                    value: 1,
-                                    child: Text(
-                                      !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
-                                          ? DialogueService.startSessionPopupText.tr
-                                          : DialogueService.stopSessionPopupText.tr,
-                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                  if (isHost)
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Text(
+                                        !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
+                                            ? DialogueService.startSessionPopupText.tr
+                                            : DialogueService.stopSessionPopupText.tr,
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                      ),
                                     ),
-                                  ),
                                   PopupMenuItem(
                                     value: 2,
                                     child: Text(
-                                      DialogueService.endGamePopupText.tr,
+                                      isHost ? DialogueService.endGamePopupText.tr : DialogueService.leaveGameTooltipText.tr,
                                       style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                                     ),
                                   ),

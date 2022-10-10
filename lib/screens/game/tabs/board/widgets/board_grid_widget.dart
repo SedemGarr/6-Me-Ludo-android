@@ -21,7 +21,9 @@ class BoardGridWidget extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       reverse: true,
       scrollDirection: Axis.horizontal,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: Board.boardGridColumnCount),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: Board.boardGridColumnCount,
+      ),
       itemCount: gameProvider.board.cells.length,
       itemBuilder: (context, index) {
         return AnimationConfiguration.staggeredGrid(
@@ -31,14 +33,17 @@ class BoardGridWidget extends StatelessWidget {
           child: FlipAnimation(
             child: FadeInAnimation(
               child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  decoration: BoxDecoration(
-                    border: gameProvider.board.cells[index].border,
-                    color: gameProvider.getSelectedPiecePathColour(index, gameProvider.board.cells[index].cellColor),
-                  ),
-                  child:
-                      // Text(index.toString(), style: const TextStyle(color: Colors.white)),
-                      PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index)),
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                duration: const Duration(milliseconds: 500),
+                decoration: BoxDecoration(
+                  border: gameProvider.board.cells[index].border,
+                  color: gameProvider.getSelectedPiecePathColour(index, gameProvider.board.cells[index].cellColor),
+                ),
+                child:
+                    // Center(child: Text(index.toString(), style: const TextStyle(color: Colors.white))),
+                    PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index),
+              ),
             ),
           ),
         );

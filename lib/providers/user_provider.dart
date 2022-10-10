@@ -64,7 +64,9 @@ class UserProvider with ChangeNotifier {
     _user = user;
 
     if (shouldRebuild) {
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
     }
 
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
