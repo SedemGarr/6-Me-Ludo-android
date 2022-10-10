@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_date_widget.dart';
@@ -35,10 +36,15 @@ class _OnGoingGamesListItemWidgetState extends State<OnGoingGamesListItemWidget>
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
 
+    Users user = userProvider.getUser();
+
     return FutureBuilder<Game?>(
       future: getGame,
       builder: (context, snapshot) {
-        if (snapshot.data == null || !snapshot.hasData) {
+        if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox.shrink();
+        } else if (snapshot.connectionState == ConnectionState.done && snapshot.data == null) {
+          user.removeOngoingGameIDFromList(widget.id);
           return const SizedBox.shrink();
         } else {
           Game game = snapshot.data!;

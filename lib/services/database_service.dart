@@ -32,6 +32,10 @@ class DatabaseService {
     }
   }
 
+  static Stream<Users> getUserStream(String id) {
+    return FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).snapshots().map((snapshot) => Users.fromJson(snapshot.data()!));
+  }
+
   static Future<Users?> createUser(User user, bool isAnon) async {
     try {
       // check if user already exits in db
@@ -92,7 +96,10 @@ class DatabaseService {
 
   // games
   static Stream<Game> getCurrentGameStream(String gameId) {
-    return FirebaseDatabase.instance.ref('games/$gameId').onValue.map((event) => Game.fromJson(Map<String, dynamic>.from(jsonDecode(jsonEncode(event.snapshot.value)))));
+    return FirebaseDatabase.instance
+        .ref('${RealTimeDatabaseConstants.gamesReference}/$gameId')
+        .onValue
+        .map((event) => Game.fromJson(Map<String, dynamic>.from(jsonDecode(jsonEncode(event.snapshot.value)))));
   }
 
   static Stream<Thread> getCurrentThreadStream(String gameId) {
@@ -101,7 +108,8 @@ class DatabaseService {
 
   static Future<Game?> getGame(String id) async {
     try {
-      return Game.fromJson((Map<String, dynamic>.from(jsonDecode(jsonEncode((await FirebaseDatabase.instance.ref('games/$id').get()).value)))));
+      return Game.fromJson(
+          (Map<String, dynamic>.from(jsonDecode(jsonEncode((await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/$id').get()).value)))));
     } catch (e) {
       return null;
     }
@@ -116,7 +124,7 @@ class DatabaseService {
   }
 
   static Future<Game> createGame(Users user, Uuid uuid, bool isOffline) async {
-    DatabaseReference gameRef = FirebaseDatabase.instance.ref('games');
+    DatabaseReference gameRef = FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.gamesReference);
 
     Game game = Game.getDefaultGame(user, gameRef.push().key!, isOffline);
 
@@ -185,9 +193,9 @@ class DatabaseService {
       }
 
       if (shouldCreate != null && shouldCreate) {
-        await FirebaseDatabase.instance.ref('games/${game.id}').set(jsonGame);
+        await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').set(jsonGame);
       } else {
-        await FirebaseDatabase.instance.ref('games/${game.id}').set(jsonGame);
+        await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').set(jsonGame);
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -217,7 +225,7 @@ class DatabaseService {
         gameProvider.currentThreadStream = null;
       }
 
-      await FirebaseDatabase.instance.ref('games/$gameID').set(null);
+      await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/$gameID').set(null);
       await deleteThread(gameID);
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);

@@ -82,9 +82,11 @@ class UserProvider with ChangeNotifier {
     NavigationService.goToNewGameScreen();
   }
 
-  void setUser(Users user, SoundProvider soundProvider) {
+  void setUser(Users? user, SoundProvider soundProvider) {
     _user = user;
+
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
+
     notifyListeners();
   }
 

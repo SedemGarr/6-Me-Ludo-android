@@ -809,7 +809,7 @@ class GameProvider with ChangeNotifier {
       Thread newThread = await DatabaseService.createThread(user, newGame.id);
 
       initialiseGame(newGame, newThread, user.id);
-      appProvider.setLoading(false, true);
+      appProvider.setLoading(false, true); 
       NavigationService.goToGameScreen();
     } catch (e) {
       appProvider.setLoading(false, true);
