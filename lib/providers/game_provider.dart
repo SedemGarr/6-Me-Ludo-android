@@ -76,7 +76,7 @@ class GameProvider with ChangeNotifier {
   }
 
   int getGameTabControllerLength() {
-    return currentGame!.isOffline ? 2 : 3;
+    return 3;
   }
 
   int getGameChatCount() {
@@ -250,11 +250,15 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  void clearJoinGameController() {
+    joinGameController.clear();
+  }
+
   void initialiseBoard() {
     board = Board.generateBoard();
   }
 
-  void initialiseGame(Game game, Thread? thread, String id) {
+  void initialiseGame(Game game, Thread thread, String id) {
     // game
     currentGame = game;
     currentGameStream = DatabaseService.getCurrentGameStream(currentGame!.id);
@@ -263,10 +267,8 @@ class GameProvider with ChangeNotifier {
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
     validMoveIndices = [];
     // thread
-    if (thread != null) {
-      currentThread = thread;
-      currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
-    }
+    currentThread = thread;
+    currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {
@@ -290,6 +292,7 @@ class GameProvider with ChangeNotifier {
 
   void syncThreadData(BuildContext context, Thread thread, Users user) {
     checkIfNewMessageHasArrived(thread, user.id, context);
+    currentThread = thread;
   }
 
   void checkIfNewMessageHasArrived(Thread newThread, String id, BuildContext context) {
@@ -799,7 +802,7 @@ class GameProvider with ChangeNotifier {
 
     try {
       Game newGame = await DatabaseService.createGame(user, uuid, isOffline);
-      Thread? newThread = isOffline ? null : await DatabaseService.createThread(user, newGame.id);
+      Thread newThread = await DatabaseService.createThread(user, newGame.id);
 
       initialiseGame(newGame, newThread, user.id);
       appProvider.setLoading(false, true);
@@ -811,8 +814,16 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> reJoinGame(Game game, String id) async {
+  Future<void> reJoinGame(Game game, String id, AppProvider appProvider) async {
+    appProvider.setLoading(true, true);
+
     try {
+      if (await DatabaseService.getGame(game.id) == null) {
+        appProvider.setLoading(false, true);
+        Utils.showToast(DialogueService.gameDeletedToastText.tr);
+        return;
+      }
+
       int playerNumber = game.playerIds.indexWhere((element) => element == id);
 
       game.players[playerNumber].hasLeft = false;
@@ -820,9 +831,11 @@ class GameProvider with ChangeNotifier {
 
       await DatabaseService.updateGame(game, false);
 
-      initialiseGame(game, await DatabaseService.getThread(game.id), id);
+      initialiseGame(game, (await DatabaseService.getThread(game.id))!, id);
+      appProvider.setLoading(false, true);
       NavigationService.goToGameScreen();
     } catch (e) {
+      appProvider.setLoading(false, true);
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
@@ -834,6 +847,8 @@ class GameProvider with ChangeNotifier {
 
       try {
         Game? newGame = await DatabaseService.getGame(joinGameController.text.trim());
+
+        clearJoinGameController();
 
         // does game exist?
         if (newGame == null) {
@@ -851,7 +866,7 @@ class GameProvider with ChangeNotifier {
           if (newGame.playerIds.contains(user.id)) {
             // rejoin
             appProvider.setLoading(false, true);
-            reJoinGame(newGame, user.id);
+            reJoinGame(newGame, user.id, appProvider);
             return;
           } else if (newGame.players.length == newGame.maxPlayers) {
             // full
@@ -863,7 +878,7 @@ class GameProvider with ChangeNotifier {
           // add new player
           await DatabaseService.addNewHumanPlayerToGame(newGame, user);
           newGame = await DatabaseService.getGame(newGame.id);
-          initialiseGame(newGame!, await DatabaseService.getThread(newGame.id), user.id);
+          initialiseGame(newGame!, (await DatabaseService.getThread(newGame.id))!, user.id);
           appProvider.setLoading(false, true);
           NavigationService.goToGameScreen();
         }
@@ -931,14 +946,16 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> leaveGame(Game game, String id, Users user) async {
+    user.removeOngoingGameIDFromList(game.id);
+
     if (game.hostId == id) {
-      await DatabaseService.deleteGame(game);
+      await DatabaseService.deleteGame(game.id, user);
     } else {
       game.players[game.players.indexWhere((element) => element.id == id)].hasLeft = true;
       removePlayerMessages(id);
       game = resetGamePiecesToDefaultAfterPlayerLeaves(game, id);
       if (isOnlyOnePlayerLeft()) {
-        await DatabaseService.deleteGame(game);
+        await DatabaseService.deleteGame(game.id, user);
       } else {
         if (!game.hasStarted) {
           await removePlayerFromGame(game, id);
@@ -1354,9 +1371,7 @@ class GameProvider with ChangeNotifier {
 
   Future<void> handleGameAppLifecycleChange(bool value) async {
     if (currentGame != null) {
-      if (!currentGame!.isOffline) {
-        await setGamePresence(value);
-      }
+      await setGamePresence(value);
     }
   }
 
@@ -1390,10 +1405,10 @@ class GameProvider with ChangeNotifier {
     await DatabaseService.updateGame(game, true);
   }
 
-  Future<void> deleteGame(Game game) async {
+  Future<void> deleteGame(Game game, Users user) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
-
-    DatabaseService.deleteGame(game);
+    user.removeOngoingGameIDFromList(game.id);
+    DatabaseService.deleteGame(game.id, user);
   }
 
   showBanPlayerDialog(Player player, BuildContext context) {
@@ -1446,7 +1461,7 @@ class GameProvider with ChangeNotifier {
       yesMessage: DialogueService.rejoinGameDialogYesText.tr,
       noMessage: DialogueService.rejoinGameDialogNoText.tr,
       onYes: () {
-        reJoinGame(game, id);
+        reJoinGame(game, id, context.read<AppProvider>());
       },
       onNo: () {},
       context: context,
@@ -1462,7 +1477,7 @@ class GameProvider with ChangeNotifier {
         yesMessage: DialogueService.deleteGameDialogYesText.tr,
         noMessage: DialogueService.deleteGameDialogNoText.tr,
         onYes: () {
-          deleteGame(game);
+          deleteGame(game, user);
         },
         onNo: () {},
         context: context,

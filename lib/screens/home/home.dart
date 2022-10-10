@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list.dart';
@@ -37,10 +36,10 @@ class HomeScreen extends StatelessWidget {
                   CustomSliverAppbarWidget(
                     actions: const [NewGameButton()],
                     centerTitle: false,
-                    leading: Icon(
-                      AppIcons.appIcon,
-                      color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
-                    ),
+                    // leading: Icon(
+                    //   AppIcons.appIcon,
+                    //   color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+                    // ),
                     title: AppBarTitleWidget(
                       text: DialogueService.welcomeText.tr + userProvider.getUserPseudonym(),
                     ),

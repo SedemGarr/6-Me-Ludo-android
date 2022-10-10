@@ -56,6 +56,17 @@ class UserProvider with ChangeNotifier {
     if (shouldRebuild) {
       notifyListeners();
     }
+
+    UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
+  }
+
+  Future<void> setAndUpdateUser(Users user, bool shouldRebuild, bool shouldUpdateOnline) async {
+    _user = user;
+
+    if (shouldRebuild) {
+      notifyListeners();
+    }
+
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
@@ -68,27 +79,14 @@ class UserProvider with ChangeNotifier {
     NavigationService.goToNewGameScreen();
   }
 
-  void initialiseOnGoingGamesStream() {
-    onGoingGamesStream = DatabaseService.getOngoingGames(_user!);
-  }
-
   void setUser(Users user, SoundProvider soundProvider) {
     _user = user;
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
-    initialiseOnGoingGamesStream();
     notifyListeners();
   }
 
-  void syncOnGoingGamesList(List<Game> games) {
-    _user!.onGoingGames = [];
-
-    for (Game element in games) {
-      if (!element.kickedPlayers.contains(_user!.id) || !(element.players[element.players.indexWhere((element) => element.id == _user!.id)].hasLeft)) {
-        _user!.onGoingGames.add(element);
-      }
-    }
-
-    _user!.onGoingGames.sort((b, a) => a.lastUpdatedAt.compareTo(b.lastUpdatedAt));
+  bool shouldGameShow(Game game) {
+    return !game.kickedPlayers.contains(_user!.id) || !(game.players[game.players.indexWhere((element) => element.id == _user!.id)].hasLeft);
   }
 
   Future<void> handleUserAvatarOnTap(String id, BuildContext context) async {
@@ -300,6 +298,14 @@ class UserProvider with ChangeNotifier {
     return name == _user!.psuedonym ? 'You' : name;
   }
 
+  String getUserOngoingGameIDAtIndex(int index) {
+    return _user!.onGoingGameIDs[index];
+  }
+
+  String getUserEmail() {
+    return _user!.email;
+  }
+
   bool hasUser() {
     return _user != null;
   }
@@ -308,12 +314,16 @@ class UserProvider with ChangeNotifier {
     return id == _user!.id;
   }
 
+  bool isUserAnon() {
+    return _user!.isAnon;
+  }
+
   bool hasOngoingGames() {
-    return _user!.onGoingGames.isNotEmpty;
+    return _user!.onGoingGameIDs.isNotEmpty;
   }
 
   bool hasReachedOngoingGamesLimit() {
-    return _user!.onGoingGames.length >= AppConstants.maxOngoingGamesNumber;
+    return _user!.onGoingGameIDs.length >= AppConstants.maxOngoingGamesNumber;
   }
 
   bool getUserDarkMode() {
@@ -361,7 +371,7 @@ class UserProvider with ChangeNotifier {
   }
 
   int getUserOngoingGamesLength() {
-    return _user!.onGoingGames.length;
+    return _user!.onGoingGameIDs.length;
   }
 
   int getUserGameSpeed() {
@@ -380,16 +390,8 @@ class UserProvider with ChangeNotifier {
     return _user!;
   }
 
-  List<Game> getUserOngoingGames() {
-    return _user!.onGoingGames;
-  }
-
-  Game getOngoingGameAtIndex(int index) {
-    return _user!.onGoingGames[index];
-  }
-
-  Player getOngoingGamesHostPlayerAtIndex(int index) {
-    return _user!.onGoingGames[index].players[_user!.onGoingGames[index].players.indexWhere((player) => player.id == _user!.onGoingGames[index].hostId)];
+  Player getOngoingGamesHostPlayerAtIndex(Game game) {
+    return game.players[game.players.indexWhere((player) => player.id == game.hostId)];
   }
 
   Locale getLocale() {

@@ -21,6 +21,8 @@ import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
+import '../../models/thread.dart';
+
 class GameScreenWrapper extends StatefulWidget {
   static String routeName = '/GameScreen';
 
@@ -76,114 +78,119 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
             } else if (snapshot.hasData) {
               gameProvider.syncGameData(context, snapshot.data!, userProvider.getUser());
 
-              return GestureDetector(
-                onTap: () {
-                  Utils.dismissKeyboard();
-                },
-                child: Scaffold(
-                  appBar: CustomAppBarWidget(
-                    backgroundColor: gameProvider.playerSelectedColor,
-                    leading: BackButtonWidget(
-                        color: Utils.getContrastingColor(gameProvider.playerColor),
-                        onPressed: () {
-                          navProvider.handleGameScreenBackPress(gameProvider);
-                        }),
-                    title: GameSettingsWidget(gameProvider: gameProvider),
-                    actions: [
-                      if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass)
-                        PassButtonWidget(
-                          gameProvider: gameProvider,
-                          userProvider: userProvider,
-                        ),
-                      PopupMenuButton(
-                        icon: Icon(
-                          AppIcons.menuIcon,
-                          color: Utils.getContrastingColor(gameProvider.playerColor),
-                        ),
-                        onSelected: (value) {
-                          gameProvider.handleGamePopupSelection(value, userProvider.getUser(), context);
-                        },
-                        itemBuilder: (context) {
-                          return [
-                            if (game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()))
-                              PopupMenuItem(
-                                value: 0,
-                                child: Text(
-                                  DialogueService.restartGamePopupText.tr,
-                                  style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
-                                ),
+              return StreamBuilder<Thread>(
+                  stream: gameProvider.currentThreadStream,
+                  initialData: gameProvider.currentThread,
+                  builder: (context, snapshot) {
+                    gameProvider.syncThreadData(context, snapshot.data!, userProvider.getUser());
+
+                    return GestureDetector(
+                      onTap: () {
+                        Utils.dismissKeyboard();
+                      },
+                      child: Scaffold(
+                        appBar: CustomAppBarWidget(
+                          backgroundColor: gameProvider.playerSelectedColor,
+                          leading: BackButtonWidget(
+                              color: Utils.getContrastingColor(gameProvider.playerColor),
+                              onPressed: () {
+                                navProvider.handleGameScreenBackPress(gameProvider);
+                              }),
+                          title: GameSettingsWidget(gameProvider: gameProvider),
+                          actions: [
+                            if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass)
+                              PassButtonWidget(
+                                gameProvider: gameProvider,
+                                userProvider: userProvider,
                               ),
-                            PopupMenuItem(
-                              value: 1,
-                              child: Text(
-                                !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
-                                    ? DialogueService.startSessionPopupText.tr
-                                    : DialogueService.stopSessionPopupText.tr,
-                                style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                            PopupMenuButton(
+                              icon: Icon(
+                                AppIcons.menuIcon,
+                                color: Utils.getContrastingColor(gameProvider.playerColor),
                               ),
-                            ),
-                            PopupMenuItem(
-                              value: 2,
-                              child: Text(
-                                DialogueService.endGamePopupText.tr,
-                                style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                              onSelected: (value) {
+                                gameProvider.handleGamePopupSelection(value, userProvider.getUser(), context);
+                              },
+                              itemBuilder: (context) {
+                                return [
+                                  if (game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()))
+                                    PopupMenuItem(
+                                      value: 0,
+                                      child: Text(
+                                        DialogueService.restartGamePopupText.tr,
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                      ),
+                                    ),
+                                  PopupMenuItem(
+                                    value: 1,
+                                    child: Text(
+                                      !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
+                                          ? DialogueService.startSessionPopupText.tr
+                                          : DialogueService.stopSessionPopupText.tr,
+                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                    ),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 2,
+                                    child: Text(
+                                      DialogueService.endGamePopupText.tr,
+                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                    ),
+                                  ),
+                                  if (gameProvider.isPlayerHost(userProvider.getUserID()))
+                                    PopupMenuItem(
+                                      value: 3,
+                                      child: Text(
+                                        DialogueService.copyGameIDPopupText.tr,
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                      ),
+                                    ),
+                                ];
+                              },
+                            )
+                          ],
+                          bottom: TabBar(
+                            controller: navProvider.gameScreenTabController,
+                            tabs: [
+                              Tab(
+                                text: DialogueService.playerTabText.tr,
                               ),
-                            ),
-                            if (gameProvider.isPlayerHost(userProvider.getUserID()))
-                              PopupMenuItem(
-                                value: 3,
-                                child: Text(
-                                  DialogueService.copyGameIDPopupText.tr,
-                                  style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
-                                ),
+                              Tab(
+                                text: DialogueService.boardTabText.tr,
                               ),
-                          ];
-                        },
-                      )
-                    ],
-                    bottom: TabBar(
-                      controller: navProvider.gameScreenTabController,
-                      tabs: [
-                        Tab(
-                          text: DialogueService.playerTabText.tr,
-                        ),
-                        Tab(
-                          text: DialogueService.boardTabText.tr,
-                        ),
-                        if (!game.isOffline)
-                          Tab(
-                            text: DialogueService.chatTabText.tr + gameProvider.getGameChatUnreadCountAsString(userProvider.getUserID()),
+                              Tab(
+                                text: DialogueService.chatTabText.tr + gameProvider.getGameChatUnreadCountAsString(userProvider.getUserID()),
+                              ),
+                            ],
+                            unselectedLabelColor: Utils.getContrastingColor(gameProvider.playerColor),
+                            labelColor: Utils.getContrastingColor(gameProvider.playerColor),
+                            indicatorColor: Utils.getContrastingColor(gameProvider.playerColor),
                           ),
-                      ],
-                      unselectedLabelColor: Utils.getContrastingColor(gameProvider.playerColor),
-                      labelColor: Utils.getContrastingColor(gameProvider.playerColor),
-                      indicatorColor: Utils.getContrastingColor(gameProvider.playerColor),
-                    ),
-                    size: AppConstants.customAppbarWithTabbarHeight,
-                  ),
-                  body: TabBarView(controller: navProvider.gameScreenTabController, children: [
-                    PlayersWidget(
-                      gameProvider: gameProvider,
-                    ),
-                    if (!game.hasSessionEnded)
-                      BoardWidget(
-                        gameProvider: gameProvider,
-                        userProvider: userProvider,
-                      )
-                    else
-                      EndGameWidget(
-                        gameProvider: gameProvider,
-                        userProvider: userProvider,
+                          size: AppConstants.customAppbarWithTabbarHeight,
+                        ),
+                        body: TabBarView(controller: navProvider.gameScreenTabController, children: [
+                          PlayersWidget(
+                            gameProvider: gameProvider,
+                          ),
+                          if (!game.hasSessionEnded)
+                            BoardWidget(
+                              gameProvider: gameProvider,
+                              userProvider: userProvider,
+                            )
+                          else
+                            EndGameWidget(
+                              gameProvider: gameProvider,
+                              userProvider: userProvider,
+                            ),
+                          ChatWidget(
+                            gameProvider: gameProvider,
+                            soundProvider: soundProvider,
+                            userProvider: userProvider,
+                          )
+                        ]),
                       ),
-                    if (!game.isOffline)
-                      ChatWidget(
-                        gameProvider: gameProvider,
-                        soundProvider: soundProvider,
-                        userProvider: userProvider,
-                      )
-                  ]),
-                ),
-              );
+                    );
+                  });
             } else {
               gameProvider.handleSuddenGameDeletion();
               return const LoadingScreen();

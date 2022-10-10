@@ -170,6 +170,8 @@ class DialogueService extends Translations {
   static const String tooLongText = 'tooLongText';
   static const String profaneStringText = 'profaneStringText';
   static const String youText = 'youText';
+  static const String anonAccountText = 'anonAccountText';
+  static const String verifiedAccountText = 'verifiedAccountText';
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/models/game.dart';
@@ -11,6 +14,7 @@ import 'package:uuid/uuid.dart';
 import '../constants/database_constants.dart';
 import '../models/message.dart';
 import '../models/player.dart';
+import '../models/reaction.dart';
 import '../models/thread.dart';
 import '../models/user.dart';
 import 'game_status_service.dart';
@@ -31,7 +35,7 @@ class DatabaseService {
       // check if user already exits in db
       Users? newUser = isAnon ? null : await getUser(user.uid);
 
-      newUser ??= await Users.getDefaultUser(user.uid, isAnon);
+      newUser ??= await Users.getDefaultUser(user.uid, user.email!, isAnon);
 
       UserStateUpdateService.updateUser(newUser, true);
       return newUser;
@@ -45,10 +49,8 @@ class DatabaseService {
   static Future<void> deleteUserData(Users user) async {
     // delete all games
 
-    List<Game> userGames = await getOngoingGamesList(user.id);
-
-    for (var i = 0; i < userGames.length; i++) {
-      await deleteGame(userGames[i]);
+    for (var i = 0; i < user.onGoingGameIDs.length; i++) {
+      await deleteGame(user.onGoingGameIDs[i], user);
     }
 
     // delete user document
@@ -87,38 +89,17 @@ class DatabaseService {
   }
 
   // games
-
   static Stream<Game> getCurrentGameStream(String gameId) {
-    return FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(gameId).snapshots().map((snapshot) => Game.fromJson(snapshot.data()!));
+    return FirebaseDatabase.instance.ref('games/$gameId').onValue.map((event) => Game.fromJson(Map<String, dynamic>.from(jsonDecode(jsonEncode(event.snapshot.value)))));
   }
 
   static Stream<Thread> getCurrentThreadStream(String gameId) {
     return FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(gameId).snapshots().map((snapshot) => Thread.fromJson(snapshot.data()!));
   }
 
-  static Stream<List<Game>> getOngoingGames(Users user) {
-    return FirebaseFirestore.instance
-        .collection(FirestoreConstants.gamesCollection)
-        .where('playerIds', arrayContains: user.id)
-        .snapshots()
-        .map((snapShot) => snapShot.docs.map((document) => Game.fromJson(document.data())).toList());
-  }
-
-  static Future<List<Game>> getOngoingGamesList(String id) async {
-    List<Game> mpGames = [];
-
-    QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).where('hostId', isEqualTo: id).get();
-
-    for (var element in docs.docs) {
-      mpGames.add(Game.fromJson(element.data()));
-    }
-
-    return mpGames;
-  }
-
   static Future<Game?> getGame(String id) async {
     try {
-      return Game.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(id).get()).data()!);
+      return Game.fromJson((Map<String, dynamic>.from(jsonDecode(jsonEncode((await FirebaseDatabase.instance.ref('games/$id').get()).value)))));
     } catch (e) {
       return null;
     }
@@ -133,8 +114,9 @@ class DatabaseService {
   }
 
   static Future<Game> createGame(Users user, Uuid uuid, bool isOffline) async {
-    DocumentReference gameRef = FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc();
-    Game game = Game.getDefaultGame(user, gameRef.id, isOffline);
+    DatabaseReference gameRef = FirebaseDatabase.instance.ref('games');
+
+    Game game = Game.getDefaultGame(user, gameRef.push().key!, isOffline);
 
     if (user.settings.prefersAddAI) {
       game = Game.autoFillWithAIPlayers(game, user, uuid);
@@ -142,6 +124,8 @@ class DatabaseService {
     }
 
     await updateGame(game, true, shouldCreate: true);
+
+    user.addOngoingGameIDToList(game.id);
 
     return game;
   }
@@ -155,18 +139,20 @@ class DatabaseService {
   }
 
   static Future<void> addNewHumanPlayerToGame(Game game, Users user) async {
-    await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update({
-      "gameStatus": GameStatusService.playerJoined,
-      "players": FieldValue.arrayUnion([Player.getJoiningPlayer(user, game).toJson()]),
-      "playerIds": FieldValue.arrayUnion([user.id]),
-    });
+    Game newGame = (await getGame(game.id))!;
+
+    newGame.reaction = Reaction.parseGameStatus(GameStatusService.playerJoined);
+    newGame.players.add(Player.getJoiningPlayer(user, game));
+    newGame.playerIds.add(user.id);
+
+    user.addOngoingGameIDToList(game.id);
+
+    updateGame(newGame, true);
   }
 
   static Future<void> updateOngoingGamesAfterUserChange(Users user) async {
-    QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).where('playerIds', arrayContains: user.id).get();
-
-    for (int i = 0; i < res.docs.length; i++) {
-      Game game = Game.fromJson(res.docs[i].data());
+    for (String element in user.onGoingGameIDs) {
+      Game game = (await getGame(element))!;
       game.players[game.players.indexWhere((element) => element.id == user.id)].avatar = user.avatar;
       game.players[game.players.indexWhere((element) => element.id == user.id)].psuedonym = user.psuedonym;
       await updateGame(game, false);
@@ -197,22 +183,31 @@ class DatabaseService {
       }
 
       if (shouldCreate != null && shouldCreate) {
-        await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).set(jsonGame);
+        await FirebaseDatabase.instance.ref('games/${game.id}').set(jsonGame);
+      } else {
+        await FirebaseDatabase.instance.ref('games/${game.id}').set(jsonGame);
       }
-
-      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  static Future<void> deleteGame(Game game) async {
+  static Future<void> deleteGame(String gameID, Users user) async {
     try {
-      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).delete();
+      user.removeOngoingGameIDFromList(gameID);
 
-      if (!game.isOffline) {
-        await deleteThread(game.id);
+      Game game = (await getGame(gameID))!;
+
+      for (Player player in game.players) {
+        if (!player.isAIPlayer && player.id != user.id) {
+          Users user = (await getUser(player.id))!;
+          user.onGoingGameIDs.remove(gameID);
+          updateUserData(user);
+        }
       }
+
+      await FirebaseDatabase.instance.ref('games/$gameID').set(null);
+      await deleteThread(gameID);
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());

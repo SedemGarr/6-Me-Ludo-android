@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:css_colors/css_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -128,8 +126,10 @@ class Utils {
     return color.computeLuminance() > 0.5 ? CSSColors.black : CSSColors.white;
   }
 
-  static FieldValue getServerTimestamp() {
-    return FieldValue.serverTimestamp();
+  static getServerTimestamp() {
+    //return FieldValue.serverTimestamp();
+    //  return ServerValue.timestamp;
+    return DateTime.now().toString();
   }
 
   static void dismissKeyboard() {

@@ -1,7 +1,4 @@
 fix leave session popup
-game gridview logic
-offline mode
 
 tweak ai logic
 clean up code
-switch to firebase RTDB

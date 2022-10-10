@@ -144,6 +144,8 @@ class EnglishTranslation {
       DialogueService.tooShortText: 'Sorry, this pseudonym is too short',
       DialogueService.profaneStringText: 'Sorry, this is not an appropriate pseudonym',
       DialogueService.youText: 'You',
+      DialogueService.anonAccountText: 'Anonymous Account',
+      DialogueService.verifiedAccountText: 'Verified Account',
       // settings
       DialogueService.generalSettingsText: 'General',
       DialogueService.gameSettingsText: 'Game',

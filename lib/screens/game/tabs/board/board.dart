@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/board_grid_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_commentary_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_reaction_widget.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/piece_grid_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/die_wrapper.dart';
 
 import '../../../../models/game.dart';
@@ -42,13 +41,8 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
               decoration: BoxDecoration(border: Border.all(color: CSSColors.black)),
               height: Get.width,
               width: Get.width,
-              child: Stack(
-                children: [
-                  BoardGridWidget(
-                    gameProvider: gameProvider,
-                  ),
-                  PieceGridWidget(gameProvider: gameProvider, userProvider: userProvider),
-                ],
+              child: BoardGridWidget(
+                gameProvider: gameProvider,
               ),
             ),
             const Spacer(),

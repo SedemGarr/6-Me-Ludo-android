@@ -50,7 +50,7 @@ class NavProvider with ChangeNotifier {
       gameScreenTabController.animateTo(1);
     } else {
       gameProvider.setGamePresence(false);
-      NavigationService.genericGoBack();
+      NavigationService.goToBackToHomeScreen();
     }
   }
 

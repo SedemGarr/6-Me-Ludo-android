@@ -138,45 +138,56 @@ class Game {
     hasAdaptiveAI = json['hasAdaptiveAI'];
     isOffline = json['isOffline'];
     lastUpdatedBy = json['lastUpdatedBy'];
-    lastUpdatedAt = json['lastUpdatedAt'] == null
-        ? DateTime.parse(DateTime.now().toString()).toString()
-        : json['lastUpdatedAt'] is String
-            ? json['lastUpdatedAt']
-            : DateTime.parse(json['lastUpdatedAt'].toDate().toString()).toString();
+    // lastUpdatedAt = json['lastUpdatedAt'] == null
+    //     ? DateTime.now().toString()
+    //     : json['lastUpdatedAt'] is int
+    //         ? json['lastUpdatedAt']
+    //         : DateTime.now().toString();
+    lastUpdatedAt = json['lastUpdatedAt'];
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);
-
     selectedPiece = json['selectedPiece'] == null ? null : Piece.fromJson(json['selectedPiece']);
     if (json['bannedPlayers'] != null) {
       bannedPlayers = <String>[];
       json['bannedPlayers'].forEach((v) {
         bannedPlayers.add(v);
       });
+    } else {
+      bannedPlayers = <String>[];
     }
+
     if (json['kickedPlayers'] != null) {
       kickedPlayers = <String>[];
       json['kickedPlayers'].forEach((v) {
         kickedPlayers.add(v);
       });
+    } else {
+      kickedPlayers = <String>[];
     }
     if (json['playerIds'] != null) {
       playerIds = <String>[];
       json['playerIds'].forEach((v) {
         playerIds.add(v);
       });
+    } else {
+      playerIds = <String>[];
     }
     if (json['players'] != null) {
       players = <Player>[];
       json['players'].forEach((v) {
         players.add(Player.fromJson(v));
       });
+    } else {
+      players = <Player>[];
     }
     if (json['finishedPlayers'] != null) {
       finishedPlayers = <String>[];
       json['finishedPlayers'].forEach((v) {
         finishedPlayers.add(v);
       });
+    } else {
+      finishedPlayers = <String>[];
     }
   }
 
