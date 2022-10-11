@@ -25,7 +25,7 @@ class AppIcons {
   static const IconData userIcon = LineIcons.user;
   static const IconData menuIcon = LineIcons.verticalEllipsis;
   // game
-  static const IconData gameHasStartedIcon = LineIcons.dotCircle;
+  static const IconData gameHasStartedIcon = Icons.circle;
   static const IconData restartIcon = LineIcons.alternateRedo;
   static const IconData playIcon = LineIcons.play;
   static const IconData stopIcon = LineIcons.stop;
@@ -49,7 +49,7 @@ class AppIcons {
   static const IconData audioIcon = LineIcons.volumeDown;
   static const IconData themeIcon = LineIcons.palette;
   static const IconData themeArrowIcon = LineIcons.angleRight;
-  static const IconData themeSelectedIcon = LineIcons.circle;
+  static const IconData themeSelectedIcon = Icons.circle;
   static const IconData randomThemeIcon = LineIcons.dice;
   static const IconData wakelockIcon = LineIcons.lock;
   static const IconData languageIcon = LineIcons.language;

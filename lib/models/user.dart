@@ -69,6 +69,12 @@ class Users {
     );
   }
 
+  void setReputationValue(int value) {
+    if (value < 100 && value > -100) {
+      reputationValue = value;
+    }
+  }
+
   Future<void> addOngoingGameIDToList(String gameID) async {
     if (!onGoingGameIDs.contains(gameID)) {
       onGoingGameIDs.add(gameID);

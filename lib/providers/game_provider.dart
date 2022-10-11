@@ -1237,7 +1237,7 @@ class GameProvider with ChangeNotifier {
     int reputationValue = game.players[game.playerTurn].reputationValue;
 
     if (id == user.id) {
-      user.reputationValue = reputationValue;
+      user.setReputationValue(reputationValue);
       LocalStorageService.setUser(user);
     }
 
@@ -1249,7 +1249,7 @@ class GameProvider with ChangeNotifier {
     int reputationValue = game.players[game.playerTurn].reputationValue;
 
     if (id == user.id) {
-      user.reputationValue = reputationValue;
+      user.setReputationValue(reputationValue);
       LocalStorageService.setUser(user);
     }
 
