@@ -41,6 +41,6 @@ class NavigationService {
   }
 
   static goToAuthScreenAfterLogOut() {
-    Get.off(() => const AuthScreen());
+    Get.offAll(() => const AuthScreen());
   }
 }

@@ -7,6 +7,7 @@ import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
+import 'package:six_me_ludo_android/screens/home/home.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
@@ -35,6 +36,7 @@ class UserProvider with ChangeNotifier {
   TextEditingController pseudonymController = TextEditingController();
 
   Future<void> initUser(BuildContext context) async {
+    NavProvider navProvider = context.read<NavProvider>();
     late Users? tempUser;
 
     try {
@@ -47,6 +49,7 @@ class UserProvider with ChangeNotifier {
     Future.delayed(const Duration(seconds: 5), () async {
       if (tempUser != null) {
         setUser(tempUser, context.read<SoundProvider>());
+        navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
         NavigationService.goToHomeScreen();
       } else {
         NavigationService.goToAuthScreen();
@@ -320,6 +323,8 @@ class UserProvider with ChangeNotifier {
     int numberOfAIPlayers = players.where((element) => element.isAIPlayer).toList().length;
 
     gameName += host.id == _user!.id ? DialogueService.yourGameText.tr : host.psuedonym + DialogueService.otherPlayersGameText.tr;
+
+    // TODO fix logic
 
     for (Player player in players) {
       if (player.id != host.id && !player.isAIPlayer && player.id != _user!.id) {
