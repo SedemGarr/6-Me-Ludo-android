@@ -378,7 +378,6 @@ class GameProvider with ChangeNotifier {
       if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
         if (currentGame!.maxPlayers == currentGame!.players.length) {
           if (currentGame!.shouldAutoStart) {
-            // flipChangeColorCardWhenStartingGame();
             await forceStartGame(user);
           }
         }
@@ -809,7 +808,7 @@ class GameProvider with ChangeNotifier {
       Thread newThread = await DatabaseService.createThread(user, newGame.id);
 
       initialiseGame(newGame, newThread, user.id);
-      appProvider.setLoading(false, true); 
+      appProvider.setLoading(false, true);
       NavigationService.goToGameScreen();
     } catch (e) {
       appProvider.setLoading(false, true);
@@ -822,23 +821,24 @@ class GameProvider with ChangeNotifier {
     appProvider.setLoading(true, true);
 
     try {
-      if (await DatabaseService.getGame(game.id) == null) {
-        await user.removeOngoingGameIDFromList(game.id);
+      Game? newGame = await DatabaseService.getGame(game.id);
+
+      if (newGame == null) {
         appProvider.setLoading(false, true);
         Utils.showToast(DialogueService.gameDeletedToastText.tr);
         return;
+      } else {
+        int playerNumber = newGame.playerIds.indexWhere((element) => element == user.id);
+
+        newGame.players[playerNumber].hasLeft = false;
+        newGame.players[playerNumber].isPresent = true;
+
+        await DatabaseService.updateGame(newGame, false, shouldSyncWithFirestore: true);
+
+        initialiseGame(newGame, (await DatabaseService.getThread(newGame.id))!, user.id);
+        appProvider.setLoading(false, true);
+        NavigationService.goToGameScreen();
       }
-
-      int playerNumber = game.playerIds.indexWhere((element) => element == user.id);
-
-      game.players[playerNumber].hasLeft = false;
-      game.players[playerNumber].isPresent = true;
-
-      await DatabaseService.updateGame(game, false);
-
-      initialiseGame(game, (await DatabaseService.getThread(game.id))!, user.id);
-      appProvider.setLoading(false, true);
-      NavigationService.goToGameScreen();
     } catch (e) {
       appProvider.setLoading(false, true);
       Utils.showToast(DialogueService.genericErrorText.tr);
@@ -951,8 +951,6 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> leaveGame(Game game, String id, Users user) async {
-    await user.removeOngoingGameIDFromList(game.id);
-
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game.id, user);
     } else {
@@ -970,7 +968,7 @@ class GameProvider with ChangeNotifier {
           await incrementTurn(game, user);
         }
         game.reaction = Reaction.parseGameStatus(GameStatusService.playerLeft);
-        await DatabaseService.updateGame(game, true);
+        await DatabaseService.updateGame(game, true, shouldSyncWithFirestore: true);
       }
     }
   }
@@ -1309,7 +1307,7 @@ class GameProvider with ChangeNotifier {
     currentGame!.maxPlayers = currentGame!.players.length;
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
 
-    await DatabaseService.updateGame(currentGame!, true);
+    await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
     // get ai player to start game
     if (currentGame!.players[0].isAIPlayer) {
@@ -1366,7 +1364,7 @@ class GameProvider with ChangeNotifier {
       currentGame!.players[i].playerColor = i;
     }
 
-    await DatabaseService.updateGame(currentGame!, true);
+    await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
   }
 
   Future<void> setGamePresence(bool value) async {
@@ -1376,12 +1374,7 @@ class GameProvider with ChangeNotifier {
 
   Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
     if (currentGame != null) {
-      Game? tempGame = await DatabaseService.getGame(currentGame!.id);
-      if (tempGame != null) {
-        await setGamePresence(value);
-      } else {
-        await user.removeOngoingGameIDFromList(currentGame!.id);
-      }
+      await setGamePresence(value);
     }
   }
 
@@ -1417,7 +1410,6 @@ class GameProvider with ChangeNotifier {
 
   Future<void> deleteGame(Game game, Users user) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
-    await user.removeOngoingGameIDFromList(game.id);
     DatabaseService.deleteGame(game.id, user);
   }
 

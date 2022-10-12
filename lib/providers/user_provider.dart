@@ -24,8 +24,9 @@ import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
 
 class UserProvider with ChangeNotifier {
-  late Users? _user;
+  Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
+  late List<Game> ongoingGames = [];
 
   // ai player uuid
   Uuid uuid = const Uuid();
@@ -45,7 +46,7 @@ class UserProvider with ChangeNotifier {
 
     Future.delayed(const Duration(seconds: 5), () async {
       if (tempUser != null) {
-        setUser((await DatabaseService.getUser(tempUser.id))!, context.read<SoundProvider>());
+        setUser(tempUser, context.read<SoundProvider>());
         NavigationService.goToHomeScreen();
       } else {
         NavigationService.goToAuthScreen();
@@ -84,14 +85,22 @@ class UserProvider with ChangeNotifier {
 
   void setUser(Users? user, SoundProvider soundProvider) {
     _user = user;
-
+    onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
 
     notifyListeners();
   }
 
+  void syncOngoingGamesStreamData(List<Game> games) {
+    ongoingGames = games;
+  }
+
   bool shouldGameShow(Game game) {
     return !game.kickedPlayers.contains(_user!.id) || !(game.players[game.players.indexWhere((element) => element.id == _user!.id)].hasLeft);
+  }
+
+  bool isUserInitialised() {
+    return _user != null;
   }
 
   Future<void> handleUserAvatarOnTap(String id, BuildContext context) async {
@@ -307,30 +316,36 @@ class UserProvider with ChangeNotifier {
   }
 
   String parseGameNameText(Player host, List<Player> players) {
-    if (host.id == _user!.id) {
-      switch (players.length) {
-        case 1:
-          return DialogueService.yourGameText.tr;
-        case 2:
-          return DialogueService.yourGameText.tr + DialogueService.oneOtherPlayerText.tr;
-        case 3:
-          return DialogueService.yourGameText.tr + DialogueService.twoOtherPlayerText.tr;
-        case 4:
-          return DialogueService.yourGameText.tr + DialogueService.threeOtherPlayerText.tr;
-        default:
-          return '';
+    String gameName = '';
+    int numberOfAIPlayers = players.where((element) => element.isAIPlayer).toList().length;
+
+    gameName += host.id == _user!.id ? DialogueService.yourGameText.tr : host.psuedonym + DialogueService.otherPlayersGameText.tr;
+
+    for (Player player in players) {
+      if (player.id != host.id && !player.isAIPlayer && player.id != _user!.id) {
+        gameName += ' and ${player.psuedonym}';
       }
-    } else {
-      return host.psuedonym + DialogueService.otherPlayersGameText.tr;
     }
+
+    switch (numberOfAIPlayers) {
+      case 1:
+        gameName += DialogueService.oneOtherPlayerText.tr;
+        break;
+      case 2:
+        gameName += DialogueService.twoOtherPlayerText.tr;
+        break;
+      case 3:
+        gameName += DialogueService.threeOtherPlayerText.tr;
+        break;
+      default:
+        break;
+    }
+
+    return gameName;
   }
 
   String parsePlayerNameText(String name) {
     return name == _user!.psuedonym ? 'You' : name;
-  }
-
-  String getUserOngoingGameIDAtIndex(int index) {
-    return _user!.onGoingGameIDs[index];
   }
 
   String getUserEmail() {
@@ -349,12 +364,8 @@ class UserProvider with ChangeNotifier {
     return _user!.isAnon;
   }
 
-  bool hasOngoingGames() {
-    return _user!.onGoingGameIDs.isNotEmpty;
-  }
-
   bool hasReachedOngoingGamesLimit() {
-    return _user!.onGoingGameIDs.length >= AppConstants.maxOngoingGamesNumber;
+    return ongoingGames.length >= AppConstants.maxOngoingGamesNumber;
   }
 
   bool getUserDarkMode() {
@@ -403,10 +414,6 @@ class UserProvider with ChangeNotifier {
 
   bool isGameOffline() {
     return _user!.settings.maxPlayers == 1;
-  }
-
-  int getUserOngoingGamesLength() {
-    return _user!.onGoingGameIDs.length;
   }
 
   int getUserGameSpeed() {

@@ -1,6 +1,3 @@
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/providers/user_provider.dart';
 import '../utils/utils.dart';
 import 'user_settings.dart';
 
@@ -12,7 +9,6 @@ class Users {
   late int reputationValue;
   late bool isAnon;
   late UserSettings settings;
-  late List<String> onGoingGameIDs;
 
   Users({
     required this.id,
@@ -22,7 +18,6 @@ class Users {
     required this.settings,
     required this.isAnon,
     required this.email,
-    required this.onGoingGameIDs,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -33,14 +28,6 @@ class Users {
     reputationValue = json['reputationValue'];
     isAnon = json['isAnon'];
     email = json['email'] ?? '';
-    if (json['onGoingGameIDs'] != null) {
-      onGoingGameIDs = <String>[];
-      json['onGoingGameIDs'].forEach((v) {
-        onGoingGameIDs.add(v);
-      });
-    } else {
-      onGoingGameIDs = <String>[];
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -52,7 +39,6 @@ class Users {
     data['reputationValue'] = reputationValue;
     data['isAnon'] = isAnon;
     data['email'] = email;
-    data['onGoingGameIDs'] = onGoingGameIDs.map((v) => v).toList();
     return data;
   }
 
@@ -65,7 +51,6 @@ class Users {
       reputationValue: 0,
       isAnon: isAnon,
       email: email,
-      onGoingGameIDs: [],
     );
   }
 
@@ -73,37 +58,6 @@ class Users {
     if (value < 100 && value > -100) {
       reputationValue = value;
     }
-  }
-
-  Future<void> addOngoingGameIDToList(String gameID) async {
-    if (!onGoingGameIDs.contains(gameID)) {
-      onGoingGameIDs.add(gameID);
-      await updateUser();
-    }
-  }
-
-  Future<void> removeOngoingGameIDFromList(String gameID) async {
-    if (onGoingGameIDs.contains(gameID)) {
-      onGoingGameIDs.remove(gameID);
-      await updateUser();
-    }
-  }
-
-  Future<void> updateUser() async {
-    Get.context!.read<UserProvider>().setAndUpdateUser(
-          Users(
-            id: id,
-            psuedonym: psuedonym,
-            avatar: avatar,
-            reputationValue: reputationValue,
-            settings: settings,
-            isAnon: isAnon,
-            onGoingGameIDs: onGoingGameIDs,
-            email: email,
-          ),
-          true,
-          true,
-        );
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/no_games_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list_item.dart';
@@ -15,24 +16,35 @@ class OngoingGamesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return !userProvider.hasOngoingGames()
-        ? const NoGamesWidget()
-        : AnimationLimiter(
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: userProvider.getUserOngoingGamesLength(),
-              padding: AppConstants.listViewPadding,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                return AnimationConfiguration.staggeredList(
-                  position: index,
-                  duration: AppConstants.animationDuration,
-                  child: CustomAnimationWidget(
-                    child: OnGoingGamesListItemWidget(id: userProvider.getUserOngoingGameIDAtIndex(index)),
-                  ),
-                );
-              },
-            ),
-          );
+    return StreamBuilder<List<Game>>(
+        stream: userProvider.onGoingGamesStream,
+        initialData: userProvider.ongoingGames,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            userProvider.syncOngoingGamesStreamData(snapshot.data!);
+
+            return userProvider.ongoingGames.isEmpty
+                ? const NoGamesWidget()
+                : AnimationLimiter(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: userProvider.ongoingGames.length,
+                      padding: AppConstants.listViewPadding,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemBuilder: (context, index) {
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: AppConstants.animationDuration,
+                          child: CustomAnimationWidget(
+                            child: OnGoingGamesListItemWidget(index: index),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+          } else {
+            return const NoGamesWidget();
+          }
+        });
   }
 }

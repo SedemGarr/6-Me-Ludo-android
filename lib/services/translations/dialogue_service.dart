@@ -95,6 +95,7 @@ class DialogueService extends Translations {
   static const String gameKickedText = 'gameKickedText';
   static const String gameDeletedToastText = 'gameDeletedToastText';
   static const String lastPlayedAtText = 'lastPlayedAtText';
+  static const String createdAtText = 'createdAtText';
   // game - playing
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';

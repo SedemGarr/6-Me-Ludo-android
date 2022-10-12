@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:css_colors/css_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -110,8 +112,12 @@ class Utils {
     return Get.deviceLocale!.languageCode;
   }
 
+  static String parseDate(String value) {
+    return Jiffy(value.isEmpty ? DateTime.now() : value).MMMMEEEEd;
+  }
+
   static String parseDateFromNow(String value) {
-    return value.isEmpty ? Jiffy(DateTime.now()).fromNow() : Jiffy(value).fromNow();
+    return Jiffy(value.isEmpty ? DateTime.now() : value).fromNow();
   }
 
   static ThemeMode getSystemTheme() {
@@ -126,10 +132,12 @@ class Utils {
     return color.computeLuminance() > 0.5 ? CSSColors.black : CSSColors.white;
   }
 
-  static getServerTimestamp() {
-    //return FieldValue.serverTimestamp();
-    //  return ServerValue.timestamp;
-    return DateTime.now().toString();
+  static getRTDBServerTimestamp() {
+    return ServerValue.timestamp;
+  }
+
+  static getFireStoreServerTimestamp() {
+    return FieldValue.serverTimestamp();
   }
 
   static void dismissKeyboard() {
@@ -138,20 +146,8 @@ class Utils {
 
   static void showToast(String message) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.snackbar(
-        '',
-        message,
-        animationDuration: AppConstants.animationDuration,
-        backgroundColor: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.surface : Theme.of(Get.context!).primaryColor,
-        borderRadius: AppConstants.appBorderRadiusValue,
-        colorText: Get.isDarkMode ? Theme.of(Get.context!).colorScheme.onSurface : Theme.of(Get.context!).colorScheme.onPrimary,
-        forwardAnimationCurve: AppConstants.animationCurve,
-        isDismissible: true,
-        overlayBlur: 1.0,
-        reverseAnimationCurve: AppConstants.animationCurve,
-        snackPosition: SnackPosition.BOTTOM,
-        snackStyle: SnackStyle.GROUNDED,
-        titleText: const SizedBox.shrink(),
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+        SnackBar(behavior: SnackBarBehavior.floating, content: Text(message)),
       );
     });
   }

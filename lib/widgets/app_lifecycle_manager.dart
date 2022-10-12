@@ -31,27 +31,29 @@ class AppLifeCycleManagerState extends State<AppLifeCycleManager> with WidgetsBi
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
 
-    Users user = userProvider.getUser();
+    if (userProvider.isUserInitialised()) {
+      Users user = userProvider.getUser();
 
-    switch (state) {
-      case AppLifecycleState.paused:
-        await gameProvider.handleGameAppLifecycleChange(false, user);
-        userProvider.handleWakelockLogic(false);
-        break;
-      case AppLifecycleState.detached:
-        userProvider.handleWakelockLogic(false);
-        break;
-      case AppLifecycleState.resumed:
-        await gameProvider.handleGameAppLifecycleChange(true, user);
-        if (Get.currentRoute == GameScreenWrapper.routeName) {
-          userProvider.handleWakelockLogic(true);
-        }
-        break;
-      case AppLifecycleState.inactive:
-        await gameProvider.handleGameAppLifecycleChange(false, user);
-        userProvider.handleWakelockLogic(false);
-        break;
-      default:
+      switch (state) {
+        case AppLifecycleState.paused:
+          await gameProvider.handleGameAppLifecycleChange(false, user);
+          userProvider.handleWakelockLogic(false);
+          break;
+        case AppLifecycleState.detached:
+          userProvider.handleWakelockLogic(false);
+          break;
+        case AppLifecycleState.resumed:
+          await gameProvider.handleGameAppLifecycleChange(true, user);
+          if (Get.currentRoute == GameScreenWrapper.routeName) {
+            userProvider.handleWakelockLogic(true);
+          }
+          break;
+        case AppLifecycleState.inactive:
+          await gameProvider.handleGameAppLifecycleChange(false, user);
+          userProvider.handleWakelockLogic(false);
+          break;
+        default:
+      }
     }
   }
 

@@ -11,6 +11,7 @@ import 'die.dart';
 import 'player.dart';
 
 class Game {
+  late String createdAt;
   late String lastUpdatedBy;
   late String lastUpdatedAt;
   late String id;
@@ -38,6 +39,7 @@ class Game {
   late List<String> playerIds;
 
   Game({
+    required this.createdAt,
     required this.lastUpdatedBy,
     required this.lastUpdatedAt,
     required this.id,
@@ -94,6 +96,7 @@ class Game {
 
   static Game getDefaultGame(Users user, String gameId, bool isOffline) {
     return Game(
+      createdAt: DateTime.now().toString(),
       hostSettings: user.settings,
       reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
       id: gameId,
@@ -138,12 +141,20 @@ class Game {
     hasAdaptiveAI = json['hasAdaptiveAI'];
     isOffline = json['isOffline'];
     lastUpdatedBy = json['lastUpdatedBy'];
-    // lastUpdatedAt = json['lastUpdatedAt'] == null
-    //     ? DateTime.now().toString()
-    //     : json['lastUpdatedAt'] is int
-    //         ? json['lastUpdatedAt']
-    //         : DateTime.now().toString();
-    lastUpdatedAt = json['lastUpdatedAt'];
+    createdAt = json['createdAt'] == null
+        ? DateTime.now().toString()
+        : json['createdAt'] is int
+            ? DateTime.fromMillisecondsSinceEpoch(json['createdAt']).toString()
+            : json['createdAt'] is String
+                ? json['createdAt']
+                : DateTime.now().toString();
+    lastUpdatedAt = json['lastUpdatedAt'] == null
+        ? DateTime.now().toString()
+        : json['lastUpdatedAt'] is int
+            ? DateTime.fromMillisecondsSinceEpoch(json['lastUpdatedAt']).toString()
+            : json['lastUpdatedAt'] is String
+                ? json['lastUpdatedAt']
+                : DateTime.now().toString();
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);
@@ -208,6 +219,7 @@ class Game {
     data['hasAdaptiveAI'] = hasAdaptiveAI;
     data['lastUpdatedBy'] = lastUpdatedBy;
     data['lastUpdatedAt'] = lastUpdatedAt;
+    data['createdAt'] = createdAt;
     data['isOffline'] = isOffline;
     data['maxPlayers'] = maxPlayers;
     data['playerTurn'] = playerTurn;
