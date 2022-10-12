@@ -195,7 +195,7 @@ class DatabaseService {
       if (shouldCreate != null && shouldCreate) {
         await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').set(jsonGame);
       } else {
-        await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').set(jsonGame);
+        await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
       }
     } catch (e) {
       debugPrint(e.toString());
