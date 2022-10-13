@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/ban_player_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/kick_player_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_presence_widget.dart';
@@ -39,11 +40,14 @@ class PlayerListItemWidget extends StatelessWidget {
     Color playerSelectedColor = isKicked ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
     Color contrastingColor = Utils.getContrastingColor(playerColor);
 
-    return Container(
+    return AnimatedContainer(
       key: key,
-      color: Get.isDarkMode ? playerSelectedColor : playerColor,
+      duration: AppConstants.animationDuration,
+      padding: (player.playerColor == game.playerTurn && game.hasStarted && !game.hasSessionEnded) ? const EdgeInsets.symmetric(vertical: 16.0) : EdgeInsets.zero,
+      decoration: BoxDecoration(
+        color: Get.isDarkMode ? playerSelectedColor : playerColor,
+      ),
       child: ExpansionTile(
-        tilePadding: (player.playerColor == game.playerTurn && game.hasStarted && !game.hasSessionEnded) ? const EdgeInsets.all(16.0) : const EdgeInsets.symmetric(horizontal: 16),
         leading: GestureDetector(
           onTap: isAI || isMe
               ? null

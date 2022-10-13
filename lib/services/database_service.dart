@@ -37,14 +37,23 @@ class DatabaseService {
   }
 
   static Future<Users?> createUser(User user, bool isAnon) async {
-    try {
-      // check if user already exits in db
-      Users? newUser = isAnon ? null : await getUser(user.uid);
+     try {
+    // check if user already exits in db
+    Users? newUser;
 
-      newUser ??= await Users.getDefaultUser(user.uid, user.email!, isAnon);
+    if (isAnon) {
+      newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon);
+    } else {
+      Users? tempUser = await getUser(user.uid);
+      if (tempUser == null) {
+        newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon);
+      } else {
+        newUser = tempUser;
+      }
+    }
 
-      UserStateUpdateService.updateUser(newUser, true);
-      return newUser;
+    UserStateUpdateService.updateUser(newUser, true);
+    return newUser;
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());

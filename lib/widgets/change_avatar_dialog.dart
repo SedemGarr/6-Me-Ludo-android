@@ -22,6 +22,7 @@ showChangeAvatarDialog({
 
       return AlertDialog(
         shape: AppConstants.appShape,
+        contentPadding: EdgeInsets.zero,
         title: Text(
           DialogueService.changeAvatarText.tr,
           style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),

@@ -34,7 +34,13 @@ class PlayersWidget extends StatelessWidget {
                 Key key = ValueKey(index);
 
                 return AnimationConfiguration.staggeredList(
-                    key: key, position: index, duration: AppConstants.animationDuration, child: CustomAnimationWidget(child: PlayerListItemWidget(key: key, index: index)));
+                  key: key,
+                  position: index,
+                  duration: AppConstants.animationDuration,
+                  child: CustomAnimationWidget(
+                    child: PlayerListItemWidget(key: key, index: index),
+                  ),
+                );
               },
             ),
           ),

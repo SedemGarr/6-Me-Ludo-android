@@ -320,19 +320,11 @@ class UserProvider with ChangeNotifier {
 
   String parseGameNameText(Player host, List<Player> players) {
     String gameName = '';
-    int numberOfAIPlayers = players.where((element) => element.isAIPlayer).toList().length;
+    bool isHost = host.id == _user!.id;
 
-    gameName += host.id == _user!.id ? DialogueService.yourGameText.tr : host.psuedonym + DialogueService.otherPlayersGameText.tr;
+    gameName += isHost ? DialogueService.yourGameText.tr : Utils.parsePsuedonymName(host.psuedonym);
 
-    // TODO fix logic
-
-    for (Player player in players) {
-      if (player.id != host.id && !player.isAIPlayer && player.id != _user!.id) {
-        gameName += ' and ${player.psuedonym}';
-      }
-    }
-
-    switch (numberOfAIPlayers) {
+    switch (players.length) {
       case 1:
         gameName += DialogueService.oneOtherPlayerText.tr;
         break;
@@ -342,9 +334,14 @@ class UserProvider with ChangeNotifier {
       case 3:
         gameName += DialogueService.threeOtherPlayerText.tr;
         break;
+      case 4:
+        gameName += DialogueService.fourOtherPlayerText.tr;
+        break;
       default:
         break;
     }
+
+    gameName += DialogueService.gameText.tr;
 
     return gameName;
   }

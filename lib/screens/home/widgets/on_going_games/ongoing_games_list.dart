@@ -23,27 +23,25 @@ class OngoingGamesListWidget extends StatelessWidget {
           if (snapshot.hasData) {
             userProvider.syncOngoingGamesStreamData(snapshot.data!);
 
-            return userProvider.ongoingGames.isEmpty
-                ? const NoGamesWidget()
-                : AnimationLimiter(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: userProvider.ongoingGames.length,
-                      padding: AppConstants.listViewPadding,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: AppConstants.animationDuration,
-                          child: CustomAnimationWidget(
-                            child: OnGoingGamesListItemWidget(index: index),
-                          ),
-                        );
-                      },
+            return AnimationLimiter(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: userProvider.ongoingGames.length,
+                padding: AppConstants.listViewPadding,
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: AppConstants.animationDuration,
+                    child: CustomAnimationWidget(
+                      child: OnGoingGamesListItemWidget(index: index),
                     ),
                   );
+                },
+              ),
+            );
           } else {
-            return const NoGamesWidget();
+            return const SizedBox.shrink();
           }
         });
   }

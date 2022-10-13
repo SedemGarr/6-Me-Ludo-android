@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:profanity_filter/profanity_filter.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
@@ -96,6 +97,18 @@ class Utils {
     return avatars;
   }
 
+  static String parsePsuedonymName(String value) {
+    bool endsWithS = value[value.length - 1].toLowerCase() == 's';
+
+    if (endsWithS) {
+      value += "' ";
+    } else {
+      value += '\'s ';
+    }
+
+    return value;
+  }
+
   static String getOfflineGameId(Uuid uuid) {
     return uuid.v1();
   }
@@ -147,7 +160,12 @@ class Utils {
   static void showToast(String message) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(behavior: SnackBarBehavior.floating, content: Text(message)),
+        SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(
+              message,
+              style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+            )),
       );
     });
   }

@@ -26,10 +26,10 @@ class ProfileSectionWidget extends StatelessWidget {
             const ProfileAvatarWidget(),
             CustomListTileWidget(
               contentPadding: EdgeInsets.zero,
-              leading: const EditProfileButton(),
+              trailing: const EditProfileButton(),
               title: const ProfilePseudonymWidget(),
               subtitle: const ProfileStatusWidget(),
-              trailing: ReputationWidget(
+              leading: ReputationWidget(
                 value: userProvider.getUserReputationValue(),
                 color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
               ),
