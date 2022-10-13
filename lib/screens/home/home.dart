@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/screens/new_game/widgets/new_game_button.dar
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_avatar_widget.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_sliver_appbar_widget.dart';
 import 'package:six_me_ludo_android/widgets/join_game_textfield_widget.dart';
 
 import '../../constants/app_constants.dart';

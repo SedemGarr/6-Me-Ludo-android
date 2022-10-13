@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
-import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_actions_widget.dart';
@@ -12,9 +8,6 @@ import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_name_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_owner_avatar_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_player_widget.dart';
-import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
-import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
 
 import '../../../../models/game.dart';
 import '../../../../models/player.dart';

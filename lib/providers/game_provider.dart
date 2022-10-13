@@ -943,7 +943,7 @@ class GameProvider with ChangeNotifier {
     removePlayerMessages(player.id);
     Utils.showToast(player.psuedonym + DialogueService.playerKickedFromGameText.tr);
 
-    await DatabaseService.updateGame(currentGame!, true);
+    await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
     if (!currentGame!.hasStarted || currentGame!.hasSessionEnded) {
       Future.delayed(const Duration(seconds: 1), () async {
@@ -985,7 +985,7 @@ class GameProvider with ChangeNotifier {
       game.players[i].validIndices = Player.getPlayerValidIndices(i);
     }
 
-    await DatabaseService.updateGame(game, true);
+    await DatabaseService.updateGame(game, true, shouldSyncWithFirestore: true);
   }
 
   Future<void> incrementTurn(Game game, Users user) async {
