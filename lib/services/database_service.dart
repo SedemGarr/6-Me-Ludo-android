@@ -37,23 +37,23 @@ class DatabaseService {
   }
 
   static Future<Users?> createUser(User user, bool isAnon) async {
-     try {
-    // check if user already exits in db
-    Users? newUser;
+    try {
+      // check if user already exits in db
+      Users? newUser;
 
-    if (isAnon) {
-      newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon);
-    } else {
-      Users? tempUser = await getUser(user.uid);
-      if (tempUser == null) {
-        newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon);
+      if (isAnon) {
+        newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon);
       } else {
-        newUser = tempUser;
+        Users? tempUser = await getUser(user.uid);
+        if (tempUser == null) {
+          newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon);
+        } else {
+          newUser = tempUser;
+        }
       }
-    }
 
-    UserStateUpdateService.updateUser(newUser, true);
-    return newUser;
+      UserStateUpdateService.updateUser(newUser, true);
+      return newUser;
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
@@ -107,11 +107,11 @@ class DatabaseService {
 
   // games
   static Stream<List<Game>> getOngoingGamesStream(String id) {
-    return FirebaseFirestore.instance
-        .collection(FirestoreConstants.gamesCollection)
-        .where('playerIds', arrayContains: id)
-        .snapshots()
-        .map((snapShot) => snapShot.docs.map((document) => Game.fromJson(document.data())).toList());
+    return FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).where('playerIds', arrayContains: id).snapshots().map((snapShot) => snapShot.docs
+        .map((document) => Game.fromJson(document.data()))
+        .toList()
+        .where((element) => !element.players[element.players.indexWhere((element) => element.id == id)].hasLeft && !(element.kickedPlayers.contains(id)))
+        .toList());
   }
 
   static Stream<Game> getCurrentGameStream(String gameId) {

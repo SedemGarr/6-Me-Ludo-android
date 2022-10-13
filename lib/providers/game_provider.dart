@@ -9,6 +9,7 @@ import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/board.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
+import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
@@ -322,7 +323,7 @@ class GameProvider with ChangeNotifier {
           Utils.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
         }
       }
-    } else if (game.players.length < currentGame!.players.length) {
+    } else if (game.players.length > currentGame!.players.length) {
       Utils.showToast(currentGame!.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
     }
   }
@@ -956,6 +957,10 @@ class GameProvider with ChangeNotifier {
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game.id, user);
     } else {
+      if (Get.currentRoute != GameScreenWrapper.routeName) {
+        initialiseGame(game, (await DatabaseService.getThread(game.id))!, id);
+      }
+
       game.players[game.players.indexWhere((element) => element.id == id)].hasLeft = true;
       removePlayerMessages(id);
       game = resetGamePiecesToDefaultAfterPlayerLeaves(game, id);
@@ -971,6 +976,10 @@ class GameProvider with ChangeNotifier {
         }
         game.reaction = Reaction.parseGameStatus(GameStatusService.playerLeft);
         await DatabaseService.updateGame(game, true, shouldSyncWithFirestore: true);
+      }
+
+      if (Get.currentRoute == GameScreenWrapper.routeName) {
+        NavigationService.goToBackToHomeScreen();
       }
     }
   }

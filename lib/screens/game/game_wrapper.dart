@@ -25,7 +25,7 @@ import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 import '../../models/thread.dart';
 
 class GameScreenWrapper extends StatefulWidget {
-  static String routeName = '/GameScreen';
+  static String routeName = '/GameScreenWrapper';
 
   const GameScreenWrapper({super.key});
 

@@ -28,6 +28,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
+        key: UniqueKey(),
         leading: GameOwnerAvatarWidget(
           id: host.id,
           avatar: host.avatar,

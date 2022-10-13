@@ -30,13 +30,13 @@ class TextStyles {
   }
 
   static TextStyle listSubtitleStyle(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
     );
   }
 
   static TextStyle chatListSubtitleStyle(Color color, bool isItalic) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
       fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
     );
@@ -50,27 +50,27 @@ class TextStyles {
   }
 
   static TextStyle dialogContentStyle(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
     );
   }
 
   static TextStyle dialogContentStyleBold(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: FontWeight.bold,
     );
   }
 
   static TextStyle elevatedButtonStyle(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: FontWeight.bold,
     );
   }
 
   static TextStyle textButtonStyle(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: FontWeight.bold,
     );
@@ -84,33 +84,33 @@ class TextStyles {
   }
 
   static TextStyle textFieldStyle(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
     );
   }
 
   static TextStyle tabbarTextStyle(Color color, bool isBold) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
     );
   }
 
   static TextStyle popupMenuStyle(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: FontWeight.bold,
     );
   }
 
   static TextStyle legalTextStyleNormal(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
     );
   }
 
   static TextStyle legalTextStyleBold(Color color) {
-    return GoogleFonts.nunito(
+    return GoogleFonts.dosis(
       color: color,
     );
   }
