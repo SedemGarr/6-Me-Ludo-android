@@ -18,7 +18,6 @@ import '../profile/widgets/settings/widgets/game/widgets/ai_personality.dart';
 import '../profile/widgets/settings/widgets/game/widgets/auto_start.dart';
 import '../profile/widgets/settings/widgets/game/widgets/catch_up_assist.dart';
 import '../profile/widgets/settings/widgets/game/widgets/game_speed.dart';
-import '../profile/widgets/settings/widgets/game/widgets/profanity.dart';
 import '../profile/widgets/settings/widgets/game/widgets/start_assist.dart';
 
 class NewGameScreen extends StatelessWidget {
@@ -44,15 +43,24 @@ class NewGameScreen extends StatelessWidget {
               padding: AppConstants.listViewPadding,
               children: const [
                 MaxPlayers(),
-                HostGameButton(),
+                Divider(),
                 AddAIPlayers(),
+                Divider(),
                 AutoStart(),
+                Divider(),
                 CatchUpAssist(),
+                Divider(),
                 StartAssist(),
+                Divider(),
                 AdaptiveAI(),
+                Divider(),
                 AIPersonality(),
+                Divider(),
                 GameSpeed(),
-                ProfaneMessages(),
+                Padding(
+                  padding: EdgeInsets.only(top: 24.0),
+                  child: HostGameButton(),
+                ),
               ],
             ),
           );
