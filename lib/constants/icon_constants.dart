@@ -65,6 +65,7 @@ class AppIcons {
   static const IconData gameSpeedIcon = LineIcons.alternateTachometer;
   static const IconData maxHumanPlayerIcon = LineIcons.user;
   static const IconData editProfileIcon = LineIcons.pen;
+  static const IconData editDoneProfileIcon = LineIcons.checkCircle;
   static const IconData slowGameSpeedIcon = LineIcons.wheelchair;
   static const IconData normalGameSpeedIcon = LineIcons.walking;
   static const IconData fastGameSpeedIcon = LineIcons.running;

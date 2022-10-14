@@ -28,6 +28,7 @@ class UserProvider with ChangeNotifier {
   Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
   late List<Game> ongoingGames = [];
+  bool isEditingProfile = false;
 
   // ai player uuid
   Uuid uuid = const Uuid();
@@ -116,6 +117,11 @@ class UserProvider with ChangeNotifier {
     } else {
       showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
     }
+  }
+
+  void toggleIsEditingProfile(bool value) {
+    isEditingProfile = value;
+    notifyListeners();
   }
 
   void toggleDarkMode(BuildContext context, bool value) {

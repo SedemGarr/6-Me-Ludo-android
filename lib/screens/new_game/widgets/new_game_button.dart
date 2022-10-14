@@ -16,7 +16,10 @@ class NewGameButton extends StatelessWidget {
       onPressed: () {
         userProvider.handleNewGameTap();
       },
-      icon: Icon(AppIcons.newGameActiveIcon, color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary),
+      icon: Icon(
+        AppIcons.newGameActiveIcon,
+        color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+      ),
     );
   }
 }

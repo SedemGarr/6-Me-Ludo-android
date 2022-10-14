@@ -16,21 +16,13 @@ class ProfileAvatarWidget extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
 
     return Flexible(
-      child: GestureDetector(
-        onTap: () {
-          showChangeAvatarDialog(
-            context: context,
-            avatarList: Utils.generateAvatarSelectionCodes(userProvider.getUserAvatar()),
-          );
-        },
-        child: Padding(
-          padding: AppConstants.userAvatarPadding,
-          child: UserAvatarWidget(
-            avatar: userProvider.getUserAvatar(),
-            backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-            borderColor: Theme.of(context).colorScheme.onSurface,
-            shouldExpand: true,
-          ),
+      child: Padding(
+        padding: AppConstants.userAvatarPadding,
+        child: UserAvatarWidget(
+          avatar: userProvider.getUserAvatar(),
+          backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+          borderColor: Theme.of(context).colorScheme.onSurface,
+          shouldExpand: true,
         ),
       ),
     );

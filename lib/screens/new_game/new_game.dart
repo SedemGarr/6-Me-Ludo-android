@@ -37,6 +37,7 @@ class NewGameScreen extends StatelessWidget {
                   NavigationService.genericGoBack();
                 },
               ),
+              actions: const [HostGameButton()],
               title: AppBarTitleWidget(text: DialogueService.newGameAppBarTitleText.tr),
             ),
             body: ListView(
@@ -57,10 +58,10 @@ class NewGameScreen extends StatelessWidget {
                 AIPersonality(),
                 Divider(),
                 GameSpeed(),
-                Padding(
-                  padding: EdgeInsets.only(top: 24.0),
-                  child: HostGameButton(),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 24.0),
+                //   child: HostGameButton(),
+                // ),
               ],
             ),
           );
