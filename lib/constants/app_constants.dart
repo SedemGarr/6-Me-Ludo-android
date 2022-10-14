@@ -24,6 +24,7 @@ class AppConstants {
 
   static double customAppbarHeight = Get.height * 1 / 4;
   static double customAppbarWithTabbarHeight = standardAppbarHeight + standardTabbarHeight;
+  static double homeAppBarHeight = customAppbarWithTabbarHeight + 30;
   static double profileAppbarHeight = customAppbarHeight + kToolbarHeight;
   static double changeAvatarGridviewHeight = Get.height * 1 / 2;
   static const double appBorderRadiusValue = 4.0;

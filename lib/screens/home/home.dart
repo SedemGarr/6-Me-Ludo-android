@@ -39,8 +39,8 @@ class HomeScreen extends StatelessWidget {
                 title: AppBarTitleWidget(
                   text: DialogueService.welcomeText.tr + userProvider.getUserPseudonym(),
                 ),
-                bottom: PreferredSize(preferredSize: Size.fromHeight(AppConstants.customAppbarWithTabbarHeight), child: const JoinGameTextFieldWidget()),
-                size: AppConstants.customAppbarWithTabbarHeight,
+                bottom: PreferredSize(preferredSize: Size.fromHeight(AppConstants.homeAppBarHeight), child: const JoinGameTextFieldWidget()),
+                size: AppConstants.homeAppBarHeight,
               ),
               body: const OngoingGamesListWidget(),
             ),

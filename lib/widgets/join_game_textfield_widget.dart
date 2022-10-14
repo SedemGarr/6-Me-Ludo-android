@@ -18,39 +18,43 @@ class JoinGameTextFieldWidget extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
     AppProvider appProvider = context.watch<AppProvider>();
 
-    return TextFormField(
-      controller: gameProvider.joinGameController,
-      decoration: InputDecoration(
-        enabledBorder: InputBorder.none,
-        border: InputBorder.none,
-        errorBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+      child: TextFormField(
+        controller: gameProvider.joinGameController,
+        maxLength: AppConstants.joinGameCodeLength,
+        decoration: InputDecoration(
+          enabledBorder: InputBorder.none,
+          border: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            ),
+          ),
+          filled: false,
+          hintText: DialogueService.joinGameHintText.tr,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          hintStyle: TextStyles.textFieldStyle(
+            Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+          ),
+          counterStyle: TextStyles.textFieldStyle(
+            Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
           ),
         ),
-        hintText: DialogueService.joinGameHintText.tr,
-        filled: false,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-        hintStyle: TextStyles.textFieldStyle(
+        style: TextStyles.textFieldStyle(
           Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
         ),
-        counterStyle: TextStyles.textFieldStyle(
-          Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
-        ),
+        cursorColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+        keyboardType: TextInputType.text,
+        onChanged: (value) {
+          if (value.length == AppConstants.joinGameCodeLength) {
+            gameProvider.joinGameWithCode(userProvider.getUser(), appProvider);
+          }
+        },
       ),
-      style: TextStyles.textFieldStyle(
-        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
-      ),
-      cursorColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-      keyboardType: TextInputType.text,
-      onChanged: (value) {
-        if (value.length == AppConstants.joinGameCodeLength) {
-          gameProvider.joinGameWithCode(userProvider.getUser(), appProvider);
-        }
-      },
     );
   }
 }

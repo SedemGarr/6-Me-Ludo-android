@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
-import 'package:six_me_ludo_android/widgets/change_avatar_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
 import '../../../providers/user_provider.dart';

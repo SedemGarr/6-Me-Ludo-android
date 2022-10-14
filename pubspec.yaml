@@ -27,15 +27,14 @@ dependencies:
   flutter_fadein: ^2.0.0
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^1.1.4
-  font_awesome_flutter: ^10.1.0
   get: ^4.6.5
   get_storage: ^2.0.3
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.1
   jiffy: ^5.0.0
-  line_icons: ^2.0.1
   loading_animation_widget: ^1.2.0+3
   lottie: ^1.4.2
+  material_design_icons_flutter: ^5.0.6996
   multiavatar: ^0.1.5
   package_info_plus: ^1.4.3+1
   profanity_filter: ^2.0.0

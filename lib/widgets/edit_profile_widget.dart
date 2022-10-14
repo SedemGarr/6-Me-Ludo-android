@@ -22,11 +22,11 @@ class EditProfileButton extends StatelessWidget {
       icon: CustomAnimatedCrossFade(
           firstChild: Icon(
             AppIcons.editProfileIcon,
-            color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
           ),
           secondChild: Icon(
             AppIcons.editDoneProfileIcon,
-            color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
           ),
           condition: !userProvider.isEditingProfile),
     );

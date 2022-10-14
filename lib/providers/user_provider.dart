@@ -122,6 +122,10 @@ class UserProvider with ChangeNotifier {
   void toggleIsEditingProfile(bool value) {
     isEditingProfile = value;
     notifyListeners();
+
+    if (!isEditingProfile) {
+      setUserPseudonym();
+    }
   }
 
   void toggleDarkMode(BuildContext context, bool value) {
