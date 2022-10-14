@@ -35,6 +35,7 @@ class EnglishTranslation {
       DialogueService.welcomeText: 'Hi, ',
       DialogueService.newGameText: 'New Game',
       DialogueService.profileText: 'Profile & Settings',
+      DialogueService.editProfileText: 'Edit Your Profile',
       DialogueService.homeText: 'Home',
       // game - ongoing
       DialogueService.yourGameText: 'Your ',

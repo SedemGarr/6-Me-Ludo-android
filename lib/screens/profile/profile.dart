@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
             child: Scaffold(
               appBar: CustomAppBarWidget(
                 centerTitle: true,
-                title: AppBarTitleWidget(text: DialogueService.profileText.tr),
+                title: AppBarTitleWidget(text: userProvider.isEditingProfile ? DialogueService.editProfileText.tr : DialogueService.profileText.tr),
                 leading: BackButtonWidget(onPressed: () {
                   navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, true);
                 }),
