@@ -12,7 +12,6 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 import 'package:six_me_ludo_android/widgets/info_button_widget.dart';
 
 import '../../providers/app_provider.dart';
@@ -53,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 size: (AppConstants.profileAppbarHeight),
               ),
-              body: CustomAnimatedCrossFade(firstChild: const AvatarSelectionWidget(), secondChild: const ProfileSettingsSection(), condition: userProvider.isEditingProfile),
+              body: userProvider.isEditingProfile ? const AvatarSelectionWidget() : const ProfileSettingsSection(),
             ),
           );
   }

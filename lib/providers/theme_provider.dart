@@ -83,8 +83,14 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void setTheme(bool isDark, FlexScheme flexScheme) {
-    ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(textTheme: GoogleFonts.montserratTextTheme());
-    ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(textTheme: GoogleFonts.montserratTextTheme());
+    ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(
+          textTheme: GoogleFonts.montserratTextTheme(),
+          useMaterial3: true,
+        );
+    ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(
+          textTheme: GoogleFonts.montserratTextTheme(),
+          useMaterial3: true,
+        );
 
     if (isDark) {
       Get.changeTheme(darkTheme);

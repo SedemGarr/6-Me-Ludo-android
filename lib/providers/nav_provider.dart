@@ -25,7 +25,9 @@ class NavProvider with ChangeNotifier {
 
     if (shouldSync) {
       pageController.animateToPage(index, duration: AppConstants.animationDuration, curve: AppConstants.animationCurve);
-      Get.context!.read<UserProvider>().toggleIsEditingProfile(false);
+      if (index == HomeScreen.routeIndex) {
+        Get.context!.read<UserProvider>().toggleIsEditingProfile(false);
+      }
     }
   }
 

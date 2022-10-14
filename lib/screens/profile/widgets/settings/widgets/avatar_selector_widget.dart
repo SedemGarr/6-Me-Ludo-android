@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
 
 import '../../../../../constants/app_constants.dart';
 import '../../../../../utils/utils.dart';
@@ -31,9 +35,13 @@ class _AvatarSelectionWidgetState extends State<AvatarSelectionWidget> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        IconButton(
+        CustomListTileWidget(
+          title: Text(
+            DialogueService.changeAvatarText.tr,
+            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+          ),
+          trailing: IconButton(
             onPressed: () {
               setState(() {
                 avatarList = Utils.generateAvatarSelectionCodes(userProvider.getUserAvatar());
@@ -42,15 +50,16 @@ class _AvatarSelectionWidgetState extends State<AvatarSelectionWidget> {
             icon: Icon(
               AppIcons.refreshAvatarListIcon,
               color: Theme.of(context).primaryColor,
-            )),
+            ),
+          ),
+        ),
         Flexible(
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
             child: AnimationLimiter(
               child: GridView.builder(
-                shrinkWrap: mounted,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
+                  crossAxisCount: 4,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
                 ),

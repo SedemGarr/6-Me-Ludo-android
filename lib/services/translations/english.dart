@@ -168,7 +168,7 @@ class EnglishTranslation {
       // settings - theme
       DialogueService.themeTitleText: 'Theme',
       DialogueService.themeSubtitleText: 'Select your preferred theme',
-      DialogueService.setThemeToRandomText: 'Set theme to random',
+      DialogueService.setThemeToRandomText: 'Random theme selected',
       DialogueService.setThemeToValueText: 'Set theme to ',
       DialogueService.randomThemeText: 'Random Theme Selected',
       DialogueService.currentThemeText: 'Current Theme: ',

@@ -186,7 +186,7 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = flexScheme.name;
     themeProvider.setTheme(_user!.settings.prefersDarkMode, flexScheme);
-    Utils.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name);
+    Utils.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name.capitalizeFirst!);
     await updateUser(true, true);
   }
 
@@ -238,6 +238,10 @@ class UserProvider with ChangeNotifier {
 
   void setUserPseudonym() {
     String value = pseudonymController.text.trim();
+
+    if (value.isEmpty) {
+      return;
+    }
 
     if (value == _user!.psuedonym) {
       NavigationService.genericGoBack();
