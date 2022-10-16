@@ -6,7 +6,6 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
   final Widget? title;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
-  final bool? centerTitle;
   final double? size;
   final Color? backgroundColor;
 
@@ -16,7 +15,6 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
     this.title,
     this.actions,
     this.bottom,
-    this.centerTitle,
     this.size,
     this.backgroundColor,
   });
@@ -26,7 +24,6 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: backgroundColor,
-      centerTitle: centerTitle ?? false,
       leading: leading,
       title: title,
       actions: actions,

@@ -11,7 +11,7 @@ A Ludo game built with Flutter and powered by Firebase.
 
 ## Installation
 
-You'll need to downloaded and setup the Flutter SDK.
+You'll need to download and setup the Flutter SDK.
 
 Don't forget to run 'flutter pub get' to get dependencies.
 
@@ -49,11 +49,11 @@ If you know how this can be fixed, please help.
 
 ## The Database
 
-My initial intention was to power the gameplay with the RTDB. This is because a typical four player game with all human players makes about 3000 reads and 1500 writes to the database per session. And most reads and writes don't transfer a large amount of data. The game json object is extremely tiny. This suits the RTDB pricing model very well. The RTDB also has lower latency, which is great for a real-time multiplayer games like mine.
+The actual gameplay is powered by the Realtime Database. Clients subscribe to a stream of the game object. Game objects are duplicated in Cloud Firestore due it allowing me to query game documents by user IDs present in a players array. This saves me from normalising game data and having to write extra logic sync everything up.
 
-However, the RTDB doesn't support some of the nice things I had gotten used to with Cloud Firestore and I was having to model my data in some very weird and unintuitive ways. It was also late at night and I was in the middle of another existential crises. So I decided to go with Firestore for now and then switch later.
+To save reads and writes, not all updates to the Realtime Database are synced with Firestore. Only significant events like session starts, player entries, and exits are synced up.
 
-You'll also notice that the game thread is an array sitting on the game object. This might (and should) cause your eyes to pop out of your head. But the reason I decided to do that was that having each thread object being its own document in a separate collection would mean more documents to read and download each time a user joins a game (and a longer waiting period as the app dowloads all these documents). That could be solved with pagination but that would be so much extra logic for something I was going to have to rewrite and remodel anyway. Also, I have placed a limit on the number of chat messages that can be pushed to that array. So the game document will not reach the 1mb file size limit.
+You'll also notice that the game thread is an array sitting on a thread object. This might (and should) cause your eyes to pop out of your head. But the reason I decided to do that was that having each message object being its own document in a separate collection would mean more documents to read and download each time a user joins a game (and a longer waiting period as the app dowloads all these documents). That could be solved with pagination but that would be so much extra logic for something I was going to have to rewrite and remodel anyway. Also, I have placed a limit on the number of chat messages that can be pushed to that array. So the thread document will not reach the 1mb file size limit.
 
 ## Game and AI logic
 
@@ -74,6 +74,8 @@ For the next major release I plan to
 After that, I want to
 
 - Implement more complex AI logic
+- Implement deep linking
+- Implement push notifications
 - Explore spotify API integration for music streaming during gameplay (controlled by host)
 
 ## Feedback

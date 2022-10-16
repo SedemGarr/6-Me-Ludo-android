@@ -34,22 +34,22 @@ class Utils {
     UsernameGenerator generator = UsernameGenerator();
     generator.separator = ' ';
 
-    String initialpseudonym = generator.generateRandom();
+    String initialPseudonym = generator.generateRandom();
 
-    String finalpseudonym = '';
+    String finalPseudonym = '';
 
-    for (int i = 0; i < initialpseudonym.length; i++) {
-      if (!initialpseudonym[i].isNum) {
-        finalpseudonym += initialpseudonym[i];
+    for (int i = 0; i < initialPseudonym.length; i++) {
+      if (!initialPseudonym[i].isNum) {
+        finalPseudonym += initialPseudonym[i];
       }
     }
 
     // strip out any potentially offensive words
-    if (isStringProfane(finalpseudonym) || finalpseudonym.length > AppConstants.maxPseudonymLength) {
+    if (isStringProfane(finalPseudonym) || finalPseudonym.length > AppConstants.maxPseudonymLength) {
       return getRandomPseudonym();
     }
 
-    return convertToTitleCase(finalpseudonym.trim());
+    return convertToTitleCase(finalPseudonym.trim());
   }
 
   static bool isStringProfane(String value) {

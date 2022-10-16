@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
@@ -84,10 +86,12 @@ class Game {
   }
 
   static Game autoFillWithAIPlayers(Game game, Users user, Uuid uuid) {
+    Random random = Random();
+
     for (int i = 0; i < (4 - game.maxPlayers); i++) {
       String id = Utils.getAIPlayerId(uuid);
 
-      game.players.add(Player.getJoiningAIPlayer(id, game, user));
+      game.players.add(Player.getJoiningAIPlayer(id, game, user, random));
       game.playerIds.add(id);
     }
 

@@ -15,7 +15,6 @@ class LegalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBarWidget(
-        centerTitle: true,
         leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
         title: Text(
           DialogueService.licenceText.tr,

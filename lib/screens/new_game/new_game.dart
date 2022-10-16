@@ -31,7 +31,6 @@ class NewGameScreen extends StatelessWidget {
         ? const LoadingScreen()
         : Scaffold(
             appBar: CustomAppBarWidget(
-              centerTitle: true,
               leading: BackButtonWidget(
                 onPressed: () {
                   NavigationService.genericGoBack();

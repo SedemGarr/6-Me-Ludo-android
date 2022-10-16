@@ -34,7 +34,6 @@ class HomeScreen extends StatelessWidget {
           : Scaffold(
               appBar: CustomAppBarWidget(
                 actions: const [NewGameButton()],
-                centerTitle: false,
                 leading: const AppBarAvatarWidget(),
                 title: AppBarTitleWidget(
                   text: DialogueService.welcomeText.tr + userProvider.getUserPseudonym(),

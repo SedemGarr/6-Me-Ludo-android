@@ -25,7 +25,6 @@ class ThemeSelectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBarWidget(
-        centerTitle: true,
         actions: const [RandomThemeButtonWidget()],
         leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
         title: AppBarTitleWidget(text: userProvider.getThemeName()),

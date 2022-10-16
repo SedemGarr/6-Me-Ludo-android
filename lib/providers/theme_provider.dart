@@ -11,6 +11,7 @@ class ThemeProvider with ChangeNotifier {
   late ThemeData _lightThemeData;
   late ThemeData _darkThemeData;
   late ThemeMode _themeMode;
+  Random random = Random();
 
   ThemeProvider() {
     _lightThemeData = initLightTheme();
@@ -37,7 +38,7 @@ class ThemeProvider with ChangeNotifier {
   }
 
   FlexScheme getScheme() {
-    Random random = Random();
+    
 
     if (LocalStorageService.isThereLocalUser()) {
       Users user = LocalStorageService.getLocalUser()!;

@@ -35,6 +35,7 @@ import '../services/game_status_service.dart';
 class GameProvider with ChangeNotifier {
   late Board board;
   late ConfettiController confettiController;
+  Random random = Random();
 
   // text controllers
   TextEditingController joinGameController = TextEditingController();
@@ -493,7 +494,7 @@ class GameProvider with ChangeNotifier {
     }
 
     // if there are no moves available, return a null piece. the move will be skipped
-    return availableMoves.isEmpty ? Move.getNullMove() : availableMoves[Random().nextInt(availableMoves.length)];
+    return availableMoves.isEmpty ? Move.getNullMove() : availableMoves[random.nextInt(availableMoves.length)];
   }
 
   int getAIPlayerDestination(Game game, bool isForwards) {
@@ -509,7 +510,7 @@ class GameProvider with ChangeNotifier {
   }
 
   int determineDieValue() {
-    int randomValue = (Random().nextInt(6) + 1);
+    int randomValue = (random.nextInt(6) + 1);
 
     if (currentGame!.shouldAssistStart) {
       if (currentGame!.players[currentGame!.playerTurn].numberOfDieRolls == 0) {
