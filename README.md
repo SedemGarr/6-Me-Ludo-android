@@ -53,7 +53,7 @@ The actual gameplay is powered by the Realtime Database. Clients subscribe to a 
 
 To save reads and writes, not all updates to the Realtime Database are synced with Firestore. Only significant events like session starts, player entries, and exits are synced up.
 
-You'll also notice that the game thread is an array sitting on a thread object. This might (and should) cause your eyes to pop out of your head. But the reason I decided to do that was that having each message object being its own document in a separate collection would mean more documents to read and download each time a user joins a game (and a longer waiting period as the app dowloads all these documents). That could be solved with pagination but that would be so much extra logic for something I was going to have to rewrite and remodel anyway. Also, I have placed a limit on the number of chat messages that can be pushed to that array. So the thread document will not reach the 1mb file size limit.
+You'll also notice that the game thread is an array sitting on a thread object. This might (and should) cause your eyes to pop out of your head. But the reason I decided to do that was that having each message object being its own document in a separate collection would mean more documents to read and download each time a user joins a game (and a longer waiting period as the app dowloads all these documents). That could be solved with pagination but I'm trying to keep reads and writes to Firestore to an absolute minimum. I want this game to scale well and remain free. Also, I have placed a limit on the number of chat messages that can be pushed to that array. So the thread document will not reach the 1mb file size limit.
 
 ## Game and AI logic
 
