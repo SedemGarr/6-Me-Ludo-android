@@ -23,12 +23,6 @@ class GameActionsWidget extends StatelessWidget {
       children: [
         CustomTextButton(
             onPressed: () {
-              gameProvider.showRejoinGameDialog(game, userProvider.getUser(), context);
-            },
-            text: DialogueService.rejoinGameDialogYesText.tr,
-            color: Theme.of(context).primaryColor),
-        CustomTextButton(
-            onPressed: () {
               gameProvider.showLeaveOrDeleteGameDialog(
                 game,
                 userProvider.getUser(),
@@ -36,6 +30,12 @@ class GameActionsWidget extends StatelessWidget {
               );
             },
             text: host.id == userProvider.getUserID() ? DialogueService.deleteGameDialogYesText.tr : DialogueService.leaveGameDialogYesText.tr,
+            color: Theme.of(context).primaryColor),
+        CustomTextButton(
+            onPressed: () {
+              gameProvider.showRejoinGameDialog(game, userProvider.getUser(), context);
+            },
+            text: DialogueService.rejoinGameDialogYesText.tr,
             color: Theme.of(context).primaryColor),
       ],
     );
