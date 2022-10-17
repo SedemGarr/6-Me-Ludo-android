@@ -3,6 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:six_me_ludo_android/models/user.dart';
 import '../services/local_storage_service.dart';
 import '../utils/utils.dart';
 
@@ -10,6 +11,7 @@ class ThemeProvider with ChangeNotifier {
   late ThemeData _lightThemeData;
   late ThemeData _darkThemeData;
   late ThemeMode _themeMode;
+  Random random = Random();
 
   ThemeProvider() {
     _lightThemeData = initLightTheme();
@@ -19,14 +21,14 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData initLightTheme() {
     return FlexColorScheme.light(colors: FlexColor.schemes[getScheme()]!.light).toTheme.copyWith(
-          textTheme: GoogleFonts.patrickHandTextTheme(),
+          textTheme: GoogleFonts.montserratTextTheme(),
           useMaterial3: true,
         );
   }
 
   ThemeData initDarkTheme() {
     return FlexColorScheme.dark(colors: FlexColor.schemes[getScheme()]!.dark).toTheme.copyWith(
-          textTheme: GoogleFonts.patrickHandTextTheme(),
+          textTheme: GoogleFonts.montserratTextTheme(),
           useMaterial3: true,
         );
   }
@@ -36,10 +38,26 @@ class ThemeProvider with ChangeNotifier {
   }
 
   FlexScheme getScheme() {
-    Random random = Random();
+    
 
-    return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+    if (LocalStorageService.isThereLocalUser()) {
+      Users user = LocalStorageService.getLocalUser()!;
+
+      if (user.settings.theme.isEmpty) {
+        return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+      } else {
+        return FlexColor.schemes.keys.toList().firstWhere((element) => element.name == user.settings.theme);
+      }
+    } else {
+      return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+    }
   }
+
+  // FlexScheme getScheme() {
+  //   Random random = Random();
+
+  //   return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+  // }
 
   Color getSettingsColorListByIndex(FlexScheme flexScheme, bool isDark) {
     if (isDark) {
@@ -66,8 +84,14 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void setTheme(bool isDark, FlexScheme flexScheme) {
-    ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(textTheme: GoogleFonts.patrickHandTextTheme());
-    ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(textTheme: GoogleFonts.patrickHandTextTheme());
+    ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(
+          textTheme: GoogleFonts.montserratTextTheme(),
+          useMaterial3: true,
+        );
+    ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(
+          textTheme: GoogleFonts.montserratTextTheme(),
+          useMaterial3: true,
+        );
 
     if (isDark) {
       Get.changeTheme(darkTheme);
@@ -82,11 +106,17 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void setLightTheme(ThemeData themeData) {
-    _lightThemeData = themeData;
+    _lightThemeData = themeData.copyWith(
+      textTheme: GoogleFonts.montserratTextTheme(),
+      useMaterial3: true,
+    );
   }
 
   void setDarkTheme(ThemeData themeData) {
-    _darkThemeData = themeData;
+    _darkThemeData = themeData.copyWith(
+      textTheme: GoogleFonts.montserratTextTheme(),
+      useMaterial3: true,
+    );
   }
 
   ThemeData getLightTheme() {

@@ -10,8 +10,6 @@ class AppBarTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Text(
       text,
       style: TextStyles.appBarTitleStyle(

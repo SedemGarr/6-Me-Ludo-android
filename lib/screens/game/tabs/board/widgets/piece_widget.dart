@@ -67,18 +67,11 @@ class PieceWidget extends StatelessWidget {
       onTap: () {
         gameProvider.handleMovePieceTap(index, userProvider.getUser());
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            child: Text(
-              index.toString(),
-              style: const TextStyle(
-                color: Colors.transparent,
-              ),
-            ),
-          ),
-        ],
+      child: Center(
+        child: Icon(
+          gameProvider.board.cells[index].icon,
+          color: gameProvider.board.cells[index].iconColor,
+        ),
       ),
     );
   }

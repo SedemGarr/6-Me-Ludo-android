@@ -30,6 +30,7 @@ class DiceFABWidget extends StatelessWidget {
         playerNumber: game.playerTurn,
         shouldAnimate: isDieRolling,
         value: isDieRolling ? 0 : value,
+        random: gameProvider.random,
         key: UniqueKey(),
       ),
     );

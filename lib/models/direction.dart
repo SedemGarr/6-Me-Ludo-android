@@ -1,4 +1,10 @@
-class Direction {
-  static const String forward = 'forward';
-  static const String backward = 'backward';
+enum Direction {
+  forward,
+  backward,
+}
+
+extension ParseToString on Direction {
+  String parseToString() {
+    return toString().split('.').last;
+  }
 }

@@ -440,7 +440,7 @@ class Player {
     );
   }
 
-  static Player getJoiningAIPlayer(String id, Game game, Users user) {
+  static Player getJoiningAIPlayer(String id, Game game, Users user, Random random) {
     return Player(
       id: id,
       avatar: Utils.generateRandomUserAvatar(),
@@ -454,13 +454,13 @@ class Player {
       isPresent: true,
       psuedonym: Utils.getRandomPseudonym(),
       numberOfDieRolls: 0,
-      reputationValue: getAIPersonality(game, user),
+      reputationValue: getAIPersonality(game, user, random),
       startBackKickIndices: Player.getPlayerStartBackKickIndices(Player.getPlayerNumber(game)),
       validIndices: Player.getPlayerValidIndices(Player.getPlayerNumber(game)),
     );
   }
 
-  static int getAIPersonality(Game game, Users user) {
+  static int getAIPersonality(Game game, Users user, Random random) {
     switch (user.settings.aiPersonalityPreference) {
       case PlayerConstants.averageJoe:
         return PlayerConstants.averageJoeValue;
@@ -469,7 +469,7 @@ class Player {
       case PlayerConstants.pacifist:
         return PlayerConstants.pacifistValue;
       case PlayerConstants.randomPersonality:
-        return Random().nextInt(PlayerConstants.listOfRepuations.length);
+        return random.nextInt(PlayerConstants.listOfRepuations.length);
       default:
         return 0;
     }

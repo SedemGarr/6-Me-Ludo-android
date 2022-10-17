@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/no_games_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list_item.dart';
 import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
-import 'package:six_me_ludo_android/widgets/loading_widget.dart';
 
 import '../../../../constants/app_constants.dart';
 
@@ -19,17 +18,17 @@ class OngoingGamesListWidget extends StatelessWidget {
 
     return StreamBuilder<List<Game>>(
         stream: userProvider.onGoingGamesStream,
-        initialData: userProvider.getUserOngoingGames(),
-        builder: (BuildContext context, AsyncSnapshot<List<Game>> snapshot) {
+        initialData: userProvider.ongoingGames,
+        builder: (context, snapshot) {
           if (snapshot.hasData) {
-            userProvider.syncOnGoingGamesList(snapshot.data!);
+            userProvider.syncOngoingGamesStreamData(snapshot.data!);
 
-            return !userProvider.hasOngoingGames()
+            return userProvider.ongoingGames.isEmpty
                 ? const NoGamesWidget()
                 : AnimationLimiter(
                     child: ListView.separated(
                       shrinkWrap: true,
-                      itemCount: userProvider.getUserOngoingGamesLength(),
+                      itemCount: userProvider.ongoingGames.length,
                       padding: AppConstants.listViewPadding,
                       separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
@@ -43,8 +42,6 @@ class OngoingGamesListWidget extends StatelessWidget {
                       },
                     ),
                   );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingWidget();
           } else {
             return const NoGamesWidget();
           }

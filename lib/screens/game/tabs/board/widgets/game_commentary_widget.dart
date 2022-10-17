@@ -15,7 +15,9 @@ class GameCommentaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomAnimatedCrossFade(
         firstChild: const SizedBox.shrink(),
-        secondChild: Container(
+        secondChild: AnimatedContainer(
+          duration: AppConstants.animationDuration,
+          //  color: PlayerConstants.swatchList[gameProvider.currentGame!.playerTurn].playerSelectedColor,
           color: gameProvider.playerSelectedColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

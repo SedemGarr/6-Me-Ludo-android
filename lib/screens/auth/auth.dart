@@ -69,25 +69,28 @@ class AuthScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: Get.width * 2 / 3,
-                    child: CustomElevatedButton(
-                      iconData: AppIcons.anonIcon,
-                      onPressed: () {
-                        AuthenticationService.signInAnon(context);
-                      },
-                      text: DialogueService.signInAnonText.tr,
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: Get.width * 2 / 3,
+                        child: CustomElevatedButton(
+                          iconData: AppIcons.anonIcon,
+                          onPressed: () {
+                            AuthenticationService.signInAnon(context);
+                          },
+                          text: DialogueService.signInAnonText.tr,
+                        ),
+                      ),
+                      Text(
                         DialogueService.anonWarningText.tr,
-                        style: TextStyles.legalTextStyleBold(Theme.of(context).colorScheme.primary),
+                        style: TextStyles.legalTextStyleBold(
+                          Theme.of(context).colorScheme.primary,
+                        ),
                         textAlign: TextAlign.center,
                       ),
-                    ),
+                    ],
                   ),
+                  const Spacer(),
                   const LegalText(),
                 ],
               ),

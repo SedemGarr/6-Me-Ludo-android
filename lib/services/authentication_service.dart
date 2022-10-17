@@ -98,6 +98,11 @@ class AuthenticationService {
     FirebaseAuth firebase = FirebaseAuth.instance;
 
     try {
+      if (!user.isAnon) {
+        final GoogleSignIn googleSignIn = GoogleSignIn();
+        googleSignIn.signOut();
+      }
+
       await firebase.signOut();
       LocalStorageService.clearUser();
       Utils.clearCache();
@@ -113,16 +118,37 @@ class AuthenticationService {
     FirebaseAuth firebase = FirebaseAuth.instance;
     final signedInUser = firebase.currentUser;
 
+    NavigationService.goToAuthScreenAfterLogOut();
+
     try {
-      await DatabaseService.deleteUserData(user);
-      await signedInUser!.delete();
-      LocalStorageService.clearUser();
-      Utils.clearCache();
+      if (!user.isAnon) {
+        final GoogleSignIn googleSignIn = GoogleSignIn();
+        final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+        if (googleSignInAccount != null) {
+          final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+          final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken,
+          );
+
+          await signedInUser!.reauthenticateWithCredential(credential);
+          await googleSignIn.signOut();
+          await firebase.signOut();
+          await DatabaseService.deleteUserData(user);
+          LocalStorageService.clearUser();
+          Utils.clearCache();
+        }
+      } else {
+        await firebase.signOut();
+        await DatabaseService.deleteUserData(user);
+        LocalStorageService.clearUser();
+        Utils.clearCache();
+      }
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
-
-    NavigationService.goToAuthScreenAfterLogOut();
   }
 }

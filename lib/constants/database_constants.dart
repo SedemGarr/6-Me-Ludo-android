@@ -9,3 +9,7 @@ class FirestoreConstants {
   static const String errorDocument = 'errors';
   static const String versionDocument = 'versions';
 }
+
+class RealTimeDatabaseConstants {
+  static const String gamesReference = 'games';
+}

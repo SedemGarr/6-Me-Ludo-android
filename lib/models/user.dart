@@ -1,4 +1,3 @@
-import 'package:six_me_ludo_android/models/game.dart';
 import '../utils/utils.dart';
 import 'user_settings.dart';
 
@@ -6,10 +5,10 @@ class Users {
   late String avatar;
   late String id;
   late String psuedonym;
+  late String email;
   late int reputationValue;
   late bool isAnon;
   late UserSettings settings;
-  List<Game> onGoingGames = [];
 
   Users({
     required this.id,
@@ -18,6 +17,7 @@ class Users {
     required this.reputationValue,
     required this.settings,
     required this.isAnon,
+    required this.email,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -27,6 +27,7 @@ class Users {
     settings = UserSettings.fromJson(json['settings']);
     reputationValue = json['reputationValue'];
     isAnon = json['isAnon'];
+    email = json['email'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -37,10 +38,11 @@ class Users {
     data['settings'] = settings.toJson();
     data['reputationValue'] = reputationValue;
     data['isAnon'] = isAnon;
+    data['email'] = email;
     return data;
   }
 
-  static Future<Users> getDefaultUser(String uid, bool isAnon) async {
+  static Future<Users> getDefaultUser(String uid, String email, bool isAnon) async {
     return Users(
       avatar: Utils.generateRandomUserAvatar(),
       id: uid,
@@ -48,18 +50,15 @@ class Users {
       psuedonym: Utils.getRandomPseudonym(),
       reputationValue: 0,
       isAnon: isAnon,
+      email: email,
     );
   }
 
-  // static Future<Users> getTempUser() async {
-  //   return Users(
-  //     avatar: Utils.generateRandomUserAvatar(),
-  //     id: '',
-  //     settings: UserSettings.getDefaultSettings(),
-  //     psuedonym: Utils.getRandomPseudonym(),
-  //     reputationValue: 0,
-  //   );
-  // }
+  void setReputationValue(int value) {
+    if (value < 100 && value > -100) {
+      reputationValue = value;
+    }
+  }
 
   @override
   bool operator ==(other) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import '../../../constants/app_constants.dart';
 import '../../../models/license.dart';
 import '../../../utils/utils.dart';
@@ -39,7 +40,7 @@ class LicenseWidget extends StatelessWidget {
                                 collapsedIconColor: Theme.of(context).primaryColor,
                                 title: Text(
                                   license.title,
-                                  style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                                  style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
                                 ),
                                 children: [
                                   Padding(
@@ -47,10 +48,7 @@ class LicenseWidget extends StatelessWidget {
                                       vertical: 8.0,
                                       horizontal: 24,
                                     ),
-                                    child: Text(
-                                      license.text,
-                                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                                    ),
+                                    child: Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface)),
                                   )
                                 ],
                               ),

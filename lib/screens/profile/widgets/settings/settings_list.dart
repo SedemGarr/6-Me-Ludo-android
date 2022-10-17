@@ -12,6 +12,7 @@ class SettingsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: AppConstants.listViewPadding,
+      shrinkWrap: true,
       children: const [
         GeneralSettingsSection(),
         GameSettingsSection(),

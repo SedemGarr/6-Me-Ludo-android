@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:six_me_ludo_android/models/message.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
 import 'package:six_me_ludo_android/models/user.dart';
@@ -12,6 +13,7 @@ import 'die.dart';
 import 'player.dart';
 
 class Game {
+  late String createdAt;
   late String lastUpdatedBy;
   late String lastUpdatedAt;
   late String id;
@@ -26,19 +28,20 @@ class Game {
   late bool shouldAssistStart;
   late bool shouldAutoStart;
   late bool hasAdaptiveAI;
+  late bool isOffline;
   late int maxPlayers;
   late int playerTurn;
   late Die die;
   late Piece? selectedPiece;
   late UserSettings hostSettings;
   late List<Player> players;
-  late List<Message> thread;
   late List<String> finishedPlayers;
   late List<String> bannedPlayers;
   late List<String> kickedPlayers;
   late List<String> playerIds;
 
   Game({
+    required this.createdAt,
     required this.lastUpdatedBy,
     required this.lastUpdatedAt,
     required this.id,
@@ -53,6 +56,7 @@ class Game {
     required this.shouldAutoStart,
     required this.hostId,
     required this.hostSettings,
+    required this.isOffline,
     required this.hasAdaptiveAI,
     required this.reaction,
     required this.players,
@@ -63,7 +67,6 @@ class Game {
     required this.playerIds,
     required this.hasRestarted,
     required this.finishedPlayers,
-    required this.thread,
   });
 
   static Color determinePlayerColor(int colorIndex) {
@@ -83,18 +86,21 @@ class Game {
   }
 
   static Game autoFillWithAIPlayers(Game game, Users user, Uuid uuid) {
+    Random random = Random();
+
     for (int i = 0; i < (4 - game.maxPlayers); i++) {
       String id = Utils.getAIPlayerId(uuid);
 
-      game.players.add(Player.getJoiningAIPlayer(id, game, user));
+      game.players.add(Player.getJoiningAIPlayer(id, game, user, random));
       game.playerIds.add(id);
     }
 
     return game;
   }
 
-  static Game getDefaultGame(Users user, String gameId) {
+  static Game getDefaultGame(Users user, String gameId, bool isOffline) {
     return Game(
+      createdAt: DateTime.now().toString(),
       hostSettings: user.settings,
       reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
       id: gameId,
@@ -109,6 +115,7 @@ class Game {
       hasFinished: false,
       hasRestarted: false,
       hasSessionEnded: false,
+      isOffline: isOffline,
       hasAdaptiveAI: user.settings.prefersAdaptiveAI,
       shouldAssistStart: user.settings.prefersStartAssist,
       shouldAutoStart: user.settings.prefersAutoStart,
@@ -119,7 +126,6 @@ class Game {
       hostId: user.id,
       players: [Player.getDefaultPlayer(user, 0)],
       playerIds: [user.id],
-      thread: [],
     );
   }
 
@@ -137,53 +143,66 @@ class Game {
     shouldAssistStart = json['shouldAssistStart'];
     shouldAutoStart = json['shouldAutoStart'];
     hasAdaptiveAI = json['hasAdaptiveAI'];
+    isOffline = json['isOffline'];
     lastUpdatedBy = json['lastUpdatedBy'];
+    createdAt = json['createdAt'] == null
+        ? DateTime.now().toString()
+        : json['createdAt'] is int
+            ? DateTime.fromMillisecondsSinceEpoch(json['createdAt']).toString()
+            : json['createdAt'] is String
+                ? json['createdAt']
+                : DateTime.now().toString();
     lastUpdatedAt = json['lastUpdatedAt'] == null
-        ? DateTime.parse(DateTime.now().toString()).toString()
-        : json['lastUpdatedAt'] is String
-            ? json['lastUpdatedAt']
-            : DateTime.parse(json['lastUpdatedAt'].toDate().toString()).toString();
+        ? DateTime.now().toString()
+        : json['lastUpdatedAt'] is int
+            ? DateTime.fromMillisecondsSinceEpoch(json['lastUpdatedAt']).toString()
+            : json['lastUpdatedAt'] is String
+                ? json['lastUpdatedAt']
+                : DateTime.now().toString();
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);
-
     selectedPiece = json['selectedPiece'] == null ? null : Piece.fromJson(json['selectedPiece']);
     if (json['bannedPlayers'] != null) {
       bannedPlayers = <String>[];
       json['bannedPlayers'].forEach((v) {
         bannedPlayers.add(v);
       });
+    } else {
+      bannedPlayers = <String>[];
     }
+
     if (json['kickedPlayers'] != null) {
       kickedPlayers = <String>[];
       json['kickedPlayers'].forEach((v) {
         kickedPlayers.add(v);
       });
+    } else {
+      kickedPlayers = <String>[];
     }
     if (json['playerIds'] != null) {
       playerIds = <String>[];
       json['playerIds'].forEach((v) {
         playerIds.add(v);
       });
+    } else {
+      playerIds = <String>[];
     }
     if (json['players'] != null) {
       players = <Player>[];
       json['players'].forEach((v) {
         players.add(Player.fromJson(v));
       });
+    } else {
+      players = <Player>[];
     }
     if (json['finishedPlayers'] != null) {
       finishedPlayers = <String>[];
       json['finishedPlayers'].forEach((v) {
         finishedPlayers.add(v);
       });
-    }
-    if (json['thread'] != null) {
-      thread = <Message>[];
-      json['thread'].forEach((v) {
-        thread.add(Message.fromJson(v));
-      });
-      thread = [...thread.reversed.toList()];
+    } else {
+      finishedPlayers = <String>[];
     }
   }
 
@@ -204,11 +223,12 @@ class Game {
     data['hasAdaptiveAI'] = hasAdaptiveAI;
     data['lastUpdatedBy'] = lastUpdatedBy;
     data['lastUpdatedAt'] = lastUpdatedAt;
+    data['createdAt'] = createdAt;
+    data['isOffline'] = isOffline;
     data['maxPlayers'] = maxPlayers;
     data['playerTurn'] = playerTurn;
     data['selectedPiece'] = selectedPiece == null ? null : selectedPiece!.toJson();
     data['die'] = die.toJson();
-    data['thread'] = thread.map((v) => v.toJson()).toList().reversed.toList();
     data['bannedPlayers'] = bannedPlayers.map((v) => v).toList();
     data['kickedPlayers'] = kickedPlayers.map((v) => v).toList();
     data['playerIds'] = playerIds.map((v) => v).toList();
@@ -216,4 +236,12 @@ class Game {
     data['finishedPlayers'] = finishedPlayers.map((v) => v).toList();
     return data;
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Game && other.id == id);
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

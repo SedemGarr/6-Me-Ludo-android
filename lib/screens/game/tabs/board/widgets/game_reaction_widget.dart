@@ -15,23 +15,25 @@ class GameReactionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Game game = gameProvider.currentGame!;
 
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 16, bottom: 16.0),
-          child: SizedBox(
-            height: Get.height * 1 / 7,
-            child: ClipRRect(
-              borderRadius: AppConstants.appBorderRadius,
-              child: CachedNetworkImage(
-                imageUrl: game.reaction.reactionURL,
-                fit: BoxFit.fitHeight,
-                errorWidget: (context, url, error) => const SizedBox.shrink(),
+    return game.reaction.hasReaction()
+        ? Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16, bottom: 16.0),
+                child: SizedBox(
+                  height: Get.height * 1 / 7,
+                  child: ClipRRect(
+                    borderRadius: AppConstants.appBorderRadius,
+                    child: CachedNetworkImage(
+                      imageUrl: game.reaction.reactionURL,
+                      fit: BoxFit.fitHeight,
+                      errorWidget: (context, url, error) => const SizedBox.shrink(),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          )
+        : const SizedBox.shrink();
   }
 }

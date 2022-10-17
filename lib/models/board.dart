@@ -1,5 +1,6 @@
 import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'cell.dart';
@@ -280,7 +281,7 @@ class Board {
     } else if (index == 97 || index == 111 || index == 113 || index == 127) {
       return Icons.home_filled;
     } else {
-      return null;
+      return AppIcons.homeIcon;
     }
   }
 
@@ -311,7 +312,7 @@ class Board {
     } else if (index == 127) {
       return PlayerConstants.swatchList[3].playerColor;
     } else {
-      return null;
+      return Colors.transparent;
     }
   }
 

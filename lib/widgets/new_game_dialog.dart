@@ -68,7 +68,7 @@ showNewGameDialog({
           CustomElevatedButton(
               onPressed: () {
                 NavigationService.genericGoBack();
-                gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, appProvider);
+                gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, appProvider, userProvider.isGameOffline());
               },
               text: DialogueService.startGameButtonText.tr)
         ],

@@ -1,18 +1,18 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:css_colors/css_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:profanity_filter/profanity_filter.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
@@ -34,22 +34,22 @@ class Utils {
     UsernameGenerator generator = UsernameGenerator();
     generator.separator = ' ';
 
-    String initialpseudonym = generator.generateRandom();
+    String initialPseudonym = generator.generateRandom();
 
-    String finalpseudonym = '';
+    String finalPseudonym = '';
 
-    for (int i = 0; i < initialpseudonym.length; i++) {
-      if (!initialpseudonym[i].isNum) {
-        finalpseudonym += initialpseudonym[i];
+    for (int i = 0; i < initialPseudonym.length; i++) {
+      if (!initialPseudonym[i].isNum) {
+        finalPseudonym += initialPseudonym[i];
       }
     }
 
     // strip out any potentially offensive words
-    if (isStringProfane(finalpseudonym) || finalpseudonym.length > AppConstants.maxPseudonymLength) {
+    if (isStringProfane(finalPseudonym) || finalPseudonym.length > AppConstants.maxPseudonymLength) {
       return getRandomPseudonym();
     }
 
-    return convertToTitleCase(finalpseudonym.trim());
+    return convertToTitleCase(finalPseudonym.trim());
   }
 
   static bool isStringProfane(String value) {
@@ -88,13 +88,29 @@ class Utils {
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 16; i++) {
       avatars.add(Utils.generateRandomUserAvatar());
     }
 
     avatars[0] = avatar;
 
     return avatars;
+  }
+
+  static String parsePsuedonymName(String value) {
+    bool endsWithS = value[value.length - 1].toLowerCase() == 's';
+
+    if (endsWithS) {
+      value += "' ";
+    } else {
+      value += '\'s ';
+    }
+
+    return value;
+  }
+
+  static String getOfflineGameId(Uuid uuid) {
+    return uuid.v1();
   }
 
   static String getAIPlayerId(Uuid uuid) {
@@ -109,8 +125,12 @@ class Utils {
     return Get.deviceLocale!.languageCode;
   }
 
+  static String parseDate(String value) {
+    return Jiffy(value.isEmpty ? DateTime.now() : value).MMMMEEEEd;
+  }
+
   static String parseDateFromNow(String value) {
-    return Jiffy(value).fromNow();
+    return Jiffy(value.isEmpty ? DateTime.now() : value).fromNow();
   }
 
   static ThemeMode getSystemTheme() {
@@ -125,7 +145,11 @@ class Utils {
     return color.computeLuminance() > 0.5 ? CSSColors.black : CSSColors.white;
   }
 
-  static FieldValue getServerTimestamp() {
+  static getRTDBServerTimestamp() {
+    return ServerValue.timestamp;
+  }
+
+  static getFireStoreServerTimestamp() {
     return FieldValue.serverTimestamp();
   }
 
@@ -134,11 +158,16 @@ class Utils {
   }
 
   static void showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+        SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(
+              message,
+              style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+            )),
+      );
+    });
   }
 
   static void openURL(String url) async {

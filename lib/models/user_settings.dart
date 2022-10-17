@@ -38,6 +38,7 @@ class UserSettings {
   late bool prefersWakelock;
   late String aiPersonalityPreference;
   late String locale;
+  late String theme;
 
   UserSettings({
     required this.locale,
@@ -53,6 +54,7 @@ class UserSettings {
     required this.prefersAddAI,
     required this.prefersWakelock,
     required this.maxPlayers,
+    required this.theme,
   });
 
   static List<DropdownMenuItem<dynamic>> getGameSpeedDropDownMenuItems(BuildContext context) {
@@ -115,6 +117,7 @@ class UserSettings {
     prefersWakelock = json['prefersWakelock'] ?? true;
     maxPlayers = json['maxPlayers'] ?? AppConstants.maxPlayerUpperLimit;
     locale = json['locale'] ?? Get.deviceLocale.toString();
+    theme = json['theme'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -132,6 +135,7 @@ class UserSettings {
     data['prefersWakelock'] = prefersWakelock;
     data['maxPlayers'] = maxPlayers;
     data['locale'] = locale;
+    data['theme'] = theme;
     return data;
   }
 
@@ -150,6 +154,7 @@ class UserSettings {
       prefersWakelock: true,
       maxPlayers: AppConstants.maxPlayerUpperLimit,
       locale: DialogueService.englishUS.toString(),
+      theme: '',
     );
   }
 

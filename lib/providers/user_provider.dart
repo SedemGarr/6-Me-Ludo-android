@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -6,13 +7,13 @@ import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
+import 'package:six_me_ludo_android/screens/home/home.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
-import 'package:six_me_ludo_android/widgets/new_game_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,8 +25,10 @@ import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
 
 class UserProvider with ChangeNotifier {
-  late Users? _user;
+  Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
+  late List<Game> ongoingGames = [];
+  bool isEditingProfile = false;
 
   // ai player uuid
   Uuid uuid = const Uuid();
@@ -34,6 +37,7 @@ class UserProvider with ChangeNotifier {
   TextEditingController pseudonymController = TextEditingController();
 
   Future<void> initUser(BuildContext context) async {
+    NavProvider navProvider = context.read<NavProvider>();
     late Users? tempUser;
 
     try {
@@ -43,9 +47,10 @@ class UserProvider with ChangeNotifier {
       tempUser = null;
     }
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () async {
       if (tempUser != null) {
         setUser(tempUser, context.read<SoundProvider>());
+        navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
         NavigationService.goToHomeScreen();
       } else {
         NavigationService.goToAuthScreen();
@@ -57,39 +62,49 @@ class UserProvider with ChangeNotifier {
     if (shouldRebuild) {
       notifyListeners();
     }
+
     UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
-  void handleNewGameTap(BuildContext context) {
+  Future<void> setAndUpdateUser(Users user, bool shouldRebuild, bool shouldUpdateOnline) async {
+    _user = user;
+
+    if (shouldRebuild) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
+    }
+
+    await UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
+  }
+
+  void handleNewGameTap() {
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
-    showNewGameDialog(context: context);
+    NavigationService.goToNewGameScreen();
   }
 
-  void initialiseOnGoingGamesStream() {
-    onGoingGamesStream = DatabaseService.getOngoingGames(_user!);
-  }
-
-  void setUser(Users user, SoundProvider soundProvider) {
+  void setUser(Users? user, SoundProvider soundProvider) {
     _user = user;
+    onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
-    initialiseOnGoingGamesStream();
+
     notifyListeners();
   }
 
-  void syncOnGoingGamesList(List<Game> games) {
-    _user!.onGoingGames = [];
+  void syncOngoingGamesStreamData(List<Game> games) {
+    ongoingGames = games;
+  }
 
-    for (Game element in games) {
-      if (!element.kickedPlayers.contains(_user!.id) || !(element.players[element.players.indexWhere((element) => element.id == _user!.id)].hasLeft)) {
-        _user!.onGoingGames.add(element);
-      }
-    }
+  bool shouldGameShow(Game game) {
+    return !game.kickedPlayers.contains(_user!.id) || !(game.players[game.players.indexWhere((element) => element.id == _user!.id)].hasLeft);
+  }
 
-    _user!.onGoingGames.sort((b, a) => a.lastUpdatedAt.compareTo(b.lastUpdatedAt));
+  bool isUserInitialised() {
+    return _user != null;
   }
 
   Future<void> handleUserAvatarOnTap(String id, BuildContext context) async {
@@ -101,6 +116,15 @@ class UserProvider with ChangeNotifier {
       }
     } else {
       showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
+    }
+  }
+
+  void toggleIsEditingProfile(bool value) {
+    isEditingProfile = value;
+    notifyListeners();
+
+    if (!isEditingProfile) {
+      setUserPseudonym();
     }
   }
 
@@ -157,6 +181,24 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  Future<void> setCustomTheme(FlexScheme flexScheme, BuildContext context) async {
+    //NavigationService.genericGoBack();
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    _user!.settings.theme = flexScheme.name;
+    themeProvider.setTheme(_user!.settings.prefersDarkMode, flexScheme);
+    Utils.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name.capitalizeFirst!);
+    await updateUser(true, true);
+  }
+
+  Future<void> setThemeToRandom(BuildContext context) async {
+    NavigationService.genericGoBack();
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    _user!.settings.theme = '';
+    themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getScheme());
+    Utils.showToast(DialogueService.setThemeToRandomText.tr);
+    await updateUser(true, true);
+  }
+
   void setLanguageCode(Locale locale) {
     if (locale.languageCode != parseUserLocale(_user!.settings.locale).languageCode) {
       _user!.settings.locale = locale.toString();
@@ -196,6 +238,10 @@ class UserProvider with ChangeNotifier {
 
   void setUserPseudonym() {
     String value = pseudonymController.text.trim();
+
+    if (value.isEmpty) {
+      return;
+    }
 
     if (value == _user!.psuedonym) {
       NavigationService.genericGoBack();
@@ -278,27 +324,48 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.aiPersonalityPreference;
   }
 
-  String parseGameNameText(Player host, List<Player> players) {
-    if (host.id == _user!.id) {
-      switch (players.length) {
-        case 1:
-          return DialogueService.yourGameText.tr;
-        case 2:
-          return DialogueService.yourGameText.tr + DialogueService.oneOtherPlayerText.tr;
-        case 3:
-          return DialogueService.yourGameText.tr + DialogueService.twoOtherPlayerText.tr;
-        case 4:
-          return DialogueService.yourGameText.tr + DialogueService.threeOtherPlayerText.tr;
-        default:
-          return '';
-      }
+  String getThemeName() {
+    if (_user!.settings.theme == '') {
+      return DialogueService.randomThemeText.tr;
     } else {
-      return host.psuedonym + DialogueService.otherPlayersGameText.tr;
+      return DialogueService.currentThemeText.tr + Utils.convertToTitleCase(_user!.settings.theme);
     }
+  }
+
+  String parseGameNameText(Player host, List<Player> players) {
+    String gameName = '';
+    bool isHost = host.id == _user!.id;
+
+    gameName += isHost ? DialogueService.yourGameText.tr : Utils.parsePsuedonymName(host.psuedonym);
+
+    switch (players.length) {
+      case 1:
+        gameName += DialogueService.oneOtherPlayerText.tr;
+        break;
+      case 2:
+        gameName += DialogueService.twoOtherPlayerText.tr;
+        break;
+      case 3:
+        gameName += DialogueService.threeOtherPlayerText.tr;
+        break;
+      case 4:
+        gameName += DialogueService.fourOtherPlayerText.tr;
+        break;
+      default:
+        break;
+    }
+
+    gameName += DialogueService.gameText.tr;
+
+    return gameName;
   }
 
   String parsePlayerNameText(String name) {
     return name == _user!.psuedonym ? 'You' : name;
+  }
+
+  String getUserEmail() {
+    return _user!.email;
   }
 
   bool hasUser() {
@@ -309,12 +376,12 @@ class UserProvider with ChangeNotifier {
     return id == _user!.id;
   }
 
-  bool hasOngoingGames() {
-    return _user!.onGoingGames.isNotEmpty;
+  bool isUserAnon() {
+    return _user!.isAnon;
   }
 
   bool hasReachedOngoingGamesLimit() {
-    return _user!.onGoingGames.length >= AppConstants.maxOngoingGamesNumber;
+    return ongoingGames.length >= AppConstants.maxOngoingGamesNumber;
   }
 
   bool getUserDarkMode() {
@@ -345,6 +412,10 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.prefersStartAssist;
   }
 
+  bool isThemeSelected(String value) {
+    return _user!.settings.theme == value;
+  }
+
   bool getUserProfaneMessages() {
     return _user!.settings.prefersProfanity;
   }
@@ -357,8 +428,8 @@ class UserProvider with ChangeNotifier {
     return _user!.avatar == avatar;
   }
 
-  int getUserOngoingGamesLength() {
-    return _user!.onGoingGames.length;
+  bool isGameOffline() {
+    return _user!.settings.maxPlayers == 1;
   }
 
   int getUserGameSpeed() {
@@ -377,16 +448,8 @@ class UserProvider with ChangeNotifier {
     return _user!;
   }
 
-  List<Game> getUserOngoingGames() {
-    return _user!.onGoingGames;
-  }
-
-  Game getOngoingGameAtIndex(int index) {
-    return _user!.onGoingGames[index];
-  }
-
-  Player getOngoingGamesHostPlayerAtIndex(int index) {
-    return _user!.onGoingGames[index].players[_user!.onGoingGames[index].players.indexWhere((player) => player.id == _user!.onGoingGames[index].hostId)];
+  Player getOngoingGamesHostPlayerAtIndex(Game game) {
+    return game.players[game.players.indexWhere((player) => player.id == game.hostId)];
   }
 
   Locale getLocale() {

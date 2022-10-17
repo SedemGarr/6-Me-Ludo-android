@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/widgets/change_pseudonym_dialog.dart';
+import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 class EditProfileButton extends StatelessWidget {
   const EditProfileButton({super.key});
@@ -14,13 +14,21 @@ class EditProfileButton extends StatelessWidget {
 
     return IconButton(
       onPressed: () {
-        userProvider.setPseudonymControllerValue(userProvider.getUserPseudonym());
-        showChangePsuedonymDialog(context: context);
+        if (!userProvider.isEditingProfile) {
+          userProvider.setPseudonymControllerValue(userProvider.getUserPseudonym());
+        }
+        userProvider.toggleIsEditingProfile(!userProvider.isEditingProfile);
       },
-      icon: Icon(
-        AppIcons.editProfileIcon,
-        color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
-      ),
+      icon: CustomAnimatedCrossFade(
+          firstChild: Icon(
+            AppIcons.editProfileIcon,
+            color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+          ),
+          secondChild: Icon(
+            AppIcons.editDoneProfileIcon,
+            color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+          ),
+          condition: !userProvider.isEditingProfile),
     );
   }
 }

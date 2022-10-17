@@ -13,6 +13,7 @@ class DiceWidget extends StatefulWidget {
   final int value;
   final int playerNumber;
   final GameProvider gameProvider;
+  final Random random;
 
   const DiceWidget({
     Key? key,
@@ -20,6 +21,7 @@ class DiceWidget extends StatefulWidget {
     required this.playerNumber,
     required this.value,
     required this.gameProvider,
+    required this.random,
   }) : super(key: key);
 
   @override
@@ -33,10 +35,9 @@ class DiceWidgetState extends State<DiceWidget> {
   late bool isPlayerTurn;
   late Color startColor;
   late Color endColor;
+  late Random random;
 
   int animationColorIndex = 0;
-
-  Random random = Random();
 
   List<IconData> diceValues = [
     AppIcons.staticDieIcon,
@@ -80,6 +81,7 @@ class DiceWidgetState extends State<DiceWidget> {
 
   @override
   void initState() {
+    random = widget.random;
     isPlayerTurn = widget.shouldAnimate
         ? widget.gameProvider.currentGame!.playerTurn == widget.playerNumber
         : widget.gameProvider.currentGame!.playerTurn == widget.playerNumber && !widget.gameProvider.currentGame!.hasSessionEnded;

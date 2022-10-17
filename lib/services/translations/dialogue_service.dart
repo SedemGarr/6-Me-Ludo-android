@@ -61,6 +61,7 @@ class DialogueService extends Translations {
   static const String welcomeText = 'welcomeText';
   static const String newGameText = 'newGameText';
   static const String profileText = 'profileText';
+  static const String editProfileText = 'editProfileText';
   static const String homeText = 'homeText';
   // game - starting
   static const String newGameAppBarTitleText = 'newGameAppBarTitleText';
@@ -78,6 +79,10 @@ class DialogueService extends Translations {
   static const String oneOtherPlayerText = 'oneOtherPlayerText';
   static const String twoOtherPlayerText = 'twoOtherPlayerText';
   static const String threeOtherPlayerText = 'threeOtherPlayerText';
+  static const String fourOtherPlayerText = 'fourOtherPlayerText';
+  static const String gameText = 'gameText';
+  static const String humanPlayerText = 'humanPlayerText';
+  static const String aiPlayerText = 'aiPlayerText';
   static const String rejoinGameDialogTitleText = 'rejoinGameDialogTitleText';
   static const String rejoinGameDialogContentText = 'rejoinGameDialogContentText';
   static const String rejoinGameDialogYesText = 'rejoinGameDialogYesText';
@@ -95,6 +100,7 @@ class DialogueService extends Translations {
   static const String gameKickedText = 'gameKickedText';
   static const String gameDeletedToastText = 'gameDeletedToastText';
   static const String lastPlayedAtText = 'lastPlayedAtText';
+  static const String createdAtText = 'createdAtText';
   // game - playing
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';
@@ -118,6 +124,7 @@ class DialogueService extends Translations {
   static const String leaveGameTooltipText = 'leaveGameTooltipText';
   static const String gameIDCopiedToClipboardText = 'gameIDCopiedToClipboardText';
   static const String playerHasLeftText = 'playerHasLeftText';
+  static const String playerHasJoinedText = 'playerHasJoinedText';
   static const String gameHasStartedText = 'gameHasStartedText';
   static const String gameHasRestarted = 'gameHasRestarted';
   static const String messageContainsProfanityText = 'messageContainsProfanityText';
@@ -170,6 +177,8 @@ class DialogueService extends Translations {
   static const String tooLongText = 'tooLongText';
   static const String profaneStringText = 'profaneStringText';
   static const String youText = 'youText';
+  static const String anonAccountText = 'anonAccountText';
+  static const String verifiedAccountText = 'verifiedAccountText';
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';
@@ -183,6 +192,13 @@ class DialogueService extends Translations {
   // settings - audio
   static const String audioTitleText = 'audioTitleText';
   static const String audioSubtitleText = 'audioSubtitleText';
+  // settings - theme
+  static const String themeTitleText = 'themeTitleText';
+  static const String themeSubtitleText = 'themeSubtitleText';
+  static const String setThemeToRandomText = 'setThemeToRandomText';
+  static const String setThemeToValueText = 'setThemeToValueText';
+  static const String randomThemeText = 'randomThemeText';
+  static const String currentThemeText = 'curentThemeText';
   // settings - wakelock
   static const String wakelockTitleText = 'wakelockTitleText';
   static const String wakelockSubtitleText = 'wakelockSubtitleText';
