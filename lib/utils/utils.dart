@@ -164,7 +164,7 @@ class Utils {
             behavior: SnackBarBehavior.floating,
             content: Text(
               message,
-              style: TextStyles.listTitleStyle(Theme.of(Get.context!).colorScheme.surface),
+              style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
             )),
       );
     });
