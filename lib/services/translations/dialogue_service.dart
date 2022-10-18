@@ -74,6 +74,7 @@ class DialogueService extends Translations {
   static const String joinGameFABText = 'joinGameFABText';
   static const String joinGameHintText = 'joinGameHintText';
   // game - ongoing
+  static const String inAFewSecondsText = 'inAFewSecondsText';
   static const String yourGameText = 'yourGameText';
   static const String otherPlayersGameText = 'otherPlayersGameText';
   static const String oneOtherPlayerText = 'oneOtherPlayerText';

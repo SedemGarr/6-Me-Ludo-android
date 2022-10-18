@@ -19,7 +19,7 @@ class LastPlayedAtWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        Utils.parseDateFromNow(game.lastUpdatedAt) == 'in a few seconds' ? '' : DialogueService.lastPlayedAtText.tr + Utils.parseDateFromNow(game.lastUpdatedAt),
+        Utils.parseDateFromNow(game.lastUpdatedAt) == DialogueService.inAFewSecondsText.tr ? '' : DialogueService.lastPlayedAtText.tr + Utils.parseDateFromNow(game.lastUpdatedAt),
         style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
       ),
     );

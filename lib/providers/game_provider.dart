@@ -325,7 +325,7 @@ class GameProvider with ChangeNotifier {
         }
       }
     } else if (game.players.length > currentGame!.players.length) {
-      Utils.showToast(currentGame!.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
+      Utils.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
     }
   }
 

@@ -75,6 +75,7 @@ class EnglishTranslation {
       DialogueService.gameDoesNotExistText: 'Sorry this game does not exist. It may have been deleted',
       DialogueService.gameFullText: 'Sorry, this game is full',
       // game - playing
+      DialogueService.inAFewSecondsText: 'in a few seconds',
       DialogueService.playerTabText: 'Players',
       DialogueService.boardTabText: 'Game',
       DialogueService.chatTabText: 'Chat',
