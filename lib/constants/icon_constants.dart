@@ -4,8 +4,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class AppIcons {
   static const IconData appIcon = Icons.filter_6;
   // home
-  static const IconData homeIcon = MdiIcons.homeOutline;
-  static const IconData homeActiveIcon = MdiIcons.home;
+  static const IconData homeIcon = MdiIcons.gamepadVariantOutline;
+  static const IconData homeActiveIcon = MdiIcons.gamepadVariant;
   static const IconData profileIcon = MdiIcons.accountOutline;
   static const IconData profileActiveIcon = MdiIcons.account;
   static const IconData newGameIcon = MdiIcons.playCircleOutline;

@@ -19,11 +19,11 @@ class CustomBottomNavBar extends StatelessWidget {
     return appProvider.isLoading
         ? const SizedBox.shrink()
         : NavigationBar(
-            backgroundColor: Colors.transparent,
+            //   backgroundColor: Colors.transparent,
             animationDuration: AppConstants.animationDuration,
-            elevation: 0,
-            height: kBottomNavigationBarHeight,
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+            //    elevation: 0,
+            // height: kBottomNavigationBarHeight,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             selectedIndex: navProvider.getBottomNavBarIndex(),
             onDestinationSelected: (index) async => navProvider.setBottomNavBarIndex(index, true),
             destinations: [
