@@ -1373,6 +1373,7 @@ class GameProvider with ChangeNotifier {
     for (int i = 0; i < currentGame!.players.length; i++) {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
       currentGame!.players[i].validIndices = Player.getPlayerValidIndices(i);
+      currentGame!.players[i].startBackKickIndices = Player.getPlayerStartBackKickIndices(i);
       currentGame!.players[i].playerColor = i;
     }
 
