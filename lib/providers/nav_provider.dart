@@ -17,6 +17,7 @@ class NavProvider with ChangeNotifier {
     keepPage: true,
   );
 
+  late TabController homeScreenTabController;
   late TabController gameScreenTabController;
 
   Future<void> setBottomNavBarIndex(int index, bool shouldSync) async {
@@ -37,6 +38,10 @@ class NavProvider with ChangeNotifier {
     if (pageController.hasClients) {
       await pageController.animateToPage(index, duration: AppConstants.animationDuration, curve: AppConstants.animationCurve);
     }
+  }
+
+  void initialiseHomeScreenTabController(TickerProvider vsync, int length) {
+    homeScreenTabController = TabController(initialIndex: 0, length: length, vsync: vsync);
   }
 
   void initialiseGameScreenTabController(TickerProvider vsync, int length) {

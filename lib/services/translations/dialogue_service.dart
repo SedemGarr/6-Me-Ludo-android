@@ -63,6 +63,8 @@ class DialogueService extends Translations {
   static const String profileText = 'profileText';
   static const String editProfileText = 'editProfileText';
   static const String homeText = 'homeText';
+  static const String ongoingGamesText = 'ongoingGamesText';
+  static const String newGamesText = 'newGamesText';
   // game - starting
   static const String newGameAppBarTitleText = 'newGameAppBarTitleText';
   static const String startGameButtonText = 'startGameButtonText';

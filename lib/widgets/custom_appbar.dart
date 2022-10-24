@@ -23,6 +23,7 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      centerTitle: true,
       backgroundColor: backgroundColor,
       leading: leading,
       title: title,

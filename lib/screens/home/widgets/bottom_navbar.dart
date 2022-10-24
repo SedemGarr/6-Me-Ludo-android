@@ -19,9 +19,9 @@ class CustomBottomNavBar extends StatelessWidget {
     return appProvider.isLoading
         ? const SizedBox.shrink()
         : NavigationBar(
-            //   backgroundColor: Colors.transparent,
+            // backgroundColor: Get.isDarkMode ? null : Colors.transparent,
             animationDuration: AppConstants.animationDuration,
-            //    elevation: 0,
+            elevation: Get.isDarkMode ? null : 0,
             // height: kBottomNavigationBarHeight,
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             selectedIndex: navProvider.getBottomNavBarIndex(),

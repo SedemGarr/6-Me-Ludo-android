@@ -37,6 +37,8 @@ class EnglishTranslation {
       DialogueService.profileText: 'Profile & Settings',
       DialogueService.editProfileText: 'Edit Your Profile',
       DialogueService.homeText: 'Games',
+      DialogueService.ongoingGamesText: 'Ongoing Games',
+      DialogueService.newGamesText: 'New Game',
       // game - ongoing
       DialogueService.yourGameText: 'Your ',
       DialogueService.otherPlayersGameText: '\'s ',
@@ -60,7 +62,7 @@ class EnglishTranslation {
       DialogueService.leaveGameDialogYesText: 'Leave',
       DialogueService.leaveGameDialogNoText: 'Cancel',
       DialogueService.lastPlayedAtText: 'Last played ',
-      DialogueService.createdAtText: 'Game started on ',
+      DialogueService.createdAtText: 'Game created ',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
       DialogueService.startGameButtonText: 'Start Game',
