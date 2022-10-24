@@ -24,30 +24,34 @@ class JoinGameTextFieldWidget extends StatelessWidget {
         controller: gameProvider.joinGameController,
         maxLength: AppConstants.joinGameCodeLength,
         decoration: InputDecoration(
-          enabledBorder: InputBorder.none,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+          ),
           border: InputBorder.none,
           errorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
           contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          hintStyle: TextStyles.textFieldStyle(
-            Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+          hintStyle: TextStyles.listTitleStyle(
+            Theme.of(context).colorScheme.onSurface,
           ),
           counterStyle: TextStyles.textFieldStyle(
-            Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            Theme.of(context).colorScheme.onSurface,
           ),
         ),
-        style: TextStyles.textFieldStyle(
-          Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+        style: TextStyles.listTitleStyle(
+          Theme.of(context).colorScheme.primary,
         ),
-        cursorColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+        cursorColor: Theme.of(context).primaryColor,
         keyboardType: TextInputType.text,
         onChanged: (value) {
           if (value.length == AppConstants.joinGameCodeLength) {

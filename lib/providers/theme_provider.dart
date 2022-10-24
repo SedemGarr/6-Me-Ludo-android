@@ -38,8 +38,6 @@ class ThemeProvider with ChangeNotifier {
   }
 
   FlexScheme getScheme() {
-    
-
     if (LocalStorageService.isThereLocalUser()) {
       Users user = LocalStorageService.getLocalUser()!;
 

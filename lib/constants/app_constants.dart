@@ -19,6 +19,8 @@ class AppConstants {
   static const int animationDurationValue = 250;
   static const int gameThreadMessageLimit = 500;
 
+  static const double appOpacity = 0.25;
+
   static const double standardAppbarHeight = kToolbarHeight + 4;
   static const double standardTabbarHeight = kTextTabBarHeight;
 

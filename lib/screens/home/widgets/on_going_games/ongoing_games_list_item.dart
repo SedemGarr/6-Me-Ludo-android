@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_actions_widget.dart';
@@ -27,31 +28,47 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
 
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        key: UniqueKey(),
-        leading: GameOwnerAvatarWidget(
-          id: host.id,
-          avatar: host.avatar,
-          playerColor: host.playerColor,
-        ),
-        title: GameNameWidget(host: host, players: game.players),
-        subtitle: GameDateWidget(createdAt: game.createdAt),
-        trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
-        children: [
-          for (int i = 0; i < game.players.length; i++)
-            if (game.players[i].id != host.id)
-              GamePlayerWidget(
-                player: game.players[i],
-                game: game,
-                userProvider: userProvider,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ClipRRect(
+          borderRadius: AppConstants.appBorderRadius,
+          child: ExpansionTile(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+            //  collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            childrenPadding: const EdgeInsets.only(bottom: 8.0),
+            key: UniqueKey(),
+            leading: GameOwnerAvatarWidget(
+              id: host.id,
+              avatar: host.avatar,
+              playerColor: host.playerColor,
+            ),
+            title: GameNameWidget(host: host, players: game.players),
+            subtitle: GameDateWidget(createdAt: game.createdAt),
+            trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
+            children: [
+              Column(
+                children: [
+                  Divider(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  for (int i = 0; i < game.players.length; i++)
+                    if (game.players[i].id != host.id)
+                      GamePlayerWidget(
+                        player: game.players[i],
+                        game: game,
+                        userProvider: userProvider,
+                      ),
+                  GameActionsWidget(
+                    game: game,
+                    gameProvider: gameProvider,
+                    host: host,
+                    userProvider: userProvider,
+                  ),
+                ],
               ),
-          GameActionsWidget(
-            game: game,
-            gameProvider: gameProvider,
-            host: host,
-            userProvider: userProvider,
-          )
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

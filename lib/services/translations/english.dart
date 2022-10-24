@@ -63,9 +63,10 @@ class EnglishTranslation {
       DialogueService.leaveGameDialogNoText: 'Cancel',
       DialogueService.lastPlayedAtText: 'Last played ',
       DialogueService.createdAtText: 'Game created ',
+      DialogueService.createNewGameText: 'Or create a new game',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
-      DialogueService.startGameButtonText: 'Start Game',
+      DialogueService.startGameButtonText: 'Create New Game',
       DialogueService.joinGameButtonText: 'Join Game',
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Games 😕',
