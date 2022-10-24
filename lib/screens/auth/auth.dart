@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
+import '../../constants/app_constants.dart';
 import '../../constants/icon_constants.dart';
 import '../../services/authentication_service.dart';
 import '../../services/translations/dialogue_service.dart';
@@ -49,7 +51,13 @@ class AuthScreen extends StatelessWidget {
                       style: TextStyles.legalTextStyleBold(Theme.of(context).colorScheme.onSurface),
                     ),
                   ),
-                  const Spacer(),
+                  // const Spacer(),
+                  Lottie.asset(
+                    AppConstants.authLottieAssetPath,
+                    repeat: true,
+                    fit: BoxFit.cover,
+                  ),
+                  //  const Spacer(),
                   SizedBox(
                     width: Get.width * 2 / 3,
                     child: CustomElevatedButton(
