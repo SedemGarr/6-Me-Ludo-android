@@ -5,15 +5,17 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
 import '../constants/app_constants.dart';
+import '../constants/player_constants.dart';
 
 class UserAvatarWidget extends StatelessWidget {
   final String? id;
   final bool? shouldExpand;
+  final bool hasLeftGame;
   final String avatar;
   final Color backgroundColor;
   final Color borderColor;
 
-  const UserAvatarWidget({super.key, required this.backgroundColor, this.id, required this.avatar, this.shouldExpand, required this.borderColor});
+  const UserAvatarWidget({super.key, required this.backgroundColor, this.id, required this.avatar, this.shouldExpand, required this.borderColor, required this.hasLeftGame});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class UserAvatarWidget extends StatelessWidget {
           avatar,
           trBackground: true,
         ),
+        color: hasLeftGame ? PlayerConstants.kickedColorLight : null,
       ),
     );
 

@@ -12,17 +12,18 @@ class ProfileStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
+    final String status = userProvider.isUserAnon()
+        ? DialogueService.anonAccountText.tr
+        : userProvider.getUserEmail().isEmpty
+            ? DialogueService.verifiedAccountText.tr
+            : userProvider.getUserEmail();
 
     return Text(
-      userProvider.isUserAnon()
-          ? DialogueService.anonAccountText.tr
-          : userProvider.getUserEmail().isEmpty
-              ? DialogueService.verifiedAccountText.tr
-              : userProvider.getUserEmail(),
+      status + DialogueService.visibleOnlyToYouText.tr,
       style: TextStyles.listSubtitleStyle(
         Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
       ),
-      maxLines: 1,
+      maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
   }

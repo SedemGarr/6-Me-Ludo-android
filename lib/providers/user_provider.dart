@@ -107,15 +107,19 @@ class UserProvider with ChangeNotifier {
     return _user != null;
   }
 
-  Future<void> handleUserAvatarOnTap(String id, BuildContext context) async {
-    if (isMe(id)) {
-      if (Get.currentRoute == HomePageViewWrapper.routeName) {
-        context.read<NavProvider>().setBottomNavBarIndex(ProfileScreen.routeIndex, true);
-      } else {
-        Utils.showToast(DialogueService.youText.tr);
-      }
+  Future<void> handleUserAvatarOnTap(String? id, BuildContext context) async {
+    if (id == null) {
+      return;
     } else {
-      showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
+      if (isMe(id)) {
+        if (Get.currentRoute == HomePageViewWrapper.routeName) {
+          context.read<NavProvider>().setBottomNavBarIndex(ProfileScreen.routeIndex, true);
+        } else {
+          Utils.showToast(DialogueService.youText.tr);
+        }
+      } else {
+        showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
+      }
     }
   }
 

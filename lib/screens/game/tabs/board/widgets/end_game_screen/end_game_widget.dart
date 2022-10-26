@@ -9,7 +9,10 @@ import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_owner_avatar_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
+import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
 class EndGameWidget extends StatefulWidget {
@@ -22,7 +25,7 @@ class EndGameWidget extends StatefulWidget {
   State<EndGameWidget> createState() => _EndGameWidgetState();
 }
 
-class _EndGameWidgetState extends State<EndGameWidget> {
+class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveClientMixin {
   late GameProvider gameProvider;
   late UserProvider userProvider;
 
@@ -58,105 +61,158 @@ class _EndGameWidgetState extends State<EndGameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: hasWinner
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ConfettiWidget(
-                      confettiController: gameProvider.confettiController,
-                      blastDirectionality: BlastDirectionality.explosive,
-                      colors: [Get.isDarkMode ? PlayerConstants.swatchList[winner!.playerColor].playerSelectedColor : PlayerConstants.swatchList[winner!.playerColor].playerColor],
-                      child: Text(
-                        DialogueService.gameWinnerText.tr,
-                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface).copyWith(
-                          fontSize: 28,
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      child: UserAvatarWidget(
-                        backgroundColor:
-                            Get.isDarkMode ? PlayerConstants.swatchList[winner!.playerColor].playerSelectedColor : PlayerConstants.swatchList[winner!.playerColor].playerColor,
-                        avatar: winner!.avatar,
-                        borderColor: Theme.of(context).colorScheme.onSurface,
-                        shouldExpand: true,
-                        id: winner!.id,
-                      ),
-                    ),
-                  ],
-                )
-              : Center(
-                  child: Text(
-                    DialogueService.noWinnerText.tr,
-                    style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
-                  ),
-                ),
-        ),
-        if (hasViciousOrPunchingBag) const Divider(),
-        if (hasViciousOrPunchingBag)
+    super.build(context);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
           Expanded(
+            child: hasWinner
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ConfettiWidget(
+                          confettiController: gameProvider.confettiController,
+                          blastDirectionality: BlastDirectionality.explosive,
+                          colors: [
+                            Get.isDarkMode ? PlayerConstants.swatchList[winner!.playerColor].playerSelectedColor : PlayerConstants.swatchList[winner!.playerColor].playerColor
+                          ],
+                          child: Text(
+                            DialogueService.gameWinnerText.tr,
+                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface).copyWith(
+                              fontSize: 28,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: UserAvatarWidget(
+                            backgroundColor:
+                                Get.isDarkMode ? PlayerConstants.swatchList[winner!.playerColor].playerSelectedColor : PlayerConstants.swatchList[winner!.playerColor].playerColor,
+                            avatar: winner!.avatar,
+                            borderColor: Theme.of(context).colorScheme.onSurface,
+                            shouldExpand: true,
+                            id: winner!.isAIPlayer ? null : winner!.id,
+                            hasLeftGame: winner!.hasLeft,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      DialogueService.noWinnerText.tr,
+                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+                    ),
+                  ),
+          ),
+          if (hasViciousOrPunchingBag) const Divider(),
+          if (hasViciousOrPunchingBag)
+            Expanded(
               flex: hasWinner ? 1 : 2,
-              child: IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Flexible(
-                      child: Column(
-                        children: [
-                          Text(
-                            '${DialogueService.gameViciousText.tr} - ${vicious!.numberOfTimesKickerInSession}',
-                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface).copyWith(
-                              fontSize: 18,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: UserAvatarWidget(
-                              backgroundColor: Get.isDarkMode
-                                  ? PlayerConstants.swatchList[vicious!.playerColor].playerSelectedColor
-                                  : PlayerConstants.swatchList[vicious!.playerColor].playerColor,
-                              avatar: vicious!.avatar,
-                              borderColor: Theme.of(context).colorScheme.onSurface,
-                              shouldExpand: true,
-                              id: vicious!.id,
-                            ),
-                          ),
-                        ],
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      DialogueService.statsTitleText.tr,
+                      style: TextStyles.listTitleStyle(
+                        Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    const VerticalDivider(),
-                    Flexible(
-                      child: Column(
-                        children: [
-                          Text(
-                            '${DialogueService.gamePunchingBagText.tr} - ${punchingBag!.numberOfTimesKickedInSession}',
-                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface).copyWith(
-                              fontSize: 18,
-                            ),
-                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        if (hasViciousOrPunchingBag)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: UserAvatarWidget(
-                              backgroundColor: Get.isDarkMode
-                                  ? PlayerConstants.swatchList[punchingBag!.playerColor].playerSelectedColor
-                                  : PlayerConstants.swatchList[punchingBag!.playerColor].playerColor,
-                              avatar: punchingBag!.avatar,
-                              borderColor: Theme.of(context).colorScheme.onSurface,
-                              shouldExpand: true,
-                              id: punchingBag!.id,
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  DialogueService.gameViciousText.tr,
+                                  style: TextStyles.listTitleStyle(
+                                    Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
+                                CustomListTileWidget(
+                                  leading: GameOwnerAvatarWidget(
+                                    avatar: vicious!.avatar,
+                                    id: vicious!.isAIPlayer ? null : vicious!.id,
+                                    playerColor: vicious!.playerColor,
+                                    hasLeft: vicious!.hasLeft,
+                                  ),
+                                  title: Text(
+                                    vicious!.numberOfTimesKickerInSession == 1
+                                        ? vicious!.numberOfTimesKickerInSession.toString() + DialogueService.kickSingularText.tr
+                                        : vicious!.numberOfTimesKickerInSession.toString() + DialogueService.kickPluralText.tr,
+                                    style: TextStyles.listSubtitleStyle(
+                                      Theme.of(context).colorScheme.onSurface,
+                                    ),
+                                  ),
+                                  trailing: ReputationWidget(
+                                    shouldPad: true,
+                                    value: vicious!.reputationValue,
+                                    color: Get.isDarkMode
+                                        ? PlayerConstants.swatchList[vicious!.playerColor].playerSelectedColor
+                                        : PlayerConstants.swatchList[vicious!.playerColor].playerColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          //   Text('45')
-                        ],
-                      ),
+                        if (hasViciousOrPunchingBag)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  DialogueService.gamePunchingBagText.tr,
+                                  style: TextStyles.listTitleStyle(
+                                    Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
+                                CustomListTileWidget(
+                                  leading: GameOwnerAvatarWidget(
+                                    avatar: punchingBag!.avatar,
+                                    id: punchingBag!.isAIPlayer ? null : punchingBag!.id,
+                                    playerColor: punchingBag!.playerColor,
+                                    hasLeft: punchingBag!.hasLeft,
+                                  ),
+                                  title: Text(
+                                    punchingBag!.numberOfTimesKickedInSession == 1
+                                        ? DialogueService.kickedText.tr + punchingBag!.numberOfTimesKickedInSession.toString() + DialogueService.timesSingularText.tr
+                                        : DialogueService.kickedText.tr + punchingBag!.numberOfTimesKickedInSession.toString() + DialogueService.timesPluralText.tr,
+                                    style: TextStyles.listSubtitleStyle(
+                                      Theme.of(context).colorScheme.onSurface,
+                                    ),
+                                  ),
+                                  trailing: ReputationWidget(
+                                    shouldPad: true,
+                                    value: punchingBag!.reputationValue,
+                                    color: Get.isDarkMode
+                                        ? PlayerConstants.swatchList[punchingBag!.playerColor].playerSelectedColor
+                                        : PlayerConstants.swatchList[punchingBag!.playerColor].playerColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
                     ),
-                  ],
-                ),
-              ))
-      ],
+                  )
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

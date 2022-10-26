@@ -36,8 +36,9 @@ class PlayerListItemWidget extends StatelessWidget {
     bool isMe = userProvider.isMe(player.id);
     bool isHost = gameProvider.isPlayerHost(userProvider.getUserID());
     bool isKicked = game.kickedPlayers.contains(player.id);
-    Color playerColor = isKicked ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
-    Color playerSelectedColor = isKicked ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
+    bool hasLeft = isKicked || player.hasLeft;
+    Color playerColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
+    Color playerSelectedColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
     Color contrastingColor = Utils.getContrastingColor(playerColor);
 
     return AnimatedContainer(
@@ -58,27 +59,32 @@ class PlayerListItemWidget extends StatelessWidget {
             avatar: player.avatar,
             backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
             borderColor: contrastingColor,
+            hasLeftGame: hasLeft,
           ),
         ),
         title: Text(
           userProvider.parsePlayerNameText(player.psuedonym),
           style: TextStyles.listTitleStyle(contrastingColor),
         ),
-        subtitle: isKicked
-            ? null
+        subtitle: isKicked || hasLeft
+            ? Text(
+                isKicked ? DialogueService.playerKickedFromGameTrailingText.tr : DialogueService.playerHasLeftTheGame.tr,
+                style: TextStyles.listSubtitleStyle(Utils.getContrastingColor(playerColor)),
+              )
             : PlayerProgressWidget(
                 player: player,
                 hasStarted: game.hasStarted,
                 playerColor: playerColor,
                 playerSelectedColor: playerSelectedColor,
               ),
-        trailing: isKicked
-            ? Text(
-                DialogueService.playerKickedFromGameTrailingText.tr,
-                style: TextStyles.listSubtitleStyle(contrastingColor),
-              )
-            : ReputationWidget(value: player.reputationValue, color: contrastingColor),
-        children: !isAI && !isMe && !isKicked
+        trailing: isKicked || hasLeft
+            ? const SizedBox.shrink()
+            : ReputationWidget(
+                value: player.reputationValue,
+                color: contrastingColor,
+                shouldPad: true,
+              ),
+        children: !isAI && !isMe && !isKicked && !hasLeft
             ? [
                 CustomListTileWidget(
                   title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),

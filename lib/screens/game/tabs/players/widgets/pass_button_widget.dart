@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
@@ -13,7 +12,7 @@ class PassButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Get.isDarkMode ? gameProvider.playerSelectedColor : gameProvider.playerColor;
+    Color color = gameProvider.playerColor;
     Color contrastingColor = Utils.getContrastingColor(color);
 
     return GestureDetector(

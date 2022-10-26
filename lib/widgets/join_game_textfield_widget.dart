@@ -23,6 +23,8 @@ class JoinGameTextFieldWidget extends StatelessWidget {
       child: TextFormField(
         controller: gameProvider.joinGameController,
         maxLength: AppConstants.joinGameCodeLength,
+        cursorColor: Theme.of(context).primaryColor,
+        keyboardType: TextInputType.text,
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
@@ -41,18 +43,14 @@ class JoinGameTextFieldWidget extends StatelessWidget {
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
           contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          hintStyle: TextStyles.listTitleStyle(
-            Theme.of(context).colorScheme.onSurface,
-          ),
-          counterStyle: TextStyles.textFieldStyle(
+          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+          counterStyle: TextStyles.listSubtitleStyle(
             Theme.of(context).colorScheme.onSurface,
           ),
         ),
         style: TextStyles.listTitleStyle(
           Theme.of(context).colorScheme.primary,
         ),
-        cursorColor: Theme.of(context).primaryColor,
-        keyboardType: TextInputType.text,
         onChanged: (value) {
           if (value.length == AppConstants.joinGameCodeLength) {
             gameProvider.joinGameWithCode(userProvider.getUser(), appProvider);

@@ -41,6 +41,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
               id: host.id,
               avatar: host.avatar,
               playerColor: host.playerColor,
+              hasLeft: host.hasLeft,
             ),
             title: GameNameWidget(host: host, players: game.players),
             subtitle: GameDateWidget(createdAt: game.createdAt),

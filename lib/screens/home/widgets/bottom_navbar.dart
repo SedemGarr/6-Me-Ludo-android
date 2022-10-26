@@ -30,9 +30,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
             child: NavigationBar(
-              // backgroundColor: Get.isDarkMode ? null : Colors.transparent,
               animationDuration: AppConstants.animationDuration,
-              // elevation: 0,
               //   height: kBottomNavigationBarHeight,
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
               selectedIndex: navProvider.getBottomNavBarIndex(),

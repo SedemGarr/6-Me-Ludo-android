@@ -80,6 +80,7 @@ class _AvatarSelectionWidgetState extends State<AvatarSelectionWidget> {
                           avatar: avatarList[index],
                           backgroundColor: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
                           borderColor: Theme.of(context).colorScheme.onSurface,
+                          hasLeftGame: false,
                         ),
                       ),
                     ),

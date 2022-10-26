@@ -28,7 +28,7 @@ class EnglishTranslation {
       DialogueService.signInAnonText: 'Sign in Anonymously',
       DialogueService.anonWarningText: 'Anonymous accounts do not persist and will be lost permanently if you sign out',
       DialogueService.welcomeEmojiText: 'Hello there, 👋',
-      DialogueService.welcomeSubtileText: 'Welcome to 6-Me-Ludo!',
+      DialogueService.welcomeSubtileText: 'Welcome to 6-Me-Ludo! 👋 ',
       // welcome error
       DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account',
       // home
@@ -48,6 +48,7 @@ class EnglishTranslation {
       DialogueService.fourOtherPlayerText: 'four player',
       DialogueService.gameText: ' game',
       DialogueService.humanPlayerText: 'Human player',
+      DialogueService.humanPlayerCaptialText: 'Human Player',
       DialogueService.aiPlayerText: 'AI player',
       DialogueService.rejoinGameDialogTitleText: 'Join Game?',
       DialogueService.rejoinGameDialogContentText: 'Are you sure you want to rejoin this game?',
@@ -64,6 +65,7 @@ class EnglishTranslation {
       DialogueService.lastPlayedAtText: 'Last played ',
       DialogueService.createdAtText: 'Game created ',
       DialogueService.createNewGameText: 'Or create a new game',
+      DialogueService.playerHasLeftTheGame: 'Player has left the game',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
       DialogueService.startGameButtonText: 'Create New Game',
@@ -125,8 +127,14 @@ class EnglishTranslation {
       DialogueService.passTurnButtonText: 'Pass Turn',
       DialogueService.noWinnerText: 'No one made it to the end',
       DialogueService.gameWinnerText: 'Winner!',
-      DialogueService.gameViciousText: 'Cold-Blooded',
-      DialogueService.gamePunchingBagText: 'Punching Bag',
+      DialogueService.gameViciousText: 'Cold-Blooded  😈',
+      DialogueService.gamePunchingBagText: 'Punching Bag 🥴',
+      DialogueService.statsTitleText: 'Session Stats',
+      DialogueService.kickSingularText: ' kick',
+      DialogueService.kickPluralText: ' kicks',
+      DialogueService.kickedText: 'Kicked ',
+      DialogueService.timesSingularText: ' time',
+      DialogueService.timesPluralText: ' times',
       // game - controls
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',
@@ -157,9 +165,10 @@ class EnglishTranslation {
       DialogueService.youText: 'You',
       DialogueService.anonAccountText: 'Anonymous Account',
       DialogueService.verifiedAccountText: 'Verified Account',
+      DialogueService.visibleOnlyToYouText: ' (visible only to you)',
       // settings
       DialogueService.generalSettingsText: 'General',
-      DialogueService.gameSettingsText: 'Game',
+      DialogueService.gameSettingsText: 'Games',
       DialogueService.accountSettingsText: 'Account',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',

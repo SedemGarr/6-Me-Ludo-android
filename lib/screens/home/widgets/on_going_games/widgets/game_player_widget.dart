@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
-import '../../../../../constants/icon_constants.dart';
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
 import '../../../../../services/translations/dialogue_service.dart';
@@ -20,27 +19,35 @@ class GamePlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isMe = player.id == userProvider.getUserID();
+    bool hasLeft = player.hasLeft;
+    bool isKicked = game.kickedPlayers.contains(player.id);
 
     return CustomListTileWidget(
       leading: GameOwnerAvatarWidget(
-        id: isMe ? userProvider.getUserID() : player.id,
+        id: isMe
+            ? userProvider.getUserID()
+            : player.isAIPlayer
+                ? null
+                : player.id,
         avatar: isMe ? userProvider.getUserAvatar() : player.avatar,
         playerColor: player.playerColor,
+        hasLeft: hasLeft,
       ),
       title: Text(
         isMe ? DialogueService.youText.tr : player.psuedonym,
         style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
       ),
       subtitle: Text(
-        player.isAIPlayer ? DialogueService.aiPlayerText.tr : DialogueService.humanPlayerText.tr,
+        isKicked
+            ? DialogueService.playerKickedFromGameTrailingText.tr
+            : hasLeft
+                ? DialogueService.playerHasLeftTheGame.tr
+                : player.isAIPlayer
+                    ? DialogueService.aiPlayerText.tr
+                    : DialogueService.humanPlayerText.tr,
         style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
       ),
-      trailing: game.kickedPlayers.contains(player.id)
-          ? Icon(
-              AppIcons.kickPlayerIcon,
-              color: Theme.of(context).primaryColor,
-            )
-          : null,
+      trailing: null,
     );
   }
 }
