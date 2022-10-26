@@ -39,6 +39,7 @@ class AuthScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const Spacer(),
                   Lottie.asset(
                     AppConstants.authLottieAssetPath,
                     repeat: true,
