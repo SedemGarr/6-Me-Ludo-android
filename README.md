@@ -67,15 +67,13 @@ There's also a weird thing that can happen where an AI player gets stuck during 
 
 For the next major release I plan to
 
-- Improve performance
-- Switch to the RTDB
+- Implement deep linking
+- Implement push notifications
 - MASSIVELY refactor the entire code base
 
 After that, I want to
 
 - Implement more complex AI logic
-- Implement deep linking
-- Implement push notifications
 - Explore spotify API integration for music streaming during gameplay (controlled by host)
 
 ## Feedback

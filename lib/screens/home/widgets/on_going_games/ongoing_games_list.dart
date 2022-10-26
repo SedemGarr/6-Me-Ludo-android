@@ -9,11 +9,17 @@ import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
 
 import '../../../../constants/app_constants.dart';
 
-class OngoingGamesListWidget extends StatelessWidget {
+class OngoingGamesListWidget extends StatefulWidget {
   const OngoingGamesListWidget({super.key});
 
   @override
+  State<OngoingGamesListWidget> createState() => _OngoingGamesListWidgetState();
+}
+
+class _OngoingGamesListWidgetState extends State<OngoingGamesListWidget> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     UserProvider userProvider = context.watch<UserProvider>();
 
     return StreamBuilder<List<Game>>(
@@ -26,11 +32,12 @@ class OngoingGamesListWidget extends StatelessWidget {
             return userProvider.ongoingGames.isEmpty
                 ? const NoGamesWidget()
                 : AnimationLimiter(
-                    child: ListView.separated(
+                    child: ListView.builder(
+                      key: PageStorageKey(UniqueKey()),
                       shrinkWrap: true,
                       itemCount: userProvider.ongoingGames.length,
                       padding: AppConstants.listViewPadding,
-                      separatorBuilder: (context, index) => const Divider(),
+                      // separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
                         return AnimationConfiguration.staggeredList(
                           position: index,
@@ -47,4 +54,7 @@ class OngoingGamesListWidget extends StatelessWidget {
           }
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

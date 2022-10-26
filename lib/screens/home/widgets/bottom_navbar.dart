@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../../../constants/icon_constants.dart';
+import '../../../constants/textstyle_constants.dart';
 import '../../../providers/nav_provider.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -18,44 +19,53 @@ class CustomBottomNavBar extends StatelessWidget {
 
     return appProvider.isLoading
         ? const SizedBox.shrink()
-        : NavigationBar(
-            backgroundColor: Colors.transparent,
-            animationDuration: AppConstants.animationDuration,
-            elevation: 0,
-            height: kBottomNavigationBarHeight,
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-            selectedIndex: navProvider.getBottomNavBarIndex(),
-            onDestinationSelected: (index) async => navProvider.setBottomNavBarIndex(index, true),
-            destinations: [
-              NavigationDestination(
-                icon: const Icon(
-                  AppIcons.homeIcon,
+        : Theme(
+            data: Theme.of(context).copyWith(
+              navigationBarTheme: const NavigationBarThemeData().copyWith(
+                labelTextStyle: MaterialStateProperty.all(
+                  TextStyles.listSubtitleStyle(
+                    Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
-                selectedIcon: const Icon(
-                  AppIcons.homeActiveIcon,
-                ),
-                label: DialogueService.homeText.tr,
               ),
-              NavigationDestination(
-                icon: const Icon(
-                  AppIcons.profileIcon,
+            ),
+            child: NavigationBar(
+              animationDuration: AppConstants.animationDuration,
+              //   height: kBottomNavigationBarHeight,
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+              selectedIndex: navProvider.getBottomNavBarIndex(),
+              onDestinationSelected: (index) async => navProvider.setBottomNavBarIndex(index, true),
+              destinations: [
+                NavigationDestination(
+                  icon: const Icon(
+                    AppIcons.homeIcon,
+                  ),
+                  selectedIcon: const Icon(
+                    AppIcons.homeActiveIcon,
+                  ),
+                  label: DialogueService.homeText.tr,
                 ),
-                selectedIcon: const Icon(
-                  AppIcons.profileActiveIcon,
+                NavigationDestination(
+                  icon: const Icon(
+                    AppIcons.profileIcon,
+                  ),
+                  selectedIcon: const Icon(
+                    AppIcons.profileActiveIcon,
+                  ),
+                  label: DialogueService.profileText.tr,
                 ),
-                label: DialogueService.profileText.tr,
-              ),
 
-              // NavigationDestination(
-              //   icon: const Icon(
-              //     AppIcons.newGameIcon,
-              //   ),
-              //   selectedIcon: const Icon(
-              //     AppIcons.newGameActiveIcon,
-              //   ),
-              //   label: DialogueService.newGameText.tr,
-              // ),
-            ],
+                // NavigationDestination(
+                //   icon: const Icon(
+                //     AppIcons.newGameIcon,
+                //   ),
+                //   selectedIcon: const Icon(
+                //     AppIcons.newGameActiveIcon,
+                //   ),
+                //   label: DialogueService.newGameText.tr,
+                // ),
+              ],
+            ),
           );
 
     // return appProvider.isLoading

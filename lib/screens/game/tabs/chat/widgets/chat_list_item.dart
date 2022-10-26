@@ -31,6 +31,7 @@ class ChatListItem extends StatelessWidget {
     TextAlign textAlign = isMe ? TextAlign.end : TextAlign.start;
 
     int playerNumber = game.playerIds.indexWhere((element) => element == message.createdById);
+    bool hasLeft = game.players[playerNumber].hasLeft;
     Color playerColor = Get.isDarkMode ? PlayerConstants.swatchList[playerNumber].playerSelectedColor : PlayerConstants.swatchList[playerNumber].playerColor;
 
     if (!userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body)) {
@@ -43,9 +44,16 @@ class ChatListItem extends StatelessWidget {
           leading: isMe
               ? null
               : UserAvatarWidget(
-                  backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface),
+                  hasLeftGame: hasLeft,
+                  backgroundColor: playerColor,
+                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                  borderColor: Theme.of(context).colorScheme.onSurface),
           trailing: isMe
-              ? UserAvatarWidget(backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface)
+              ? UserAvatarWidget(
+                  hasLeftGame: hasLeft,
+                  backgroundColor: playerColor,
+                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                  borderColor: Theme.of(context).colorScheme.onSurface)
               : null,
           title: Text(
             DialogueService.messageContainsProfanityText.tr,
@@ -64,9 +72,16 @@ class ChatListItem extends StatelessWidget {
           leading: isMe
               ? null
               : UserAvatarWidget(
-                  backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface),
+                  hasLeftGame: hasLeft,
+                  backgroundColor: playerColor,
+                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                  borderColor: Theme.of(context).colorScheme.onSurface),
           trailing: isMe
-              ? UserAvatarWidget(backgroundColor: playerColor, avatar: gameProvider.currentGame!.players[playerNumber].avatar, borderColor: Theme.of(context).colorScheme.onSurface)
+              ? UserAvatarWidget(
+                  hasLeftGame: hasLeft,
+                  backgroundColor: playerColor,
+                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                  borderColor: Theme.of(context).colorScheme.onSurface)
               : null,
           title: Text(
             isMe ? DialogueService.youText.tr : gameProvider.getPlayerNameFromId(message.createdById),

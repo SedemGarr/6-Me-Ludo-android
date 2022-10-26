@@ -124,7 +124,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                                         style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
                                       ),
                                     ),
-                                  if (isHost)
+                                  if (isHost && !game.hasSessionEnded)
                                     PopupMenuItem(
                                       value: 1,
                                       child: Text(

@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/board.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
+import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
@@ -325,7 +326,7 @@ class GameProvider with ChangeNotifier {
         }
       }
     } else if (game.players.length > currentGame!.players.length) {
-      Utils.showToast(currentGame!.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
+      Utils.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
     }
   }
 
@@ -922,7 +923,7 @@ class GameProvider with ChangeNotifier {
       if (!currentThread!.messages[index].seenBy.contains(id)) {
         currentThread!.messages[index].seenBy.add(id);
 
-        await DatabaseService.updateGame(currentGame!, false);
+        await DatabaseService.updateThread(currentThread!);
       }
     }
   }
@@ -1313,11 +1314,21 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  Future<void> scrollToBoardTab() async {
+    NavProvider navProvider = Get.context!.read<NavProvider>();
+
+    if (navProvider.gameScreenTabController.index != 1) {
+      navProvider.gameScreenTabController.animateTo(1);
+    }
+  }
+
   Future<void> forceStartGame(Users user) async {
     currentGame!.hasStarted = true;
     currentGame!.canPlay = true;
     currentGame!.maxPlayers = currentGame!.players.length;
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
+
+    scrollToBoardTab();
 
     await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
@@ -1349,6 +1360,8 @@ class GameProvider with ChangeNotifier {
 
     Utils.showToast(DialogueService.yourGameHasBeenRestartedText.tr);
 
+    scrollToBoardTab();
+
     await DatabaseService.updateGame(currentGame!, true);
 
     notifyListeners();
@@ -1373,6 +1386,7 @@ class GameProvider with ChangeNotifier {
     for (int i = 0; i < currentGame!.players.length; i++) {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
       currentGame!.players[i].validIndices = Player.getPlayerValidIndices(i);
+      currentGame!.players[i].startBackKickIndices = Player.getPlayerStartBackKickIndices(i);
       currentGame!.players[i].playerColor = i;
     }
 
@@ -1418,6 +1432,8 @@ class GameProvider with ChangeNotifier {
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
 
     await DatabaseService.updateGame(game, true);
+
+    scrollToBoardTab();
   }
 
   Future<void> deleteGame(Game game, Users user) async {

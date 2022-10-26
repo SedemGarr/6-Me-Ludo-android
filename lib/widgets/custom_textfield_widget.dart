@@ -27,26 +27,26 @@ class CustomTextFieldWidget extends StatelessWidget {
         focusedErrorBorder: InputBorder.none,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.primaryContainer,
           ),
         ),
         border: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.primaryContainer,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        hintStyle: TextStyles.textFieldStyle(Theme.of(context).primaryColor),
-        counterStyle: TextStyles.textFieldStyle(
+        hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+        counterStyle: TextStyles.listSubtitleStyle(
           Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
         ),
       ),
-      style: TextStyles.textFieldStyle(
-        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+      style: TextStyles.listTitleStyle(
+        Theme.of(context).colorScheme.primary,
       ),
       cursorColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
       keyboardType: TextInputType.text,

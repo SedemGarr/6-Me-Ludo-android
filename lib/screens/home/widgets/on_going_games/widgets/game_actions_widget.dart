@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
 import '../../../../../services/translations/dialogue_service.dart';
+import '../../../../../widgets/custom_elevated_button.dart';
 import '../../../../../widgets/custom_text_button.dart';
 
 class GameActionsWidget extends StatelessWidget {
@@ -22,21 +23,22 @@ class GameActionsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomTextButton(
-            onPressed: () {
-              gameProvider.showLeaveOrDeleteGameDialog(
-                game,
-                userProvider.getUser(),
-                context,
-              );
-            },
-            text: host.id == userProvider.getUserID() ? DialogueService.deleteGameDialogYesText.tr : DialogueService.leaveGameDialogYesText.tr,
-            color: Theme.of(context).primaryColor),
-        CustomTextButton(
-            onPressed: () {
-              gameProvider.showRejoinGameDialog(game, userProvider.getUser(), context);
-            },
-            text: DialogueService.rejoinGameDialogYesText.tr,
-            color: Theme.of(context).primaryColor),
+          onPressed: () {
+            gameProvider.showLeaveOrDeleteGameDialog(
+              game,
+              userProvider.getUser(),
+              context,
+            );
+          },
+          text: host.id == userProvider.getUserID() ? DialogueService.deleteGameDialogYesText.tr : DialogueService.leaveGameDialogYesText.tr,
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
+        ),
+        CustomElevatedButton(
+          onPressed: () {
+            gameProvider.showRejoinGameDialog(game, userProvider.getUser(), context);
+          },
+          text: DialogueService.rejoinGameDialogYesText.tr,
+        ),
       ],
     );
   }

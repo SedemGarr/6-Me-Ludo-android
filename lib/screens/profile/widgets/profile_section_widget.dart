@@ -31,9 +31,15 @@ class ProfileSectionWidget extends StatelessWidget {
               contentPadding: userProvider.isEditingProfile ? const EdgeInsets.only(left: 16) : EdgeInsets.zero,
               leading: userProvider.isEditingProfile
                   ? null
-                  : ReputationWidget(
-                      value: userProvider.getUserReputationValue(),
-                      color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ReputationWidget(
+                          value: userProvider.getUserReputationValue(),
+                          color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+                          shouldPad: true,
+                        ),
+                      ],
                     ),
               title: CustomAnimatedCrossFade(
                   firstChild: Padding(

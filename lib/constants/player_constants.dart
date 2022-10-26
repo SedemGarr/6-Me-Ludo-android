@@ -171,6 +171,7 @@ class PlayerConstants {
   ];
 
   static const Color kickedColor = CSSColors.darkSlateGray;
+  static const Color kickedColorLight = CSSColors.slateGray;
 
   static List<Swatch> swatchList = [
     Swatch(playerColor: CSSColors.blue, playerSelectedColor: CSSColors.darkBlue),

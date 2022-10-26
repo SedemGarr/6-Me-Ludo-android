@@ -3,27 +3,27 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
   static TextStyle appBarTitleStyle(Color color) {
-    return TextStyle(
+    return GoogleFonts.dosis(
       fontWeight: FontWeight.bold,
       color: color,
     );
   }
 
   static TextStyle fabStyle(Color color) {
-    return TextStyle(
+    return GoogleFonts.dosis(
       fontWeight: FontWeight.bold,
       color: color,
     );
   }
 
   static TextStyle noGamesStyle(Color color) {
-    return TextStyle(
+    return GoogleFonts.dosis(
       color: color,
     );
   }
 
   static TextStyle listTitleStyle(Color color) {
-    return TextStyle(
+    return GoogleFonts.dosis(
       fontWeight: FontWeight.bold,
       color: color,
     );
@@ -43,7 +43,7 @@ class TextStyles {
   }
 
   static TextStyle dialogTitleStyle(Color color) {
-    return TextStyle(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: FontWeight.bold,
     );
@@ -77,7 +77,7 @@ class TextStyles {
   }
 
   static TextStyle settingsHeaderStyle(Color color) {
-    return TextStyle(
+    return GoogleFonts.dosis(
       color: color,
       fontWeight: FontWeight.bold,
     );

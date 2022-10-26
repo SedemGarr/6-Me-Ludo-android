@@ -132,7 +132,11 @@ class DatabaseService {
       QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).where('playerIds', arrayContains: id).get();
 
       for (var element in res.docs) {
-        games.add(Game.fromJson(element.data()));
+        Game game = Game.fromJson(element.data());
+
+        if (!game.kickedPlayers.contains(id) && !game.players[game.playerIds.indexWhere((element) => element == id)].hasLeft) {
+          games.add(game);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -265,6 +269,14 @@ class DatabaseService {
       await deleteThread(gameID);
     } catch (e) {
       Utils.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future<void> updateThread(Thread thread) async {
+    try {
+      await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(thread.id).update(thread.toJson());
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
