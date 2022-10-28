@@ -18,14 +18,14 @@ class Player {
   late int reputationValue;
   late int playerColor;
   late int numberOfDieRolls;
+  late int distanceToHome;
   late bool hasLeft;
   late bool hasFinished;
   late bool isAIPlayer;
   late bool isPresent;
   late int numberOfTimesKickerInSession;
   late int numberOfTimesKickedInSession;
-  late List<int> validIndices;
-  late List<int> startBackKickIndices;
+  late int? targetPlayerNumber;
   late List<Piece> pieces;
 
   static String getPlayerReputation(int value) {
@@ -113,7 +113,7 @@ class Player {
     52,
     67,
     82,
-    97
+    97,
   ];
   static List<int> playerTwoValidIndices = [
     103,
@@ -172,7 +172,7 @@ class Player {
     116,
     115,
     114,
-    113
+    113,
   ];
   static List<int> playerThreeValidIndices = [
     121,
@@ -231,7 +231,7 @@ class Player {
     108,
     109,
     110,
-    111
+    111,
   ];
   static List<int> playerFourValidIndices = [
     203,
@@ -290,7 +290,7 @@ class Player {
     172,
     157,
     142,
-    127
+    127,
   ];
 
   static final List<int> playerOneStartBackKickIndices = [6, 7, 8, 23, 38, 53];
@@ -312,8 +312,8 @@ class Player {
     required this.playerColor,
     required this.numberOfDieRolls,
     required this.psuedonym,
-    required this.startBackKickIndices,
-    required this.validIndices,
+    required this.targetPlayerNumber,
+    required this.distanceToHome,
   });
 
   void setReputationValue(int value) {
@@ -400,6 +400,23 @@ class Player {
     return game.players.length;
   }
 
+  static int calculateDefaultTotalDistanceToHome(int playerNumber) {
+    return getPlayerValidIndices(playerNumber).length * 4;
+  }
+
+  static int calculateTotalDistanceToHome(Player player) {
+    int value = 0;
+
+    for (Piece piece in player.pieces.where((element) => !element.isHome).toList()) {
+      List<int> validIndices = Player.getPlayerValidIndices(player.playerColor);
+      int positionIndex = validIndices.indexWhere((element) => element == piece.position);
+      int distanceFromHome = validIndices.length - positionIndex;
+      value += distanceFromHome;
+    }
+
+    return value;
+  }
+
   static Player getDefaultPlayer(Users user, int playerNumber) {
     return Player(
       id: user.id,
@@ -415,17 +432,19 @@ class Player {
       psuedonym: user.psuedonym,
       numberOfDieRolls: 0,
       reputationValue: user.reputationValue,
-      startBackKickIndices: playerOneStartBackKickIndices,
-      validIndices: playerOneValidIndices,
+      targetPlayerNumber: null,
+      distanceToHome: calculateDefaultTotalDistanceToHome(playerNumber),
     );
   }
 
   static Player getJoiningPlayer(Users user, Game game) {
+    int playerNumber = Player.getPlayerNumber(game);
+
     return Player(
       id: user.id,
       avatar: user.avatar,
-      pieces: Piece.getDefaultPieces(Player.getPlayerNumber(game)),
-      playerColor: Player.getPlayerNumber(game),
+      pieces: Piece.getDefaultPieces(playerNumber),
+      playerColor: playerNumber,
       hasLeft: false,
       hasFinished: false,
       numberOfTimesKickedInSession: 0,
@@ -435,17 +454,19 @@ class Player {
       psuedonym: user.psuedonym,
       numberOfDieRolls: 0,
       reputationValue: user.reputationValue,
-      validIndices: Player.getPlayerValidIndices(Player.getPlayerNumber(game)),
-      startBackKickIndices: Player.getPlayerStartBackKickIndices(Player.getPlayerNumber(game)),
+      targetPlayerNumber: null,
+      distanceToHome: calculateDefaultTotalDistanceToHome(playerNumber),
     );
   }
 
   static Player getJoiningAIPlayer(String id, Game game, Users user, Random random) {
+    int playerNumber = Player.getPlayerNumber(game);
+
     return Player(
       id: id,
       avatar: Utils.generateRandomUserAvatar(),
-      pieces: Piece.getDefaultPieces(Player.getPlayerNumber(game)),
-      playerColor: Player.getPlayerNumber(game),
+      pieces: Piece.getDefaultPieces(playerNumber),
+      playerColor: playerNumber,
       hasLeft: false,
       hasFinished: false,
       numberOfTimesKickedInSession: 0,
@@ -455,8 +476,8 @@ class Player {
       psuedonym: Utils.getRandomPseudonym(),
       numberOfDieRolls: 0,
       reputationValue: getAIPersonality(game, user, random),
-      startBackKickIndices: Player.getPlayerStartBackKickIndices(Player.getPlayerNumber(game)),
-      validIndices: Player.getPlayerValidIndices(Player.getPlayerNumber(game)),
+      targetPlayerNumber: null,
+      distanceToHome: calculateDefaultTotalDistanceToHome(playerNumber),
     );
   }
 
@@ -488,18 +509,20 @@ class Player {
     hasFinished = json['hasFinished'];
     isAIPlayer = json['isAIPlayer'];
     isPresent = json['isPresent'];
-    if (json['validIndices'] != null) {
-      validIndices = <int>[];
-      json['validIndices'].forEach((v) {
-        validIndices.add(v);
-      });
-    }
-    if (json['startBackKickIndices'] != null) {
-      startBackKickIndices = <int>[];
-      json['startBackKickIndices'].forEach((v) {
-        startBackKickIndices.add(v);
-      });
-    }
+    targetPlayerNumber = json['targetPlayerNumber'];
+    distanceToHome = json['distanceToHome'] ?? 0;
+    // if (json['validIndices'] != null) {
+    //   validIndices = <int>[];
+    //   json['validIndices'].forEach((v) {
+    //     validIndices.add(v);
+    //   });
+    // }
+    // if (json['startBackKickIndices'] != null) {
+    //   startBackKickIndices = <int>[];
+    //   json['startBackKickIndices'].forEach((v) {
+    //     startBackKickIndices.add(v);
+    //   });
+    // }
     if (json['pieces'] != null) {
       pieces = <Piece>[];
       json['pieces'].forEach((v) {
@@ -522,8 +545,10 @@ class Player {
     data['numberOfTimesKickerInSession'] = numberOfTimesKickerInSession;
     data['isAIPlayer'] = isAIPlayer;
     data['isPresent'] = isPresent;
-    data['validIndices'] = validIndices.map((v) => v).toList();
-    data['startBackKickIndices'] = startBackKickIndices.map((v) => v).toList();
+    data['targetPlayerNumber'] = targetPlayerNumber;
+    data['distanceToHome'] = distanceToHome;
+    // data['validIndices'] = validIndices.map((v) => v).toList();
+    // data['startBackKickIndices'] = startBackKickIndices.map((v) => v).toList();
     data['pieces'] = pieces.map((v) => v.toJson()).toList();
     return data;
   }
