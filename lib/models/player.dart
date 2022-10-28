@@ -511,18 +511,6 @@ class Player {
     isPresent = json['isPresent'];
     targetPlayerNumber = json['targetPlayerNumber'];
     distanceToHome = json['distanceToHome'] ?? 0;
-    // if (json['validIndices'] != null) {
-    //   validIndices = <int>[];
-    //   json['validIndices'].forEach((v) {
-    //     validIndices.add(v);
-    //   });
-    // }
-    // if (json['startBackKickIndices'] != null) {
-    //   startBackKickIndices = <int>[];
-    //   json['startBackKickIndices'].forEach((v) {
-    //     startBackKickIndices.add(v);
-    //   });
-    // }
     if (json['pieces'] != null) {
       pieces = <Piece>[];
       json['pieces'].forEach((v) {
@@ -547,8 +535,6 @@ class Player {
     data['isPresent'] = isPresent;
     data['targetPlayerNumber'] = targetPlayerNumber;
     data['distanceToHome'] = distanceToHome;
-    // data['validIndices'] = validIndices.map((v) => v).toList();
-    // data['startBackKickIndices'] = startBackKickIndices.map((v) => v).toList();
     data['pieces'] = pieces.map((v) => v.toJson()).toList();
     return data;
   }

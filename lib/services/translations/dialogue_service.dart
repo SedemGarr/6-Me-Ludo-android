@@ -161,6 +161,8 @@ class DialogueService extends Translations {
   static const String kickedText = 'kickedText';
   static const String timesSingularText = 'timesSingularText';
   static const String timesPluralText = 'timesPluralText';
+  static const String reputationChangedText = 'reputationChangedText';
+  static const String reputationChangedPluralText = 'reputationChangedPluralText';
   // game - controls
   static const String restartGamePopupText = 'restartGamePopupText';
   static const String startSessionPopupText = 'startSessionPopupText';

@@ -135,6 +135,9 @@ class EnglishTranslation {
       DialogueService.kickedText: 'Kicked ',
       DialogueService.timesSingularText: ' time',
       DialogueService.timesPluralText: ' times',
+      DialogueService.reputationChangedText: ' is now ',
+      DialogueService.reputationChangedPluralText: ' are now ',
+      
       // game - controls
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',

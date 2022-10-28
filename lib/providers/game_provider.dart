@@ -10,6 +10,7 @@ import 'package:six_me_ludo_android/models/board.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
+import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
@@ -287,6 +288,7 @@ class GameProvider with ChangeNotifier {
     checkIfPlayerHasLeftGame(game);
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
+    checkForReputationChange(game);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
@@ -343,6 +345,27 @@ class GameProvider with ChangeNotifier {
   void checkIfGameHasReStarted(Game game) {
     if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
       Utils.showToast(DialogueService.gameHasStartedText.tr);
+    }
+  }
+
+  void checkForReputationChange(Game game) {
+    if (game.players.length == currentGame!.players.length) {
+      List<Player> oldList = [...currentGame!.players];
+      List<Player> newList = [...game.players];
+      oldList.sort((b, a) => a.id.compareTo(b.id));
+      newList.sort((b, a) => a.id.compareTo(b.id));
+
+      for (var i = 0; i < newList.length; i++) {
+        if (Player.getPlayerReputation(newList[i].reputationValue) != Player.getPlayerReputation(oldList[i].reputationValue)) {
+          String userId = Get.context!.read<UserProvider>().getUserID();
+
+          if (newList[i].id == userId) {
+            Utils.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(newList[i].reputationValue));
+          } else {
+            Utils.showToast(newList[i].psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(newList[i].reputationValue));
+          }
+        }
+      }
     }
   }
 
@@ -520,6 +543,18 @@ class GameProvider with ChangeNotifier {
 
     // if there are no moves available, return a null piece. the move will be skipped
     return availableMoves.isEmpty ? Move.getNullMove() : availableMoves[random.nextInt(availableMoves.length)];
+  }
+
+  List<Move> handlePacifistAIMoves() {
+    return [];
+  }
+
+  List<Move> handleNormalAIMoves() {
+    return [];
+  }
+
+  List<Move> handleViciousAIMoves() {
+    return [];
   }
 
   int? getTargetNumberForAIPlayer(Game game, int playerNumber) {

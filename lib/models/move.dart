@@ -16,8 +16,8 @@ class Move {
   //  But we'll cross that river when we get there.
   //  Don't forget to pass these to the constructor
 
-  late int distanceToHomeBeforeMove;
-  late int distanceToHomeAfterMove;
+  late int? distanceToHomeBeforeMove;
+  late int? distanceToHomeAfterMove;
   late int distanceToClosestEnemyPieceBeforeMove;
   late int distanceToClosestEnemyPieceAfterMove;
   late int distanceToFarthestEnemyPieceBeforeMove;
@@ -31,6 +31,9 @@ class Move {
     required this.isKick,
     required this.isStartingKick,
     required this.isGoingHome,
+    //
+    // required this.distanceToHomeBeforeMove,
+    // required this.distanceToHomeAfterMove,
   });
 
   static Move getNullMove() {
@@ -38,6 +41,8 @@ class Move {
       piece: null,
       direction: null,
       destinationIndex: null,
+      // distanceToHomeAfterMove: null,
+      // distanceToHomeBeforeMove: null,
       isGoingHome: false,
       isStartingKick: false,
       isKick: false,
