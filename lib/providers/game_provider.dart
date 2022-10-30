@@ -417,23 +417,24 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Move getValidMoves() {
+  Move getValidMove() {
     List<Move> availableMoves = [];
 
     for (int j = 0; j < currentGame!.players[currentGame!.playerTurn].pieces.length; j++) {
       // handle six roll
       if (currentGame!.players[currentGame!.playerTurn].pieces[j].isBased && !currentGame!.players[currentGame!.playerTurn].pieces[j].isHome && currentGame!.die.rolledValue == 6) {
         if (!doesIndexContainFriendlyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn))) {
+          int index = Player.getPlayerStartIndex(currentGame!.playerTurn);
+
           availableMoves.add(
             Move(
               piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
               direction: Direction.forward,
-              destinationIndex: Player.getPlayerStartIndex(currentGame!.playerTurn),
-              isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == Player.getPlayerStartIndex(currentGame!.playerTurn),
-              isStartingKick: doesIndexContainEnemyPiece(Player.getPlayerStartIndex(currentGame!.playerTurn)),
-              isKick: doesIndexContainEnemyPiece(
-                Player.getPlayerStartIndex(currentGame!.playerTurn),
-              ),
+              destinationIndex: index,
+              isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == index,
+              isStartingKick: doesIndexContainEnemyPiece(index),
+              isKick: doesIndexContainEnemyPiece(index),
+              kickee: getKickedPlayerNumber(index),
             ),
           );
         }
@@ -446,16 +447,17 @@ class GameProvider with ChangeNotifier {
         //
         if (validIndices.asMap().containsKey(piecePosition + currentGame!.die.rolledValue)) {
           if (!doesIndexContainFriendlyPiece(validIndices[piecePosition + currentGame!.die.rolledValue])) {
+            int index = validIndices[piecePosition + currentGame!.die.rolledValue];
+
             availableMoves.add(
               Move(
                 piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
                 direction: Direction.forward,
-                destinationIndex: validIndices[piecePosition + currentGame!.die.rolledValue],
-                isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == validIndices[piecePosition + currentGame!.die.rolledValue],
+                destinationIndex: index,
+                isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == index,
                 isStartingKick: false,
-                isKick: doesIndexContainEnemyPiece(
-                  validIndices[piecePosition + currentGame!.die.rolledValue],
-                ),
+                isKick: doesIndexContainEnemyPiece(index),
+                kickee: getKickedPlayerNumber(index),
               ),
             );
           }
@@ -468,14 +470,17 @@ class GameProvider with ChangeNotifier {
             tempGame.selectedPiece = currentGame!.players[currentGame!.playerTurn].pieces[j];
             //
             if (doesIndexContainEnemyPiece(getAIPlayerDestination(tempGame, false))) {
+              int index = validIndices[piecePosition - currentGame!.die.rolledValue];
+
               availableMoves.add(
                 Move(
                   piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
                   direction: Direction.backward,
-                  destinationIndex: validIndices[piecePosition - currentGame!.die.rolledValue],
-                  isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == validIndices[piecePosition - currentGame!.die.rolledValue],
+                  destinationIndex: index,
+                  isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == index,
                   isStartingKick: false,
                   isKick: true,
+                  kickee: getKickedPlayerNumber(index),
                 ),
               );
             }
@@ -486,15 +491,17 @@ class GameProvider with ChangeNotifier {
             tempGame.selectedPiece = currentGame!.players[currentGame!.playerTurn].pieces[j];
 
             if (doesIndexContainEnemyPiece(Player.getPlayerStartBackKickIndices(currentGame!.playerTurn)[(piecePosition - currentGame!.die.rolledValue).abs() - 1])) {
+              int index = Player.getPlayerStartBackKickIndices(currentGame!.playerTurn)[(piecePosition - currentGame!.die.rolledValue).abs() - 1];
+
               availableMoves.add(
                 Move(
                   piece: currentGame!.players[currentGame!.playerTurn].pieces[j],
                   direction: Direction.backward,
-                  destinationIndex: Player.getPlayerStartBackKickIndices(currentGame!.playerTurn)[(piecePosition - currentGame!.die.rolledValue).abs() - 1],
-                  isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) ==
-                      Player.getPlayerStartBackKickIndices(currentGame!.playerTurn)[(piecePosition - currentGame!.die.rolledValue).abs() - 1],
+                  destinationIndex: index,
+                  isGoingHome: Player.getPlayerHomeIndex(currentGame!.playerTurn) == index,
                   isStartingKick: false,
                   isKick: true,
+                  kickee: getKickedPlayerNumber(index),
                 ),
               );
             }
@@ -511,50 +518,53 @@ class GameProvider with ChangeNotifier {
     if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
       switch (Player.getPlayerReputation(currentGame!.players[currentGame!.playerTurn].reputationValue)) {
         case PlayerConstants.pacifist:
-          // remove all kicks if possible but allow starting kicks otherwise ai may enter infinite loop
-          availableMoves = availableMoves.where((element) => !element.isKick).toList().isEmpty && availableMoves.where((element) => element.isStartingKick).toList().isNotEmpty
-              ? availableMoves.where((element) => element.isStartingKick).toList()
-              : availableMoves.where((element) => !element.isKick).toList();
-          // check if there are any home moves
-          if (canPlayerGoHome(availableMoves)) {
-            availableMoves = availableMoves.where((element) => element.isGoingHome).toList();
-          }
+          availableMoves = handlePacifistAIMoves([...availableMoves]);
           break;
         case PlayerConstants.averageJoe:
-          // try as much as possible to avoid back-kicks unless absolutely necessary
-          if (availableMoves.where((element) => element.direction == Direction.forward).toList().isNotEmpty) {
-            availableMoves = availableMoves.where((element) => element.direction == Direction.forward).toList();
-          }
-          // try and prioritize home moves
-          if (canPlayerGoHome(availableMoves)) {
-            availableMoves = availableMoves.where((element) => element.isGoingHome).toList();
-          }
+          availableMoves = handleNormalAIMoves([...availableMoves]);
           break;
         case PlayerConstants.vicious:
-          // try and prioritize kicks if not then prioritize home moves
-          availableMoves = availableMoves.where((element) => element.isKick).toList().isNotEmpty
-              ? availableMoves.where((element) => element.isKick).toList()
-              : canPlayerGoHome(availableMoves)
-                  ? availableMoves.where((element) => element.isGoingHome).toList()
-                  : availableMoves;
+          availableMoves = handleViciousAIMoves([...availableMoves]);
           break;
       }
     }
 
-    // if there are no moves available, return a null piece. the move will be skipped
+    // if there are no moves available, return a null move. the move will be skipped
     return availableMoves.isEmpty ? Move.getNullMove() : availableMoves[random.nextInt(availableMoves.length)];
   }
 
-  List<Move> handlePacifistAIMoves() {
-    return [];
+  List<Move> handlePacifistAIMoves(List<Move> availableMoves) {
+    // remove all kicks if possible but allow starting kicks otherwise ai may enter infinite loop
+    availableMoves = availableMoves.where((element) => !element.isKick).toList().isEmpty && availableMoves.where((element) => element.isStartingKick).toList().isNotEmpty
+        ? availableMoves.where((element) => element.isStartingKick).toList()
+        : availableMoves.where((element) => !element.isKick).toList();
+    // check if there are any home moves
+    if (canPlayerGoHome(availableMoves)) {
+      availableMoves = availableMoves.where((element) => element.isGoingHome).toList();
+    }
+    return availableMoves;
   }
 
-  List<Move> handleNormalAIMoves() {
-    return [];
+  List<Move> handleNormalAIMoves(List<Move> availableMoves) {
+    // try as much as possible to avoid back-kicks unless absolutely necessary
+    if (availableMoves.where((element) => element.direction == Direction.forward).toList().isNotEmpty) {
+      availableMoves = availableMoves.where((element) => element.direction == Direction.forward).toList();
+    }
+    // try and prioritize home moves
+    if (canPlayerGoHome(availableMoves)) {
+      availableMoves = availableMoves.where((element) => element.isGoingHome).toList();
+    }
+    return availableMoves;
   }
 
-  List<Move> handleViciousAIMoves() {
-    return [];
+  List<Move> handleViciousAIMoves(List<Move> availableMoves) {
+    // try and prioritize kicks if not then prioritize home moves
+    availableMoves = availableMoves.where((element) => element.isKick).toList().isNotEmpty
+        ? availableMoves.where((element) => element.isKick).toList()
+        : canPlayerGoHome(availableMoves)
+            ? availableMoves.where((element) => element.isGoingHome).toList()
+            : availableMoves;
+    return availableMoves;
   }
 
   int? getTargetNumberForAIPlayer(Game game, int playerNumber) {
@@ -571,6 +581,22 @@ class GameProvider with ChangeNotifier {
     for (Player player in tempPlayers) {
       if (player.playerColor != playerNumber) {
         return player.playerColor;
+      }
+    }
+
+    return null;
+  }
+
+  int? getKickedPlayerNumber(int index) {
+    if (doesIndexContainEnemyPiece(index)) {
+      for (int i = 0; i < currentGame!.players.length; i++) {
+        for (int j = 0; j < currentGame!.players[i].pieces.length; j++) {
+          if (currentGame!.players[i].pieces[j].position == index) {
+            if (currentGame!.players[i].pieces[j].owner != currentGame!.playerTurn) {
+              return currentGame!.players[i].pieces[j].owner;
+            }
+          }
+        }
       }
     }
 
@@ -1199,7 +1225,7 @@ class GameProvider with ChangeNotifier {
       Future.delayed(Duration(milliseconds: currentGame!.hostSettings.preferredSpeed), () async {
         try {
           // determine valid moves
-          Move move = getValidMoves();
+          Move move = getValidMove();
           currentGame!.selectedPiece = move.piece;
 
           if (currentGame!.selectedPiece == null) {

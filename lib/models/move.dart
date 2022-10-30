@@ -6,6 +6,7 @@ class Move {
   late Piece? piece;
   late Direction? direction;
   late int? destinationIndex;
+  late int? kickee;
   late bool isKick;
   late bool isGoingHome;
   late bool isStartingKick;
@@ -18,9 +19,10 @@ class Move {
 
   late int? distanceToHomeBeforeMove;
   late int? distanceToHomeAfterMove;
-  late int distanceToClosestEnemyPieceBeforeMove;
-  late int distanceToClosestEnemyPieceAfterMove;
-  late int distanceToFarthestEnemyPieceBeforeMove;
+  late int? distanceToClosestEnemyPieceBeforeMove;
+  late int? distanceToClosestEnemyPieceAfterMove;
+  late int? distanceToFarthestEnemyPieceBeforeMove;
+  late int? distanceToFarthestEnemyPieceAfterMove;
 
   // --------------------------------------------------------------------------
 
@@ -31,9 +33,13 @@ class Move {
     required this.isKick,
     required this.isStartingKick,
     required this.isGoingHome,
-    //
-    // required this.distanceToHomeBeforeMove,
-    // required this.distanceToHomeAfterMove,
+    required this.kickee,
+    //  required this.distanceToHomeBeforeMove,
+    //  required this.distanceToHomeAfterMove,
+    //  required this.distanceToClosestEnemyPieceAfterMove,
+    //  required this.distanceToClosestEnemyPieceBeforeMove,
+    //  required this.distanceToFarthestEnemyPieceBeforeMove,
+    //  required this.distanceToFarthestEnemyPieceAfterMove,
   });
 
   static Move getNullMove() {
@@ -41,8 +47,13 @@ class Move {
       piece: null,
       direction: null,
       destinationIndex: null,
+      kickee: null,
       // distanceToHomeAfterMove: null,
       // distanceToHomeBeforeMove: null,
+      // distanceToClosestEnemyPieceAfterMove: null,
+      // distanceToClosestEnemyPieceBeforeMove: null,
+      // distanceToFarthestEnemyPieceAfterMove: null,
+      // distanceToFarthestEnemyPieceBeforeMove: null,
       isGoingHome: false,
       isStartingKick: false,
       isKick: false,
