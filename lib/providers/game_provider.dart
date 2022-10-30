@@ -542,11 +542,20 @@ class GameProvider with ChangeNotifier {
     if (canPlayerGoHome(availableMoves)) {
       availableMoves = availableMoves.where((element) => element.isGoingHome).toList();
     }
+
     return availableMoves;
   }
 
   List<Move> handleNormalAIMoves(List<Move> availableMoves) {
-    // try as much as possible to avoid back-kicks unless absolutely necessary
+    if (currentGame!.players[currentGame!.playerTurn].targetPlayerNumber != null) {
+      availableMoves = handlePotentialTargetPlayer([...availableMoves], false);
+
+      if (availableMoves.where((element) => element.kickee == currentGame!.players[currentGame!.playerTurn].targetPlayerNumber).toList().isNotEmpty) {
+        return availableMoves;
+      }
+    }
+
+    // if there is no target player in reach, try as much as possible to avoid back-kicks unless absolutely necessary
     if (availableMoves.where((element) => element.direction == Direction.forward).toList().isNotEmpty) {
       availableMoves = availableMoves.where((element) => element.direction == Direction.forward).toList();
     }
@@ -554,16 +563,34 @@ class GameProvider with ChangeNotifier {
     if (canPlayerGoHome(availableMoves)) {
       availableMoves = availableMoves.where((element) => element.isGoingHome).toList();
     }
+
     return availableMoves;
   }
 
   List<Move> handleViciousAIMoves(List<Move> availableMoves) {
     // try and prioritize kicks if not then prioritize home moves
     availableMoves = availableMoves.where((element) => element.isKick).toList().isNotEmpty
-        ? availableMoves.where((element) => element.isKick).toList()
+        ? handlePotentialTargetPlayer([...availableMoves], true)
         : canPlayerGoHome(availableMoves)
             ? availableMoves.where((element) => element.isGoingHome).toList()
             : availableMoves;
+    return availableMoves;
+  }
+
+  List<Move> handlePotentialTargetPlayer(List<Move> availableMoves, bool isVicious) {
+    if (currentGame!.players[currentGame!.playerTurn].targetPlayerNumber != null) {
+      // is there any way to kick target player?
+      List<Move> targetPlayerKicks = availableMoves.where((element) => element.kickee == currentGame!.players[currentGame!.playerTurn].targetPlayerNumber).toList();
+
+      if (targetPlayerKicks.isNotEmpty) {
+        return targetPlayerKicks;
+      }
+    }
+
+    if (isVicious) {
+      return availableMoves.where((element) => element.isKick).toList();
+    }
+
     return availableMoves;
   }
 
