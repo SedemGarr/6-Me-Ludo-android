@@ -83,6 +83,10 @@ class GameProvider with ChangeNotifier {
     return player.hasLeft || game.kickedPlayers.contains(player.id) || player.hasFinished || player.pieces.where((element) => element.isHome).length == 4;
   }
 
+  bool doesGameVersionMatch(String userVersion, String gameVersion) {
+    return userVersion == gameVersion;
+  }
+
   int getGameTabControllerLength() {
     return 3;
   }
@@ -965,16 +969,20 @@ class GameProvider with ChangeNotifier {
         Utils.showToast(DialogueService.gameDeletedToastText.tr);
         return;
       } else {
-        int playerNumber = newGame.playerIds.indexWhere((element) => element == user.id);
+        if (doesGameVersionMatch(user.appVersion, newGame.hostAppVersion)) {
+          int playerNumber = newGame.playerIds.indexWhere((element) => element == user.id);
 
-        newGame.players[playerNumber].hasLeft = false;
-        newGame.players[playerNumber].isPresent = true;
+          newGame.players[playerNumber].hasLeft = false;
+          newGame.players[playerNumber].isPresent = true;
 
-        await DatabaseService.updateGame(newGame, false, shouldSyncWithFirestore: true);
+          await DatabaseService.updateGame(newGame, false, shouldSyncWithFirestore: true);
 
-        initialiseGame(newGame, (await DatabaseService.getThread(newGame.id))!, user.id);
-        appProvider.setLoading(false, true);
-        NavigationService.goToGameScreen();
+          initialiseGame(newGame, (await DatabaseService.getThread(newGame.id))!, user.id);
+          appProvider.setLoading(false, true);
+          NavigationService.goToGameScreen();
+        } else {
+          NavigationService.goToUpgradeScreen();
+        }
       }
     } catch (e) {
       appProvider.setLoading(false, true);
@@ -1017,12 +1025,16 @@ class GameProvider with ChangeNotifier {
             return;
           }
 
-          // add new player
-          await DatabaseService.addNewHumanPlayerToGame(newGame, user);
-          newGame = await DatabaseService.getGame(newGame.id);
-          initialiseGame(newGame!, (await DatabaseService.getThread(newGame.id))!, user.id);
-          appProvider.setLoading(false, true);
-          NavigationService.goToGameScreen();
+          if (doesGameVersionMatch(user.appVersion, newGame.hostAppVersion)) {
+            // add new player
+            await DatabaseService.addNewHumanPlayerToGame(newGame, user);
+            newGame = await DatabaseService.getGame(newGame.id);
+            initialiseGame(newGame!, (await DatabaseService.getThread(newGame.id))!, user.id);
+            appProvider.setLoading(false, true);
+            NavigationService.goToGameScreen();
+          } else {
+            NavigationService.goToUpgradeScreen();
+          }
         }
       } catch (e) {
         Utils.showToast(DialogueService.genericErrorText.tr);

@@ -19,6 +19,10 @@ class EnglishTranslation {
       DialogueService.versionText: 'Version ',
       DialogueService.copyrightText: 'Copyright ',
       DialogueService.zapsplatText: 'Sounds from Zapsplat',
+      DialogueService.updateNeededText: 'Update Needed',
+      DialogueService.updatePromptText: '6-Me-Ludo! requires an update to function properly. Please update the app from the Google Play store',
+      DialogueService.updateButtonText: 'Update',
+      DialogueService.loadingText: 'Loading...',
       // welcome dialog
       DialogueService.welcomeDialogTitleText: 'Hi!',
       DialogueService.welcomeDialogContentText: 'Welcome to 6-Me-Ludo. Sign in to continue',
@@ -137,7 +141,7 @@ class EnglishTranslation {
       DialogueService.timesPluralText: ' times',
       DialogueService.reputationChangedText: ' is now ',
       DialogueService.reputationChangedPluralText: ' are now ',
-      
+
       // game - controls
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',

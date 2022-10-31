@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/screens/auth/auth.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
+import 'package:six_me_ludo_android/screens/upgrade/upgrade.dart';
 
 import '../screens/legal/legal.dart';
 import '../screens/new_game/new_game.dart';
@@ -30,6 +31,10 @@ class NavigationService {
 
   static Future<void> goToLegalScreen() async {
     await Get.to(() => const LegalScreen());
+  }
+
+  static Future<void> goToUpgradeScreen() async {
+    await Get.offAll(() => const UpgradeScreen());
   }
 
   static void goToBackToHomeScreen() {

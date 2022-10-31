@@ -43,7 +43,7 @@ class JoinGameTextFieldWidget extends StatelessWidget {
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
           contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primaryContainer),
           counterStyle: TextStyles.listSubtitleStyle(
             Theme.of(context).colorScheme.onSurface,
           ),

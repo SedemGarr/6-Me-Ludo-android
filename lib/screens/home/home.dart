@@ -7,8 +7,8 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/new_game/new_game.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
-import 'package:six_me_ludo_android/widgets/app_bar_avatar_widget.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
+import 'package:six_me_ludo_android/widgets/app_bar_version_text.dart';
 
 import '../../constants/app_constants.dart';
 import '../../services/translations/dialogue_service.dart';
@@ -47,10 +47,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ? const LoadingScreen()
           : Scaffold(
               appBar: CustomAppBarWidget(
-                leading: const AppBarAvatarWidget(),
+                //      leading: const AppBarAvatarWidget(),
                 title: AppBarTitleWidget(
                   text: DialogueService.welcomeText.tr + userProvider.getUserPseudonym(),
                 ),
+                actions: const [AppBarVersionText()],
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(AppConstants.customAppbarWithTabbarHeight),
                   child: TabBar(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:six_me_ludo_android/models/version.dart';
 
 class AppProvider with ChangeNotifier {
   late PackageInfo _packageInfo;
@@ -9,8 +10,26 @@ class AppProvider with ChangeNotifier {
   // for splash screen
   bool isSplashScreenLoaded = false;
 
+  void setLoading(bool value, bool shouldRebuild) {
+    isLoading = value;
+
+    if (shouldRebuild) {
+      notifyListeners();
+    }
+  }
+
+  void setSplashScreenLoaded(bool value) {
+    isSplashScreenLoaded = value;
+
+    notifyListeners();
+  }
+
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
+  }
+
+  bool isVersionUpToDate(AppVersion appVersion) {
+    return appVersion.version == getAppVersion();
   }
 
   String getAppName() {
@@ -27,19 +46,5 @@ class AppProvider with ChangeNotifier {
 
   String getAppBuildName() {
     return _packageInfo.buildNumber;
-  }
-
-  void setLoading(bool value, bool shouldRebuild) {
-    isLoading = value;
-
-    if (shouldRebuild) {
-      notifyListeners();
-    }
-  }
-
-  void setSplashScreenLoaded(bool value) {
-    isSplashScreenLoaded = value;
-
-    notifyListeners();
   }
 }

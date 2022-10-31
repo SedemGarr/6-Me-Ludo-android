@@ -18,6 +18,7 @@ class Game {
   late String lastUpdatedAt;
   late String id;
   late String hostId;
+  late String hostAppVersion;
   late Reaction reaction;
   late bool canPass;
   late bool canPlay;
@@ -55,6 +56,7 @@ class Game {
     required this.shouldAssistStart,
     required this.shouldAutoStart,
     required this.hostId,
+    required this.hostAppVersion,
     required this.hostSettings,
     required this.isOffline,
     required this.hasAdaptiveAI,
@@ -124,6 +126,7 @@ class Game {
       selectedPiece: null,
       hasStarted: false,
       hostId: user.id,
+      hostAppVersion: user.appVersion,
       players: [Player.getDefaultPlayer(user, 0)],
       playerIds: [user.id],
     );
@@ -134,6 +137,7 @@ class Game {
     hostSettings = UserSettings.fromJson(json['hostSettings']);
     reaction = Reaction.fromJson(json['reaction']);
     hostId = json['hostId'];
+    hostAppVersion = json['hostAppVersion'] ?? '';
     hasFinished = json['hasFinished'];
     canPass = json['canPass'];
     canPlay = json['canPlay'];
@@ -212,6 +216,7 @@ class Game {
     data['hostSettings'] = hostSettings.toJson();
     data['reaction'] = reaction.toJson();
     data['hostId'] = hostId;
+    data['hostAppVersion'] = hostAppVersion;
     data['canPass'] = canPass;
     data['canPlay'] = canPlay;
     data['hasStarted'] = hasStarted;

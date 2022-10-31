@@ -19,9 +19,18 @@ import '../models/player.dart';
 import '../models/reaction.dart';
 import '../models/thread.dart';
 import '../models/user.dart';
+import '../models/version.dart';
 import 'game_status_service.dart';
 
 class DatabaseService {
+  static Future<AppVersion?> getAppVersion() async {
+    try {
+      return AppVersion.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.appDataCollection).doc(FirestoreConstants.versionDocument).get()).data()!);
+    } catch (e) {
+      return null;
+    }
+  }
+
   // users
 
   static Future<Users?> getUser(String id) async {
@@ -36,17 +45,17 @@ class DatabaseService {
     return FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).snapshots().map((snapshot) => Users.fromJson(snapshot.data()!));
   }
 
-  static Future<Users?> createUser(User user, bool isAnon) async {
+  static Future<Users?> createUser(User user, bool isAnon, String appVersion) async {
     try {
       // check if user already exits in db
       Users? newUser;
 
       if (isAnon) {
-        newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon);
+        newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon, appVersion);
       } else {
         Users? tempUser = await getUser(user.uid);
         if (tempUser == null) {
-          newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon);
+          newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon, appVersion);
         } else {
           newUser = tempUser;
         }

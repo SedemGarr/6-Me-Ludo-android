@@ -45,6 +45,10 @@ class DialogueService extends Translations {
   static const String versionText = 'versionText';
   static const String copyrightText = 'copyrightText';
   static const String zapsplatText = 'zapsplatText';
+  static const String updateNeededText = 'updateNeededText';
+  static const String updatePromptText = 'updatePromptText';
+  static const String updateButtonText = 'updateButtonText';
+  static const String loadingText = 'loadingText';
   // welcome dialog
   static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';

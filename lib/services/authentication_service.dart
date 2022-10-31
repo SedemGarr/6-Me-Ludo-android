@@ -41,11 +41,15 @@ class AuthenticationService {
         try {
           final UserCredential userCredential = await auth.signInWithCredential(credential);
 
-          Users? user = await DatabaseService.createUser(userCredential.user!, false);
+          Users? user = await DatabaseService.createUser(
+            userCredential.user!,
+            false,
+            appProvider.getAppVersion(),
+          );
 
           if (user != null) {
             appProvider.setLoading(false, false);
-            userProvider.setUser(user, soundProvider);
+            userProvider.setUser(user, appProvider, soundProvider);
             themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
             NavigationService.goToHomeScreen();
           } else {
@@ -80,11 +84,15 @@ class AuthenticationService {
     try {
       UserCredential userCredential = await auth.signInAnonymously();
 
-      Users? user = await DatabaseService.createUser(userCredential.user!, true);
+      Users? user = await DatabaseService.createUser(
+        userCredential.user!,
+        true,
+        appProvider.getAppVersion(),
+      );
 
       if (user != null) {
         appProvider.setLoading(false, true);
-        userProvider.setUser(user, soundProvider);
+        userProvider.setUser(user, appProvider, soundProvider);
         NavigationService.goToHomeScreen();
       }
     } catch (e) {

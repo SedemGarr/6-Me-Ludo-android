@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
+import 'package:six_me_ludo_android/models/version.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
@@ -23,6 +24,7 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
+import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
   Users? _user;
@@ -38,24 +40,34 @@ class UserProvider with ChangeNotifier {
 
   Future<void> initUser(BuildContext context) async {
     NavProvider navProvider = context.read<NavProvider>();
-    late Users? tempUser;
+    AppProvider appProvider = context.read<AppProvider>();
 
-    try {
-      tempUser = await LocalStorageService.getUser();
-    } catch (e) {
-      debugPrint(e.toString());
-      tempUser = null;
-    }
+    await appProvider.getPackageInfo();
 
-    Future.delayed(const Duration(seconds: 5), () async {
-      if (tempUser != null) {
-        setUser(tempUser, context.read<SoundProvider>());
-        navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
-        NavigationService.goToHomeScreen();
-      } else {
-        NavigationService.goToAuthScreen();
+    AppVersion? appVersion = await DatabaseService.getAppVersion();
+
+    if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
+      late Users? tempUser;
+
+      try {
+        tempUser = await LocalStorageService.getUser();
+      } catch (e) {
+        debugPrint(e.toString());
+        tempUser = null;
       }
-    });
+
+      Future.delayed(const Duration(seconds: 5), () async {
+        if (tempUser != null) {
+          setUser(tempUser, appProvider, context.read<SoundProvider>());
+          navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
+          NavigationService.goToHomeScreen();
+        } else {
+          NavigationService.goToAuthScreen();
+        }
+      });
+    } else {
+      NavigationService.goToUpgradeScreen();
+    }
   }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {
@@ -87,8 +99,10 @@ class UserProvider with ChangeNotifier {
     NavigationService.goToNewGameScreen();
   }
 
-  void setUser(Users? user, SoundProvider soundProvider) {
+  void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
     _user = user;
+    _user!.appVersion = appProvider.getAppVersion();
+
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
 
@@ -310,6 +324,10 @@ class UserProvider with ChangeNotifier {
 
   String getUserID() {
     return _user!.id;
+  }
+
+  String getAppVersion() {
+    return _user!.appVersion;
   }
 
   String getUserPseudonym() {

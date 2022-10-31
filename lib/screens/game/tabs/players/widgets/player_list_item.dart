@@ -48,66 +48,69 @@ class PlayerListItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Get.isDarkMode ? playerSelectedColor : playerColor,
       ),
-      child: ExpansionTile(
-        leading: GestureDetector(
-          onTap: isAI || isMe
-              ? null
-              : () {
-                  userProvider.handleUserAvatarOnTap(player.id, context);
-                },
-          child: UserAvatarWidget(
-            avatar: player.avatar,
-            backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
-            borderColor: contrastingColor,
-            hasLeftGame: hasLeft,
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          leading: GestureDetector(
+            onTap: isAI || isMe
+                ? null
+                : () {
+                    userProvider.handleUserAvatarOnTap(player.id, context);
+                  },
+            child: UserAvatarWidget(
+              avatar: player.avatar,
+              backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
+              borderColor: contrastingColor,
+              hasLeftGame: hasLeft,
+            ),
           ),
-        ),
-        title: Text(
-          userProvider.parsePlayerNameText(player.psuedonym),
-          style: TextStyles.listTitleStyle(contrastingColor),
-        ),
-        subtitle: isKicked || hasLeft
-            ? Text(
-                isKicked ? DialogueService.playerKickedFromGameTrailingText.tr : DialogueService.playerHasLeftTheGame.tr,
-                style: TextStyles.listSubtitleStyle(Utils.getContrastingColor(playerColor)),
-              )
-            : PlayerProgressWidget(
-                player: player,
-                hasStarted: game.hasStarted,
-                playerColor: playerColor,
-                playerSelectedColor: playerSelectedColor,
-              ),
-        trailing: isKicked || hasLeft
-            ? const SizedBox.shrink()
-            : ReputationWidget(
-                value: player.reputationValue,
-                color: contrastingColor,
-                shouldPad: true,
-              ),
-        children: !isAI && !isMe && !isKicked && !hasLeft
-            ? [
-                CustomListTileWidget(
-                  title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),
-                  trailing: !isAI && isHost && !isMe
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            KickPlayerWidget(
-                              color: contrastingColor,
-                              gameProvider: gameProvider,
-                              player: player,
-                            ),
-                            BanPlayerWidget(
-                              color: contrastingColor,
-                              gameProvider: gameProvider,
-                              player: player,
-                            ),
-                          ],
-                        )
-                      : null,
+          title: Text(
+            userProvider.parsePlayerNameText(player.psuedonym),
+            style: TextStyles.listTitleStyle(contrastingColor),
+          ),
+          subtitle: isKicked || hasLeft
+              ? Text(
+                  isKicked ? DialogueService.playerKickedFromGameTrailingText.tr : DialogueService.playerHasLeftTheGame.tr,
+                  style: TextStyles.listSubtitleStyle(Utils.getContrastingColor(playerColor)),
+                )
+              : PlayerProgressWidget(
+                  player: player,
+                  hasStarted: game.hasStarted,
+                  playerColor: playerColor,
+                  playerSelectedColor: playerSelectedColor,
                 ),
-              ]
-            : [],
+          trailing: isKicked || hasLeft
+              ? const SizedBox.shrink()
+              : ReputationWidget(
+                  value: player.reputationValue,
+                  color: contrastingColor,
+                  shouldPad: true,
+                ),
+          children: !isAI && !isMe && !isKicked && !hasLeft
+              ? [
+                  CustomListTileWidget(
+                    title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),
+                    trailing: !isAI && isHost && !isMe
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              KickPlayerWidget(
+                                color: contrastingColor,
+                                gameProvider: gameProvider,
+                                player: player,
+                              ),
+                              BanPlayerWidget(
+                                color: contrastingColor,
+                                gameProvider: gameProvider,
+                                player: player,
+                              ),
+                            ],
+                          )
+                        : null,
+                  ),
+                ]
+              : [],
+        ),
       ),
     );
   }
