@@ -31,7 +31,6 @@ dependencies:
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.1
   jiffy: ^5.0.0
-  loading_animation_widget: ^1.2.0+3
   lottie: ^1.4.2
   material_design_icons_flutter: ^5.0.6996
   multiavatar: ^0.1.5

@@ -11,6 +11,7 @@ import '../../constants/app_constants.dart';
 import '../../constants/icon_constants.dart';
 import '../../services/authentication_service.dart';
 import '../../services/translations/dialogue_service.dart';
+import '../../widgets/app_bar_title_widget.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/legal_text.dart';
 
@@ -25,14 +26,10 @@ class AuthScreen extends StatelessWidget {
         ? const LoadingScreen()
         : Scaffold(
             appBar: CustomAppBarWidget(
-              title: Text(
-                DialogueService.welcomeSubtileText.tr,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
+              title: AppBarTitleWidget(
+                text: DialogueService.welcomeSubtileText.tr,
               ),
+              centerTitle: true,
             ),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
