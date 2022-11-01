@@ -19,7 +19,7 @@ class AnimationAttributionWidget extends StatelessWidget {
           children: [
             TextSpan(
               text: DialogueService.animationByText.tr,
-              style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onBackground),
             ),
             TextSpan(
               text: AppConstants.lottieAnimationAuthor,

@@ -22,7 +22,7 @@ class AppBarAvatarWidget extends StatelessWidget {
       child: UserAvatarWidget(
         avatar: userProvider.getUserAvatar(),
         backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-        borderColor: Theme.of(context).colorScheme.onSurface,
+        borderColor: Theme.of(context).colorScheme.onBackground,
         id: userProvider.getUserID(),
         hasLeftGame: false,
       ),

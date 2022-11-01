@@ -39,7 +39,7 @@ class _AvatarSelectionWidgetState extends State<AvatarSelectionWidget> {
         CustomListTileWidget(
           title: Text(
             DialogueService.changeAvatarText.tr,
-            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
           ),
           trailing: IconButton(
             onPressed: () {
@@ -79,7 +79,7 @@ class _AvatarSelectionWidgetState extends State<AvatarSelectionWidget> {
                         child: UserAvatarWidget(
                           avatar: avatarList[index],
                           backgroundColor: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
-                          borderColor: Theme.of(context).colorScheme.onSurface,
+                          borderColor: Theme.of(context).colorScheme.onBackground,
                           hasLeftGame: false,
                         ),
                       ),

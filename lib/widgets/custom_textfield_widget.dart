@@ -40,13 +40,13 @@ class CustomTextFieldWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+        hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
         counterStyle: TextStyles.listSubtitleStyle(
-          Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+          Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
         ),
       ),
       style: TextStyles.listTitleStyle(
-        Theme.of(context).colorScheme.primary,
+        Theme.of(context).colorScheme.onPrimary,
       ),
       cursorColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
       keyboardType: TextInputType.text,

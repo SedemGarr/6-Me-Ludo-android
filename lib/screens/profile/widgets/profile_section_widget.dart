@@ -36,7 +36,7 @@ class ProfileSectionWidget extends StatelessWidget {
                       children: [
                         ReputationWidget(
                           value: userProvider.getUserReputationValue(),
-                          color: Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+                          color: Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
                           shouldPad: true,
                         ),
                       ],

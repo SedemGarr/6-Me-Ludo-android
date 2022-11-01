@@ -16,7 +16,7 @@ class TitleWidget extends StatelessWidget {
         fit: BoxFit.fitWidth,
         child: Icon(
           AppIcons.appIcon,
-          color: color ?? Theme.of(context).colorScheme.onSurface,
+          color: color ?? Theme.of(context).colorScheme.onBackground,
         ),
       ),
     );

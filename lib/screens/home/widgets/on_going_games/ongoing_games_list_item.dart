@@ -33,8 +33,8 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
         child: ClipRRect(
           borderRadius: AppConstants.appBorderRadius,
           child: ExpansionTile(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
-            //  collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             childrenPadding: const EdgeInsets.only(bottom: 8.0),
             key: UniqueKey(),
             leading: GameOwnerAvatarWidget(

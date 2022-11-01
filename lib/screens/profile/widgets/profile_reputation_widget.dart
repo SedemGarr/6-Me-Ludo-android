@@ -21,7 +21,7 @@ class ProfileStatusWidget extends StatelessWidget {
     return Text(
       status + DialogueService.visibleOnlyToYouText.tr,
       style: TextStyles.listSubtitleStyle(
-        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+        Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

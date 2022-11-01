@@ -40,7 +40,7 @@ class LicenseWidget extends StatelessWidget {
                                 collapsedIconColor: Theme.of(context).primaryColor,
                                 title: Text(
                                   license.title,
-                                  style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+                                  style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                                 ),
                                 children: [
                                   Padding(
@@ -48,7 +48,7 @@ class LicenseWidget extends StatelessWidget {
                                       vertical: 8.0,
                                       horizontal: 24,
                                     ),
-                                    child: Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface)),
+                                    child: Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground)),
                                   )
                                 ],
                               ),

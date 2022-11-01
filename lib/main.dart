@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
         title: DialogueService.appName.tr,
         theme: themeProvider.getLightTheme(),
         darkTheme: themeProvider.getDarkTheme(),
+        // themeMode: ThemeMode.dark,
         themeMode: themeProvider.getThemeMode(),
         locale: userProvider.getLocale(),
         translations: DialogueService(),

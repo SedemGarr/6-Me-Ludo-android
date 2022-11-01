@@ -45,7 +45,7 @@ class UpgradeScreen extends StatelessWidget {
                         child: Text(
                           DialogueService.updatePromptText.tr,
                           textAlign: TextAlign.center,
-                          style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+                          style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                         ),
                       ),
                     ],

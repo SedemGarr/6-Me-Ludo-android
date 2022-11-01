@@ -24,7 +24,7 @@ class LegalText extends StatelessWidget {
               TextSpan(
                   text: DialogueService.termsText.tr,
                   style: TextStyles.legalTextStyleBold(
-                    Theme.of(context).colorScheme.onSurface,
+                    Theme.of(context).colorScheme.onBackground,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = () {}),
               const TextSpan(
@@ -39,7 +39,7 @@ class LegalText extends StatelessWidget {
               TextSpan(
                 text: DialogueService.privacyText.tr,
                 style: TextStyles.legalTextStyleBold(
-                  Theme.of(context).colorScheme.onSurface,
+                  Theme.of(context).colorScheme.onBackground,
                 ),
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),

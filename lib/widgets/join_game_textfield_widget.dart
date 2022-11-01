@@ -19,7 +19,7 @@ class JoinGameTextFieldWidget extends StatelessWidget {
     AppProvider appProvider = context.watch<AppProvider>();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8.0),
       child: TextFormField(
         controller: gameProvider.joinGameController,
         maxLength: AppConstants.joinGameCodeLength,
@@ -28,7 +28,7 @@ class JoinGameTextFieldWidget extends StatelessWidget {
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
           border: InputBorder.none,
@@ -43,9 +43,9 @@ class JoinGameTextFieldWidget extends StatelessWidget {
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
           contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primaryContainer),
+          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
           counterStyle: TextStyles.listSubtitleStyle(
-            Theme.of(context).colorScheme.onSurface,
+            Theme.of(context).colorScheme.primaryContainer,
           ),
         ),
         style: TextStyles.listTitleStyle(

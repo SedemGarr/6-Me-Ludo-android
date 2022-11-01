@@ -18,7 +18,7 @@ class AppBarVersionText extends StatelessWidget {
         child: Text(
           userProvider.getAppVersion(),
           style: TextStyles.listSubtitleStyle(
-            Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
           ),
         ),
       ),

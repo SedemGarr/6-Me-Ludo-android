@@ -13,7 +13,7 @@ class GameDateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       DialogueService.createdAtText.tr + Utils.parseDateFromNow(createdAt),
-      style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+      style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
     );
   }
 }

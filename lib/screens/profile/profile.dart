@@ -30,7 +30,9 @@ class ProfileScreen extends StatelessWidget {
     NavProvider navProvider = context.watch<NavProvider>();
 
     return appProvider.isLoading
-        ? const LoadingScreen()
+        ? LoadingScreen(
+            text: DialogueService.loadingDefaultText.tr,
+          )
         : GestureDetector(
             onTap: () {
               if (userProvider.isEditingProfile) {

@@ -16,7 +16,7 @@ class GameOwnerAvatarWidget extends StatelessWidget {
       id: id,
       avatar: avatar,
       backgroundColor: hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[playerColor].playerColor,
-      borderColor: Theme.of(context).colorScheme.onSurface,
+      borderColor: Theme.of(context).colorScheme.onBackground,
       hasLeftGame: hasLeft,
     );
   }

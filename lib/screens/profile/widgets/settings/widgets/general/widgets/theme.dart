@@ -21,7 +21,7 @@ class ThemeWidget extends StatelessWidget {
       leading: const SettingsIconWidget(iconData: AppIcons.themeIcon),
       title: SettingsTitleWidget(text: DialogueService.themeTitleText.tr),
       subtitle: SettingsSubtitleWidget(text: DialogueService.themeSubtitleText.tr),
-      trailing: Icon(AppIcons.themeArrowIcon, color: Theme.of(context).colorScheme.onSurface),
+      trailing: Icon(AppIcons.themeArrowIcon, color: Theme.of(context).colorScheme.onBackground),
     );
   }
 }

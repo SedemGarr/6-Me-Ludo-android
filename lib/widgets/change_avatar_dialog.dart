@@ -25,7 +25,7 @@ showChangeAvatarDialog({
         contentPadding: EdgeInsets.zero,
         title: Text(
           DialogueService.changeAvatarText.tr,
-          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
           textAlign: TextAlign.center,
         ),
         content: Column(
@@ -36,7 +36,7 @@ showChangeAvatarDialog({
               child: UserAvatarWidget(
                 avatar: userProvider.getUserAvatar(),
                 backgroundColor: Theme.of(context).primaryColor,
-                borderColor: Theme.of(context).colorScheme.onSurface,
+                borderColor: Theme.of(context).colorScheme.onBackground,
                 shouldExpand: true,
                 hasLeftGame: false,
               ),
@@ -66,7 +66,7 @@ showChangeAvatarDialog({
                           child: UserAvatarWidget(
                             avatar: avatarList[index],
                             backgroundColor: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
-                            borderColor: Theme.of(context).colorScheme.onSurface,
+                            borderColor: Theme.of(context).colorScheme.onBackground,
                             hasLeftGame: false,
                           ),
                         ),

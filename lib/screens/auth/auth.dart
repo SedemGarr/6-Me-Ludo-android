@@ -12,11 +12,19 @@ import '../../constants/icon_constants.dart';
 import '../../services/authentication_service.dart';
 import '../../services/translations/dialogue_service.dart';
 import '../../widgets/app_bar_title_widget.dart';
+import '../../widgets/custom_animated_crossfade.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/legal_text.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  bool hasLottieLoaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +45,20 @@ class AuthScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  Lottie.asset(
-                    AppConstants.authLottieAssetPath,
-                    repeat: true,
-                    fit: BoxFit.cover,
+
+                  CustomAnimatedCrossFade(
+                    firstChild: Lottie.asset(
+                      AppConstants.authLottieAssetPath,
+                      onLoaded: (p0) {
+                        setState(() {
+                          hasLottieLoaded = true;
+                        });
+                      },
+                      repeat: true,
+                      fit: BoxFit.cover,
+                    ),
+                    secondChild: const SizedBox(),
+                    condition: hasLottieLoaded,
                   ),
                   //  const Spacer(),
                   const Spacer(),
@@ -60,7 +78,7 @@ class AuthScreen extends StatelessWidget {
                   //   child: Center(
                   //     child: Text(
                   //       DialogueService.orButtonText.tr,
-                  //       style: TextStyles.legalTextStyleBold(Theme.of(context).colorScheme.onSurface),
+                  //       style: TextStyles.legalTextStyleBold(Theme.of(context).colorScheme.onBackground),
                   //     ),
                   //   ),
                   // ),

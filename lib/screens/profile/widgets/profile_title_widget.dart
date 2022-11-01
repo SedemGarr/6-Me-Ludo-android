@@ -15,7 +15,7 @@ class ProfilePseudonymWidget extends StatelessWidget {
     return Text(
       userProvider.getUserPseudonym(),
       style: TextStyles.listTitleStyle(
-        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+        Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,

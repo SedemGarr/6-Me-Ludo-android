@@ -47,17 +47,17 @@ class ChatListItem extends StatelessWidget {
                   hasLeftGame: hasLeft,
                   backgroundColor: playerColor,
                   avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onSurface),
+                  borderColor: Theme.of(context).colorScheme.onBackground),
           trailing: isMe
               ? UserAvatarWidget(
                   hasLeftGame: hasLeft,
                   backgroundColor: playerColor,
                   avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onSurface)
+                  borderColor: Theme.of(context).colorScheme.onBackground)
               : null,
           title: Text(
             DialogueService.messageContainsProfanityText.tr,
-            style: TextStyles.chatListSubtitleStyle(Theme.of(context).colorScheme.onSurface, true),
+            style: TextStyles.chatListSubtitleStyle(Theme.of(context).colorScheme.onBackground, true),
             textAlign: textAlign,
           ),
         ),
@@ -75,23 +75,23 @@ class ChatListItem extends StatelessWidget {
                   hasLeftGame: hasLeft,
                   backgroundColor: playerColor,
                   avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onSurface),
+                  borderColor: Theme.of(context).colorScheme.onBackground),
           trailing: isMe
               ? UserAvatarWidget(
                   hasLeftGame: hasLeft,
                   backgroundColor: playerColor,
                   avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onSurface)
+                  borderColor: Theme.of(context).colorScheme.onBackground)
               : null,
           title: Text(
             isMe ? DialogueService.youText.tr : gameProvider.getPlayerNameFromId(message.createdById),
-            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
             textAlign: textAlign,
           ),
           subtitle: Text(
             message.body,
             style: TextStyles.chatListSubtitleStyle(
-              Theme.of(context).colorScheme.onSurface,
+              Theme.of(context).colorScheme.onBackground,
               !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),
             ),
             textAlign: textAlign,

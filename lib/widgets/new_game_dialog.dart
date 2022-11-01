@@ -37,7 +37,7 @@ showNewGameDialog({
         actionsPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         title: Text(
           DialogueService.hostGameFABText.tr,
-          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
           textAlign: TextAlign.center,
         ),
         content: SizedBox(

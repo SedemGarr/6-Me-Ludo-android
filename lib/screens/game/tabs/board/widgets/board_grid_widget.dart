@@ -40,9 +40,8 @@ class BoardGridWidget extends StatelessWidget {
                   border: gameProvider.board.cells[index].border,
                   color: gameProvider.getSelectedPiecePathColour(index, gameProvider.board.cells[index].cellColor),
                 ),
-                child:
-                    // Center(child: Text(index.toString(), style: const TextStyle(color: Colors.white))),
-                    PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index),
+                child: PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index),
+                //  child: Center(child: Text(index.toString(), style: const TextStyle(color: Colors.white))),
               ),
             ),
           ),

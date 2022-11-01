@@ -21,7 +21,7 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
             ),
           ),
         )
@@ -48,7 +48,18 @@ class DialogueService extends Translations {
   static const String updateNeededText = 'updateNeededText';
   static const String updatePromptText = 'updatePromptText';
   static const String updateButtonText = 'updateButtonText';
-  static const String loadingText = 'loadingText';
+  // loading strings
+  static const String loading1Text = 'loading1Text';
+  static const String loading2Text = 'loading2Text';
+  static const String loading3Text = 'loading3Text';
+  static const String loading4Text = 'loading4Text';
+  static const String loading5Text = 'loading5Text';
+  static const String loading6Text = 'loading6Text';
+  static const String loading7Text = 'loading7Text';
+  static const String loading8Text = 'loading8Text';
+  static const String loading9Text = 'loading9Text';
+  static const String loading10Text = 'loading10Text';
+  static const String loadingDefaultText = 'loadingDefaultText';
   // welcome dialog
   static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
@@ -80,6 +91,8 @@ class DialogueService extends Translations {
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
   static const String joinGameHintText = 'joinGameHintText';
+  static const String joinGameBannerText = 'joinGameBannerText';
+  static const String hostGameBannerText = 'hostGameBannerText';
   // game - ongoing
   static const String inAFewSecondsText = 'inAFewSecondsText';
   static const String yourGameText = 'yourGameText';

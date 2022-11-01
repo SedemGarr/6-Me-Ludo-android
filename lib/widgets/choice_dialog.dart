@@ -24,11 +24,11 @@ showChoiceDialog({
         shape: AppConstants.appShape,
         title: Text(
           titleMessage,
-          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
         ),
         content: Text(
           contentMessage,
-          style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
+          style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onBackground),
           //  textAlign: TextAlign.center,
         ),
         actions: [
@@ -38,7 +38,7 @@ showChoiceDialog({
                 onNo();
               },
               text: noMessage.tr,
-              color: Theme.of(context).colorScheme.onSurface),
+              color: Theme.of(context).colorScheme.onBackground),
           CustomElevatedButton(
               onPressed: () {
                 NavigationService.genericGoBack();

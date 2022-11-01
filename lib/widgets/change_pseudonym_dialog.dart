@@ -22,7 +22,7 @@ showChangePsuedonymDialog({
         shape: AppConstants.appShape,
         title: Text(
           DialogueService.changePseudonymText.tr,
-          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
           textAlign: TextAlign.center,
         ),
         content: CustomTextFieldWidget(

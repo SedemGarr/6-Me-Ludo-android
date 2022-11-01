@@ -41,7 +41,9 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
           children: [
             GameCommentaryWidget(gameProvider: gameProvider),
             Container(
-              decoration: BoxDecoration(border: Border.all(color: CSSColors.black)),
+              decoration: BoxDecoration(
+                border: Border.all(color: CSSColors.black),
+              ),
               height: Get.width,
               width: Get.width,
               child: BoardGridWidget(
@@ -50,7 +52,10 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
             ),
             const Spacer(),
             CustomAnimatedCrossFade(
-                firstChild: GameReactionWidget(gameProvider: gameProvider), secondChild: LastPlayedAtWidget(gameProvider: gameProvider), condition: game.reaction.hasReaction())
+              firstChild: GameReactionWidget(gameProvider: gameProvider),
+              secondChild: LastPlayedAtWidget(gameProvider: gameProvider),
+              condition: game.reaction.hasReaction(),
+            )
           ],
         ),
       ),

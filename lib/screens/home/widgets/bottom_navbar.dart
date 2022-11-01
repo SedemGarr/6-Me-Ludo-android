@@ -24,7 +24,7 @@ class CustomBottomNavBar extends StatelessWidget {
               navigationBarTheme: const NavigationBarThemeData().copyWith(
                 labelTextStyle: MaterialStateProperty.all(
                   TextStyles.listSubtitleStyle(
-                    Theme.of(context).colorScheme.onSurface,
+                    Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
               ),

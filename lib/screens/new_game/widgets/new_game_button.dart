@@ -17,7 +17,7 @@ class NewGameButton extends StatelessWidget {
       onPressed: () {
         userProvider.handleNewGameTap();
       },
-      text: DialogueService.hostGameFABText.tr,
+      text: DialogueService.newGameText.tr,
     );
   }
 }

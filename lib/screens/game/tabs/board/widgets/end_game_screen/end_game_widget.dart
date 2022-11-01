@@ -81,7 +81,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                           ],
                           child: Text(
                             DialogueService.gameWinnerText.tr,
-                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface).copyWith(
+                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground).copyWith(
                               fontSize: 28,
                             ),
                           ),
@@ -91,7 +91,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                             backgroundColor:
                                 Get.isDarkMode ? PlayerConstants.swatchList[winner!.playerColor].playerSelectedColor : PlayerConstants.swatchList[winner!.playerColor].playerColor,
                             avatar: winner!.avatar,
-                            borderColor: Theme.of(context).colorScheme.onSurface,
+                            borderColor: Theme.of(context).colorScheme.onBackground,
                             shouldExpand: true,
                             id: winner!.isAIPlayer ? null : winner!.id,
                             hasLeftGame: winner!.hasLeft,
@@ -103,7 +103,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                 : Center(
                     child: Text(
                       DialogueService.noWinnerText.tr,
-                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                     ),
                   ),
           ),
@@ -118,7 +118,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                     child: Text(
                       DialogueService.statsTitleText.tr,
                       style: TextStyles.listTitleStyle(
-                        Theme.of(context).colorScheme.onSurface,
+                        Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   ),
@@ -135,7 +135,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                                 Text(
                                   DialogueService.gameViciousText.tr,
                                   style: TextStyles.listTitleStyle(
-                                    Theme.of(context).colorScheme.onSurface,
+                                    Theme.of(context).colorScheme.onBackground,
                                   ),
                                 ),
                                 CustomListTileWidget(
@@ -150,7 +150,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                                         ? vicious!.numberOfTimesKickerInSession.toString() + DialogueService.kickSingularText.tr
                                         : vicious!.numberOfTimesKickerInSession.toString() + DialogueService.kickPluralText.tr,
                                     style: TextStyles.listSubtitleStyle(
-                                      Theme.of(context).colorScheme.onSurface,
+                                      Theme.of(context).colorScheme.onBackground,
                                     ),
                                   ),
                                   trailing: ReputationWidget(
@@ -173,7 +173,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                                 Text(
                                   DialogueService.gamePunchingBagText.tr,
                                   style: TextStyles.listTitleStyle(
-                                    Theme.of(context).colorScheme.onSurface,
+                                    Theme.of(context).colorScheme.onBackground,
                                   ),
                                 ),
                                 CustomListTileWidget(
@@ -188,7 +188,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                                         ? DialogueService.kickedText.tr + punchingBag!.numberOfTimesKickedInSession.toString() + DialogueService.timesSingularText.tr
                                         : DialogueService.kickedText.tr + punchingBag!.numberOfTimesKickedInSession.toString() + DialogueService.timesPluralText.tr,
                                     style: TextStyles.listSubtitleStyle(
-                                      Theme.of(context).colorScheme.onSurface,
+                                      Theme.of(context).colorScheme.onBackground,
                                     ),
                                   ),
                                   trailing: ReputationWidget(

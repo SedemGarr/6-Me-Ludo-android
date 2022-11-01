@@ -43,7 +43,7 @@ class ChatFormFieldWidget extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: DialogueService.sendMessagesHereText.tr,
                             filled: false,
-                            hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+                            hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
                             border: InputBorder.none,
                             errorBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
@@ -51,7 +51,7 @@ class ChatFormFieldWidget extends StatelessWidget {
                             focusedErrorBorder: InputBorder.none,
                             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: gameProvider.playerColor)),
                           ),
-                          style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface),
+                          style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
                           cursorColor: gameProvider.playerColor,
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.sentences,
@@ -62,7 +62,7 @@ class ChatFormFieldWidget extends StatelessWidget {
                       ),
                       Text(
                         '${gameProvider.getGameChatCount()}/${AppConstants.gameThreadMessageLimit}',
-                        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+                        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
                       )
                     ],
                   ),
