@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 import '../constants/textstyle_constants.dart';
 
@@ -6,26 +7,25 @@ class CustomTextButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color color;
   final String text;
-  final IconData? iconData;
+  final bool isOutlined;
 
   const CustomTextButton({
     Key? key,
     required this.onPressed,
     required this.text,
     required this.color,
-    this.iconData,
+    required this.isOutlined,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return iconData != null
-        ? TextButton.icon(
-            icon: Icon(
-              iconData,
-              color: color,
+    return isOutlined
+        ? OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              shape: AppConstants.appShape,
             ),
             onPressed: onPressed,
-            label: Text(
+            child: Text(
               text,
               style: TextStyles.textButtonStyle(color),
             ),

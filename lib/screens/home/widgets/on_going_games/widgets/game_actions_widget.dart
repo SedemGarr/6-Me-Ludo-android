@@ -23,6 +23,7 @@ class GameActionsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomTextButton(
+          isOutlined: true,
           onPressed: () {
             gameProvider.showLeaveOrDeleteGameDialog(
               game,

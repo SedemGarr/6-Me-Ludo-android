@@ -12,12 +12,18 @@ class NewGameButton extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomTextButton(
-      color: Get.isDarkMode ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
-      onPressed: () {
-        userProvider.handleNewGameTap();
-      },
-      text: DialogueService.newGameText.tr,
+
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 4.0),
+      child: CustomTextButton(
+        isOutlined: false,
+        color: Get.isDarkMode ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+        onPressed: () {
+          userProvider.handleNewGameTap();
+        },
+        text: DialogueService.newGameText.tr,
+      ),
     );
   }
 }

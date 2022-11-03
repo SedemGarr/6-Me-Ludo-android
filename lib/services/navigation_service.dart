@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/screens/auth/auth.dart';
+import 'package:six_me_ludo_android/screens/edit_profile/edit_avatar.dart';
+import 'package:six_me_ludo_android/screens/edit_profile/edit_pseudonym.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/screens/upgrade/upgrade.dart';
@@ -23,6 +25,14 @@ class NavigationService {
 
   static Future<void> goToGameScreen() async {
     await Get.to(() => const GameScreenWrapper());
+  }
+
+  static Future<void> goToEditPseudonymScreen() async {
+    await Get.to(() => const EditPseudonymScreen());
+  }
+
+  static Future<void> goToEditAvatarScreen() async {
+    await Get.to(() => const EditAvatarScreen());
   }
 
   static Future<void> goToThemeSelector() async {

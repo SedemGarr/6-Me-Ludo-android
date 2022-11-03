@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 
@@ -46,9 +47,9 @@ class MyApp extends StatelessWidget {
     return AppLifeCycleManager(
       child: GetMaterialApp(
         title: DialogueService.appName.tr,
+        transitionDuration: AppConstants.animationDuration,
         theme: themeProvider.getLightTheme(),
         darkTheme: themeProvider.getDarkTheme(),
-        // themeMode: ThemeMode.dark,
         themeMode: themeProvider.getThemeMode(),
         locale: userProvider.getLocale(),
         translations: DialogueService(),

@@ -26,30 +26,15 @@ class JoinGameTextFieldWidget extends StatelessWidget {
         cursorColor: Theme.of(context).primaryColor,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-          ),
-          border: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          focusedErrorBorder: InputBorder.none,
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.tertiary),
           counterStyle: TextStyles.listSubtitleStyle(
             Theme.of(context).colorScheme.primaryContainer,
           ),
         ),
         style: TextStyles.listTitleStyle(
-          Theme.of(context).colorScheme.primary,
+          Theme.of(context).colorScheme.onBackground,
         ),
         onChanged: (value) {
           if (value.length == AppConstants.joinGameCodeLength) {

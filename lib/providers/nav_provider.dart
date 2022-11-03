@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
-import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
@@ -26,9 +23,6 @@ class NavProvider with ChangeNotifier {
 
     if (shouldSync) {
       pageController.animateToPage(index, duration: AppConstants.animationDuration, curve: AppConstants.animationCurve);
-      if (index == HomeScreen.routeIndex) {
-        Get.context!.read<UserProvider>().toggleIsEditingProfile(false);
-      }
     }
   }
 

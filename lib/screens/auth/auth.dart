@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
+import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
 import '../../constants/app_constants.dart';
@@ -47,15 +48,17 @@ class _AuthScreenState extends State<AuthScreen> {
                   const Spacer(),
 
                   CustomAnimatedCrossFade(
-                    firstChild: Lottie.asset(
-                      AppConstants.authLottieAssetPath,
-                      onLoaded: (p0) {
-                        setState(() {
-                          hasLottieLoaded = true;
-                        });
-                      },
-                      repeat: true,
-                      fit: BoxFit.cover,
+                    firstChild: CustomCardWidget(
+                      child: Lottie.asset(
+                        AppConstants.authLottieAssetPath,
+                        onLoaded: (p0) {
+                          setState(() {
+                            hasLottieLoaded = true;
+                          });
+                        },
+                        repeat: true,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     secondChild: const SizedBox(),
                     condition: hasLottieLoaded,

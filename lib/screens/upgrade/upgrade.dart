@@ -59,6 +59,7 @@ class UpgradeScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 CustomTextButton(
+                  isOutlined: true,
                   onPressed: () {
                     Utils.showExitDialog(context);
                   },

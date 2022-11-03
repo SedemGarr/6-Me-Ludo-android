@@ -17,7 +17,7 @@ class GameNameWidget extends StatelessWidget {
 
     return Text(
       userProvider.parseGameNameText(host, players),
-      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
     );
   }
 }

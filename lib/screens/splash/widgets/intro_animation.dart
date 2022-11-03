@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution.dart';
 
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
+import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 import '../../../constants/app_constants.dart';
 import '../../../widgets/wayout_widget.dart';
 
@@ -23,12 +24,7 @@ class IntroAnimation extends StatelessWidget {
           children: [
             const Spacer(),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Theme.of(context).primaryColor),
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: AppConstants.appBorderRadius,
-                ),
+              child: CustomCardWidget(
                 child: CustomAnimatedCrossFade(
                   firstChild: Lottie.asset(
                     AppConstants.wayyyOutLottieAssetPath,

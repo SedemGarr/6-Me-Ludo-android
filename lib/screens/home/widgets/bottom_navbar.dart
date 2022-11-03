@@ -52,7 +52,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   selectedIcon: const Icon(
                     AppIcons.profileActiveIcon,
                   ),
-                  label: DialogueService.profileText.tr,
+                  label: DialogueService.profileAndSettingsText.tr,
                 ),
 
                 // NavigationDestination(

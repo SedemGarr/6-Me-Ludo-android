@@ -30,7 +30,10 @@ class UserProvider with ChangeNotifier {
   Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
   late List<Game> ongoingGames = [];
-  bool isEditingProfile = false;
+
+  //
+  late String selectedAvatar;
+  late List<String> avatarList;
 
   // ai player uuid
   Uuid uuid = const Uuid();
@@ -109,6 +112,16 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void intialiseAvatarList(bool shouldRebuild) {
+    avatarList = Utils.generateAvatarSelectionCodes(getUserAvatar());
+
+    selectedAvatar = _user!.avatar;
+
+    if (shouldRebuild) {
+      notifyListeners();
+    }
+  }
+
   void syncOngoingGamesStreamData(List<Game> games) {
     ongoingGames = games;
   }
@@ -134,15 +147,6 @@ class UserProvider with ChangeNotifier {
       } else {
         showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
       }
-    }
-  }
-
-  void toggleIsEditingProfile(bool value) {
-    isEditingProfile = value;
-    notifyListeners();
-
-    if (!isEditingProfile) {
-      setUserPseudonym();
     }
   }
 
@@ -245,13 +249,24 @@ class UserProvider with ChangeNotifier {
   }
 
   void setAvatar(String avatar) {
-    _user!.avatar = avatar;
-    updateUser(true, true);
-    DatabaseService.updateOngoingGamesAfterUserChange(_user!);
+    if (avatar != _user!.avatar) {
+      _user!.avatar = avatar;
+      updateUser(true, true);
+      DatabaseService.updateOngoingGamesAfterUserChange(_user!);
+    }
   }
 
-  void setPseudonymControllerValue(String value) {
-    pseudonymController.text = value;
+  void setSelectedAvatar(String avatar) {
+    selectedAvatar = avatar;
+    notifyListeners();
+  }
+
+  void setPseudonymControllerValue(String value, bool shouldRebuild) {
+    if (shouldRebuild) {
+      notifyListeners();
+    } else {
+      pseudonymController.text = value;
+    }
   }
 
   void setUserPseudonym() {
@@ -447,11 +462,17 @@ class UserProvider with ChangeNotifier {
   }
 
   bool isAvatarSelected(String avatar) {
-    return _user!.avatar == avatar;
+    return selectedAvatar == avatar;
   }
 
   bool isGameOffline() {
     return _user!.settings.maxPlayers == 1;
+  }
+
+  bool hasUserPseudonymChanged() {
+    return _user!.psuedonym != pseudonymController.text && 
+    pseudonymController.text.isNotEmpty
+    ;
   }
 
   int getUserGameSpeed() {

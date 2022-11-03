@@ -21,11 +21,8 @@ class LicenseWidget extends StatelessWidget {
               if (snapshot.hasData) {
                 final List<License> licenses = snapshot.data!;
                 return AnimationLimiter(
-                  child: ListView.separated(
-                      padding: AppConstants.listViewPadding,
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
+                  child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 4.0),
                       itemCount: licenses.length,
                       itemBuilder: (BuildContext context, int index) {
                         License license = licenses[index];
@@ -33,24 +30,32 @@ class LicenseWidget extends StatelessWidget {
                           position: index,
                           duration: AppConstants.animationDuration,
                           child: CustomAnimationWidget(
-                            child: Theme(
-                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                              child: ExpansionTile(
-                                iconColor: Theme.of(context).colorScheme.primary,
-                                collapsedIconColor: Theme.of(context).primaryColor,
-                                title: Text(
-                                  license.title,
-                                  style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
-                                ),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 8.0,
-                                      horizontal: 24,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                              child: Theme(
+                                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                child: ClipRRect(
+                                  borderRadius: AppConstants.appBorderRadius,
+                                  child: ExpansionTile(
+                                    collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+                                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                                    iconColor: Theme.of(context).colorScheme.primary,
+                                    collapsedIconColor: Theme.of(context).primaryColor,
+                                    title: Text(
+                                      license.title,
+                                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                                     ),
-                                    child: Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground)),
-                                  )
-                                ],
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0,
+                                          horizontal: 24,
+                                        ),
+                                        child: Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground)),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),

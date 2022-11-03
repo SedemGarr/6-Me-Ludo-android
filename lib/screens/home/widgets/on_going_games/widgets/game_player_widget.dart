@@ -35,7 +35,7 @@ class GamePlayerWidget extends StatelessWidget {
       ),
       title: Text(
         isMe ? DialogueService.youText.tr : player.psuedonym,
-        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
       ),
       subtitle: Text(
         isKicked
@@ -45,7 +45,7 @@ class GamePlayerWidget extends StatelessWidget {
                 : player.isAIPlayer
                     ? DialogueService.aiPlayerText.tr
                     : DialogueService.humanPlayerText.tr,
-        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
       ),
       trailing: null,
     );

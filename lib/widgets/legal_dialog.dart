@@ -61,18 +61,21 @@ showLegalDialog({
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CustomTextButton(
+                isOutlined: false,
                   onPressed: () {
                     Utils.openURL(AppConstants.privacyURL);
                   },
                   text: DialogueService.privacyShortText.tr,
                   color: Theme.of(context).primaryColor),
               CustomTextButton(
+                isOutlined: false,
                   onPressed: () {
                     Utils.openURL(AppConstants.termsURL);
                   },
                   text: DialogueService.termsText.tr,
                   color: Theme.of(context).primaryColor),
               CustomTextButton(
+                isOutlined: false,
                   onPressed: () {
                     NavigationService.genericGoBack();
                     NavigationService.goToLegalScreen();

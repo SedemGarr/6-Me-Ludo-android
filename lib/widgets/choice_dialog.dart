@@ -33,6 +33,7 @@ showChoiceDialog({
         ),
         actions: [
           CustomTextButton(
+            isOutlined: true,
               onPressed: () {
                 NavigationService.genericGoBack();
                 onNo();

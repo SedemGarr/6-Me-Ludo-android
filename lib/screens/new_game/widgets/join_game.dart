@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 import 'package:six_me_ludo_android/widgets/join_game_textfield_widget.dart';
 
 import '../../../widgets/banner_widget.dart';
@@ -19,7 +20,12 @@ class _JoinOngoingGameViewState extends State<JoinOngoingGameView> with Automati
     return Column(
       children: [
         BannerWidget(text: DialogueService.joinGameBannerText.tr),
-        const JoinGameTextFieldWidget(),
+        const Padding(
+          padding: EdgeInsets.only(top: 4.0),
+          child: CustomCardWidget(
+            child: JoinGameTextFieldWidget(),
+          ),
+        ),
       ],
     );
   }

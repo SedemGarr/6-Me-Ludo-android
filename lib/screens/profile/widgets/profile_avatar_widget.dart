@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:multiavatar/multiavatar.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
+import 'package:six_me_ludo_android/services/navigation_service.dart';
 
+import '../../../constants/app_constants.dart';
 import '../../../providers/user_provider.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
@@ -13,15 +14,27 @@ class ProfileAvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return Flexible(
-      child: Padding(
-        padding: AppConstants.userAvatarPadding,
-        child: UserAvatarWidget(
-          avatar: userProvider.getUserAvatar(),
-          backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-          borderColor: Theme.of(context).colorScheme.onBackground,
-          shouldExpand: true,
-          hasLeftGame: false,
+    return GestureDetector(
+      onTap: () {
+        NavigationService.goToEditAvatarScreen();
+      },
+      child: CircleAvatar(
+        child: AnimatedContainer(
+          duration: AppConstants.animationDuration,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.onBackground,
+              width: 2,
+            ),
+            shape: BoxShape.circle,
+          ),
+          child: SvgPicture.string(
+            multiavatar(
+              userProvider.getUserAvatar(),
+              trBackground: true,
+            ),
+          ),
         ),
       ),
     );

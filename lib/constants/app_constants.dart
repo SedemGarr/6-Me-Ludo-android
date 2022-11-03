@@ -42,7 +42,7 @@ class AppConstants {
 
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
-  static EdgeInsets listViewPadding = EdgeInsets.only(bottom: Get.height * 0.25);
+  static EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: Get.height * 0.25);
   static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
   static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
   static const EdgeInsets bannerPadding = EdgeInsets.all(16.0);

@@ -23,6 +23,7 @@ class BoardGridWidget extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: Board.boardGridColumnCount,
+        childAspectRatio: 1.0,
       ),
       itemCount: gameProvider.board.cells.length,
       itemBuilder: (context, index) {

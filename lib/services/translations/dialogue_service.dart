@@ -75,6 +75,7 @@ class DialogueService extends Translations {
   // home
   static const String welcomeText = 'welcomeText';
   static const String newGameText = 'newGameText';
+  static const String profileAndSettingsText = 'profileAndSettingsText';
   static const String profileText = 'profileText';
   static const String editProfileText = 'editProfileText';
   static const String homeText = 'homeText';
@@ -204,6 +205,8 @@ class DialogueService extends Translations {
   static const String closeDialogText = 'closeDialogText';
   static const String savePseudonymDialogText = 'savePseudonymDialogText';
   static const String changePseudonymHintText = 'changePseudonymHintText';
+  static const String changePseudonymBannerText = 'changePseudonymBannerText';
+  static const String changeAvatarBannerText = 'changeAvatarBannerText';
   static const String tooShortText = 'tooShortText';
   static const String tooLongText = 'tooLongText';
   static const String profaneStringText = 'profaneStringText';
