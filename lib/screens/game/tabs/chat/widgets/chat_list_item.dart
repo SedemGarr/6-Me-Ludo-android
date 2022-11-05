@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
@@ -40,25 +41,31 @@ class ChatListItem extends StatelessWidget {
         onVisibilityChanged: (visibilityInfo) {
           gameProvider.handleGameChatReadStatus(visibilityInfo, userProvider.getUserID(), index);
         },
-        child: CustomListTileWidget(
-          leading: isMe
-              ? null
-              : UserAvatarWidget(
-                  hasLeftGame: hasLeft,
-                  backgroundColor: playerColor,
-                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onBackground),
-          trailing: isMe
-              ? UserAvatarWidget(
-                  hasLeftGame: hasLeft,
-                  backgroundColor: playerColor,
-                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onBackground)
-              : null,
-          title: Text(
-            DialogueService.messageContainsProfanityText.tr,
-            style: TextStyles.chatListSubtitleStyle(Theme.of(context).colorScheme.onBackground, true),
-            textAlign: textAlign,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: AppConstants.appBorderRadius,
+            color: playerColor.withOpacity(AppConstants.appOpacity),
+          ),
+          child: CustomListTileWidget(
+            leading: isMe
+                ? null
+                : UserAvatarWidget(
+                    hasLeftGame: hasLeft,
+                    backgroundColor: playerColor,
+                    avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                    borderColor: Theme.of(context).colorScheme.onBackground),
+            trailing: isMe
+                ? UserAvatarWidget(
+                    hasLeftGame: hasLeft,
+                    backgroundColor: playerColor,
+                    avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                    borderColor: Theme.of(context).colorScheme.onBackground)
+                : null,
+            title: Text(
+              DialogueService.messageContainsProfanityText.tr,
+              style: TextStyles.chatListSubtitleStyle(Theme.of(context).colorScheme.onBackground, true),
+              textAlign: textAlign,
+            ),
           ),
         ),
       );
@@ -68,33 +75,39 @@ class ChatListItem extends StatelessWidget {
         onVisibilityChanged: (visibilityInfo) {
           gameProvider.handleGameChatReadStatus(visibilityInfo, userProvider.getUserID(), index);
         },
-        child: CustomListTileWidget(
-          leading: isMe
-              ? null
-              : UserAvatarWidget(
-                  hasLeftGame: hasLeft,
-                  backgroundColor: playerColor,
-                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onBackground),
-          trailing: isMe
-              ? UserAvatarWidget(
-                  hasLeftGame: hasLeft,
-                  backgroundColor: playerColor,
-                  avatar: gameProvider.currentGame!.players[playerNumber].avatar,
-                  borderColor: Theme.of(context).colorScheme.onBackground)
-              : null,
-          title: Text(
-            isMe ? DialogueService.youText.tr : gameProvider.getPlayerNameFromId(message.createdById),
-            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
-            textAlign: textAlign,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: AppConstants.appBorderRadius,
+            color: playerColor.withOpacity(AppConstants.appOpacity),
           ),
-          subtitle: Text(
-            message.body,
-            style: TextStyles.chatListSubtitleStyle(
-              Theme.of(context).colorScheme.onBackground,
-              !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),
+          child: CustomListTileWidget(
+            leading: isMe
+                ? null
+                : UserAvatarWidget(
+                    hasLeftGame: hasLeft,
+                    backgroundColor: playerColor,
+                    avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                    borderColor: Theme.of(context).colorScheme.onBackground),
+            trailing: isMe
+                ? UserAvatarWidget(
+                    hasLeftGame: hasLeft,
+                    backgroundColor: playerColor,
+                    avatar: gameProvider.currentGame!.players[playerNumber].avatar,
+                    borderColor: Theme.of(context).colorScheme.onBackground)
+                : null,
+            title: Text(
+              isMe ? DialogueService.youText.tr : gameProvider.getPlayerNameFromId(message.createdById),
+              style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+              textAlign: textAlign,
             ),
-            textAlign: textAlign,
+            subtitle: Text(
+              message.body,
+              style: TextStyles.chatListSubtitleStyle(
+                Theme.of(context).colorScheme.onBackground,
+                !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),
+              ),
+              textAlign: textAlign,
+            ),
           ),
         ),
       );

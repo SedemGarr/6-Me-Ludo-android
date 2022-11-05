@@ -39,14 +39,16 @@ class PlayerListItemWidget extends StatelessWidget {
     bool hasLeft = isKicked || player.hasLeft;
     Color playerColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
     Color playerSelectedColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
-    Color contrastingColor = Utils.getContrastingColor(playerColor);
+    //   Color contrastingColor = Utils.getContrastingColor(playerColor);
+    Color contrastingColor = Theme.of(context).colorScheme.onBackground;
 
     return AnimatedContainer(
       key: key,
       duration: AppConstants.animationDuration,
       padding: (player.playerColor == game.playerTurn && game.hasStarted && !game.hasSessionEnded) ? const EdgeInsets.symmetric(vertical: 16.0) : EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: Get.isDarkMode ? playerSelectedColor : playerColor,
+        color: Get.isDarkMode ? playerSelectedColor.withOpacity(AppConstants.appOpacity) : playerColor.withOpacity(AppConstants.appOpacity),
+        borderRadius: AppConstants.appBorderRadius,
       ),
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -83,7 +85,7 @@ class PlayerListItemWidget extends StatelessWidget {
               ? const SizedBox.shrink()
               : ReputationWidget(
                   value: player.reputationValue,
-                  color: contrastingColor,
+                  color: playerSelectedColor,
                   shouldPad: true,
                 ),
           children: !isAI && !isMe && !isKicked && !hasLeft

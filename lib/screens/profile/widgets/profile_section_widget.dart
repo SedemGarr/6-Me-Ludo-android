@@ -25,7 +25,7 @@ class ProfileSectionWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SettingsHeaderWidget(text: DialogueService.profileAndSettingsText.tr),
+            SettingsHeaderWidget(text: DialogueService.profileText.tr),
             CustomListTileWidget(
               onTap: () {
                 NavigationService.goToEditPseudonymScreen();
