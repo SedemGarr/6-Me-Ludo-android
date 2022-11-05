@@ -1,4 +1,3 @@
-import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +32,8 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
 
     Game game = gameProvider.currentGame!;
 
+    double boardLength = Get.width;
+
     return Scaffold(
       body: AbsorbPointer(
         absorbing: !gameProvider.isPlayerTurn(),
@@ -40,12 +41,9 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GameCommentaryWidget(gameProvider: gameProvider),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: CSSColors.black),
-              ),
-              height: Get.width,
-              width: Get.width,
+            SizedBox(
+              height: boardLength,
+              width: boardLength,
               child: BoardGridWidget(
                 gameProvider: gameProvider,
               ),

@@ -19,7 +19,7 @@ class ProfileStatusWidget extends StatelessWidget {
             : userProvider.getUserEmail();
 
     return Text(
-      status + DialogueService.visibleOnlyToYouText.tr,
+      status,
       style: TextStyles.listSubtitleStyle(
         Theme.of(context).colorScheme.onBackground,
       ),
