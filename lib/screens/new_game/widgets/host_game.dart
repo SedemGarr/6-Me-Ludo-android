@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/screens/new_game/widgets/host_game_button.dart';
+import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/banner_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
@@ -26,17 +27,22 @@ class HostNewGameView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: CustomCardWidget(
-            child: Column(
-              children: const [
-                MaxPlayers(),
-                AddAIPlayers(),
-                AutoStart(),
-                CatchUpAssist(),
-                StartAssist(),
-                AdaptiveAI(),
-                AIPersonality(),
-                GameSpeed(),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SettingsHeaderWidget(text: DialogueService.gameSettingsFullText.tr),
+                  const MaxPlayers(),
+                  const AddAIPlayers(),
+                  const AutoStart(),
+                  const CatchUpAssist(),
+                  const StartAssist(),
+                  const AdaptiveAI(),
+                  const AIPersonality(),
+                  const GameSpeed(),
+                ],
+              ),
             ),
           ),
         ),

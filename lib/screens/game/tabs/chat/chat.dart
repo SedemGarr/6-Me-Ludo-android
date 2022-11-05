@@ -39,9 +39,10 @@ class ChatWidget extends StatelessWidget {
                   duration: AppConstants.animationDuration,
                   child: CustomAnimationWidget(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4.0,
-                        horizontal: 8.0,
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                        bottom: 8.0,
                       ),
                       child: ChatListItem(index: index),
                     ),

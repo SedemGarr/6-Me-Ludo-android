@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/screens/edit_profile/widgets/change_pseudony
 import 'package:six_me_ludo_android/screens/edit_profile/widgets/save_pseudonym_widget.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import 'package:six_me_ludo_android/widgets/banner_widget.dart';
@@ -30,24 +31,29 @@ class _EditPseudonymScreenState extends State<EditPseudonymScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBarWidget(
-        leading: BackButtonWidget(onPressed: () {
-          NavigationService.genericGoBack();
-        }),
-        title: AppBarTitleWidget(text: DialogueService.changePseudonymText.tr),
-        actions: const [SavePseudonymButton()],
+    return GestureDetector(
+      onTap: () {
+        Utils.dismissKeyboard();
+      },
+      child: Scaffold(
+        appBar: CustomAppBarWidget(
+          leading: BackButtonWidget(onPressed: () {
+            NavigationService.genericGoBack();
+          }),
+          title: AppBarTitleWidget(text: DialogueService.changePseudonymText.tr),
+          actions: const [SavePseudonymButton()],
+        ),
+        body: SingleChildScrollView(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BannerWidget(
+              text: DialogueService.changePseudonymBannerText.tr,
+            ),
+            const ChangePseudonymTextField(),
+          ],
+        )),
       ),
-      body: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BannerWidget(
-            text: DialogueService.changePseudonymBannerText.tr,
-          ),
-          const ChangePseudonymTextField(),
-        ],
-      )),
     );
   }
 }

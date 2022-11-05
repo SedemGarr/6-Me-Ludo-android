@@ -24,19 +24,24 @@ class ChangePseudonymTextField extends StatelessWidget {
             autofocus: true,
             controller: userProvider.pseudonymController,
             maxLength: AppConstants.maxPseudonymLength,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(
               hintText: DialogueService.changePseudonymHintText.tr,
               filled: false,
-              hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.tertiary),
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
+              errorBorder: InputBorder.none,
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
+              disabledBorder: InputBorder.none,
+              focusedErrorBorder: InputBorder.none,
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+              hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
               counterStyle: TextStyles.listSubtitleStyle(
                 Theme.of(context).colorScheme.primaryContainer,
               ),
             ),
-            style: TextStyles.listTitleStyle(
-              Theme.of(context).colorScheme.onBackground,
-            ),
+            style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
             cursorColor: Theme.of(context).primaryColor,
-            keyboardType: TextInputType.text,
             onChanged: (value) {
               userProvider.setPseudonymControllerValue(value, true);
             },

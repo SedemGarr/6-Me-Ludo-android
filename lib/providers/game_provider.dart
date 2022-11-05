@@ -285,6 +285,8 @@ class GameProvider with ChangeNotifier {
     // thread
     currentThread = thread;
     currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
+    // chat
+    gameChatController.clear(); 
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {
@@ -1046,6 +1048,10 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  bool canSendChatMessage() {
+    return gameChatController.text.isNotEmpty;
+  }
+
   Future<void> sendChatMessage(String id, SoundProvider soundProvider) async {
     if (gameChatController.text.isNotEmpty) {
       String value = gameChatController.text.trim();
@@ -1054,12 +1060,13 @@ class GameProvider with ChangeNotifier {
         Utils.showToast(DialogueService.profaneMessageText.tr);
         return;
       }
+
+      gameChatController.clear();
+      Utils.dismissKeyboard();
+
       soundProvider.playSound(GameStatusService.newMessageSent);
       DatabaseService.sendGameChat(id, currentGame!.id, value);
     }
-
-    gameChatController.clear();
-    Utils.dismissKeyboard();
   }
 
   Future<void> handleGameChatReadStatus(VisibilityInfo visibilityInfo, String id, int index) async {

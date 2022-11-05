@@ -192,6 +192,7 @@ class EnglishTranslation {
       // settings
       DialogueService.generalSettingsText: 'General',
       DialogueService.gameSettingsText: 'Games',
+      DialogueService.gameSettingsFullText: 'Game Settings',
       DialogueService.accountSettingsText: 'Account',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',

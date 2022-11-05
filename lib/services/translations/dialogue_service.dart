@@ -217,6 +217,7 @@ class DialogueService extends Translations {
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';
+  static const String gameSettingsFullText = 'gameSettingsFullText';
   static const String accountSettingsText = 'accountSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';

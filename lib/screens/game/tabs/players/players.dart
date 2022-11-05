@@ -23,7 +23,7 @@ class PlayersWidget extends StatelessWidget {
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(top: 4.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: AnimationLimiter(
               child: ReorderableListView.builder(
                 footer: !game.hasStarted ? const ReorderPlayersBanner() : null,
@@ -41,9 +41,10 @@ class PlayersWidget extends StatelessWidget {
                     duration: AppConstants.animationDuration,
                     child: CustomAnimationWidget(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4.0,
-                          horizontal: 8.0,
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                          bottom: 8.0,
                         ),
                         child: PlayerListItemWidget(key: key, index: index),
                       ),
