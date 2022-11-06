@@ -175,9 +175,9 @@ class PlayerConstants {
 
   static List<Swatch> swatchList = [
     Swatch(playerColor: CSSColors.blue, playerSelectedColor: CSSColors.darkBlue),
-    Swatch(playerColor: CSSColors.red, playerSelectedColor: CSSColors.darkRed),
-    Swatch(playerColor: CSSColors.yellow, playerSelectedColor: CSSColors.orange),
     Swatch(playerColor: CSSColors.green, playerSelectedColor: CSSColors.darkGreen),
+    Swatch(playerColor: CSSColors.yellow, playerSelectedColor: CSSColors.orange),
+    Swatch(playerColor: CSSColors.red, playerSelectedColor: CSSColors.darkRed),
     Swatch(playerColor: CSSColors.orange, playerSelectedColor: CSSColors.orange),
   ];
 }

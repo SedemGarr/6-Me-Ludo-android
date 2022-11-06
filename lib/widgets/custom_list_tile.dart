@@ -10,7 +10,7 @@ class CustomListTileWidget extends StatelessWidget {
 
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
-  final EdgeInsets? contentPadding;
+
   final double? minLeadingWidth;
 
   const CustomListTileWidget({
@@ -21,7 +21,6 @@ class CustomListTileWidget extends StatelessWidget {
     this.trailing,
     this.onTap,
     this.onLongPress,
-    this.contentPadding,
     this.minLeadingWidth,
   });
 
@@ -29,7 +28,7 @@ class CustomListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       minLeadingWidth: minLeadingWidth,
-      contentPadding: contentPadding,
+      contentPadding: const EdgeInsets.only(left: 16, right: 8.0),
       shape: AppConstants.appShape,
       onTap: onTap,
       onLongPress: onLongPress,

@@ -102,7 +102,7 @@ class GameProvider with ChangeNotifier {
       return '';
     }
 
-    return ' - $unreadCount';
+    return ' ($unreadCount)';
   }
 
   String parsePlayerPresenceText(bool isPresent) {
@@ -286,7 +286,7 @@ class GameProvider with ChangeNotifier {
     currentThread = thread;
     currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
     // chat
-    gameChatController.clear(); 
+    gameChatController.clear();
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {

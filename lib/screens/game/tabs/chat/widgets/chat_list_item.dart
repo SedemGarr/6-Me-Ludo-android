@@ -32,6 +32,11 @@ class ChatListItem extends StatelessWidget {
     TextAlign textAlign = isMe ? TextAlign.end : TextAlign.start;
 
     int playerNumber = game.playerIds.indexWhere((element) => element == message.createdById);
+
+    if (playerNumber == -1) {
+      return const SizedBox.shrink();
+    }
+
     bool hasLeft = game.players[playerNumber].hasLeft;
     Color playerColor = Get.isDarkMode ? PlayerConstants.swatchList[playerNumber].playerSelectedColor : PlayerConstants.swatchList[playerNumber].playerColor;
 
