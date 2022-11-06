@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 class TitleWidget extends StatelessWidget {
   final double width;
@@ -12,11 +12,11 @@ class TitleWidget extends StatelessWidget {
     return Container(
       width: width,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: FittedBox(
-        fit: BoxFit.fitWidth,
-        child: Icon(
-          AppIcons.appIcon,
-          color: color ?? Theme.of(context).colorScheme.onBackground,
+      child: ClipRRect(
+        borderRadius: AppConstants.appBorderRadius,
+        child: Image.asset(
+          AppConstants.appLogoAssetPath,
+          fit: BoxFit.cover,
         ),
       ),
     );

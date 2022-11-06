@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -9,6 +8,8 @@ import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
 import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
+
+import '../../widgets/title_widget.dart';
 
 class UpgradeScreen extends StatelessWidget {
   const UpgradeScreen({super.key});
@@ -36,9 +37,8 @@ class UpgradeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Icon(
-                        AppIcons.appIcon,
-                        color: Theme.of(context).primaryColor,
+                      TitleWidget(
+                        width: MediaQuery.of(context).size.width * 0.25,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
