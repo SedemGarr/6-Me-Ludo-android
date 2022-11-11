@@ -16,9 +16,12 @@ class Game {
   late String createdAt;
   late String lastUpdatedBy;
   late String lastUpdatedAt;
+  late String sessionStartedAt;
+  late String sessionEndedAt;
   late String id;
   late String hostId;
   late String hostAppVersion;
+  late String deepLinkUrl;
   late Reaction reaction;
   late bool canPass;
   late bool canPlay;
@@ -45,6 +48,8 @@ class Game {
     required this.createdAt,
     required this.lastUpdatedBy,
     required this.lastUpdatedAt,
+    required this.sessionStartedAt,
+    required this.sessionEndedAt,
     required this.id,
     required this.die,
     required this.playerTurn,
@@ -57,6 +62,7 @@ class Game {
     required this.shouldAutoStart,
     required this.hostId,
     required this.hostAppVersion,
+    required this.deepLinkUrl,
     required this.hostSettings,
     required this.isOffline,
     required this.hasAdaptiveAI,
@@ -102,7 +108,7 @@ class Game {
 
   static Game getDefaultGame(Users user, String gameId, bool isOffline) {
     return Game(
-      createdAt: DateTime.now().toString(),
+      createdAt: Utils.getDeviceTime(),
       hostSettings: user.settings,
       reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
       id: gameId,
@@ -112,6 +118,9 @@ class Game {
       finishedPlayers: [],
       lastUpdatedBy: user.id,
       lastUpdatedAt: '',
+      sessionEndedAt: '',
+      sessionStartedAt: '',
+      deepLinkUrl: '',
       canPass: false,
       canPlay: false,
       hasFinished: false,
@@ -144,25 +153,40 @@ class Game {
     hasStarted = json['hasStarted'];
     hasRestarted = json['hasRestarted'];
     hasSessionEnded = json['hasSessionEnded'];
+    deepLinkUrl = json['deepLinkUrl'];
     shouldAssistStart = json['shouldAssistStart'];
     shouldAutoStart = json['shouldAutoStart'];
     hasAdaptiveAI = json['hasAdaptiveAI'];
     isOffline = json['isOffline'];
     lastUpdatedBy = json['lastUpdatedBy'];
     createdAt = json['createdAt'] == null
-        ? DateTime.now().toString()
+        ? Utils.getDeviceTime()
         : json['createdAt'] is int
             ? DateTime.fromMillisecondsSinceEpoch(json['createdAt']).toString()
             : json['createdAt'] is String
                 ? json['createdAt']
-                : DateTime.now().toString();
+                : Utils.getDeviceTime();
     lastUpdatedAt = json['lastUpdatedAt'] == null
-        ? DateTime.now().toString()
+        ? Utils.getDeviceTime()
         : json['lastUpdatedAt'] is int
             ? DateTime.fromMillisecondsSinceEpoch(json['lastUpdatedAt']).toString()
             : json['lastUpdatedAt'] is String
                 ? json['lastUpdatedAt']
-                : DateTime.now().toString();
+                : Utils.getDeviceTime();
+    sessionEndedAt = json['sessionEndedAt'] == null
+        ? Utils.getDeviceTime()
+        : json['sessionEndedAt'] is int
+            ? DateTime.fromMillisecondsSinceEpoch(json['sessionEndedAt']).toString()
+            : json['sessionEndedAt'] is String
+                ? json['sessionEndedAt']
+                : Utils.getDeviceTime();
+    sessionStartedAt = json['sessionStartedAt'] == null
+        ? Utils.getDeviceTime()
+        : json['sessionStartedAt'] is int
+            ? DateTime.fromMillisecondsSinceEpoch(json['sessionStartedAt']).toString()
+            : json['sessionStartedAt'] is String
+                ? json['sessionStartedAt']
+                : Utils.getDeviceTime();
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);
@@ -224,10 +248,13 @@ class Game {
     data['hasSessionEnded'] = hasSessionEnded;
     data['hasRestarted'] = hasRestarted;
     data['shouldAssistStart'] = shouldAssistStart;
+    data['deepLinkUrl'] = deepLinkUrl;
     data['shouldAutoStart'] = shouldAutoStart;
     data['hasAdaptiveAI'] = hasAdaptiveAI;
     data['lastUpdatedBy'] = lastUpdatedBy;
     data['lastUpdatedAt'] = lastUpdatedAt;
+    data['sessionEndedAt'] = sessionEndedAt;
+    data['sessionStartedAt'] = sessionStartedAt;
     data['createdAt'] = createdAt;
     data['isOffline'] = isOffline;
     data['maxPlayers'] = maxPlayers;

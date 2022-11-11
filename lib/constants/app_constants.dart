@@ -12,6 +12,8 @@ class AppConstants {
   static const String playStoreURL = 'https://play.google.com/store/apps/details?id=com.wayyyoutgames.six.me.ludo';
   static const String privacyURL = 'https://sites.google.com/view/6-me-ludo-terms/home';
   static const String termsURL = 'https://sites.google.com/view/6-me-ludo-terms/home';
+  static const String appPackageName = 'com.wayyyoutgames.six.me.ludo';
+  static const String appLinkPrefix = 'https://wayyyoutgames.page.link';
 
   static const int maxPlayerLowerLimit = 1;
   static const int maxPlayerUpperLimit = 4;

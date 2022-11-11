@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
-import '../providers/app_provider.dart';
 import '../providers/game_provider.dart';
 import '../providers/user_provider.dart';
 import '../screens/new_game/widgets/max_players.dart';
@@ -28,7 +27,6 @@ showNewGameDialog({
     builder: (BuildContext context) {
       UserProvider userProvider = context.watch<UserProvider>();
       GameProvider gameProvider = context.watch<GameProvider>();
-      AppProvider appProvider = context.watch<AppProvider>();
 
       return AlertDialog(
         shape: AppConstants.appShape,
@@ -68,7 +66,7 @@ showNewGameDialog({
           CustomElevatedButton(
               onPressed: () {
                 NavigationService.genericGoBack();
-                gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, appProvider, userProvider.isGameOffline());
+                gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, userProvider.isGameOffline(), context);
               },
               text: DialogueService.startGameButtonText.tr)
         ],

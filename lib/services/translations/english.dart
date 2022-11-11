@@ -117,10 +117,12 @@ class EnglishTranslation {
       DialogueService.restartGameDialogNoText: 'Cancel',
       DialogueService.startGameGamPageButtonText: 'Start Game',
       DialogueService.endSessionText: 'End Session',
-      DialogueService.copyGameTooltipText: 'Copy Game ID',
+      DialogueService.copyGameTooltipText: 'Copy Game Code',
       DialogueService.endGameTooltipText: 'End Game',
       DialogueService.leaveGameTooltipText: 'Leave Game',
-      DialogueService.gameIDCopiedToClipboardText: 'The game ID has been copied to your clipboard',
+      DialogueService.shareGameText: 'Hi! Please join my game on 6-Me-Ludo! with the following link: \n',
+      DialogueService.shareGameEmailText: 'Hi! Please join my game on 6-Me-Ludo',
+      DialogueService.gameIDCopiedToClipboardText: 'The game code has been copied to your clipboard',
       DialogueService.playerHasLeftText: ' has left the game',
       DialogueService.playerHasJoinedText: ' has joined the game',
       DialogueService.gameHasStartedText: 'The game has started',
@@ -161,7 +163,8 @@ class EnglishTranslation {
       DialogueService.startSessionPopupText: 'Start Session',
       DialogueService.stopSessionPopupText: 'Stop Session',
       DialogueService.endGamePopupText: 'End Game',
-      DialogueService.copyGameIDPopupText: 'Copy Game ID',
+      DialogueService.copyGameIDPopupText: 'Copy Game Code',
+      DialogueService.shareGameIDPopupText: 'Share Game Invite',
       // game - playing - commentary
       DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
       DialogueService.waitingForParticularPlayerText: 'Waiting for ',
@@ -212,7 +215,7 @@ class EnglishTranslation {
       DialogueService.currentThemeText: 'Current Theme: ',
       // settings - wakelock
       DialogueService.wakelockTitleText: 'Wakelock',
-      DialogueService.wakelockSubtitleText: 'Toggle whether the screen should not automatically lock during games',
+      DialogueService.wakelockSubtitleText: 'Toggle whether the screen should stay on during games',
       // settings - language
       DialogueService.languageTitleText: 'Language',
       DialogueService.languageSubtitleText: 'Choose application language',

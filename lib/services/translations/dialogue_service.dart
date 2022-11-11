@@ -146,6 +146,8 @@ class DialogueService extends Translations {
   static const String copyGameTooltipText = 'copyGameTooltipText';
   static const String endGameTooltipText = 'endGameTooltipText';
   static const String leaveGameTooltipText = 'leaveGameTooltipText';
+  static const String shareGameText = 'shareGameText';
+  static const String shareGameEmailText = 'shareGameEmailText';
   static const String gameIDCopiedToClipboardText = 'gameIDCopiedToClipboardText';
   static const String playerHasLeftText = 'playerHasLeftText';
   static const String playerHasJoinedText = 'playerHasJoinedText';
@@ -187,6 +189,7 @@ class DialogueService extends Translations {
   static const String stopSessionPopupText = 'stopSessionPopupText';
   static const String endGamePopupText = 'endGamePopupText';
   static const String copyGameIDPopupText = 'copyGameIDPopupText';
+  static const String shareGameIDPopupText = 'shareGameIDPopupText';
   // game - playing - commentary
   static const String yourTurnText = 'yourTurnText';
   static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';

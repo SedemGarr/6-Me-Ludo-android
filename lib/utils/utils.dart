@@ -145,11 +145,15 @@ class Utils {
     return color.computeLuminance() > 0.5 ? CSSColors.black : CSSColors.white;
   }
 
-  static getRTDBServerTimestamp() {
+  static String getDeviceTime() {
+    return DateTime.now().toString();
+  }
+
+  static dynamic getRTDBServerTimestamp() {
     return ServerValue.timestamp;
   }
 
-  static getFireStoreServerTimestamp() {
+  static dynamic getFireStoreServerTimestamp() {
     return FieldValue.serverTimestamp();
   }
 

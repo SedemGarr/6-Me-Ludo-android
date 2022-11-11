@@ -89,6 +89,8 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                   builder: (context, snapshot) {
                     gameProvider.syncThreadData(context, snapshot.data!, userProvider.getUser());
 
+                    bool shouldShowShareAndCopyPopups = gameProvider.isPlayerHost(userProvider.getUserID()) && !game.isOffline;
+
                     return GestureDetector(
                       onTap: () {
                         Utils.dismissKeyboard();
@@ -143,11 +145,19 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                                       style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                     ),
                                   ),
-                                  if (gameProvider.isPlayerHost(userProvider.getUserID()))
+                                  if (shouldShowShareAndCopyPopups)
                                     PopupMenuItem(
                                       value: 3,
                                       child: Text(
                                         DialogueService.copyGameIDPopupText.tr,
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
+                                      ),
+                                    ),
+                                  if (shouldShowShareAndCopyPopups)
+                                    PopupMenuItem(
+                                      value: 4,
+                                      child: Text(
+                                        DialogueService.shareGameIDPopupText.tr,
                                         style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                       ),
                                     ),

@@ -20,6 +20,7 @@ import '../models/reaction.dart';
 import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/version.dart';
+import '../providers/dynamic_link_provider.dart';
 import 'game_status_service.dart';
 
 class DatabaseService {
@@ -171,7 +172,8 @@ class DatabaseService {
     }
   }
 
-  static Future<Game> createGame(Users user, Uuid uuid, bool isOffline) async {
+  static Future<Game> createGame(Users user, Uuid uuid, bool isOffline, BuildContext context) async {
+    DynamicLinkProvider dynamicLinkProvider = context.read<DynamicLinkProvider>();
     DatabaseReference gameRef = FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.gamesReference);
 
     Game game = Game.getDefaultGame(user, gameRef.push().key!, isOffline);
@@ -179,6 +181,10 @@ class DatabaseService {
     if (user.settings.prefersAddAI) {
       game = Game.autoFillWithAIPlayers(game, user, uuid);
       game.maxPlayers = 4;
+    }
+
+    if (!game.isOffline) {
+      game.deepLinkUrl = await dynamicLinkProvider.createDynamicLink(game.id);
     }
 
     await updateGame(game, true, shouldCreate: true, shouldSyncWithFirestore: true);

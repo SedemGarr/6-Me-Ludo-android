@@ -13,7 +13,7 @@ class SettingsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: AppConstants.listViewPadding,
-      shrinkWrap: true,
+      //  shrinkWrap: true,
       children: const [
         ProfileSectionWidget(),
         GeneralSettingsSection(),

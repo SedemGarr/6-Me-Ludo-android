@@ -16,6 +16,7 @@ class AnimationAttributionWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: RichText(
         text: TextSpan(
+          style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onBackground),
           children: [
             TextSpan(
               text: DialogueService.animationByText.tr,

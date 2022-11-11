@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/board.dart';
@@ -12,6 +14,7 @@ import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
+import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
@@ -157,6 +160,13 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  String getSessionDuration(String sessionStartedAt, String sessionEndedAt) {
+    DateTime startedAt = DateTime.parse(sessionStartedAt);
+    DateTime endedAt = DateTime.parse(sessionEndedAt);
+
+    return Jiffy(endedAt).from(startedAt);
+  }
+
   IconData getAIPreferenceIcon(String value) {
     switch (value) {
       case PlayerConstants.pacifist:
@@ -263,6 +273,14 @@ class GameProvider with ChangeNotifier {
           return boardColour;
         }
       }
+    }
+  }
+
+  void setJoinGameController(String value, bool shouldRebuild) {
+    joinGameController.text = value;
+
+    if (shouldRebuild) {
+      notifyListeners();
     }
   }
 
@@ -383,10 +401,18 @@ class GameProvider with ChangeNotifier {
     if (isPlayerHost(id) && !currentGame!.hasStarted) {
       if (!currentGame!.isOffline) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          copyGameID();
+          shareGameUrl();
         });
       }
     }
+  }
+
+  void shareGameUrl() {
+    Share.share(
+      //DialogueService.shareGameText.tr + currentGame!.deepLinkUrl,
+      currentGame!.deepLinkUrl,
+      subject: DialogueService.shareGameEmailText.tr,
+    );
   }
 
   void copyGameID() {
@@ -943,11 +969,13 @@ class GameProvider with ChangeNotifier {
     return currentGame!;
   }
 
-  Future<void> hostGame(Users user, Uuid uuid, AppProvider appProvider, bool isOffline) async {
+  Future<void> hostGame(Users user, Uuid uuid, bool isOffline, BuildContext context) async {
+    AppProvider appProvider = context.read<AppProvider>();
+
     appProvider.setLoading(true, true);
 
     try {
-      Game newGame = await DatabaseService.createGame(user, uuid, isOffline);
+      Game newGame = await DatabaseService.createGame(user, uuid, isOffline, context);
       Thread newThread = await DatabaseService.createThread(user, newGame.id);
 
       initialiseGame(newGame, newThread, user.id);
@@ -994,6 +1022,10 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> joinGameWithCode(Users user, AppProvider appProvider) async {
+    if (Get.currentRoute != HomePageViewWrapper.routeName) {
+      NavigationService.goToBackToHomeScreen();
+    }
+
     if (isJoinGameCodeValidLength()) {
       appProvider.setLoading(true, true);
 
@@ -1496,8 +1528,8 @@ class GameProvider with ChangeNotifier {
     await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
     // get ai player to start game
-    if (currentGame!.players[0].isAIPlayer) {
-      await rollDie(currentGame!.players[0].id, user);
+    if (currentGame!.players.first.isAIPlayer) {
+      await rollDie(currentGame!.players.first.id, user);
     }
   }
 
@@ -1530,8 +1562,8 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
 
     // get ai player to start currentGame!
-    if (currentGame!.players[0].isAIPlayer) {
-      await rollDie(currentGame!.players[0].id, user);
+    if (currentGame!.players.first.isAIPlayer) {
+      await rollDie(currentGame!.players.first.id, user);
     }
   }
 
@@ -1555,8 +1587,10 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> setGamePresence(bool value) async {
-    currentGame!.players[playerNumber].isPresent = value;
-    await DatabaseService.updateGame(currentGame!, false);
+    if (playerNumber != -1) {
+      currentGame!.players[playerNumber].isPresent = value;
+      await DatabaseService.updateGame(currentGame!, false);
+    }
   }
 
   Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
@@ -1583,6 +1617,9 @@ class GameProvider with ChangeNotifier {
       case 3:
         copyGameID();
         break;
+      case 4:
+        shareGameUrl();
+        break;
     }
   }
 
@@ -1590,6 +1627,7 @@ class GameProvider with ChangeNotifier {
     game.hasFinished = false;
     game.hasStarted = true;
     game.hasSessionEnded = true;
+
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
 
     await DatabaseService.updateGame(game, true);
