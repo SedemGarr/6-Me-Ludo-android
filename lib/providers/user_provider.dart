@@ -59,7 +59,7 @@ class UserProvider with ChangeNotifier {
         tempUser = null;
       }
 
-      Future.delayed(const Duration(seconds: 5), () async {
+      Future.delayed(const Duration(seconds: 4), () async {
         if (tempUser != null) {
           setUser(tempUser, appProvider, context.read<SoundProvider>());
           navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
@@ -470,9 +470,7 @@ class UserProvider with ChangeNotifier {
   }
 
   bool hasUserPseudonymChanged() {
-    return _user!.psuedonym != pseudonymController.text && 
-    pseudonymController.text.isNotEmpty
-    ;
+    return _user!.psuedonym != pseudonymController.text && pseudonymController.text.isNotEmpty;
   }
 
   int getUserGameSpeed() {

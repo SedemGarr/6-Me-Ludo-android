@@ -39,7 +39,7 @@ I also try and separate parts of the UI that need to rebuild often into their ow
 
 A notable exception to this is the game screen. Upon testing, I noticed the child widgets of the root level StreamBuilder widget were not rebuilding. In the build method of the StreamBuilder, I call a method on the GameProvider object that accepts the snapshot data as an argument and assigns it to the game object in the GameProvider class. Since this is done in the build method of the StreamBuilder, my intuition tells me that this should trigger the other children to rebuild. (I mean it doesn't make an sense to call setState inside of a build method) However the children do not rebuild.
 
-One work around was to call the notify listeners method wrapped inside a post frame callback. And this worked to some extent (the die widget refused to animate). But this approach of triggering rebuilds from inside a build method makes me uncomfotable.
+One work around was to call the notify listeners method wrapped inside a post frame callback. And this worked to some extent (the die widget refused to animate). But this approach of triggering rebuilds from inside a build method makes me uncomfortable.
 
 What I am doing now is to pass the GameProvdider object from the context of the main GameScreen widget to the children through their constructors. I don't know if Flutter's caching system will still be able to cache these widgets whenever the StreamBuilder calls its build method.
 
@@ -49,7 +49,7 @@ If you know how this can be fixed, please help.
 
 ## The Database
 
-The actual gameplay is powered by the Realtime Database. Clients subscribe to a stream of the game object. Game objects are duplicated in Cloud Firestore due it allowing me to query game documents by user IDs present in a players array. This saves me from normalising game data and having to write extra logic sync everything up.
+The actual gameplay is powered by the Realtime Database. Clients subscribe to a stream of the game object. Game objects are duplicated in Cloud Firestore due it allowing me to query game documents by user IDs present in a players array. This saves me from normalising game data and having to write extra logic to sync everything up.
 
 To save reads and writes, not all updates to the Realtime Database are synced with Firestore. Only significant events like session starts, player entries, and exits are synced up.
 
@@ -67,13 +67,12 @@ There's also a weird thing that can happen where an AI player gets stuck during 
 
 For the next major release I plan to
 
-- Implement deep linking
 - Implement push notifications
 - MASSIVELY refactor the entire code base
 
 After that, I want to
 
-- Implement more complex AI logic
+- Implement more complex AI decision logic
 - Explore spotify API integration for music streaming during gameplay (controlled by host)
 
 ## Feedback

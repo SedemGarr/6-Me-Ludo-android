@@ -20,7 +20,7 @@ class EnglishTranslation {
       DialogueService.copyrightText: 'Copyright ',
       DialogueService.zapsplatText: 'Sounds from Zapsplat',
       DialogueService.updateNeededText: 'Update Needed',
-      DialogueService.updatePromptText: '6-Me-Ludo! requires an update to function properly. Please update the app from the Google Play store',
+      DialogueService.updatePromptText: '6-Me-Ludo! requires an update. Please update the app from the Google Play store',
       DialogueService.updateButtonText: 'Update',
       // loading strings
       DialogueService.loading1Text: 'Disassembling constructors...',
@@ -44,6 +44,10 @@ class EnglishTranslation {
       DialogueService.anonWarningText: 'Anonymous accounts do not persist and will be lost permanently if you sign out',
       DialogueService.welcomeEmojiText: 'Hello there, 👋',
       DialogueService.welcomeSubtileText: 'Welcome to 6-Me-Ludo! 👋 ',
+      //
+      DialogueService.anonSignInTitleText: 'Sign In?',
+      DialogueService.anonSignInYesText: 'Sign In',
+      DialogueService.anonSignInNoText: 'Cancel',
       // welcome error
       DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account',
       // home

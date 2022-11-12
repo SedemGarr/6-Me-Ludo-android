@@ -70,6 +70,11 @@ class DialogueService extends Translations {
   static const String anonWarningText = 'anonWarningText';
   static const String welcomeEmojiText = 'welcomeEmojiText';
   static const String welcomeSubtileText = 'welcomeSubtileText';
+  //
+  static const String anonSignInTitleText = 'anonSignInTitleText';
+  static const String anonSignInYesText = 'anonSignInYesText';
+  static const String anonSignInNoText = 'anonSignInNoText';
+  
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home

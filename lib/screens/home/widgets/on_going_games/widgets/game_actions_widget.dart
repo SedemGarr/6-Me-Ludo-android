@@ -4,10 +4,10 @@ import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/widgets/custom_outlined_button.dart';
 
 import '../../../../../services/translations/dialogue_service.dart';
 import '../../../../../widgets/custom_elevated_button.dart';
-import '../../../../../widgets/custom_text_button.dart';
 
 class GameActionsWidget extends StatelessWidget {
   final Player host;
@@ -22,8 +22,7 @@ class GameActionsWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        CustomTextButton(
-          isOutlined: true,
+        CustomOutlinedButton(
           onPressed: () {
             gameProvider.showLeaveOrDeleteGameDialog(
               game,

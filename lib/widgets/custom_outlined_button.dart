@@ -3,13 +3,13 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 import '../constants/textstyle_constants.dart';
 
-class CustomTextButton extends StatelessWidget {
+class CustomOutlinedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color color;
   final String text;
   final IconData? iconData;
 
-  const CustomTextButton({
+  const CustomOutlinedButton({
     Key? key,
     required this.onPressed,
     required this.text,
@@ -20,7 +20,7 @@ class CustomTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return iconData != null
-        ? TextButton.icon(
+        ? OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
               shape: AppConstants.appShape,
             ),
@@ -31,10 +31,13 @@ class CustomTextButton extends StatelessWidget {
             ),
             icon: Icon(
               iconData,
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           )
-        : TextButton(
+        : OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              shape: AppConstants.appShape,
+            ),
             onPressed: onPressed,
             child: Text(
               text,

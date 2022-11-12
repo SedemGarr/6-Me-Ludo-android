@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
+import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
-import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
+import 'package:six_me_ludo_android/widgets/custom_outlined_button.dart';
 import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
 import '../../constants/app_constants.dart';
@@ -48,22 +48,21 @@ class _AuthScreenState extends State<AuthScreen> {
                   const Spacer(),
 
                   CustomAnimatedCrossFade(
-                    firstChild: CustomCardWidget(
-                      child: Lottie.asset(
-                        AppConstants.authLottieAssetPath,
-                        onLoaded: (p0) {
-                          setState(() {
-                            hasLottieLoaded = true;
-                          });
-                        },
-                        repeat: true,
-                        fit: BoxFit.cover,
-                      ),
+                    firstChild: Lottie.asset(
+                      AppConstants.authLottieAssetPath,
+                      onLoaded: (p0) {
+                        setState(() {
+                          hasLottieLoaded = true;
+                        });
+                      },
+                      repeat: true,
+                      fit: BoxFit.cover,
                     ),
                     secondChild: const SizedBox(),
                     condition: hasLottieLoaded,
                   ),
-                  //  const Spacer(),
+                  const Spacer(),
+                  const Divider(),
                   const Spacer(),
                   SizedBox(
                     width: Get.width * 2 / 3,
@@ -90,24 +89,34 @@ class _AuthScreenState extends State<AuthScreen> {
                     children: [
                       SizedBox(
                         width: Get.width * 2 / 3,
-                        child: CustomElevatedButton(
+                        child: CustomOutlinedButton(
                           iconData: AppIcons.anonIcon,
+                          color: Theme.of(context).primaryColor,
                           onPressed: () {
-                            AuthenticationService.signInAnon(context);
+                            showChoiceDialog(
+                                titleMessage: DialogueService.anonSignInTitleText.tr,
+                                contentMessage: DialogueService.anonWarningText.tr,
+                                yesMessage: DialogueService.anonSignInYesText.tr,
+                                noMessage: DialogueService.anonSignInNoText.tr,
+                                onYes: () {
+                                  AuthenticationService.signInAnon(context);
+                                },
+                                onNo: () {},
+                                context: context);
                           },
                           text: DialogueService.signInAnonText.tr,
                         ),
                       ),
-                      SizedBox(
-                        width: Get.width * 2 / 3,
-                        child: Text(
-                          DialogueService.anonWarningText.tr,
-                          style: TextStyles.legalTextStyleBold(
-                            Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: Get.width * 3 / 4,
+                      //   child: Text(
+                      //     DialogueService.anonWarningText.tr,
+                      //     style: TextStyles.legalTextStyleBold(
+                      //       Theme.of(context).primaryColorLight,
+                      //     ),
+                      //     textAlign: TextAlign.center,
+                      //   ),
+                      // ),
                     ],
                   ),
                   const Spacer(),

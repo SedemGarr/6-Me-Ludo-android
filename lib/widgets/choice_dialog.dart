@@ -5,7 +5,7 @@ import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../services/navigation_service.dart';
 import 'custom_elevated_button.dart';
-import 'custom_text_button.dart';
+import 'custom_outlined_button.dart';
 
 showChoiceDialog({
   required String titleMessage,
@@ -32,8 +32,7 @@ showChoiceDialog({
           //  textAlign: TextAlign.center,
         ),
         actions: [
-          CustomTextButton(
-            isOutlined: true,
+          CustomOutlinedButton(
               onPressed: () {
                 NavigationService.genericGoBack();
                 onNo();

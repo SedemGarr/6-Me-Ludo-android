@@ -102,6 +102,46 @@ class AuthenticationService {
     }
   }
 
+  // Future<void> convertAnonToGoogle(AppVersion appVersion) async {
+  //   // Google Sign-in
+  //   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  //   final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+  //   if (googleSignInAccount != null) {
+  //     final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleSignInAuthentication.accessToken,
+  //       idToken: googleSignInAuthentication.idToken,
+  //     );
+
+  //     try {
+  //       final userCredential = await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
+
+  //       if (userCredential != null) {
+  //         await DatabaseService.createUser(userCredential.user!, false, appVersion.version);
+  //       }
+  //     } on FirebaseAuthException catch (e) {
+  //       switch (e.code) {
+  //         case "provider-already-linked":
+  //           print("The provider has already been linked to the user.");
+  //           break;
+  //         case "invalid-credential":
+  //           print("The provider's credential is not valid.");
+  //           break;
+  //         case "credential-already-in-use":
+  //           print("The account corresponding to the credential already exists, "
+  //               "or is already linked to a Firebase User.");
+  //           break;
+  //         // See the API reference for the full list of error codes.
+  //         default:
+  //           print("Unknown error.");
+  //       }
+  //     }
+  //   }
+  // }
+
   static Future<void> signOut(Users user, BuildContext context) async {
     FirebaseAuth firebase = FirebaseAuth.instance;
 

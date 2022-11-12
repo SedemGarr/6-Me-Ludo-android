@@ -408,11 +408,15 @@ class GameProvider with ChangeNotifier {
   }
 
   void shareGameUrl() {
-    Share.share(
-      //DialogueService.shareGameText.tr + currentGame!.deepLinkUrl,
-      currentGame!.deepLinkUrl,
-      subject: DialogueService.shareGameEmailText.tr,
-    );
+    if (currentGame!.deepLinkUrl.isEmpty) {
+      copyGameID();
+    } else {
+      Share.share(
+        DialogueService.shareGameText.tr + currentGame!.deepLinkUrl,
+        //  currentGame!.deepLinkUrl,
+        subject: DialogueService.shareGameEmailText.tr,
+      );
+    }
   }
 
   void copyGameID() {

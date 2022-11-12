@@ -7,8 +7,8 @@ import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
-import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
 
+import '../../widgets/custom_outlined_button.dart';
 import '../../widgets/title_widget.dart';
 
 class UpgradeScreen extends StatelessWidget {
@@ -26,30 +26,39 @@ class UpgradeScreen extends StatelessWidget {
           title: AppBarTitleWidget(text: DialogueService.updateNeededText.tr),
           centerTitle: true,
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      TitleWidget(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          DialogueService.updatePromptText.tr,
-                          textAlign: TextAlign.center,
-                          style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
-                        ),
-                      ),
-                    ],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TitleWidget(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      DialogueService.updatePromptText.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomOutlinedButton(
+                  onPressed: () {
+                    Utils.showExitDialog(context);
+                  },
+                  text: DialogueService.exitAppDialogYesText.tr,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 CustomElevatedButton(
                   onPressed: () {
@@ -57,18 +66,9 @@ class UpgradeScreen extends StatelessWidget {
                   },
                   text: DialogueService.updateButtonText.tr,
                 ),
-                const Spacer(),
-                CustomTextButton(
-                  isOutlined: true,
-                  onPressed: () {
-                    Utils.showExitDialog(context);
-                  },
-                  text: DialogueService.exitAppDialogYesText.tr,
-                  color: Theme.of(context).colorScheme.primary,
-                )
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
