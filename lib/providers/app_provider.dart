@@ -64,8 +64,8 @@ class AppProvider with ChangeNotifier {
     return _packageInfo.version;
   }
 
-  String getAppBuildName() {
-    return _packageInfo.buildNumber;
+  int getAppBuildNumber() {
+    return int.parse(_packageInfo.buildNumber);
   }
 
   String getLoadingString() {
