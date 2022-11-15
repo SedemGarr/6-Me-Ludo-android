@@ -19,9 +19,9 @@ class ProfileStatusWidget extends StatelessWidget {
             : userProvider.getUserEmail();
 
     return Text(
-      status + DialogueService.visibleOnlyToYouText.tr,
+      status,
       style: TextStyles.listSubtitleStyle(
-        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+        Theme.of(context).colorScheme.onBackground,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

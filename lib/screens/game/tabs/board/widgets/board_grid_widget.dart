@@ -23,6 +23,7 @@ class BoardGridWidget extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: Board.boardGridColumnCount,
+        childAspectRatio: 1.0,
       ),
       itemCount: gameProvider.board.cells.length,
       itemBuilder: (context, index) {
@@ -32,17 +33,29 @@ class BoardGridWidget extends StatelessWidget {
           duration: AppConstants.animationDuration,
           child: FlipAnimation(
             child: FadeInAnimation(
-              child: AnimatedContainer(
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                duration: const Duration(milliseconds: 500),
-                decoration: BoxDecoration(
-                  border: gameProvider.board.cells[index].border,
-                  color: gameProvider.getSelectedPiecePathColour(index, gameProvider.board.cells[index].cellColor),
-                ),
-                child:
-                    // Center(child: Text(index.toString(), style: const TextStyle(color: Colors.white))),
-                    PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index),
+              child: Stack(
+                children: [
+                  if (Board.isHomeIndex(index))
+                    Container(
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        color: Board.getHomeColor(index),
+                      ),
+                    ),
+                  AnimatedContainer(
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    duration: const Duration(milliseconds: 500),
+                    decoration: BoxDecoration(
+                      border: gameProvider.board.cells[index].border,
+                      color: gameProvider.getSelectedPiecePathColour(index, gameProvider.board.cells[index].cellColor),
+                      borderRadius: gameProvider.board.cells[index].borderRadius,
+                    ),
+                    child: PieceWidget(gameProvider: gameProvider, userProvider: userProvider, index: index),
+                    //  Center(child: Text(index.toString(), style: const TextStyle(color: Colors.black))),
+                  ),
+                ],
               ),
             ),
           ),

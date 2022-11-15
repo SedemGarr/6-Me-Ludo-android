@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:six_me_ludo_android/models/player.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
+
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 class PlayerProgressWidget extends StatelessWidget {
@@ -17,8 +16,8 @@ class PlayerProgressWidget extends StatelessWidget {
     return CustomAnimatedCrossFade(
         firstChild: LinearProgressIndicator(
           value: Player.getPlayerProgess(player),
-          valueColor: AlwaysStoppedAnimation<Color>(Utils.getContrastingColor(playerColor)),
-          backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
+          valueColor: AlwaysStoppedAnimation<Color>(playerSelectedColor),
+          backgroundColor: Colors.transparent,
         ),
         secondChild: const SizedBox.shrink(),
         condition: hasStarted);

@@ -24,7 +24,7 @@ class CustomBottomNavBar extends StatelessWidget {
               navigationBarTheme: const NavigationBarThemeData().copyWith(
                 labelTextStyle: MaterialStateProperty.all(
                   TextStyles.listSubtitleStyle(
-                    Theme.of(context).colorScheme.onSurface,
+                    Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
               ),
@@ -52,7 +52,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   selectedIcon: const Icon(
                     AppIcons.profileActiveIcon,
                   ),
-                  label: DialogueService.profileText.tr,
+                  label: DialogueService.profileAndSettingsText.tr,
                 ),
 
                 // NavigationDestination(

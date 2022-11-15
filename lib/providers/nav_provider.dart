@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
-import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
 
@@ -17,7 +14,7 @@ class NavProvider with ChangeNotifier {
     keepPage: true,
   );
 
-  late TabController homeScreenTabController;
+  late TabController newGameTabController;
   late TabController gameScreenTabController;
 
   Future<void> setBottomNavBarIndex(int index, bool shouldSync) async {
@@ -26,9 +23,6 @@ class NavProvider with ChangeNotifier {
 
     if (shouldSync) {
       pageController.animateToPage(index, duration: AppConstants.animationDuration, curve: AppConstants.animationCurve);
-      if (index == HomeScreen.routeIndex) {
-        Get.context!.read<UserProvider>().toggleIsEditingProfile(false);
-      }
     }
   }
 
@@ -40,8 +34,8 @@ class NavProvider with ChangeNotifier {
     }
   }
 
-  void initialiseHomeScreenTabController(TickerProvider vsync, int length) {
-    homeScreenTabController = TabController(initialIndex: 0, length: length, vsync: vsync);
+  void initialiseNewGameScreenTabController(TickerProvider vsync, int length) {
+    newGameTabController = TabController(initialIndex: 0, length: length, vsync: vsync);
   }
 
   void initialiseGameScreenTabController(TickerProvider vsync, int length) {

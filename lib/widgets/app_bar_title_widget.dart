@@ -13,10 +13,10 @@ class AppBarTitleWidget extends StatelessWidget {
     return Text(
       text,
       style: TextStyles.appBarTitleStyle(
-        Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+        Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
       ),
       maxLines: 1,
-      overflow: TextOverflow.ellipsis,
+      overflow: text.endsWith('...') ? null : TextOverflow.ellipsis,
     );
   }
 }

@@ -72,9 +72,11 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
           stream: gameProvider.currentGameStream,
           initialData: gameProvider.currentGame,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingScreen();
-            } else if (snapshot.hasData) {
+            // if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return const SizedBox.shrink();
+            // } else
+
+            if (snapshot.hasData && !snapshot.hasError) {
               gameProvider.syncGameData(context, snapshot.data!, userProvider.getUser());
 
               Users user = userProvider.getUser();
@@ -86,6 +88,8 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                   initialData: gameProvider.currentThread,
                   builder: (context, snapshot) {
                     gameProvider.syncThreadData(context, snapshot.data!, userProvider.getUser());
+
+                    bool shouldShowShareAndCopyPopups = gameProvider.isPlayerHost(userProvider.getUserID()) && !game.isOffline;
 
                     return GestureDetector(
                       onTap: () {
@@ -121,7 +125,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                                       value: 0,
                                       child: Text(
                                         DialogueService.restartGamePopupText.tr,
-                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                       ),
                                     ),
                                   if (isHost && !game.hasSessionEnded)
@@ -131,22 +135,30 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                                         !game.hasStarted && gameProvider.isPlayerHost(userProvider.getUserID()) && game.players.length > 1
                                             ? DialogueService.startSessionPopupText.tr
                                             : DialogueService.stopSessionPopupText.tr,
-                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                       ),
                                     ),
                                   PopupMenuItem(
                                     value: 2,
                                     child: Text(
                                       isHost ? DialogueService.endGamePopupText.tr : DialogueService.leaveGameTooltipText.tr,
-                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                     ),
                                   ),
-                                  if (gameProvider.isPlayerHost(userProvider.getUserID()))
+                                  if (shouldShowShareAndCopyPopups)
                                     PopupMenuItem(
                                       value: 3,
                                       child: Text(
                                         DialogueService.copyGameIDPopupText.tr,
-                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onSurface),
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
+                                      ),
+                                    ),
+                                  if (shouldShowShareAndCopyPopups)
+                                    PopupMenuItem(
+                                      value: 4,
+                                      child: Text(
+                                        DialogueService.shareGameIDPopupText.tr,
+                                        style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                       ),
                                     ),
                                 ];

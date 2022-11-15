@@ -18,13 +18,13 @@ class LegalText extends StatelessWidget {
           text: TextSpan(
             text: DialogueService.signUpLegalese.tr,
             style: TextStyles.legalTextStyleNormal(
-              Theme.of(context).colorScheme.primary,
+              Theme.of(context).primaryColorLight,
             ),
             children: [
               TextSpan(
                   text: DialogueService.termsText.tr,
                   style: TextStyles.legalTextStyleBold(
-                    Theme.of(context).colorScheme.onSurface,
+                    Theme.of(context).primaryColor,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = () {}),
               const TextSpan(
@@ -39,7 +39,7 @@ class LegalText extends StatelessWidget {
               TextSpan(
                 text: DialogueService.privacyText.tr,
                 style: TextStyles.legalTextStyleBold(
-                  Theme.of(context).colorScheme.onSurface,
+                  Theme.of(context).primaryColor,
                 ),
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),

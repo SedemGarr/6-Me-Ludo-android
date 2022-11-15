@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/chat_limit_banner.dart';
@@ -33,39 +34,36 @@ class ChatFormFieldWidget extends StatelessWidget {
             secondChild: Column(
               children: [
                 const Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: gameProvider.gameChatController,
-                          decoration: InputDecoration(
-                            hintText: DialogueService.sendMessagesHereText.tr,
-                            filled: false,
-                            hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
-                            border: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            focusedErrorBorder: InputBorder.none,
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: gameProvider.playerColor)),
-                          ),
-                          style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onSurface),
-                          cursorColor: gameProvider.playerColor,
-                          keyboardType: TextInputType.text,
-                          textCapitalization: TextCapitalization.sentences,
-                          onFieldSubmitted: (value) {
-                            gameProvider.sendChatMessage(userProvider.getUserID(), soundProvider);
-                          },
-                        ),
+                TextFormField(
+                  controller: gameProvider.gameChatController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(left: 8.0),
+                    hintText: '${DialogueService.sendMessagesHereText.tr} (${gameProvider.getGameChatCount()}/${AppConstants.gameThreadMessageLimit})',
+                    filled: false,
+                    hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
+                    border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: gameProvider.playerColor)),
+                    suffix: IconButton(
+                      onPressed: () {
+                        gameProvider.sendChatMessage(userProvider.getUserID(), soundProvider);
+                      },
+                      icon: Icon(
+                        AppIcons.sendMessageIcon,
+                        color: gameProvider.playerColor,
                       ),
-                      Text(
-                        '${gameProvider.getGameChatCount()}/${AppConstants.gameThreadMessageLimit}',
-                        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
-                      )
-                    ],
+                    ),
                   ),
+                  style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
+                  cursorColor: gameProvider.playerColor,
+                  keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.sentences,
+                  onFieldSubmitted: (value) {
+                    gameProvider.sendChatMessage(userProvider.getUserID(), soundProvider);
+                  },
                 ),
               ],
             ),

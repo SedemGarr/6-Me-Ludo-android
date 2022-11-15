@@ -13,6 +13,8 @@ class ThemeProvider with ChangeNotifier {
   late ThemeMode _themeMode;
   Random random = Random();
 
+  TextTheme textTheme = GoogleFonts.workSansTextTheme();
+
   ThemeProvider() {
     _lightThemeData = initLightTheme();
     _darkThemeData = initDarkTheme();
@@ -21,14 +23,14 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData initLightTheme() {
     return FlexColorScheme.light(colors: FlexColor.schemes[getScheme()]!.light).toTheme.copyWith(
-          textTheme: GoogleFonts.montserratTextTheme(),
+          textTheme: textTheme,
           useMaterial3: true,
         );
   }
 
   ThemeData initDarkTheme() {
     return FlexColorScheme.dark(colors: FlexColor.schemes[getScheme()]!.dark).toTheme.copyWith(
-          textTheme: GoogleFonts.montserratTextTheme(),
+          textTheme: textTheme,
           useMaterial3: true,
         );
   }
@@ -83,11 +85,11 @@ class ThemeProvider with ChangeNotifier {
 
   void setTheme(bool isDark, FlexScheme flexScheme) {
     ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(
-          textTheme: GoogleFonts.montserratTextTheme(),
+          textTheme: textTheme,
           useMaterial3: true,
         );
     ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(
-          textTheme: GoogleFonts.montserratTextTheme(),
+          textTheme: textTheme,
           useMaterial3: true,
         );
 
@@ -105,14 +107,14 @@ class ThemeProvider with ChangeNotifier {
 
   void setLightTheme(ThemeData themeData) {
     _lightThemeData = themeData.copyWith(
-      textTheme: GoogleFonts.montserratTextTheme(),
+      textTheme: textTheme,
       useMaterial3: true,
     );
   }
 
   void setDarkTheme(ThemeData themeData) {
     _darkThemeData = themeData.copyWith(
-      textTheme: GoogleFonts.montserratTextTheme(),
+      textTheme: textTheme,
       useMaterial3: true,
     );
   }

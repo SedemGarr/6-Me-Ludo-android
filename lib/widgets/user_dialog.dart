@@ -20,12 +20,12 @@ showUserDialog({
         actionsAlignment: MainAxisAlignment.spaceBetween,
         title: Text(
           DialogueService.humanPlayerCaptialText.tr,
-          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
           textAlign: TextAlign.center,
         ),
         content: UserAvatarWidget(
           backgroundColor: Theme.of(context).primaryColor,
-          borderColor: Theme.of(context).colorScheme.onSurface,
+          borderColor: Theme.of(context).colorScheme.onBackground,
           avatar: user.avatar,
           shouldExpand: true,
           hasLeftGame: false,
@@ -33,11 +33,11 @@ showUserDialog({
         actions: [
           Text(
             user.psuedonym,
-            style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+            style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
           ),
           ReputationWidget(
             value: user.reputationValue,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Theme.of(context).colorScheme.onBackground,
             shouldPad: false,
           ),
         ],
