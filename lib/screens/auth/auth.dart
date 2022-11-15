@@ -46,7 +46,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-
                   CustomAnimatedCrossFade(
                     firstChild: Lottie.asset(
                       AppConstants.authLottieAssetPath,
@@ -74,17 +73,6 @@ class _AuthScreenState extends State<AuthScreen> {
                       text: DialogueService.signInGoogleText.tr,
                     ),
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Center(
-                  //     child: Text(
-                  //       DialogueService.orButtonText.tr,
-                  //       style: TextStyles.legalTextStyleBold(Theme.of(context).colorScheme.onBackground),
-                  //     ),
-                  //   ),
-                  // ),
-
                   Column(
                     children: [
                       SizedBox(
@@ -107,16 +95,6 @@ class _AuthScreenState extends State<AuthScreen> {
                           text: DialogueService.signInAnonText.tr,
                         ),
                       ),
-                      // SizedBox(
-                      //   width: Get.width * 3 / 4,
-                      //   child: Text(
-                      //     DialogueService.anonWarningText.tr,
-                      //     style: TextStyles.legalTextStyleBold(
-                      //       Theme.of(context).primaryColorLight,
-                      //     ),
-                      //     textAlign: TextAlign.center,
-                      //   ),
-                      // ),
                     ],
                   ),
                   const Spacer(),

@@ -67,7 +67,8 @@ There's also a weird thing that can happen where an AI player gets stuck during 
 
 For the next major release I plan to
 
-- Implement push notifications
+- Implement a match making system
+- Integrate google games services
 - MASSIVELY refactor the entire code base
 
 After that, I want to
