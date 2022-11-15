@@ -101,6 +101,7 @@ class EnglishTranslation {
       DialogueService.gameFullText: 'Sorry, this game is full',
       DialogueService.joinGameBannerText: 'Enter a game code to join an ongoing game',
       DialogueService.hostGameBannerText: 'Review your game settings and start a new game',
+      DialogueService.gameVersionMismatchText: 'Sorry, game versions do not match',
       // game - playing
       DialogueService.inAFewSecondsText: 'in a few seconds',
       DialogueService.playerTabText: 'Players',

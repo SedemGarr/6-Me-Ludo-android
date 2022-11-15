@@ -45,6 +45,7 @@ class AuthenticationService {
             userCredential.user!,
             false,
             appProvider.getAppVersion(),
+            appProvider.getAppBuildNumber(),
           );
 
           if (user != null) {
@@ -88,6 +89,7 @@ class AuthenticationService {
         userCredential.user!,
         true,
         appProvider.getAppVersion(),
+        appProvider.getAppBuildNumber(),
       );
 
       if (user != null) {

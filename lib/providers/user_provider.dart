@@ -105,6 +105,7 @@ class UserProvider with ChangeNotifier {
   void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
     _user = user;
     _user!.appVersion = appProvider.getAppVersion();
+    _user!.appBuildNumber = appProvider.getAppBuildNumber();
 
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
