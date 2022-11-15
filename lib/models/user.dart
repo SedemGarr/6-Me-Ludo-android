@@ -7,6 +7,7 @@ class Users {
   late String psuedonym;
   late String email;
   late String appVersion;
+  late int appBuildNumber;
   late int reputationValue;
   late bool isAnon;
   late UserSettings settings;
@@ -20,6 +21,7 @@ class Users {
     required this.isAnon,
     required this.email,
     required this.appVersion,
+    required this.appBuildNumber,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class Users {
     isAnon = json['isAnon'];
     email = json['email'] ?? '';
     appVersion = json['appVersion'] ?? '';
+    appBuildNumber = json['appBuildNumber'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -43,10 +46,11 @@ class Users {
     data['isAnon'] = isAnon;
     data['email'] = email;
     data['appVersion'] = appVersion;
+    data['appBuildNumber'] = appBuildNumber;
     return data;
   }
 
-  static Future<Users> getDefaultUser(String uid, String email, bool isAnon, String appVersion) async {
+  static Future<Users> getDefaultUser(String uid, String email, bool isAnon, String appVersion, int buildNumber) async {
     return Users(
       avatar: Utils.generateRandomUserAvatar(),
       id: uid,
@@ -56,6 +60,7 @@ class Users {
       isAnon: isAnon,
       email: email,
       appVersion: appVersion,
+      appBuildNumber: buildNumber,
     );
   }
 

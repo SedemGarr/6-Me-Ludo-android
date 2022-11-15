@@ -46,17 +46,17 @@ class DatabaseService {
     return FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).snapshots().map((snapshot) => Users.fromJson(snapshot.data()!));
   }
 
-  static Future<Users?> createUser(User user, bool isAnon, String appVersion) async {
+  static Future<Users?> createUser(User user, bool isAnon, String appVersion, int buildNumber) async {
     try {
       // check if user already exits in db
       Users? newUser;
 
       if (isAnon) {
-        newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon, appVersion);
+        newUser = await Users.getDefaultUser(user.uid, user.email ?? '', isAnon, appVersion, buildNumber);
       } else {
         Users? tempUser = await getUser(user.uid);
         if (tempUser == null) {
-          newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon, appVersion);
+          newUser = await Users.getDefaultUser(user.uid, user.email!, isAnon, appVersion, buildNumber);
         } else {
           newUser = tempUser;
         }

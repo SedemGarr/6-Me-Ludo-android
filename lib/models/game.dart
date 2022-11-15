@@ -20,7 +20,7 @@ class Game {
   late String sessionEndedAt;
   late String id;
   late String hostId;
-  late String hostAppVersion;
+  late int hostBuildNumber;
   late String deepLinkUrl;
   late Reaction reaction;
   late bool canPass;
@@ -61,7 +61,7 @@ class Game {
     required this.shouldAssistStart,
     required this.shouldAutoStart,
     required this.hostId,
-    required this.hostAppVersion,
+    required this.hostBuildNumber,
     required this.deepLinkUrl,
     required this.hostSettings,
     required this.isOffline,
@@ -135,7 +135,7 @@ class Game {
       selectedPiece: null,
       hasStarted: false,
       hostId: user.id,
-      hostAppVersion: user.appVersion,
+      hostBuildNumber: user.appBuildNumber,
       players: [Player.getDefaultPlayer(user, 0)],
       playerIds: [user.id],
     );
@@ -146,7 +146,7 @@ class Game {
     hostSettings = UserSettings.fromJson(json['hostSettings']);
     reaction = Reaction.fromJson(json['reaction']);
     hostId = json['hostId'];
-    hostAppVersion = json['hostAppVersion'] ?? '';
+    hostBuildNumber = json['hostBuildNumber'] ?? '';
     hasFinished = json['hasFinished'];
     canPass = json['canPass'];
     canPlay = json['canPlay'];
@@ -240,7 +240,7 @@ class Game {
     data['hostSettings'] = hostSettings.toJson();
     data['reaction'] = reaction.toJson();
     data['hostId'] = hostId;
-    data['hostAppVersion'] = hostAppVersion;
+    data['hostBuildNumber'] = hostBuildNumber;
     data['canPass'] = canPass;
     data['canPlay'] = canPlay;
     data['hasStarted'] = hasStarted;

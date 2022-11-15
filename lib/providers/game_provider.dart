@@ -86,8 +86,8 @@ class GameProvider with ChangeNotifier {
     return player.hasLeft || game.kickedPlayers.contains(player.id) || player.hasFinished || player.pieces.where((element) => element.isHome).length == 4;
   }
 
-  bool doesGameVersionMatch(String userVersion, String gameVersion) {
-    return userVersion == gameVersion;
+  bool hasNoVersionMismatch(int userVersion, int gameVersion) {
+    return userVersion >= gameVersion;
   }
 
   int getGameTabControllerLength() {
@@ -399,7 +399,7 @@ class GameProvider with ChangeNotifier {
 
   void showGameIdSnackbar(String id) {
     if (isPlayerHost(id) && !currentGame!.hasStarted) {
-      if (!currentGame!.isOffline) {
+      if (!currentGame!.isOffline && currentGame!.players.length < currentGame!.maxPlayers) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           shareGameUrl();
         });
@@ -1003,7 +1003,7 @@ class GameProvider with ChangeNotifier {
         Utils.showToast(DialogueService.gameDeletedToastText.tr);
         return;
       } else {
-        if (doesGameVersionMatch(user.appVersion, newGame.hostAppVersion)) {
+        if (hasNoVersionMismatch(user.appBuildNumber, newGame.hostBuildNumber)) {
           int playerNumber = newGame.playerIds.indexWhere((element) => element == user.id);
 
           newGame.players[playerNumber].hasLeft = false;
@@ -1015,7 +1015,12 @@ class GameProvider with ChangeNotifier {
           appProvider.setLoading(false, true);
           NavigationService.goToGameScreen();
         } else {
-          NavigationService.goToUpgradeScreen();
+          if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
+            Utils.showToast(DialogueService.gameVersionMismatchText.tr);
+            appProvider.setLoading(false, true);
+          } else {
+            NavigationService.goToUpgradeScreen();
+          }
         }
       }
     } catch (e) {
@@ -1063,7 +1068,7 @@ class GameProvider with ChangeNotifier {
             return;
           }
 
-          if (doesGameVersionMatch(user.appVersion, newGame.hostAppVersion)) {
+          if (hasNoVersionMismatch(user.appBuildNumber, newGame.hostBuildNumber)) {
             // add new player
             await DatabaseService.addNewHumanPlayerToGame(newGame, user);
             newGame = await DatabaseService.getGame(newGame.id);
@@ -1071,7 +1076,12 @@ class GameProvider with ChangeNotifier {
             appProvider.setLoading(false, true);
             NavigationService.goToGameScreen();
           } else {
-            NavigationService.goToUpgradeScreen();
+            if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
+              Utils.showToast(DialogueService.gameVersionMismatchText.tr);
+              appProvider.setLoading(false, true);
+            } else {
+              NavigationService.goToUpgradeScreen();
+            }
           }
         }
       } catch (e) {

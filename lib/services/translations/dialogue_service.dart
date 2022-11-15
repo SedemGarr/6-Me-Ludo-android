@@ -74,7 +74,7 @@ class DialogueService extends Translations {
   static const String anonSignInTitleText = 'anonSignInTitleText';
   static const String anonSignInYesText = 'anonSignInYesText';
   static const String anonSignInNoText = 'anonSignInNoText';
-  
+
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home
@@ -99,6 +99,7 @@ class DialogueService extends Translations {
   static const String joinGameHintText = 'joinGameHintText';
   static const String joinGameBannerText = 'joinGameBannerText';
   static const String hostGameBannerText = 'hostGameBannerText';
+  static const String gameVersionMismatchText = 'gameVersionMismatchText';
   // game - ongoing
   static const String inAFewSecondsText = 'inAFewSecondsText';
   static const String yourGameText = 'yourGameText';
