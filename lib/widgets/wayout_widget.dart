@@ -16,7 +16,7 @@ class WayOutWidget extends StatelessWidget {
         child: Text(
           'wayyy out! games',
           style: GoogleFonts.patrickHand(
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Theme.of(context).colorScheme.onBackground,
           ),
         ),
       ),

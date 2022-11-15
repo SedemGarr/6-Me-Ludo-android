@@ -31,7 +31,7 @@ showLegalDialog({
               padding: const EdgeInsets.only(top: 16.0),
               child: Text(
                 DialogueService.appName.tr,
-                style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+                style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
               ),
             ),
           ],
@@ -42,17 +42,17 @@ showLegalDialog({
             Text(
               DialogueService.versionText.tr + appProvider.getAppVersion(),
               textAlign: TextAlign.center,
-              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onBackground),
             ),
             Text(
               DialogueService.copyrightText.tr + DateTime.now().year.toString(),
               textAlign: TextAlign.center,
-              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onBackground),
             ),
             Text(
               DialogueService.zapsplatText.tr,
               textAlign: TextAlign.center,
-              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onBackground),
             ),
           ],
         ),

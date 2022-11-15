@@ -88,7 +88,7 @@ class Utils {
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 100; i++) {
       avatars.add(Utils.generateRandomUserAvatar());
     }
 
@@ -145,11 +145,15 @@ class Utils {
     return color.computeLuminance() > 0.5 ? CSSColors.black : CSSColors.white;
   }
 
-  static getRTDBServerTimestamp() {
+  static String getDeviceTime() {
+    return DateTime.now().toString();
+  }
+
+  static dynamic getRTDBServerTimestamp() {
     return ServerValue.timestamp;
   }
 
-  static getFireStoreServerTimestamp() {
+  static dynamic getFireStoreServerTimestamp() {
     return FieldValue.serverTimestamp();
   }
 

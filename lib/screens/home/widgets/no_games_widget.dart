@@ -13,7 +13,7 @@ class NoGamesWidget extends StatelessWidget {
       child: Text(
         DialogueService.noGamesText.tr,
         style: TextStyles.noGamesStyle(
-          Theme.of(context).colorScheme.onSurface,
+          Theme.of(context).colorScheme.onBackground,
         ),
       ),
     );

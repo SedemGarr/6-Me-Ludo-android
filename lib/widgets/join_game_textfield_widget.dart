@@ -19,38 +19,27 @@ class JoinGameTextFieldWidget extends StatelessWidget {
     AppProvider appProvider = context.watch<AppProvider>();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8.0),
       child: TextFormField(
         controller: gameProvider.joinGameController,
         maxLength: AppConstants.joinGameCodeLength,
         cursorColor: Theme.of(context).primaryColor,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
-          ),
-          border: InputBorder.none,
+          border: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
           errorBorder: InputBorder.none,
+          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
           disabledBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor)),
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          hintStyle: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+          hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
           counterStyle: TextStyles.listSubtitleStyle(
-            Theme.of(context).colorScheme.onSurface,
+            Theme.of(context).colorScheme.primaryContainer,
           ),
         ),
-        style: TextStyles.listTitleStyle(
-          Theme.of(context).colorScheme.primary,
-        ),
+        style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
         onChanged: (value) {
           if (value.length == AppConstants.joinGameCodeLength) {
             gameProvider.joinGameWithCode(userProvider.getUser(), appProvider);

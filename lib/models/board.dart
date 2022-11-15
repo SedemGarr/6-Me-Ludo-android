@@ -1,5 +1,7 @@
 import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -196,41 +198,43 @@ class Board {
   Board({required this.cells});
 
   // cell color
-  static Color determineCellColor(int index) {
+  static Color determineCellColor(int index, BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.background;
+
     if (playerOnePieceOneBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerOnePieceTwoBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerOnePieceThreeBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerOnePieceFourBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerTwoPieceOneBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerTwoPieceTwoBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerTwoPieceThreeBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerTwoPieceFourBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerThreePieceOneBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerThreePieceTwoBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerThreePieceThreeBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerThreePieceFourBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerFourPieceOneBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerFourPieceTwoBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerFourPieceThreeBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerFourPieceFourBaseIndex == index) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (homeIndices.contains(index)) {
-      return Colors.transparent;
+      return backgroundColor;
     } else if (playerOneBaseIndices.contains(index)) {
       return PlayerConstants.swatchList[0].playerColor;
     } else if (playerTwoBaseIndices.contains(index)) {
@@ -256,7 +260,7 @@ class Board {
     } else if (playerFourStartIndex == index) {
       return PlayerConstants.swatchList[3].playerColor;
     } else {
-      return Colors.transparent;
+      return backgroundColor;
     }
   }
 
@@ -365,102 +369,143 @@ class Board {
         index == 190 ||
         index == 175 ||
         index == 193 ||
-        index == 178 ||
-        index == 224 ||
-        index == 209 ||
-        index == 194 ||
-        index == 179 ||
-        index == 164 ||
-        index == 74 ||
-        index == 59 ||
-        index == 44 ||
-        index == 29 ||
-        index == 14 ||
-        index == 0 ||
-        index == 15 ||
-        index == 30 ||
-        index == 45 ||
-        index == 60 ||
-        index == 210 ||
-        index == 195 ||
-        index == 180 ||
-        index == 165 ||
-        index == 150 ||
-        index == 211 ||
-        index == 212 ||
-        index == 213 ||
-        index == 214 ||
-        index == 220 ||
-        index == 221 ||
-        index == 222 ||
-        index == 223 ||
-        index == 1 ||
-        index == 2 ||
-        index == 3 ||
-        index == 4 ||
-        index == 10 ||
-        index == 11 ||
-        index == 12 ||
-        index == 13) {
+        index == 178) {
       return null;
-    } else if (index == 219 ||
-        index == 204 ||
-        index == 111 ||
-        index == 189 ||
-        index == 174 ||
-        index == 159 ||
-        index == 69 ||
-        index == 54 ||
-        index == 39 ||
-        index == 24 ||
-        index == 9) {
+    } else if (index == 5) {
+      return const Border(
+        right: BorderSide(color: CSSColors.black, width: 2),
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+      );
+    } else if (index == 9) {
+      return const Border(
+        right: BorderSide(color: CSSColors.black, width: 2),
+        top: BorderSide(color: CSSColors.black, width: 1),
+      );
+    } else if (index == 135) {
+      return const Border(
+        right: BorderSide(color: CSSColors.black, width: 1),
+        top: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 215) {
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+        left: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 219) {
+      return const Border(
+        left: BorderSide(color: CSSColors.black, width: 2),
+        top: BorderSide(color: CSSColors.black, width: 1),
+      );
+    } else if (index == 75) {
+      return const Border(
+        left: BorderSide(color: CSSColors.black, width: 1),
+        top: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 1 || index == 2 || index == 3 || index == 4 || index == 10 || index == 11 || index == 12 || index == 13) {
+      return const Border(
+        right: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 211 || index == 212 || index == 213 || index == 214 || index == 220 || index == 221 || index == 222 || index == 223) {
+      return const Border(
+        left: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 224) {
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 2),
+        left: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 210) {
+      return const Border(
+        left: BorderSide(color: CSSColors.black, width: 2),
+        top: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 0) {
+      return const Border(
+        top: BorderSide(color: CSSColors.black, width: 2),
+        right: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 14) {
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 2),
+        right: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 209 || index == 194 || index == 179 || index == 164 || index == 74 || index == 59 || index == 44 || index == 29 || index == 14) {
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 195 || index == 180 || index == 165 || index == 150 || index == 60 || index == 45 || index == 30 || index == 15) {
+      return const Border(
+        top: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 149) {
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 2),
+        right: BorderSide(color: CSSColors.black, width: 1),
+      );
+    } else if (index == 204 || index == 111 || index == 189 || index == 174 || index == 159 || index == 69 || index == 54 || index == 39 || index == 24) {
       return const Border(top: BorderSide(color: CSSColors.black, width: 1));
-    } else if (index == 215 ||
-        index == 200 ||
-        index == 185 ||
-        index == 113 ||
-        index == 170 ||
-        index == 155 ||
-        index == 65 ||
-        index == 50 ||
-        index == 35 ||
-        index == 20 ||
-        index == 5) {
-      return const Border(bottom: BorderSide(color: CSSColors.black, width: 1));
-    } else if (index == 135 ||
-        index == 136 ||
-        index == 137 ||
-        index == 138 ||
-        index == 97 ||
-        index == 139 ||
-        index == 145 ||
-        index == 146 ||
-        index == 147 ||
-        index == 148 ||
-        index == 149) {
-      return const Border(right: BorderSide(color: CSSColors.black, width: 1));
+    } else if (index == 134 || index == 119 || index == 104) {
+      return const Border(
+        top: BorderSide(color: CSSColors.black, width: 1),
+        left: BorderSide(color: CSSColors.black, width: 1),
+        right: BorderSide(color: CSSColors.black, width: 1),
+        bottom: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 89) {
+      return const Border(
+        left: BorderSide(color: CSSColors.black, width: 1),
+        bottom: BorderSide(color: CSSColors.black, width: 2),
+      );
+    } else if (index == 200 || index == 185 || index == 113 || index == 170 || index == 155 || index == 65 || index == 50 || index == 35 || index == 20) {
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+      );
+    } else if (index == 136 || index == 137 || index == 138 || index == 97 || index == 139 || index == 145 || index == 146 || index == 147 || index == 148) {
+      return const Border(
+        right: BorderSide(color: CSSColors.black, width: 1),
+      );
     } else if (index == 75 || index == 76 || index == 127 || index == 77 || index == 78 || index == 79 || index == 85 || index == 86 || index == 87 || index == 88 || index == 89) {
-      return const Border(left: BorderSide(color: CSSColors.black, width: 1));
+      return const Border(
+        left: BorderSide(color: CSSColors.black, width: 1),
+      );
     } else if (index == 144 || index == 96) {
-      return const Border(top: BorderSide(color: CSSColors.black, width: 1), right: BorderSide(color: CSSColors.black, width: 1));
+      return const Border(
+        top: BorderSide(color: CSSColors.black, width: 1),
+        right: BorderSide(color: CSSColors.black, width: 1),
+      );
     } else if (index == 84 || index == 126) {
-      return const Border(top: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
+      return const Border(
+        top: BorderSide(color: CSSColors.black, width: 1),
+        left: BorderSide(color: CSSColors.black, width: 1),
+      );
     } else if (index == 80 || index == 128) {
       return const Border(bottom: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
     } else if (index == 140 || index == 98) {
-      return const Border(bottom: BorderSide(color: CSSColors.black, width: 1), right: BorderSide(color: CSSColors.black, width: 1));
+      return const Border(
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+        right: BorderSide(color: CSSColors.black, width: 1),
+      );
     } else if (index == 6 || index == 7 || index == 8) {
       return const Border(
-          top: BorderSide(color: CSSColors.black, width: 1), bottom: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
+        top: BorderSide(color: CSSColors.black, width: 1),
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+        left: BorderSide(color: CSSColors.black, width: 1),
+        right: BorderSide(color: CSSColors.black, width: 2),
+      );
     } else if (index == 216 || index == 217 || index == 218) {
       return const Border(
-          top: BorderSide(color: CSSColors.black, width: 1), bottom: BorderSide(color: CSSColors.black, width: 1), right: BorderSide(color: CSSColors.black, width: 1));
+        top: BorderSide(color: CSSColors.black, width: 1),
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+        right: BorderSide(color: CSSColors.black, width: 1),
+        left: BorderSide(color: CSSColors.black, width: 2),
+      );
     } else if (index == 120 || index == 105 || index == 90) {
       return const Border(
-          right: BorderSide(color: CSSColors.black, width: 1), bottom: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
-    } else if (index == 134 || index == 119 || index == 104) {
-      return const Border(
-          right: BorderSide(color: CSSColors.black, width: 1), top: BorderSide(color: CSSColors.black, width: 1), left: BorderSide(color: CSSColors.black, width: 1));
+        right: BorderSide(color: CSSColors.black, width: 1),
+        bottom: BorderSide(color: CSSColors.black, width: 1),
+        left: BorderSide(color: CSSColors.black, width: 1),
+        top: BorderSide(color: CSSColors.black, width: 2),
+      );
     } else if (index == 61 ||
         index == 64 ||
         index == 16 ||
@@ -477,19 +522,75 @@ class Board {
         index == 199 ||
         index == 151 ||
         index == 154) {
-      return Border.all(color: CSSColors.black, width: 2);
+      return Border.all(
+        color: CSSColors.black,
+        width: 2,
+      );
     } else {
-      return Border.all(color: CSSColors.black, width: 1);
+      return Border.all(
+        color: CSSColors.black,
+        width: 1,
+      );
     }
   }
 
+  static BorderRadius? determineBorderRadius(int index) {
+    if (isHomeIndex(index)) {
+      return AppConstants.appBorderRadius;
+    }
+
+    return null;
+  }
+
+  static Color getHomeColor(index) {
+    if (index == playerOnePieceOneBaseIndex || index == playerOnePieceTwoBaseIndex || index == playerOnePieceThreeBaseIndex || index == playerOnePieceFourBaseIndex) {
+      return PlayerConstants.swatchList[0].playerColor;
+    }
+
+    if (index == playerTwoPieceOneBaseIndex || index == playerTwoPieceTwoBaseIndex || index == playerTwoPieceThreeBaseIndex || index == playerTwoPieceFourBaseIndex) {
+      return PlayerConstants.swatchList[1].playerColor;
+    }
+
+    if (index == playerThreePieceOneBaseIndex || index == playerThreePieceTwoBaseIndex || index == playerThreePieceThreeBaseIndex || index == playerThreePieceFourBaseIndex) {
+      return PlayerConstants.swatchList[2].playerColor;
+    }
+
+    if (index == playerFourPieceOneBaseIndex || index == playerFourPieceTwoBaseIndex || index == playerFourPieceThreeBaseIndex || index == playerFourPieceFourBaseIndex) {
+      return PlayerConstants.swatchList[3].playerColor;
+    }
+
+    return Colors.transparent;
+  }
+
+  static bool isHomeIndex(index) {
+    return index == playerOnePieceOneBaseIndex ||
+        index == playerOnePieceTwoBaseIndex ||
+        index == playerOnePieceThreeBaseIndex ||
+        index == playerOnePieceFourBaseIndex ||
+        index == playerTwoPieceOneBaseIndex ||
+        index == playerTwoPieceTwoBaseIndex ||
+        index == playerTwoPieceThreeBaseIndex ||
+        index == playerTwoPieceFourBaseIndex ||
+        index == playerThreePieceOneBaseIndex ||
+        index == playerThreePieceTwoBaseIndex ||
+        index == playerThreePieceThreeBaseIndex ||
+        index == playerThreePieceFourBaseIndex ||
+        index == playerFourPieceOneBaseIndex ||
+        index == playerFourPieceTwoBaseIndex ||
+        index == playerFourPieceThreeBaseIndex ||
+        index == playerFourPieceFourBaseIndex;
+  }
+
   static Board generateBoard() {
+    BuildContext context = Get.context!;
+
     List<Cell> cells = [];
     for (int index = 0; index < boardGridCellCount; index++) {
       cells.add(
         Cell(
-          cellColor: determineCellColor(index),
+          cellColor: determineCellColor(index, context),
           border: determineCellBorder(index),
+          borderRadius: determineBorderRadius(index),
           icon: determineCellIcon(index),
           iconColor: determineCellIconColor(index),
           index: index,

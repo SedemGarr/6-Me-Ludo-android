@@ -7,9 +7,13 @@ class AppConstants {
   static const String defaultCountryCode = 'GH';
   static const String wayyyOutLottieAssetPath = 'assets/lottie/wayyyout3.json';
   static const String authLottieAssetPath = 'assets/lottie/playing-games.json';
+  static const String appLogoAssetPath = 'assets/logo/app_logo.png';
   static const String wayyyOutLottieAssetPage = 'https://lottiefiles.com/68789-cute-mascot-astronaut-in-rocket';
+  static const String playStoreURL = 'https://play.google.com/store/apps/details?id=com.wayyyoutgames.six.me.ludo';
   static const String privacyURL = 'https://sites.google.com/view/6-me-ludo-terms/home';
   static const String termsURL = 'https://sites.google.com/view/6-me-ludo-terms/home';
+  static const String appPackageName = 'com.wayyyoutgames.six.me.ludo';
+  static const String appLinkPrefix = 'https://wayyyoutgames.page.link';
 
   static const int maxPlayerLowerLimit = 1;
   static const int maxPlayerUpperLimit = 4;
@@ -41,7 +45,7 @@ class AppConstants {
 
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
-  static EdgeInsets listViewPadding = EdgeInsets.only(top: 8, bottom: Get.height * 0.25);
+  static EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: Get.height * 0.25);
   static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
   static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
   static const EdgeInsets bannerPadding = EdgeInsets.all(16.0);

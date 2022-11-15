@@ -1,5 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:six_me_ludo_android/models/version.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 class AppProvider with ChangeNotifier {
   late PackageInfo _packageInfo;
@@ -9,8 +14,42 @@ class AppProvider with ChangeNotifier {
   // for splash screen
   bool isSplashScreenLoaded = false;
 
+  //
+  Random random = Random();
+
+  final List<String> loadingStrings = [
+    DialogueService.loading1Text.tr,
+    DialogueService.loading2Text.tr,
+    DialogueService.loading3Text.tr,
+    DialogueService.loading4Text.tr,
+    DialogueService.loading5Text.tr,
+    DialogueService.loading6Text.tr,
+    DialogueService.loading7Text.tr,
+    DialogueService.loading8Text.tr,
+    DialogueService.loading9Text.tr,
+    DialogueService.loading10Text.tr,
+  ];
+
+  void setLoading(bool value, bool shouldRebuild) {
+    isLoading = value;
+
+    if (shouldRebuild) {
+      notifyListeners();
+    }
+  }
+
+  void setSplashScreenLoaded(bool value) {
+    isSplashScreenLoaded = value;
+
+    notifyListeners();
+  }
+
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
+  }
+
+  bool isVersionUpToDate(AppVersion appVersion) {
+    return appVersion.version == getAppVersion();
   }
 
   String getAppName() {
@@ -29,17 +68,7 @@ class AppProvider with ChangeNotifier {
     return _packageInfo.buildNumber;
   }
 
-  void setLoading(bool value, bool shouldRebuild) {
-    isLoading = value;
-
-    if (shouldRebuild) {
-      notifyListeners();
-    }
-  }
-
-  void setSplashScreenLoaded(bool value) {
-    isSplashScreenLoaded = value;
-
-    notifyListeners();
+  String getLoadingString() {
+    return loadingStrings[random.nextInt(loadingStrings.length)];
   }
 }

@@ -39,75 +39,80 @@ class PlayerListItemWidget extends StatelessWidget {
     bool hasLeft = isKicked || player.hasLeft;
     Color playerColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
     Color playerSelectedColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
-    Color contrastingColor = Utils.getContrastingColor(playerColor);
+    //   Color contrastingColor = Utils.getContrastingColor(playerColor);
+    Color contrastingColor = Theme.of(context).colorScheme.onBackground;
 
     return AnimatedContainer(
       key: key,
       duration: AppConstants.animationDuration,
       padding: (player.playerColor == game.playerTurn && game.hasStarted && !game.hasSessionEnded) ? const EdgeInsets.symmetric(vertical: 16.0) : EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: Get.isDarkMode ? playerSelectedColor : playerColor,
+        color: Get.isDarkMode ? playerSelectedColor.withOpacity(AppConstants.appOpacity) : playerColor.withOpacity(AppConstants.appOpacity),
+        borderRadius: AppConstants.appBorderRadius,
       ),
-      child: ExpansionTile(
-        leading: GestureDetector(
-          onTap: isAI || isMe
-              ? null
-              : () {
-                  userProvider.handleUserAvatarOnTap(player.id, context);
-                },
-          child: UserAvatarWidget(
-            avatar: player.avatar,
-            backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
-            borderColor: contrastingColor,
-            hasLeftGame: hasLeft,
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          leading: GestureDetector(
+            onTap: isAI || isMe
+                ? null
+                : () {
+                    userProvider.handleUserAvatarOnTap(player.id, context);
+                  },
+            child: UserAvatarWidget(
+              avatar: player.avatar,
+              backgroundColor: Get.isDarkMode ? playerSelectedColor : playerColor,
+              borderColor: contrastingColor,
+              hasLeftGame: hasLeft,
+            ),
           ),
-        ),
-        title: Text(
-          userProvider.parsePlayerNameText(player.psuedonym),
-          style: TextStyles.listTitleStyle(contrastingColor),
-        ),
-        subtitle: isKicked || hasLeft
-            ? Text(
-                isKicked ? DialogueService.playerKickedFromGameTrailingText.tr : DialogueService.playerHasLeftTheGame.tr,
-                style: TextStyles.listSubtitleStyle(Utils.getContrastingColor(playerColor)),
-              )
-            : PlayerProgressWidget(
-                player: player,
-                hasStarted: game.hasStarted,
-                playerColor: playerColor,
-                playerSelectedColor: playerSelectedColor,
-              ),
-        trailing: isKicked || hasLeft
-            ? const SizedBox.shrink()
-            : ReputationWidget(
-                value: player.reputationValue,
-                color: contrastingColor,
-                shouldPad: true,
-              ),
-        children: !isAI && !isMe && !isKicked && !hasLeft
-            ? [
-                CustomListTileWidget(
-                  title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),
-                  trailing: !isAI && isHost && !isMe
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            KickPlayerWidget(
-                              color: contrastingColor,
-                              gameProvider: gameProvider,
-                              player: player,
-                            ),
-                            BanPlayerWidget(
-                              color: contrastingColor,
-                              gameProvider: gameProvider,
-                              player: player,
-                            ),
-                          ],
-                        )
-                      : null,
+          title: Text(
+            userProvider.parsePlayerNameText(player.psuedonym),
+            style: TextStyles.listTitleStyle(contrastingColor),
+          ),
+          subtitle: isKicked || hasLeft
+              ? Text(
+                  isKicked ? DialogueService.playerKickedFromGameTrailingText.tr : DialogueService.playerHasLeftTheGame.tr,
+                  style: TextStyles.listSubtitleStyle(Utils.getContrastingColor(playerColor)),
+                )
+              : PlayerProgressWidget(
+                  player: player,
+                  hasStarted: game.hasStarted,
+                  playerColor: playerColor,
+                  playerSelectedColor: playerSelectedColor,
                 ),
-              ]
-            : [],
+          trailing: isKicked || hasLeft
+              ? const SizedBox.shrink()
+              : ReputationWidget(
+                  value: player.reputationValue,
+                  color: playerSelectedColor,
+                  shouldPad: true,
+                ),
+          children: !isAI && !isMe && !isKicked && !hasLeft
+              ? [
+                  CustomListTileWidget(
+                    title: PlayerPresenceWidget(isPresent: player.isPresent, color: contrastingColor, gameProvider: gameProvider),
+                    trailing: !isAI && isHost && !isMe
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              KickPlayerWidget(
+                                color: contrastingColor,
+                                gameProvider: gameProvider,
+                                player: player,
+                              ),
+                              BanPlayerWidget(
+                                color: contrastingColor,
+                                gameProvider: gameProvider,
+                                player: player,
+                              ),
+                            ],
+                          )
+                        : null,
+                  ),
+                ]
+              : [],
+        ),
       ),
     );
   }

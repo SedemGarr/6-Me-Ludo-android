@@ -23,6 +23,8 @@ class PieceWidget extends StatelessWidget {
     for (int i = 0; i < game.players.length; i++) {
       for (int j = 0; j < game.players[i].pieces.length; j++) {
         if (game.players[i].pieces[j].position == index && !game.players[i].pieces[j].isHome) {
+          bool isSelected = gameProvider.isPieceSelected(game.players[i].pieces[j]);
+
           return FadeIn(
             duration: AppConstants.animationDuration,
             curve: AppConstants.animationCurve,
@@ -34,14 +36,17 @@ class PieceWidget extends StatelessWidget {
                   gameProvider.selectPiece(game.players[i].pieces[j]);
                 }
               },
-              child: Card(
-                elevation: 0,
-                margin: const EdgeInsets.all(3.0),
-                color: gameProvider.isPieceSelected(game.players[i].pieces[j])
-                    ? PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerSelectedColor
-                    : PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: CSSColors.black),
+              child: AnimatedContainer(
+                duration: AppConstants.animationDuration,
+                margin: const EdgeInsets.all(1.0),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerSelectedColor
+                      : PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor,
+                  border: Border.all(
+                    color: CSSColors.black,
+                    width: isSelected ? 2 : 1,
+                  ),
                   borderRadius: AppConstants.appBorderRadius,
                 ),
                 child: Center(

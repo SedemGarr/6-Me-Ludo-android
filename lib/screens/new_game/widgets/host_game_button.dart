@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/app_provider.dart';
 import '../../../providers/game_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../services/navigation_service.dart';
@@ -16,7 +15,6 @@ class HostGameButton extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
-    AppProvider appProvider = context.watch<AppProvider>();
 
     return Center(
       child: Padding(
@@ -24,7 +22,7 @@ class HostGameButton extends StatelessWidget {
         child: CustomElevatedButton(
             onPressed: () {
               NavigationService.genericGoBack();
-              gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, appProvider, userProvider.isGameOffline());
+              gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, userProvider.isGameOffline(), context);
             },
             text: DialogueService.startGameButtonText.tr),
       ),

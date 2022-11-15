@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
+import 'package:six_me_ludo_android/models/version.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
@@ -23,12 +24,16 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
+import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
   Users? _user;
   late Stream<List<Game>> onGoingGamesStream;
   late List<Game> ongoingGames = [];
-  bool isEditingProfile = false;
+
+  //
+  late String selectedAvatar;
+  late List<String> avatarList;
 
   // ai player uuid
   Uuid uuid = const Uuid();
@@ -38,24 +43,34 @@ class UserProvider with ChangeNotifier {
 
   Future<void> initUser(BuildContext context) async {
     NavProvider navProvider = context.read<NavProvider>();
-    late Users? tempUser;
+    AppProvider appProvider = context.read<AppProvider>();
 
-    try {
-      tempUser = await LocalStorageService.getUser();
-    } catch (e) {
-      debugPrint(e.toString());
-      tempUser = null;
-    }
+    await appProvider.getPackageInfo();
 
-    Future.delayed(const Duration(seconds: 5), () async {
-      if (tempUser != null) {
-        setUser(tempUser, context.read<SoundProvider>());
-        navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
-        NavigationService.goToHomeScreen();
-      } else {
-        NavigationService.goToAuthScreen();
+    AppVersion? appVersion = await DatabaseService.getAppVersion();
+
+    if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
+      late Users? tempUser;
+
+      try {
+        tempUser = await LocalStorageService.getUser();
+      } catch (e) {
+        debugPrint(e.toString());
+        tempUser = null;
       }
-    });
+
+      Future.delayed(const Duration(seconds: 4), () async {
+        if (tempUser != null) {
+          setUser(tempUser, appProvider, context.read<SoundProvider>());
+          navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
+          NavigationService.goToHomeScreen();
+        } else {
+          NavigationService.goToAuthScreen();
+        }
+      });
+    } else {
+      NavigationService.goToUpgradeScreen();
+    }
   }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {
@@ -87,12 +102,24 @@ class UserProvider with ChangeNotifier {
     NavigationService.goToNewGameScreen();
   }
 
-  void setUser(Users? user, SoundProvider soundProvider) {
+  void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
     _user = user;
+    _user!.appVersion = appProvider.getAppVersion();
+
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
 
     notifyListeners();
+  }
+
+  void intialiseAvatarList(bool shouldRebuild) {
+    avatarList = Utils.generateAvatarSelectionCodes(getUserAvatar());
+
+    selectedAvatar = _user!.avatar;
+
+    if (shouldRebuild) {
+      notifyListeners();
+    }
   }
 
   void syncOngoingGamesStreamData(List<Game> games) {
@@ -120,15 +147,6 @@ class UserProvider with ChangeNotifier {
       } else {
         showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
       }
-    }
-  }
-
-  void toggleIsEditingProfile(bool value) {
-    isEditingProfile = value;
-    notifyListeners();
-
-    if (!isEditingProfile) {
-      setUserPseudonym();
     }
   }
 
@@ -231,13 +249,24 @@ class UserProvider with ChangeNotifier {
   }
 
   void setAvatar(String avatar) {
-    _user!.avatar = avatar;
-    updateUser(true, true);
-    DatabaseService.updateOngoingGamesAfterUserChange(_user!);
+    if (avatar != _user!.avatar) {
+      _user!.avatar = avatar;
+      updateUser(true, true);
+      DatabaseService.updateOngoingGamesAfterUserChange(_user!);
+    }
   }
 
-  void setPseudonymControllerValue(String value) {
-    pseudonymController.text = value;
+  void setSelectedAvatar(String avatar) {
+    selectedAvatar = avatar;
+    notifyListeners();
+  }
+
+  void setPseudonymControllerValue(String value, bool shouldRebuild) {
+    if (shouldRebuild) {
+      notifyListeners();
+    } else {
+      pseudonymController.text = value;
+    }
   }
 
   void setUserPseudonym() {
@@ -310,6 +339,10 @@ class UserProvider with ChangeNotifier {
 
   String getUserID() {
     return _user!.id;
+  }
+
+  String getAppVersion() {
+    return _user!.appVersion;
   }
 
   String getUserPseudonym() {
@@ -429,11 +462,15 @@ class UserProvider with ChangeNotifier {
   }
 
   bool isAvatarSelected(String avatar) {
-    return _user!.avatar == avatar;
+    return selectedAvatar == avatar;
   }
 
   bool isGameOffline() {
     return _user!.settings.maxPlayers == 1;
+  }
+
+  bool hasUserPseudonymChanged() {
+    return _user!.psuedonym != pseudonymController.text && pseudonymController.text.isNotEmpty;
   }
 
   int getUserGameSpeed() {

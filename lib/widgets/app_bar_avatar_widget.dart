@@ -14,11 +14,15 @@ class AppBarAvatarWidget extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
 
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
+      padding: const EdgeInsets.only(
+        left: 8.0,
+        top: 8.0,
+        bottom: 8.0,
+      ),
       child: UserAvatarWidget(
         avatar: userProvider.getUserAvatar(),
         backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-        borderColor: Theme.of(context).colorScheme.onSurface,
+        borderColor: Theme.of(context).colorScheme.onBackground,
         id: userProvider.getUserID(),
         hasLeftGame: false,
       ),

@@ -41,11 +41,15 @@ class AuthenticationService {
         try {
           final UserCredential userCredential = await auth.signInWithCredential(credential);
 
-          Users? user = await DatabaseService.createUser(userCredential.user!, false);
+          Users? user = await DatabaseService.createUser(
+            userCredential.user!,
+            false,
+            appProvider.getAppVersion(),
+          );
 
           if (user != null) {
             appProvider.setLoading(false, false);
-            userProvider.setUser(user, soundProvider);
+            userProvider.setUser(user, appProvider, soundProvider);
             themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
             NavigationService.goToHomeScreen();
           } else {
@@ -80,11 +84,15 @@ class AuthenticationService {
     try {
       UserCredential userCredential = await auth.signInAnonymously();
 
-      Users? user = await DatabaseService.createUser(userCredential.user!, true);
+      Users? user = await DatabaseService.createUser(
+        userCredential.user!,
+        true,
+        appProvider.getAppVersion(),
+      );
 
       if (user != null) {
         appProvider.setLoading(false, true);
-        userProvider.setUser(user, soundProvider);
+        userProvider.setUser(user, appProvider, soundProvider);
         NavigationService.goToHomeScreen();
       }
     } catch (e) {
@@ -93,6 +101,46 @@ class AuthenticationService {
       debugPrint(e.toString());
     }
   }
+
+  // Future<void> convertAnonToGoogle(AppVersion appVersion) async {
+  //   // Google Sign-in
+  //   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  //   final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+  //   if (googleSignInAccount != null) {
+  //     final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleSignInAuthentication.accessToken,
+  //       idToken: googleSignInAuthentication.idToken,
+  //     );
+
+  //     try {
+  //       final userCredential = await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
+
+  //       if (userCredential != null) {
+  //         await DatabaseService.createUser(userCredential.user!, false, appVersion.version);
+  //       }
+  //     } on FirebaseAuthException catch (e) {
+  //       switch (e.code) {
+  //         case "provider-already-linked":
+  //           print("The provider has already been linked to the user.");
+  //           break;
+  //         case "invalid-credential":
+  //           print("The provider's credential is not valid.");
+  //           break;
+  //         case "credential-already-in-use":
+  //           print("The account corresponding to the credential already exists, "
+  //               "or is already linked to a Firebase User.");
+  //           break;
+  //         // See the API reference for the full list of error codes.
+  //         default:
+  //           print("Unknown error.");
+  //       }
+  //     }
+  //   }
+  // }
 
   static Future<void> signOut(Users user, BuildContext context) async {
     FirebaseAuth firebase = FirebaseAuth.instance;

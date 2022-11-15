@@ -44,6 +44,8 @@ class AppIcons {
   static const IconData fourDieIcon = MdiIcons.dice4Outline;
   static const IconData fiveDieIcon = MdiIcons.dice5Outline;
   static const IconData sixDieIcon = MdiIcons.dice6Outline;
+  // game - chat
+  static const IconData sendMessageIcon = MdiIcons.send;
   // settings
   static const IconData darkModeIcon = MdiIcons.moonWaningCrescent;
   static const IconData audioIcon = MdiIcons.volumeMedium;

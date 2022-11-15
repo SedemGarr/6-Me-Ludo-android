@@ -13,7 +13,7 @@ class ReorderPlayersBanner extends StatelessWidget {
       child: Text(
         DialogueService.reorderPlayersBannerText.tr,
         textAlign: TextAlign.center,
-        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onSurface),
+        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
       ),
     );
   }

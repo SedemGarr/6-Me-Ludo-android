@@ -34,7 +34,7 @@ class _OngoingGamesListWidgetState extends State<OngoingGamesListWidget> with Au
                 : AnimationLimiter(
                     child: ListView.builder(
                       key: PageStorageKey(UniqueKey()),
-                      shrinkWrap: true,
+                      //   shrinkWrap: true,
                       itemCount: userProvider.ongoingGames.length,
                       padding: AppConstants.listViewPadding,
                       // separatorBuilder: (context, index) => const Divider(),

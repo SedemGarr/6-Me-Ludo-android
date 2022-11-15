@@ -25,7 +25,6 @@ class IntroAnimation extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Theme.of(context).primaryColor),
                   color: Theme.of(context).primaryColor,
                   borderRadius: AppConstants.appBorderRadius,
                 ),

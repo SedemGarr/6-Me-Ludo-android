@@ -21,7 +21,7 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
             ),
           ),
         )
@@ -45,6 +45,21 @@ class DialogueService extends Translations {
   static const String versionText = 'versionText';
   static const String copyrightText = 'copyrightText';
   static const String zapsplatText = 'zapsplatText';
+  static const String updateNeededText = 'updateNeededText';
+  static const String updatePromptText = 'updatePromptText';
+  static const String updateButtonText = 'updateButtonText';
+  // loading strings
+  static const String loading1Text = 'loading1Text';
+  static const String loading2Text = 'loading2Text';
+  static const String loading3Text = 'loading3Text';
+  static const String loading4Text = 'loading4Text';
+  static const String loading5Text = 'loading5Text';
+  static const String loading6Text = 'loading6Text';
+  static const String loading7Text = 'loading7Text';
+  static const String loading8Text = 'loading8Text';
+  static const String loading9Text = 'loading9Text';
+  static const String loading10Text = 'loading10Text';
+  static const String loadingDefaultText = 'loadingDefaultText';
   // welcome dialog
   static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
@@ -55,11 +70,17 @@ class DialogueService extends Translations {
   static const String anonWarningText = 'anonWarningText';
   static const String welcomeEmojiText = 'welcomeEmojiText';
   static const String welcomeSubtileText = 'welcomeSubtileText';
+  //
+  static const String anonSignInTitleText = 'anonSignInTitleText';
+  static const String anonSignInYesText = 'anonSignInYesText';
+  static const String anonSignInNoText = 'anonSignInNoText';
+  
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home
   static const String welcomeText = 'welcomeText';
   static const String newGameText = 'newGameText';
+  static const String profileAndSettingsText = 'profileAndSettingsText';
   static const String profileText = 'profileText';
   static const String editProfileText = 'editProfileText';
   static const String homeText = 'homeText';
@@ -76,6 +97,8 @@ class DialogueService extends Translations {
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
   static const String joinGameHintText = 'joinGameHintText';
+  static const String joinGameBannerText = 'joinGameBannerText';
+  static const String hostGameBannerText = 'hostGameBannerText';
   // game - ongoing
   static const String inAFewSecondsText = 'inAFewSecondsText';
   static const String yourGameText = 'yourGameText';
@@ -128,6 +151,8 @@ class DialogueService extends Translations {
   static const String copyGameTooltipText = 'copyGameTooltipText';
   static const String endGameTooltipText = 'endGameTooltipText';
   static const String leaveGameTooltipText = 'leaveGameTooltipText';
+  static const String shareGameText = 'shareGameText';
+  static const String shareGameEmailText = 'shareGameEmailText';
   static const String gameIDCopiedToClipboardText = 'gameIDCopiedToClipboardText';
   static const String playerHasLeftText = 'playerHasLeftText';
   static const String playerHasJoinedText = 'playerHasJoinedText';
@@ -161,12 +186,15 @@ class DialogueService extends Translations {
   static const String kickedText = 'kickedText';
   static const String timesSingularText = 'timesSingularText';
   static const String timesPluralText = 'timesPluralText';
+  static const String reputationChangedText = 'reputationChangedText';
+  static const String reputationChangedPluralText = 'reputationChangedPluralText';
   // game - controls
   static const String restartGamePopupText = 'restartGamePopupText';
   static const String startSessionPopupText = 'startSessionPopupText';
   static const String stopSessionPopupText = 'stopSessionPopupText';
   static const String endGamePopupText = 'endGamePopupText';
   static const String copyGameIDPopupText = 'copyGameIDPopupText';
+  static const String shareGameIDPopupText = 'shareGameIDPopupText';
   // game - playing - commentary
   static const String yourTurnText = 'yourTurnText';
   static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';
@@ -185,6 +213,8 @@ class DialogueService extends Translations {
   static const String closeDialogText = 'closeDialogText';
   static const String savePseudonymDialogText = 'savePseudonymDialogText';
   static const String changePseudonymHintText = 'changePseudonymHintText';
+  static const String changePseudonymBannerText = 'changePseudonymBannerText';
+  static const String changeAvatarBannerText = 'changeAvatarBannerText';
   static const String tooShortText = 'tooShortText';
   static const String tooLongText = 'tooLongText';
   static const String profaneStringText = 'profaneStringText';
@@ -195,6 +225,7 @@ class DialogueService extends Translations {
   // settings
   static const String generalSettingsText = 'generalSettingsText';
   static const String gameSettingsText = 'gameSettingsText';
+  static const String gameSettingsFullText = 'gameSettingsFullText';
   static const String accountSettingsText = 'accountSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';

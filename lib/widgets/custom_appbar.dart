@@ -7,6 +7,7 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
   final double? size;
+  final bool? centerTitle;
   final Color? backgroundColor;
 
   const CustomAppBarWidget({
@@ -17,13 +18,14 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
     this.bottom,
     this.size,
     this.backgroundColor,
+    this.centerTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      centerTitle: true,
+      centerTitle: centerTitle ?? false,
       backgroundColor: backgroundColor,
       leading: leading,
       title: title,

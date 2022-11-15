@@ -19,7 +19,7 @@ class LegalScreen extends StatelessWidget {
         title: Text(
           DialogueService.licenceText.tr,
           style: TextStyles.appBarTitleStyle(
-            Get.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary,
+            Get.isDarkMode ? Theme.of(context).colorScheme.onBackground : Theme.of(context).colorScheme.onPrimary,
           ),
         ),
       ),

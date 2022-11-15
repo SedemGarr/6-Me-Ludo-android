@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 import '../constants/textstyle_constants.dart';
 
@@ -20,14 +21,17 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return iconData != null
         ? TextButton.icon(
-            icon: Icon(
-              iconData,
-              color: color,
+            style: OutlinedButton.styleFrom(
+              shape: AppConstants.appShape,
             ),
             onPressed: onPressed,
             label: Text(
               text,
               style: TextStyles.textButtonStyle(color),
+            ),
+            icon: Icon(
+              iconData,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           )
         : TextButton(

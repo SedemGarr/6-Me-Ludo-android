@@ -29,14 +29,18 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(
+          left: 8.0,
+          right: 8.0,
+          bottom: 8.0,
+        ),
         child: ClipRRect(
           borderRadius: AppConstants.appBorderRadius,
           child: ExpansionTile(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
-            //  collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             childrenPadding: const EdgeInsets.only(bottom: 8.0),
-            key: UniqueKey(),
+            key: PageStorageKey(index),
             leading: GameOwnerAvatarWidget(
               id: host.id,
               avatar: host.avatar,
@@ -50,7 +54,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
               Column(
                 children: [
                   Divider(
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                   ),
                   for (int i = 0; i < game.players.length; i++)
                     if (game.players[i].id != host.id)

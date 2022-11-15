@@ -16,10 +16,11 @@ class AnimationAttributionWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: RichText(
         text: TextSpan(
+          style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onBackground),
           children: [
             TextSpan(
               text: DialogueService.animationByText.tr,
-              style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onSurface),
+              style: TextStyles.legalTextStyleNormal(Theme.of(context).colorScheme.onBackground),
             ),
             TextSpan(
               text: AppConstants.lottieAnimationAuthor,
