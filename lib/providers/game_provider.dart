@@ -1563,6 +1563,7 @@ class GameProvider with ChangeNotifier {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
       currentGame!.players[i].hasFinished = false;
       currentGame!.players[i].numberOfDieRolls = 0;
+      currentGame!.players[i].targetPlayerNumber = null;
     }
 
     currentGame = resetKickStats();

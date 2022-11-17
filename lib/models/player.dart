@@ -318,9 +318,17 @@ class Player {
 
   void setReputationValue(int value) {
     if (isAIPlayer) {
-      if (value != -2 || value != 2) {
+      if (value == 0) {
         reputationValue = value;
+      } else if (value.isNegative) {
+        reputationValue = -1;
+      } else {
+        reputationValue = 1;
       }
+
+      // if (value != -2 || value != 2) {
+      //   reputationValue = value;
+      // }
     } else {
       reputationValue = value;
     }
