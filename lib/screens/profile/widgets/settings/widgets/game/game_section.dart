@@ -7,7 +7,6 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/gam
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/catch_up_assist.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/game_speed.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/game/widgets/start_assist.dart';
-import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 
 import '../../../../../../services/translations/dialogue_service.dart';
 import '../settings_header.dart';
@@ -17,26 +16,18 @@ class GameSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCardWidget(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SettingsHeaderWidget(text: DialogueService.gameSettingsText.tr),
-          const AddAIPlayers(),
-          // const Divider(),
-          const AutoStart(),
-          // const Divider(),
-          const CatchUpAssist(),
-          // const Divider(),
-          const StartAssist(),
-          // const Divider(),
-          const AdaptiveAI(),
-          // const Divider(),
-          const AIPersonality(),
-          // const Divider(),
-          const GameSpeed(),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SettingsHeaderWidget(text: DialogueService.gameSettingsText.tr),
+        const AddAIPlayers(shouldShowIcon: true),
+        const AutoStart(shouldShowIcon: true),
+        const CatchUpAssist(shouldShowIcon: true),
+        const StartAssist(shouldShowIcon: true),
+        const AdaptiveAI(shouldShowIcon: true),
+        const AIPersonality(shouldShowIcon: true),
+        const GameSpeed(shouldShowIcon: true),
+      ],
     );
   }
 }

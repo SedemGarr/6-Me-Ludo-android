@@ -22,6 +22,8 @@ showChoiceDialog({
     builder: (BuildContext context) {
       return AlertDialog(
         shape: AppConstants.appShape,
+        titlePadding: AppConstants.dialogTitlePadding,
+        actionsPadding: AppConstants.dialogTitlePadding,
         title: Text(
           titleMessage,
           style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),

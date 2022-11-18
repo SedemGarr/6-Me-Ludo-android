@@ -60,6 +60,19 @@ class DialogueService extends Translations {
   static const String loading9Text = 'loading9Text';
   static const String loading10Text = 'loading10Text';
   static const String loadingDefaultText = 'loadingDefaultText';
+
+// welcome strings
+  static const String welcome1Text = 'welcome1Text';
+  static const String welcome2Text = 'welcome2Text';
+  static const String welcome3Text = 'welcome3Text';
+  static const String welcome4Text = 'welcome4Text';
+  static const String welcome5Text = 'welcome5Text';
+  static const String welcome6Text = 'welcome6Text';
+  static const String welcome7Text = 'welcome7Text';
+  static const String welcome8Text = 'welcome8Text';
+  static const String welcome9Text = 'welcome9Text';
+  static const String welcome10Text = 'welcome10Text';
+
   // welcome dialog
   static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';

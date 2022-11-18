@@ -12,7 +12,6 @@ class SettingsIconWidget extends StatelessWidget {
       children: [
         Icon(
           iconData,
-          color: Theme.of(context).colorScheme.onBackground,
         ),
       ],
     );

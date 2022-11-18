@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 
 import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../services/translations/dialogue_service.dart';
+import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
@@ -17,18 +18,20 @@ class LanguageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomListTileWidget(
-      leading: const SettingsIconWidget(iconData: AppIcons.languageIcon),
-      title: SettingsTitleWidget(text: DialogueService.languageTitleText.tr),
-      subtitle: SettingsSubtitleWidget(text: DialogueService.languageSubtitleText.tr),
-      trailing: DropdownButton<dynamic>(
-        iconEnabledColor: Theme.of(context).primaryColor,
-        value: userProvider.getLocale().languageCode,
-        items: DialogueService.getLocaleDropDownMenuItems(context),
-        underline: const SizedBox.shrink(),
-        onChanged: (dynamic value) {
-          userProvider.setLanguageCode(value!);
-        },
+    return CustomCardWidget(
+      child: CustomListTileWidget(
+        leading: const SettingsIconWidget(iconData: AppIcons.languageIcon),
+        title: SettingsTitleWidget(text: DialogueService.languageTitleText.tr),
+        subtitle: SettingsSubtitleWidget(text: DialogueService.languageSubtitleText.tr),
+        trailing: DropdownButton<dynamic>(
+          iconEnabledColor: Theme.of(context).primaryColor,
+          value: userProvider.getLocale().languageCode,
+          items: DialogueService.getLocaleDropDownMenuItems(context),
+          underline: const SizedBox.shrink(),
+          onChanged: (dynamic value) {
+            userProvider.setLanguageCode(value!);
+          },
+        ),
       ),
     );
   }

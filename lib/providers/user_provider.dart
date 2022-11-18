@@ -5,12 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/models/version.dart';
-import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
-import 'package:six_me_ludo_android/screens/home/home.dart';
-import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
-import 'package:six_me_ludo_android/screens/profile/profile.dart';
+import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -24,6 +21,7 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
+import '../widgets/new_game_dialog.dart';
 import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
@@ -42,7 +40,6 @@ class UserProvider with ChangeNotifier {
   TextEditingController pseudonymController = TextEditingController();
 
   Future<void> initUser(BuildContext context) async {
-    NavProvider navProvider = context.read<NavProvider>();
     AppProvider appProvider = context.read<AppProvider>();
 
     await appProvider.getPackageInfo();
@@ -62,7 +59,7 @@ class UserProvider with ChangeNotifier {
       Future.delayed(const Duration(seconds: 4), () async {
         if (tempUser != null) {
           setUser(tempUser, appProvider, context.read<SoundProvider>());
-          navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
+
           NavigationService.goToHomeScreen();
         } else {
           NavigationService.goToAuthScreen();
@@ -93,13 +90,14 @@ class UserProvider with ChangeNotifier {
     await UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
-  void handleNewGameTap() {
+  void handleNewGameTap(BuildContext context) {
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
-    NavigationService.goToNewGameScreen();
+    // NavigationService.goToNewGameScreen();
+    showNewGameDialog(context: context);
   }
 
   void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
@@ -140,8 +138,8 @@ class UserProvider with ChangeNotifier {
       return;
     } else {
       if (isMe(id)) {
-        if (Get.currentRoute == HomePageViewWrapper.routeName) {
-          context.read<NavProvider>().setBottomNavBarIndex(ProfileScreen.routeIndex, true);
+        if (Get.currentRoute == HomeScreen.routeName) {
+          NavigationService.goToEditAvatarScreen();
         } else {
           Utils.showToast(DialogueService.youText.tr);
         }

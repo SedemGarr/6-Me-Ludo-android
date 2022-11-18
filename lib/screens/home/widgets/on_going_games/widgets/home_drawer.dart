@@ -1,0 +1,143 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/icon_constants.dart';
+import 'package:six_me_ludo_android/services/navigation_service.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/join_game_dialog.dart';
+import 'package:six_me_ludo_android/widgets/new_game_dialog.dart';
+
+import '../../../../../constants/app_constants.dart';
+import '../../../../../constants/textstyle_constants.dart';
+import '../../../../../providers/user_provider.dart';
+import '../../../../../widgets/custom_card_widget.dart';
+import '../../../../../widgets/custom_list_tile.dart';
+import '../../../../../widgets/user_avatar_widget.dart';
+
+class HomeDrawerWidget extends StatelessWidget {
+  const HomeDrawerWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    UserProvider userProvider = context.watch<UserProvider>();
+
+    return Drawer(
+      shape: AppConstants.appShape,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Theme.of(context).primaryColorLight,
+                  Theme.of(context).primaryColor,
+                  Theme.of(context).primaryColorDark,
+                ],
+              ),
+            ),
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            curve: AppConstants.animationCurve,
+            duration: AppConstants.animationDuration,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: UserAvatarWidget(
+                      avatar: userProvider.getUserAvatar(),
+                      backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+                      borderColor: Theme.of(context).colorScheme.onBackground,
+                      id: userProvider.getUserID(),
+                      hasLeftGame: false,
+                      shouldExpand: true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: AppConstants.listViewPadding,
+              child: Column(
+                children: [
+                  CustomCardWidget(
+                    child: CustomListTileWidget(
+                      leading: const Icon(AppIcons.newGameIcon),
+                      title: Text(
+                        DialogueService.hostGameFABText.tr,
+                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                      ),
+                      onTap: () {
+                        NavigationService.genericGoBack();
+                        showNewGameDialog(context: context);
+                      },
+                    ),
+                  ),
+                  CustomCardWidget(
+                    child: CustomListTileWidget(
+                      leading: const Icon(AppIcons.joinGameIcon),
+                      title: Text(
+                        DialogueService.joinGameFABText.tr,
+                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                      ),
+                      onTap: () {
+                        NavigationService.genericGoBack();
+                        showJoinGameDialog(context: context);
+                      },
+                    ),
+                  ),
+                  CustomCardWidget(
+                    child: CustomListTileWidget(
+                      leading: const Icon(AppIcons.profileIcon),
+                      title: Text(
+                        DialogueService.profileAndSettingsText.tr,
+                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                      ),
+                      onTap: () {
+                        NavigationService.genericGoBack();
+                        NavigationService.goToProfileScreen();
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  const Divider(),
+                  CustomCardWidget(
+                    child: CustomListTileWidget(
+                      leading: const Icon(AppIcons.signOutIcon),
+                      title: Text(
+                        DialogueService.signOutTitleText.tr,
+                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                      ),
+                      onTap: () {
+                        userProvider.showSignOutDialog(context);
+                      },
+                    ),
+                  ),
+                  CustomCardWidget(
+                    child: CustomListTileWidget(
+                      leading: const Icon(AppIcons.exitIcon),
+                      title: Text(
+                        DialogueService.exitAppDialogYesText.tr,
+                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                      ),
+                      onTap: () {
+                        NavigationService.genericGoBack();
+                        Utils.showExitDialog(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

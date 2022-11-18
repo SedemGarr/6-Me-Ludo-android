@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 
 import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../providers/user_provider.dart';
@@ -17,13 +18,15 @@ class DeleteAcountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomListTileWidget(
-      onTap: () {
-        userProvider.showDeleteAccountDialog(context);
-      },
-      leading: const SettingsIconWidget(iconData: AppIcons.deleteAccountIcon),
-      title: SettingsTitleWidget(text: DialogueService.deleteAccountTitleText.tr),
-      subtitle: SettingsSubtitleWidget(text: DialogueService.deleteAccountSubtitleText.tr),
+    return CustomCardWidget(
+      child: CustomListTileWidget(
+        onTap: () {
+          userProvider.showDeleteAccountDialog(context);
+        },
+        leading: const SettingsIconWidget(iconData: AppIcons.deleteAccountIcon),
+        title: SettingsTitleWidget(text: DialogueService.deleteAccountTitleText.tr),
+        subtitle: SettingsSubtitleWidget(text: DialogueService.deleteAccountSubtitleText.tr),
+      ),
     );
   }
 }

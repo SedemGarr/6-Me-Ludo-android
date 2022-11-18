@@ -4,12 +4,16 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class AppIcons {
   static const IconData appIcon = Icons.filter_6;
   // home
-  static const IconData homeIcon = MdiIcons.gamepadVariantOutline;
-  static const IconData homeActiveIcon = MdiIcons.gamepadVariant;
-  static const IconData profileIcon = MdiIcons.accountOutline;
-  static const IconData profileActiveIcon = MdiIcons.account;
-  static const IconData newGameIcon = MdiIcons.playCircleOutline;
-  static const IconData newGameActiveIcon = MdiIcons.playCircle;
+  static const IconData homeIcon = MdiIcons.home;
+
+  static const IconData drawerMenuIcon = MdiIcons.menu;
+  // drawer
+  static const IconData newGameIcon = MdiIcons.viewGridPlus;
+  static const IconData joinGameIcon = MdiIcons.formTextbox;
+  static const IconData profileIcon = MdiIcons.accountSettings;
+  static const IconData signOutIcon = MdiIcons.logout;
+  static const IconData exitIcon = MdiIcons.exitToApp;
+
   // ai personality
   static const IconData pacifistIcon = MdiIcons.emoticonHappy;
   static const IconData averageJoeIcon = MdiIcons.emoticonNeutral;
@@ -55,7 +59,6 @@ class AppIcons {
   static const IconData randomThemeIcon = MdiIcons.shuffle;
   static const IconData wakelockIcon = MdiIcons.lock;
   static const IconData languageIcon = MdiIcons.globeModel;
-  static const IconData signOutIcon = MdiIcons.arrowLeft;
   static const IconData deleteAccountIcon = MdiIcons.delete;
   static const IconData addAIPlayersIcon = MdiIcons.robot;
   static const IconData adaptiveAIIcon = MdiIcons.syncIcon;

@@ -23,6 +23,7 @@ class GamePlayerWidget extends StatelessWidget {
     bool isKicked = game.kickedPlayers.contains(player.id);
 
     return CustomListTileWidget(
+      dense: true,
       leading: GameOwnerAvatarWidget(
         id: isMe
             ? userProvider.getUserID()

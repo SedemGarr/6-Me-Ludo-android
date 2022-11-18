@@ -32,12 +32,14 @@ class _OngoingGamesListWidgetState extends State<OngoingGamesListWidget> with Au
             return userProvider.ongoingGames.isEmpty
                 ? const NoGamesWidget()
                 : AnimationLimiter(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       key: PageStorageKey(UniqueKey()),
                       //   shrinkWrap: true,
                       itemCount: userProvider.ongoingGames.length,
                       padding: AppConstants.listViewPadding,
-                      // separatorBuilder: (context, index) => const Divider(),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8.0,
+                      ),
                       itemBuilder: (context, index) {
                         return AnimationConfiguration.staggeredList(
                           position: index,

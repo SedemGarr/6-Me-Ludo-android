@@ -165,11 +165,12 @@ class Utils {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
-            behavior: SnackBarBehavior.floating,
-            content: Text(
-              message,
-              style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
-            )),
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            message,
+            style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+          ),
+        ),
       );
     });
   }

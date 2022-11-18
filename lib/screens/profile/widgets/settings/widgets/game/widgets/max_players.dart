@@ -6,22 +6,24 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../../../constants/icon_constants.dart';
-import '../../../models/user_settings.dart';
-import '../../../widgets/custom_list_tile.dart';
-import '../../profile/widgets/settings/widgets/settings_icon_widget.dart';
+import '../../../../../../../constants/icon_constants.dart';
+import '../../../../../../../models/user_settings.dart';
+import '../../../../../../../widgets/custom_card_widget.dart';
+import '../../../../../../../widgets/custom_list_tile.dart';
+import '../../settings_icon_widget.dart';
 
 class MaxPlayers extends StatelessWidget {
-  const MaxPlayers({super.key});
+  final bool shouldShowIcon;
+
+  const MaxPlayers({super.key, required this.shouldShowIcon});
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
+    return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: const SettingsIconWidget(iconData: AppIcons.maxHumanPlayerIcon),
+        leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.maxHumanPlayerIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.maxPlayersTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.maxPlayersSubtitleText.tr),
         trailing: DropdownButton<dynamic>(

@@ -19,7 +19,7 @@ class JoinGameTextFieldWidget extends StatelessWidget {
     AppProvider appProvider = context.watch<AppProvider>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8.0),
+      padding: AppConstants.listViewPadding,
       child: TextFormField(
         controller: gameProvider.joinGameController,
         maxLength: AppConstants.joinGameCodeLength,

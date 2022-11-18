@@ -14,7 +14,7 @@ import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
-import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
+import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
@@ -1031,7 +1031,7 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> joinGameWithCode(Users user, AppProvider appProvider) async {
-    if (Get.currentRoute != HomePageViewWrapper.routeName) {
+    if (Get.currentRoute != HomeScreen.routeName) {
       NavigationService.goToBackToHomeScreen();
     }
 

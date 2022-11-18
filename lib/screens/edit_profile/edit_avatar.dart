@@ -7,7 +7,6 @@ import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
-import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/user_provider.dart';
@@ -59,43 +58,35 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
               text: DialogueService.changeAvatarBannerText.tr,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: CustomCardWidget(
-                  child: AnimationLimiter(
-                    child: GridView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 8.0,
-                      ),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                      ),
-                      itemCount: avatarList.length,
-                      itemBuilder: (context, index) {
-                        return AnimationConfiguration.staggeredGrid(
-                          columnCount: 4,
-                          position: index,
-                          duration: AppConstants.animationDuration,
-                          child: CustomAnimationWidget(
-                            child: GestureDetector(
-                              onTap: () {
-                                userProvider.setSelectedAvatar(avatarList[index]);
-                              },
-                              child: UserAvatarWidget(
-                                avatar: avatarList[index],
-                                backgroundColor: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
-                                borderColor: Theme.of(context).colorScheme.onBackground,
-                                hasLeftGame: false,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+              child: AnimationLimiter(
+                child: GridView.builder(
+                  padding: AppConstants.listViewPadding,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
                   ),
+                  itemCount: avatarList.length,
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredGrid(
+                      columnCount: 4,
+                      position: index,
+                      duration: AppConstants.animationDuration,
+                      child: CustomAnimationWidget(
+                        child: GestureDetector(
+                          onTap: () {
+                            userProvider.setSelectedAvatar(avatarList[index]);
+                          },
+                          child: UserAvatarWidget(
+                            avatar: avatarList[index],
+                            backgroundColor: userProvider.isAvatarSelected(avatarList[index]) ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
+                            borderColor: Theme.of(context).colorScheme.onBackground,
+                            hasLeftGame: false,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
