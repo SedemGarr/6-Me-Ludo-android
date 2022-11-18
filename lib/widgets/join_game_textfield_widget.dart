@@ -21,6 +21,7 @@ class JoinGameTextFieldWidget extends StatelessWidget {
     return Padding(
       padding: AppConstants.listViewPadding,
       child: TextFormField(
+        autofocus: true,
         controller: gameProvider.joinGameController,
         maxLength: AppConstants.joinGameCodeLength,
         cursorColor: Theme.of(context).primaryColor,

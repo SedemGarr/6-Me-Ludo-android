@@ -39,10 +39,10 @@ class EnglishTranslation {
       DialogueService.welcome2Text: 'Hey there, ',
       DialogueService.welcome3Text: 'Welcome back, ',
       DialogueService.welcome4Text: 'Glad to see you again, ',
-      DialogueService.welcome5Text: 'About time 🙄, ',
+      DialogueService.welcome5Text: '🙄 About time, ',
       DialogueService.welcome6Text: 'Welcome, ',
       DialogueService.welcome7Text: 'Howdy, ',
-      DialogueService.welcome8Text: 'Why, hello there, ',
+      DialogueService.welcome8Text: 'Why hello there, ',
       DialogueService.welcome9Text: 'Hey, ',
       DialogueService.welcome10Text: 'Hello, ',
       // welcome dialog

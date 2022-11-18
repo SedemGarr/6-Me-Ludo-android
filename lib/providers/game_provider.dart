@@ -1610,7 +1610,9 @@ class GameProvider with ChangeNotifier {
 
   Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
     if (currentGame != null) {
-      await setGamePresence(value);
+      if (!currentGame!.isOffline) {
+        await setGamePresence(value);
+      }
     }
   }
 
