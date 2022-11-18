@@ -33,7 +33,6 @@ class HomeDrawerWidget extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Theme.of(context).primaryColorLight,
                   Theme.of(context).primaryColor,
                   Theme.of(context).primaryColorDark,
                 ],
@@ -63,7 +62,11 @@ class HomeDrawerWidget extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: AppConstants.listViewPadding,
+              padding: const EdgeInsets.only(
+                top: 8.0,
+                left: 4.0,
+                right: 4.0,
+              ),
               child: Column(
                 children: [
                   CustomCardWidget(
@@ -123,7 +126,7 @@ class HomeDrawerWidget extends StatelessWidget {
                     child: CustomListTileWidget(
                       leading: const Icon(AppIcons.exitIcon),
                       title: Text(
-                        DialogueService.exitAppDialogYesText.tr,
+                        DialogueService.exitAppText.tr,
                         style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                       ),
                       onTap: () {

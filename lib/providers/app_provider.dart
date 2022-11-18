@@ -13,6 +13,7 @@ class AppProvider with ChangeNotifier {
   bool isLoading = false;
   // for splash screen
   bool isSplashScreenLoaded = false;
+  bool shouldShowAuthButton = false;
 
   //
   Random random = Random();
@@ -53,6 +54,12 @@ class AppProvider with ChangeNotifier {
 
   void setSplashScreenLoaded(bool value) {
     isSplashScreenLoaded = value;
+
+    notifyListeners();
+  }
+
+  void setShouldShowAuthButton(bool value) {
+    shouldShowAuthButton = value;
 
     notifyListeners();
   }

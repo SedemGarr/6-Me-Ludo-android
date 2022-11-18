@@ -23,6 +23,8 @@ class CustomOutlinedButton extends StatelessWidget {
         ? OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
               shape: AppConstants.appShape,
+              //  backgroundColor: Colors.amber,
+              side: BorderSide(color: Theme.of(context).primaryColor),
             ),
             onPressed: onPressed,
             label: Text(

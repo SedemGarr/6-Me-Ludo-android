@@ -48,6 +48,9 @@ class DialogueService extends Translations {
   static const String updateNeededText = 'updateNeededText';
   static const String updatePromptText = 'updatePromptText';
   static const String updateButtonText = 'updateButtonText';
+  static const String signInRequiredText = 'signInRequiredText';
+  static const String authDialogContentText = 'authDialogContentText';
+  static const String beginText = 'beginText';
   // loading strings
   static const String loading1Text = 'loading1Text';
   static const String loading2Text = 'loading2Text';
@@ -313,6 +316,7 @@ class DialogueService extends Translations {
   static const String exitAppDialogContentText = 'exitAppDialogContentText';
   static const String exitAppDialogNoText = 'exitAppDialogNoText';
   static const String exitAppDialogYesText = 'exitAppDialogYesText';
+  static const String exitAppText = 'exitAppText';
 
   @override
   Map<String, Map<String, String>> get keys => {

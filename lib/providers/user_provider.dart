@@ -11,6 +11,7 @@ import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/auth_dialog.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 import 'package:uuid/uuid.dart';
@@ -62,7 +63,9 @@ class UserProvider with ChangeNotifier {
 
           NavigationService.goToHomeScreen();
         } else {
-          NavigationService.goToAuthScreen();
+          // NavigationService.goToAuthScreen();
+          appProvider.setShouldShowAuthButton(true);
+          showAuthDialog(context: context);
         }
       });
     } else {
@@ -215,7 +218,7 @@ class UserProvider with ChangeNotifier {
     NavigationService.genericGoBack();
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = '';
-    themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getScheme());
+    themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getRandomScheme());
     Utils.showToast(DialogueService.setThemeToRandomText.tr);
     await updateUser(true, true);
   }

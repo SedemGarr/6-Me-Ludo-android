@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
   static TextStyle appBarTitleStyle(Color color) {
@@ -103,7 +104,7 @@ class TextStyles {
   }
 
   static TextStyle legalTextStyleNormal(Color color) {
-    return TextStyle(
+    return GoogleFonts.workSans(
       color: color,
     );
   }

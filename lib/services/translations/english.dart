@@ -22,6 +22,10 @@ class EnglishTranslation {
       DialogueService.updateNeededText: 'Update Needed',
       DialogueService.updatePromptText: '6-Me-Ludo! requires an update. Please update the app from the Google Play store',
       DialogueService.updateButtonText: 'Update',
+      DialogueService.signInRequiredText: 'Sign In Required',
+      DialogueService.authDialogContentText:
+          'Welcome to 6-Me-Ludo!\n\nTo continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
+      DialogueService.beginText: 'Begin',
       // loading strings
       DialogueService.loading1Text: 'Disassembling constructors...',
       DialogueService.loading2Text: 'Barring Foos...',
@@ -285,6 +289,7 @@ class EnglishTranslation {
       DialogueService.exitAppDialogContentText: 'Are you sure you want to exit ${AppConstants.appNameEnglish}?',
       DialogueService.exitAppDialogNoText: 'Cancel',
       DialogueService.exitAppDialogYesText: 'Exit',
+      DialogueService.exitAppText: 'Exit App',
     };
   }
 }

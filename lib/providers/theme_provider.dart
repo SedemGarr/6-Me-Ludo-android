@@ -53,11 +53,9 @@ class ThemeProvider with ChangeNotifier {
     }
   }
 
-  // FlexScheme getScheme() {
-  //   Random random = Random();
-
-  //   return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
-  // }
+  FlexScheme getRandomScheme() {
+    return FlexColor.schemes.keys.toList()[random.nextInt(FlexColor.schemes.keys.toList().length)];
+  }
 
   Color getSettingsColorListByIndex(FlexScheme flexScheme, bool isDark) {
     if (isDark) {
