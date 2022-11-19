@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
+import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
@@ -68,7 +69,9 @@ class HomeDrawerWidget extends StatelessWidget {
                 right: 4.0,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SettingsHeaderWidget(text: DialogueService.gameSettingsText.tr),
                   CustomCardWidget(
                     child: CustomListTileWidget(
                       leading: const Icon(AppIcons.newGameIcon),
@@ -95,6 +98,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       },
                     ),
                   ),
+                  SettingsHeaderWidget(text: DialogueService.accountSettingsText.tr),
                   CustomCardWidget(
                     child: CustomListTileWidget(
                       leading: const Icon(AppIcons.profileIcon),
