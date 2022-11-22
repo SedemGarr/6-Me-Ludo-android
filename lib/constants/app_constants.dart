@@ -45,8 +45,16 @@ class AppConstants {
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
   static const EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0);
-  static const EdgeInsets dialogTitlePadding =  EdgeInsets.all(24.0);
+  static const EdgeInsets dialogTitlePadding = EdgeInsets.all(24.0);
   static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
   static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
   static const EdgeInsets bannerPadding = EdgeInsets.all(16.0);
+
+  static LinearGradient getLinearGradient(List<Color> colors) {
+    return LinearGradient(
+      colors: colors,
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
+  }
 }

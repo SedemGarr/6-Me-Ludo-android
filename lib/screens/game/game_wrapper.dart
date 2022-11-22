@@ -12,7 +12,6 @@ import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/end_game_screen/end_game_widget.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_settings_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/chat.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/pass_button_widget.dart';
@@ -47,7 +46,11 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
     gameProvider.initialiseBoard();
     gameProvider.showGameIdSnackbar(userProvider.getUserID());
     userProvider.handleWakelockLogic(true);
-    navProvider.initialiseGameScreenTabController(this, gameProvider.getGameTabControllerLength());
+    navProvider.initialiseGameScreenTabController(
+      this,
+      gameProvider.getGameTabControllerLength(),
+      gameProvider.currentGame!.hasStarted || gameProvider.currentGame!.isOffline ? 1 : 0,
+    );
   }
 
   @override
@@ -90,6 +93,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                     gameProvider.syncThreadData(context, snapshot.data!, userProvider.getUser());
 
                     bool shouldShowShareAndCopyPopups = gameProvider.isPlayerHost(userProvider.getUserID()) && !game.isOffline;
+                    bool canEditGameSettings = (!game.hasStarted && isHost) || (!game.hasStarted && game.hasSessionEnded && isHost);
 
                     return GestureDetector(
                       onTap: () {
@@ -103,7 +107,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                               onPressed: () {
                                 navProvider.handleGameScreenBackPress(gameProvider);
                               }),
-                          title: GameSettingsWidget(gameProvider: gameProvider),
+                          //   title: GameSettingsWidget(gameProvider: gameProvider),
                           actions: [
                             if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass)
                               PassButtonWidget(
@@ -161,6 +165,13 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                                         style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                       ),
                                     ),
+                                  PopupMenuItem(
+                                    value: 5,
+                                    child: Text(
+                                      canEditGameSettings ? DialogueService.changeGameSettingsPopupText.tr : DialogueService.viewGameSettingsPopupText.tr,
+                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
+                                    ),
+                                  ),
                                 ];
                               },
                             )

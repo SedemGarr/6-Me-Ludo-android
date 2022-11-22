@@ -39,7 +39,6 @@ class PlayerListItemWidget extends StatelessWidget {
     bool hasLeft = isKicked || player.hasLeft;
     Color playerColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
     Color playerSelectedColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
-    //   Color contrastingColor = Utils.getContrastingColor(playerColor);
     Color contrastingColor = Theme.of(context).colorScheme.onBackground;
 
     return AnimatedContainer(
@@ -47,8 +46,14 @@ class PlayerListItemWidget extends StatelessWidget {
       duration: AppConstants.animationDuration,
       padding: (player.playerColor == game.playerTurn && game.hasStarted && !game.hasSessionEnded) ? const EdgeInsets.symmetric(vertical: 16.0) : EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: Get.isDarkMode ? playerSelectedColor.withOpacity(AppConstants.appOpacity) : playerColor.withOpacity(AppConstants.appOpacity),
+        //  color: Get.isDarkMode ? playerSelectedColor.withOpacity(AppConstants.appOpacity) : playerColor.withOpacity(AppConstants.appOpacity),
         borderRadius: AppConstants.appBorderRadius,
+        gradient: AppConstants.getLinearGradient(
+          [
+            playerColor.withOpacity(AppConstants.appOpacity),
+            playerSelectedColor.withOpacity(AppConstants.appOpacity),
+          ],
+        ),
       ),
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),

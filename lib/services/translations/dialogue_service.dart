@@ -51,6 +51,7 @@ class DialogueService extends Translations {
   static const String signInRequiredText = 'signInRequiredText';
   static const String authDialogContentText = 'authDialogContentText';
   static const String beginText = 'beginText';
+  static const String doneText = 'doneText';
   // loading strings
   static const String loading1Text = 'loading1Text';
   static const String loading2Text = 'loading2Text';
@@ -148,6 +149,7 @@ class DialogueService extends Translations {
   static const String createdAtText = 'createdAtText';
   static const String playerHasLeftTheGame = 'playerHasLeftTheGame';
   // game - playing
+  static const String skipTurnText = 'skipTurnText';
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';
   static const String chatTabText = 'chatTabText';
@@ -174,6 +176,7 @@ class DialogueService extends Translations {
   static const String playerHasLeftText = 'playerHasLeftText';
   static const String playerHasJoinedText = 'playerHasJoinedText';
   static const String gameHasStartedText = 'gameHasStartedText';
+  static const String gameSettingsChangedText = 'gameSettingsChangedText';
   static const String gameHasRestarted = 'gameHasRestarted';
   static const String messageContainsProfanityText = 'messageContainsProfanityText';
   static const String playerIsPresentText = 'playerIsPresentText';
@@ -212,6 +215,8 @@ class DialogueService extends Translations {
   static const String endGamePopupText = 'endGamePopupText';
   static const String copyGameIDPopupText = 'copyGameIDPopupText';
   static const String shareGameIDPopupText = 'shareGameIDPopupText';
+  static const String viewGameSettingsPopupText = 'viewGameSettingsPopupText';
+  static const String changeGameSettingsPopupText = 'changeGameSettingsPopupText';
   // game - playing - commentary
   static const String yourTurnText = 'yourTurnText';
   static const String waitingForParticularPlayerText = 'waitingForParticularPlayerText';
@@ -244,6 +249,7 @@ class DialogueService extends Translations {
   static const String gameSettingsText = 'gameSettingsText';
   static const String gameSettingsFullText = 'gameSettingsFullText';
   static const String accountSettingsText = 'accountSettingsText';
+  static const String personalisationSettingsText = 'personalisationSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';
   static const String maxPlayersSubtitleText = 'maxPlayersSubtitleText';

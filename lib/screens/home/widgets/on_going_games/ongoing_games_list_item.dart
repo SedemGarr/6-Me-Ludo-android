@@ -31,40 +31,51 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ClipRRect(
         borderRadius: AppConstants.appBorderRadius,
-        child: ExpansionTile(
-          collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          childrenPadding: const EdgeInsets.only(bottom: 8.0),
-          key: PageStorageKey(index),
-          leading: GameOwnerAvatarWidget(
-            id: host.id,
-            avatar: host.avatar,
-            playerColor: host.playerColor,
-            hasLeft: host.hasLeft,
-          ),
-          title: GameNameWidget(host: host, players: game.players),
-          subtitle: GameDateWidget(createdAt: game.createdAt),
-          trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
-          children: [
-            Column(
-              children: [
-                const CustomDividerWidget(),
-                for (int i = 0; i < game.players.length; i++)
-                  if (game.players[i].id != host.id)
-                    GamePlayerWidget(
-                      player: game.players[i],
-                      game: game,
-                      userProvider: userProvider,
-                    ),
-                GameActionsWidget(
-                  game: game,
-                  gameProvider: gameProvider,
-                  host: host,
-                  userProvider: userProvider,
-                ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: AppConstants.appBorderRadius,
+            gradient: AppConstants.getLinearGradient(
+              [
+                Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
+                Theme.of(context).primaryColorDark.withOpacity(AppConstants.appOpacity),
               ],
             ),
-          ],
+          ),
+          child: ExpansionTile(
+            //   collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
+            childrenPadding: const EdgeInsets.only(bottom: 8.0),
+            key: PageStorageKey(index),
+            leading: GameOwnerAvatarWidget(
+              id: host.id,
+              avatar: host.avatar,
+              playerColor: host.playerColor,
+              hasLeft: host.hasLeft,
+            ),
+            title: GameNameWidget(host: host, players: game.players),
+            subtitle: GameDateWidget(createdAt: game.createdAt),
+            trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
+            children: [
+              Column(
+                children: [
+                  const CustomDividerWidget(),
+                  for (int i = 0; i < game.players.length; i++)
+                    if (game.players[i].id != host.id)
+                      GamePlayerWidget(
+                        player: game.players[i],
+                        game: game,
+                        userProvider: userProvider,
+                      ),
+                  GameActionsWidget(
+                    game: game,
+                    gameProvider: gameProvider,
+                    host: host,
+                    userProvider: userProvider,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

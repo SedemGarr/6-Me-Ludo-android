@@ -20,6 +20,7 @@ import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/change_game_settings_dialog.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -369,6 +370,12 @@ class GameProvider with ChangeNotifier {
   void checkIfGameHasReStarted(Game game) {
     if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
       Utils.showToast(DialogueService.gameHasStartedText.tr);
+    }
+  }
+
+  void checkIfGameSettingsHaveChanged(Game game) {
+    if (currentGame!.hostSettings != game.hostSettings) {
+      Utils.showToast(DialogueService.gameSettingsChangedText.tr);
     }
   }
 
@@ -1637,6 +1644,10 @@ class GameProvider with ChangeNotifier {
       case 4:
         shareGameUrl();
         break;
+      case 5:
+        showGameSettingsDialog(
+            currentGame!, (!currentGame!.hasStarted && isPlayerHost(user.id)) || (!currentGame!.hasStarted && currentGame!.hasSessionEnded && isPlayerHost(user.id)), context);
+        break;
     }
   }
 
@@ -1654,7 +1665,11 @@ class GameProvider with ChangeNotifier {
 
   Future<void> deleteGame(Game game, Users user) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
-    DatabaseService.deleteGame(game.id, user);
+    DatabaseService.deleteGame(game.id, user);  
+  }
+
+  showGameSettingsDialog(Game game, bool canEdit, BuildContext context) {
+    return showSettingsDialog(currentGame: game, canEdit: canEdit, context: context);
   }
 
   showBanPlayerDialog(Player player, BuildContext context) {

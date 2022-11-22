@@ -17,10 +17,19 @@ class CustomCardWidget extends StatelessWidget {
       ),
       child: Card(
         shape: AppConstants.appShape,
-        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
         elevation: 0,
         margin: EdgeInsets.zero,
-        child: child,
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: AppConstants.appBorderRadius,
+              gradient: AppConstants.getLinearGradient(
+                [
+                  Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
+                  Theme.of(context).primaryColorDark.withOpacity(AppConstants.appOpacity),
+                ],
+              ),
+            ),
+            child: child),
       ),
     );
   }

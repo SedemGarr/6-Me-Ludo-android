@@ -38,7 +38,7 @@ showNewGameDialog({
           style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
         ),
         content: SizedBox(
-          height: Get.height * 2 / 4,
+          height: Get.height * 3 / 4,
           width: Get.width,
           child: ListView(
             padding: AppConstants.listViewPadding,

@@ -42,7 +42,14 @@ class PieceWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerSelectedColor
-                      : PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor,
+                      //  : PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor,
+                      : null,
+                  gradient: AppConstants.getLinearGradient([
+                    isSelected
+                        ? PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerSelectedColor
+                        : PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor,
+                    PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerSelectedColor,
+                  ]),
                   border: Border.all(
                     color: CSSColors.black,
                     width: isSelected ? 2 : 1,
@@ -56,7 +63,11 @@ class PieceWidget extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 3.0),
                       child: Text(
                         Utils.getInitials(game.players[i].psuedonym),
-                        style: TextStyle(color: Utils.getContrastingColor(PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor), fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: isSelected ? CSSColors.black : Utils.getContrastingColor(PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor),
+                          fontStyle: isSelected ? FontStyle.italic : FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

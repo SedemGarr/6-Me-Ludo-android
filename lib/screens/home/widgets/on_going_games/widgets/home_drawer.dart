@@ -30,10 +30,8 @@ class HomeDrawerWidget extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
+              gradient: AppConstants.getLinearGradient(
+                [
                   Theme.of(context).primaryColor,
                   Theme.of(context).primaryColorDark,
                 ],
@@ -98,7 +96,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       },
                     ),
                   ),
-                  SettingsHeaderWidget(text: DialogueService.accountSettingsText.tr),
+                  SettingsHeaderWidget(text: DialogueService.personalisationSettingsText.tr),
                   CustomCardWidget(
                     child: CustomListTileWidget(
                       leading: const Icon(AppIcons.profileIcon),

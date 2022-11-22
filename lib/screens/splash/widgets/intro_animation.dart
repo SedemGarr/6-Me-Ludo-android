@@ -29,8 +29,14 @@ class IntroAnimation extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
                   borderRadius: AppConstants.appBorderRadius,
+                  color: Theme.of(context).primaryColor,
+                  gradient: AppConstants.getLinearGradient(
+                    [
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColorDark,
+                    ],
+                  ),
                 ),
                 child: CustomAnimatedCrossFade(
                   firstChild: Lottie.asset(

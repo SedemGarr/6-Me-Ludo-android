@@ -26,6 +26,7 @@ class EnglishTranslation {
       DialogueService.authDialogContentText:
           'Welcome to 6-Me-Ludo!\n\nTo continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
       DialogueService.beginText: 'Begin',
+      DialogueService.doneText: 'Done',
       // loading strings
       DialogueService.loading1Text: 'Disassembling constructors...',
       DialogueService.loading2Text: 'Barring Foos...',
@@ -42,11 +43,11 @@ class EnglishTranslation {
       DialogueService.welcome1Text: 'Hi, ',
       DialogueService.welcome2Text: 'Hey there, ',
       DialogueService.welcome3Text: 'Welcome back, ',
-      DialogueService.welcome4Text: 'Glad to see you again, ',
+      DialogueService.welcome4Text: 'Hullo, ',
       DialogueService.welcome5Text: '🙄 About time, ',
       DialogueService.welcome6Text: 'Welcome, ',
       DialogueService.welcome7Text: 'Howdy, ',
-      DialogueService.welcome8Text: 'Why hello there, ',
+      DialogueService.welcome8Text: 'Hello there, ',
       DialogueService.welcome9Text: 'Hey, ',
       DialogueService.welcome10Text: 'Hello, ',
       // welcome dialog
@@ -118,6 +119,7 @@ class EnglishTranslation {
       DialogueService.hostGameBannerText: 'Review your game settings and start a new game',
       DialogueService.gameVersionMismatchText: 'Sorry, game versions do not match',
       // game - playing
+      DialogueService.skipTurnText: 'Skip Turn',
       DialogueService.inAFewSecondsText: 'in a few seconds',
       DialogueService.playerTabText: 'Players',
       DialogueService.boardTabText: 'Game',
@@ -146,6 +148,7 @@ class EnglishTranslation {
       DialogueService.playerHasLeftText: ' has left the game',
       DialogueService.playerHasJoinedText: ' has joined the game',
       DialogueService.gameHasStartedText: 'The game has started',
+      DialogueService.gameSettingsChangedText: 'The host has changed the game settings',
       DialogueService.gameHasRestarted: 'The host has restarted the game',
       DialogueService.messageContainsProfanityText: 'This message is hidden due to your profanity settings',
       DialogueService.playerIsPresentText: 'Present in game',
@@ -185,6 +188,8 @@ class EnglishTranslation {
       DialogueService.endGamePopupText: 'End Game',
       DialogueService.copyGameIDPopupText: 'Copy Game Code',
       DialogueService.shareGameIDPopupText: 'Share Game Invite',
+      DialogueService.viewGameSettingsPopupText: 'View Game Settings',
+      DialogueService.changeGameSettingsPopupText: 'Change Game Settings',
       // game - playing - commentary
       DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
       DialogueService.waitingForParticularPlayerText: 'Waiting for ',
@@ -217,6 +222,7 @@ class EnglishTranslation {
       DialogueService.gameSettingsText: 'Games',
       DialogueService.gameSettingsFullText: 'Game Settings',
       DialogueService.accountSettingsText: 'Account',
+      DialogueService.personalisationSettingsText: 'Personalisation',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',
       DialogueService.maxPlayersSubtitleText: 'Select how many human players you want to add to your game',
