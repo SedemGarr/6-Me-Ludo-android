@@ -208,6 +208,15 @@ class DialogueService extends Translations {
   static const String timesPluralText = 'timesPluralText';
   static const String reputationChangedText = 'reputationChangedText';
   static const String reputationChangedPluralText = 'reputationChangedPluralText';
+  // game settings
+  static const String catchUpAssistEnabledText = 'catchUpAssistEnabledText';
+  static const String catchUpAssistDisabledText = 'catchUpAssistDisabledText';
+  static const String startAssistEnabledText = 'startAssistEnabledText';
+  static const String startAssistDisabledText = 'startAssistDisabledText';
+  static const String adaptiveAIEnabledText = 'adaptiveAIEnabledText';
+  static const String adaptiveAIDisabledText = 'adaptiveAIDisabledText';
+  static const String hostSetAIPersonalityText = 'hostSetAIPersonalityText';
+  static const String hostSetGameSpeedText = 'hostSetGameSpeedText';
   // game - controls
   static const String restartGamePopupText = 'restartGamePopupText';
   static const String startSessionPopupText = 'startSessionPopupText';

@@ -180,7 +180,15 @@ class EnglishTranslation {
       DialogueService.timesPluralText: ' times',
       DialogueService.reputationChangedText: ' is now ',
       DialogueService.reputationChangedPluralText: ' are now ',
-
+      // game settings
+      DialogueService.catchUpAssistEnabledText: 'Host has enabled catch up assist',
+      DialogueService.catchUpAssistDisabledText: 'Host has disabled catch up assist',
+      DialogueService.startAssistEnabledText: 'Host has enabled start assist',
+      DialogueService.startAssistDisabledText: 'Host has disabled start assist',
+      DialogueService.adaptiveAIEnabledText: 'Host has enabled adaptive AI',
+      DialogueService.adaptiveAIDisabledText: 'Host has disabled adaptive AI',
+      DialogueService.hostSetAIPersonalityText: 'Host has set the AI personality to ',
+      DialogueService.hostSetGameSpeedText: 'Host has set the game speed to ',
       // game - controls
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',

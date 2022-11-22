@@ -314,6 +314,7 @@ class GameProvider with ChangeNotifier {
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
     checkForReputationChange(game);
+    checkIfGameSettingsHaveChanged(game, user.id);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
@@ -373,9 +374,65 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  void checkIfGameSettingsHaveChanged(Game game) {
-    if (currentGame!.hostSettings != game.hostSettings) {
-      Utils.showToast(DialogueService.gameSettingsChangedText.tr);
+  void checkIfGameSettingsHaveChanged(Game game, String id) {
+    if (!isPlayerHost(id) && currentGame!.hostSettings != game.hostSettings) {
+      UserSettings newSettings = game.hostSettings;
+      UserSettings oldSettings = currentGame!.hostSettings;
+
+      if (newSettings.prefersCatchupAssist != oldSettings.prefersCatchupAssist) {
+        if (newSettings.prefersCatchupAssist) {
+          Utils.showToast(DialogueService.catchUpAssistEnabledText.tr);
+        } else {
+          Utils.showToast(DialogueService.catchUpAssistDisabledText.tr);
+        }
+      }
+
+      if (newSettings.prefersStartAssist != oldSettings.prefersStartAssist) {
+        if (newSettings.prefersStartAssist) {
+          Utils.showToast(DialogueService.startAssistEnabledText.tr);
+        } else {
+          Utils.showToast(DialogueService.startAssistDisabledText.tr);
+        }
+      }
+
+      if (newSettings.prefersAdaptiveAI != oldSettings.prefersAdaptiveAI) {
+        if (newSettings.prefersAdaptiveAI) {
+          Utils.showToast(DialogueService.adaptiveAIEnabledText.tr);
+        } else {
+          Utils.showToast(DialogueService.adaptiveAIDisabledText.tr);
+        }
+      }
+
+      if (newSettings.aiPersonalityPreference != oldSettings.aiPersonalityPreference) {
+        switch (newSettings.aiPersonalityPreference) {
+          case PlayerConstants.averageJoe:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.averagePersonalityType.tr);
+            break;
+          case PlayerConstants.vicious:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.viciousPersonalityType.tr);
+            break;
+          case PlayerConstants.pacifist:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.pacifistPersonalityType.tr);
+            break;
+          case PlayerConstants.randomPersonality:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.randomPersonalityType.tr);
+            break;
+        }
+      }
+
+      if (newSettings.preferredSpeed != oldSettings.preferredSpeed) {
+        switch (newSettings.preferredSpeed) {
+          case UserSettings.fastSpeed:
+            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedFastText.tr);
+            break;
+          case UserSettings.normalSpeed:
+            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedNormalText.tr);
+            break;
+          case UserSettings.slowSpeed:
+            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedSlowText.tr);
+            break;
+        }
+      }
     }
   }
 
@@ -1043,6 +1100,8 @@ class GameProvider with ChangeNotifier {
     }
 
     if (isJoinGameCodeValidLength()) {
+      NavigationService.genericGoBack();
+
       appProvider.setLoading(true, true);
 
       try {
@@ -1665,7 +1724,7 @@ class GameProvider with ChangeNotifier {
 
   Future<void> deleteGame(Game game, Users user) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
-    DatabaseService.deleteGame(game.id, user);  
+    DatabaseService.deleteGame(game.id, user);
   }
 
   showGameSettingsDialog(Game game, bool canEdit, BuildContext context) {
