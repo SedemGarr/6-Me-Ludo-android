@@ -42,6 +42,14 @@ class TextStyles {
     );
   }
 
+  static TextStyle modalTitleStyle(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+      fontSize: 26,
+    );
+  }
+
   static TextStyle dialogTitleStyle(Color color) {
     return TextStyle(
       color: color,

@@ -94,6 +94,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
 
                     bool shouldShowShareAndCopyPopups = gameProvider.isPlayerHost(userProvider.getUserID()) && !game.isOffline;
                     bool canEditGameSettings = (!game.hasStarted && isHost) || (!game.hasStarted && game.hasSessionEnded && isHost);
+                    bool canSkip = gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass;
 
                     return GestureDetector(
                       onTap: () {
@@ -107,9 +108,8 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                               onPressed: () {
                                 navProvider.handleGameScreenBackPress(gameProvider);
                               }),
-                          //   title: GameSettingsWidget(gameProvider: gameProvider),
                           actions: [
-                            if (gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass)
+                            if (canSkip)
                               PassButtonWidget(
                                 gameProvider: gameProvider,
                                 userProvider: userProvider,

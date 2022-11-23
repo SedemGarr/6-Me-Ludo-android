@@ -50,13 +50,7 @@ class ChatListItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: AppConstants.appBorderRadius,
-            //  color: playerColor.withOpacity(AppConstants.appOpacity),
-            gradient: AppConstants.getLinearGradient(
-              [
-                playerColor.withOpacity(AppConstants.appOpacity),
-                playerSelectedColor.withOpacity(AppConstants.appOpacity),
-              ],
-            ),
+            color: Get.isDarkMode ? playerSelectedColor.withOpacity(AppConstants.appOpacity) : playerColor.withOpacity(AppConstants.appOpacity),
           ),
           child: CustomListTileWidget(
             leading: isMe
@@ -90,13 +84,7 @@ class ChatListItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: AppConstants.appBorderRadius,
-            // color: playerColor.withOpacity(AppConstants.appOpacity),
-            gradient: AppConstants.getLinearGradient(
-              [
-                playerColor.withOpacity(AppConstants.appOpacity),
-                playerSelectedColor.withOpacity(AppConstants.appOpacity),
-              ],
-            ),
+            color: playerColor.withOpacity(AppConstants.appOpacity),
           ),
           child: CustomListTileWidget(
             leading: isMe

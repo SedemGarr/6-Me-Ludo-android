@@ -20,7 +20,7 @@ import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
-import 'package:six_me_ludo_android/widgets/change_game_settings_dialog.dart';
+import 'package:six_me_ludo_android/widgets/change_game_settings_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -37,6 +37,7 @@ import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/user_settings.dart';
 import '../services/game_status_service.dart';
+import '../widgets/upgrade_bottom_sheet.dart';
 
 class GameProvider with ChangeNotifier {
   late Board board;
@@ -1083,7 +1084,7 @@ class GameProvider with ChangeNotifier {
             Utils.showToast(DialogueService.gameVersionMismatchText.tr);
             appProvider.setLoading(false, true);
           } else {
-            NavigationService.goToUpgradeScreen();
+            showUpgradeBottomSheet(context: Get.context!);
           }
         }
       }
@@ -1146,7 +1147,7 @@ class GameProvider with ChangeNotifier {
               Utils.showToast(DialogueService.gameVersionMismatchText.tr);
               appProvider.setLoading(false, true);
             } else {
-              NavigationService.goToUpgradeScreen();
+              showUpgradeBottomSheet(context: Get.context!);
             }
           }
         }
@@ -1728,7 +1729,7 @@ class GameProvider with ChangeNotifier {
   }
 
   showGameSettingsDialog(Game game, bool canEdit, BuildContext context) {
-    return showSettingsDialog(currentGame: game, canEdit: canEdit, context: context);
+    return showSettingsBottomSheet(game: game, canEdit: canEdit, context: context);
   }
 
   showBanPlayerDialog(Player player, BuildContext context) {

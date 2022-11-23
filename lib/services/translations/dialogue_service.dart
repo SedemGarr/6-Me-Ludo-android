@@ -78,7 +78,7 @@ class DialogueService extends Translations {
   static const String welcome10Text = 'welcome10Text';
 
   // welcome dialog
-  static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
+  static const String welcomeBottomSheetTitleText = 'welcomeBottomSheetTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
   static const String welcomeDialogNoText = 'welcomeDialogNoText';
   static const String welcomeDialogYesText = 'welcomeDialogYesText';

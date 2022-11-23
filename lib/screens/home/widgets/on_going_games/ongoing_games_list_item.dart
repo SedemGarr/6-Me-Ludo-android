@@ -34,15 +34,9 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: AppConstants.appBorderRadius,
-            gradient: AppConstants.getLinearGradient(
-              [
-                Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
-                Theme.of(context).primaryColorDark.withOpacity(AppConstants.appOpacity),
-              ],
-            ),
           ),
           child: ExpansionTile(
-            //   collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+            collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
             backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
             childrenPadding: const EdgeInsets.only(bottom: 8.0),
             key: PageStorageKey(index),

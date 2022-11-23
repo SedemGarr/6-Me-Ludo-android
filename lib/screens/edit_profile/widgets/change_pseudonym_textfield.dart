@@ -35,7 +35,7 @@ class ChangePseudonymTextField extends StatelessWidget {
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor)),
             hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
             counterStyle: TextStyles.listSubtitleStyle(
-              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.onBackground,
             ),
           ),
           style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),

@@ -8,6 +8,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../constants/textstyle_constants.dart';
+import '../utils/utils.dart';
 
 class JoinGameTextFieldWidget extends StatelessWidget {
   const JoinGameTextFieldWidget({super.key});
@@ -35,12 +36,13 @@ class JoinGameTextFieldWidget extends StatelessWidget {
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor)),
           filled: false,
           hintText: DialogueService.joinGameHintText.tr,
-          hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
+          hintStyle: TextStyles.textFieldStyle(
+              Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor).withOpacity(0.5)),
           counterStyle: TextStyles.listSubtitleStyle(
-            Theme.of(context).colorScheme.primaryContainer,
+            Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
           ),
         ),
-        style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
+        style: TextStyles.textFieldStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
         onChanged: (value) {
           if (value.length == AppConstants.joinGameCodeLength) {
             gameProvider.joinGameWithCode(userProvider.getUser(), appProvider);

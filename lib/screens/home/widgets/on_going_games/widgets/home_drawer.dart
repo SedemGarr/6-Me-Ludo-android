@@ -6,8 +6,8 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
-import 'package:six_me_ludo_android/widgets/join_game_dialog.dart';
-import 'package:six_me_ludo_android/widgets/new_game_dialog.dart';
+import 'package:six_me_ludo_android/widgets/join_game_bottom_sheet.dart';
+import 'package:six_me_ludo_android/widgets/new_game_bottom_sheet.dart';
 
 import '../../../../../constants/app_constants.dart';
 import '../../../../../constants/textstyle_constants.dart';
@@ -30,12 +30,7 @@ class HomeDrawerWidget extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              gradient: AppConstants.getLinearGradient(
-                [
-                  Theme.of(context).primaryColor,
-                  Theme.of(context).primaryColorDark,
-                ],
-              ),
+              color: Theme.of(context).primaryColorDark,
             ),
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
@@ -92,7 +87,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       ),
                       onTap: () {
                         NavigationService.genericGoBack();
-                        showJoinGameDialog(context: context);
+                        showJoinGameBottomSheet(context: context);
                       },
                     ),
                   ),

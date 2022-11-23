@@ -5,16 +5,11 @@ import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import 'package:six_me_ludo_android/screens/splash/splash.dart';
-import 'package:six_me_ludo_android/screens/upgrade/upgrade.dart';
 
 import '../screens/legal/legal.dart';
 import '../screens/profile/widgets/settings/widgets/general/widgets/theme_selector.dart';
 
 class NavigationService {
-  // static void goToAuthScreen() {
-  //   Get.offAll(() => const AuthScreen());
-  // }
-
   static void goToHomeScreen() {
     Get.offAll(() => const HomeScreen());
   }
@@ -41,10 +36,6 @@ class NavigationService {
 
   static Future<void> goToLegalScreen() async {
     await Get.to(() => const LegalScreen());
-  }
-
-  static Future<void> goToUpgradeScreen() async {
-    await Get.offAll(() => const UpgradeScreen());
   }
 
   static void goToBackToHomeScreen() {

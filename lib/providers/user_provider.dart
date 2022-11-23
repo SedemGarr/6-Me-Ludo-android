@@ -11,8 +11,9 @@ import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
-import 'package:six_me_ludo_android/widgets/auth_dialog.dart';
+import 'package:six_me_ludo_android/widgets/auth_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/upgrade_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,7 +23,7 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
-import '../widgets/new_game_dialog.dart';
+import '../widgets/new_game_bottom_sheet.dart';
 import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
@@ -65,11 +66,11 @@ class UserProvider with ChangeNotifier {
         } else {
           // NavigationService.goToAuthScreen();
           appProvider.setShouldShowAuthButton(true);
-          showAuthDialog(context: context);
+          showAuthBottomSheet(context: context);
         }
       });
     } else {
-      NavigationService.goToUpgradeScreen();
+      showUpgradeBottomSheet(context: context);
     }
   }
 

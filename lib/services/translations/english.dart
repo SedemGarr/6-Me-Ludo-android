@@ -24,7 +24,7 @@ class EnglishTranslation {
       DialogueService.updateButtonText: 'Update',
       DialogueService.signInRequiredText: 'Sign In Required',
       DialogueService.authDialogContentText:
-          'Welcome to 6-Me-Ludo!\n\nTo continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
+          'To continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
       DialogueService.beginText: 'Begin',
       DialogueService.doneText: 'Done',
       // loading strings
@@ -51,7 +51,7 @@ class EnglishTranslation {
       DialogueService.welcome9Text: 'Hey, ',
       DialogueService.welcome10Text: 'Hello, ',
       // welcome dialog
-      DialogueService.welcomeDialogTitleText: 'Hi!',
+      DialogueService.welcomeBottomSheetTitleText: 'Welcome to 6-Me-Ludo!',
       DialogueService.welcomeDialogContentText: 'Welcome to 6-Me-Ludo. Sign in to continue',
       DialogueService.welcomeDialogYesText: 'Sign In',
       DialogueService.welcomeDialogNoText: 'Exit',

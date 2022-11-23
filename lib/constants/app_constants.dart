@@ -1,3 +1,4 @@
+import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,7 +46,9 @@ class AppConstants {
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
   static const EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0);
-  static const EdgeInsets dialogTitlePadding = EdgeInsets.all(24.0);
+  static const EdgeInsets modalTitlePadding = EdgeInsets.all(24.0);
+  static const EdgeInsets dialogTitlePadding = EdgeInsets.only(left: 24.0, top: 24.0, right: 24.0, bottom: 0.0);
+  static const EdgeInsets dialogActionsPadding = EdgeInsets.only(left: 0.0, top: 0.0, right: 24.0, bottom: 24.0);
   static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
   static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
   static const EdgeInsets bannerPadding = EdgeInsets.all(16.0);
@@ -57,4 +60,7 @@ class AppConstants {
       end: Alignment.bottomRight,
     );
   }
+
+  static const Color darkDialogBackgroundColor = CSSColors.darkSlateGrey;
+  static const Color lightDialogBackgroundColor = CSSColors.lightGray;
 }

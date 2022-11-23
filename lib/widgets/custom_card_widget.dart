@@ -22,12 +22,7 @@ class CustomCardWidget extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               borderRadius: AppConstants.appBorderRadius,
-              gradient: AppConstants.getLinearGradient(
-                [
-                  Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
-                  Theme.of(context).primaryColorDark.withOpacity(AppConstants.appOpacity),
-                ],
-              ),
+              color: Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
             ),
             child: child),
       ),
