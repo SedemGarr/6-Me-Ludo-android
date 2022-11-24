@@ -108,6 +108,14 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                               onPressed: () {
                                 navProvider.handleGameScreenBackPress(gameProvider);
                               }),
+                          title: game.hasSessionEnded
+                              ? Text(
+                                  Utils.getGameSessionDuration(game.sessionStartedAt, game.sessionEndedAt),
+                                  style: TextStyles.listTitleStyle(Utils.getContrastingColor(gameProvider.playerColor)),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              : null,
                           actions: [
                             if (canSkip)
                               PassButtonWidget(

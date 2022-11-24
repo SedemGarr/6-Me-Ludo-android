@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
@@ -160,13 +159,6 @@ class GameProvider with ChangeNotifier {
     } else {
       return '';
     }
-  }
-
-  String getSessionDuration(String sessionStartedAt, String sessionEndedAt) {
-    DateTime startedAt = DateTime.parse(sessionStartedAt);
-    DateTime endedAt = DateTime.parse(sessionEndedAt);
-
-    return Jiffy(endedAt).from(startedAt);
   }
 
   IconData getAIPreferenceIcon(String value) {
@@ -1606,7 +1598,7 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
+    await DatabaseService.updateGameSessionStartDate(currentGame!);
 
     // get ai player to start game
     if (currentGame!.players.first.isAIPlayer) {
@@ -1639,7 +1631,7 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGame(currentGame!, true);
+    await DatabaseService.updateGameSessionStartDate(currentGame!);
 
     notifyListeners();
 
@@ -1718,7 +1710,7 @@ class GameProvider with ChangeNotifier {
 
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
 
-    await DatabaseService.updateGame(game, true);
+    await DatabaseService.updateGameSessionEndDate(game);
 
     scrollToBoardTab();
   }

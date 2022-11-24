@@ -23,8 +23,7 @@ class EnglishTranslation {
       DialogueService.updatePromptText: '6-Me-Ludo! requires an update. Please update the app from the Google Play store',
       DialogueService.updateButtonText: 'Update',
       DialogueService.signInRequiredText: 'Sign In Required',
-      DialogueService.authDialogContentText:
-          'To continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
+      DialogueService.authDialogContentText: 'To continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
       DialogueService.beginText: 'Begin',
       DialogueService.doneText: 'Done',
       // loading strings
@@ -180,6 +179,7 @@ class EnglishTranslation {
       DialogueService.timesPluralText: ' times',
       DialogueService.reputationChangedText: ' is now ',
       DialogueService.reputationChangedPluralText: ' are now ',
+      DialogueService.gameSessionLengthText: 'Session length: ',
       // game settings
       DialogueService.catchUpAssistEnabledText: 'Host has enabled catch up assist',
       DialogueService.catchUpAssistDisabledText: 'Host has disabled catch up assist',
@@ -233,7 +233,7 @@ class EnglishTranslation {
       DialogueService.personalisationSettingsText: 'Personalisation',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',
-      DialogueService.maxPlayersSubtitleText: 'Select how many human players you want to add to your game',
+      DialogueService.maxPlayersSubtitleText: 'Select how many human players, including yourself, you want in your game',
       // settings - dark mode
       DialogueService.darkModeTitleText: 'Dark Mode',
       DialogueService.darkModeSubtitleText: 'Toggle dark mode on or off',

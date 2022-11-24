@@ -208,6 +208,7 @@ class DialogueService extends Translations {
   static const String timesPluralText = 'timesPluralText';
   static const String reputationChangedText = 'reputationChangedText';
   static const String reputationChangedPluralText = 'reputationChangedPluralText';
+  static const String gameSessionLengthText = 'gameSessionLengthText';
   // game settings
   static const String catchUpAssistEnabledText = 'catchUpAssistEnabledText';
   static const String catchUpAssistDisabledText = 'catchUpAssistDisabledText';
