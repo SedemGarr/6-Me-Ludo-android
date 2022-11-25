@@ -336,6 +336,12 @@ class DialogueService extends Translations {
   static const String privacyTitleText = 'privacyTitleText';
   static const String termsTitleText = 'termsTitleText';
   static const String licenseTitleText = 'licenseTitleText';
+  // feedback
+  static const String sendFeedbackText = 'sendFeedbackText';
+  static const String subjectText = 'subjectText';
+  static const String emailAddressText = 'emailAddressText';
+  //
+  static const String specialText = 'specialText';
   // exit
   static const String exitAppDialogTitleText = 'exitAppDialogTitleText';
   static const String exitAppDialogContentText = 'exitAppDialogContentText';

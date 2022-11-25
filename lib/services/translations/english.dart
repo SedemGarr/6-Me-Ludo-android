@@ -307,6 +307,12 @@ class EnglishTranslation {
       DialogueService.privacyTitleText: 'Privacy Policy',
       DialogueService.termsTitleText: 'Terms and Conditions',
       DialogueService.licenseTitleText: 'Application Licenses',
+      // feedback
+      DialogueService.sendFeedbackText: 'Send Feedback',
+      DialogueService.subjectText: 'Feedback on ${AppConstants.appNameEnglish}',
+      DialogueService.emailAddressText: 'wayyy.out.games@gmail.com',
+      // special text
+      DialogueService.specialText: 'You found me! Lol. Congrats. Your reward is my real name. I\'m Sedem, a developer from Ghana. Nice to meet you',
       // exit dialog
       DialogueService.exitAppDialogTitleText: 'Aww...',
       DialogueService.exitAppDialogContentText: 'Are you sure you want to exit ${AppConstants.appNameEnglish}?',
