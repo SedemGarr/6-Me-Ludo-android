@@ -36,8 +36,8 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
             borderRadius: AppConstants.appBorderRadius,
           ),
           child: ExpansionTile(
-            collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
-            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
+            collapsedBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
+            backgroundColor: Theme.of(context).colorScheme.primary,
             childrenPadding: const EdgeInsets.only(bottom: 8.0),
             key: PageStorageKey(index),
             leading: GameOwnerAvatarWidget(
