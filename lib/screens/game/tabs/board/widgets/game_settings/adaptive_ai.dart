@@ -7,17 +7,13 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../../../../profile/widgets/settings/widgets/settings_icon_widget.dart';
-import '../../../../../profile/widgets/settings/widgets/settings_subtitle_widget.dart';
 
 class GameAdaptiveAI extends StatefulWidget {
-  final bool shouldShowIcon;
   final bool canEdit;
   final Game game;
 
-  const GameAdaptiveAI({super.key, required this.shouldShowIcon, required this.canEdit, required this.game});
+  const GameAdaptiveAI({super.key, required this.canEdit, required this.game});
 
   @override
   State<GameAdaptiveAI> createState() => _GameAdaptiveAIState();
@@ -49,9 +45,9 @@ class _GameAdaptiveAIState extends State<GameAdaptiveAI> {
   Widget build(BuildContext context) {
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: widget.shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.adaptiveAIIcon) : null,
+        //  leading: widget.shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.adaptiveAIIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.adaptiveAITitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.adaptiveAISubtitleText.tr),
+        //   subtitle: SettingsSubtitleWidget(text: DialogueService.adaptiveAISubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: widget.canEdit ? toggleSetting : null, value: game.hostSettings.prefersAdaptiveAI),
       ),
     );

@@ -4,20 +4,16 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../../../../../models/game.dart';
 import '../../../../../../services/database_service.dart';
-import '../../../../../profile/widgets/settings/widgets/settings_icon_widget.dart';
-import '../../../../../profile/widgets/settings/widgets/settings_subtitle_widget.dart';
 
 class GameCatchUpAssist extends StatefulWidget {
-  final bool shouldShowIcon;
   final bool canEdit;
   final Game game;
 
-  const GameCatchUpAssist({super.key, required this.shouldShowIcon, required this.canEdit, required this.game});
+  const GameCatchUpAssist({super.key, required this.canEdit, required this.game});
 
   @override
   State<GameCatchUpAssist> createState() => _GameCatchUpAssistState();
@@ -49,9 +45,9 @@ class _GameCatchUpAssistState extends State<GameCatchUpAssist> {
   Widget build(BuildContext context) {
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: widget.shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.catchUpAssistIcon) : null,
+        //  leading: widget.shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.catchUpAssistIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.catchUpAssistTitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.catchUpAssistSubtitleText.tr),
+        //   subtitle: SettingsSubtitleWidget(text: DialogueService.catchUpAssistSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: widget.canEdit ? toggleSetting : null, value: game.hostSettings.prefersCatchupAssist),
       ),
     );

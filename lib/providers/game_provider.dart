@@ -24,7 +24,6 @@ import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../constants/icon_constants.dart';
 import '../models/die.dart';
 import '../models/direction.dart';
 import '../models/game.dart';
@@ -169,33 +168,33 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  IconData getAIPreferenceIcon(String value) {
-    switch (value) {
-      case PlayerConstants.pacifist:
-        return PlayerConstants.pacifistIcon;
-      case PlayerConstants.averageJoe:
-        return PlayerConstants.averageJoeIcon;
-      case PlayerConstants.vicious:
-        return PlayerConstants.viciousIcon;
-      case PlayerConstants.randomPersonality:
-        return PlayerConstants.randomIcon;
-      default:
-        return AppIcons.aIPersonalityTypeIcon;
-    }
-  }
+  // IconData getAIPreferenceIcon(String value) {
+  //   switch (value) {
+  //     case PlayerConstants.pacifist:
+  //       return PlayerConstants.pacifistIcon;
+  //     case PlayerConstants.averageJoe:
+  //       return PlayerConstants.averageJoeIcon;
+  //     case PlayerConstants.vicious:
+  //       return PlayerConstants.viciousIcon;
+  //     case PlayerConstants.randomPersonality:
+  //       return PlayerConstants.randomIcon;
+  //     default:
+  //       return AppIcons.aIPersonalityTypeIcon;
+  //   }
+  // }
 
-  IconData gameSpeedPreferenceIcon(int value) {
-    switch (value) {
-      case UserSettings.slowSpeed:
-        return AppIcons.slowGameSpeedIcon;
-      case UserSettings.normalSpeed:
-        return AppIcons.normalGameSpeedIcon;
-      case UserSettings.fastSpeed:
-        return AppIcons.fastGameSpeedIcon;
-      default:
-        return AppIcons.gameSpeedIcon;
-    }
-  }
+  // IconData gameSpeedPreferenceIcon(int value) {
+  //   switch (value) {
+  //     case UserSettings.slowSpeed:
+  //       return AppIcons.slowGameSpeedIcon;
+  //     case UserSettings.normalSpeed:
+  //       return AppIcons.normalGameSpeedIcon;
+  //     case UserSettings.fastSpeed:
+  //       return AppIcons.fastGameSpeedIcon;
+  //     default:
+  //       return AppIcons.gameSpeedIcon;
+  //   }
+  // }
 
   Player getWinnerPlayer() {
     return currentGame!.players.firstWhere((element) => element.id == currentGame!.finishedPlayers.first);

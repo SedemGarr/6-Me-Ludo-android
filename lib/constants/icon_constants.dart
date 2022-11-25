@@ -2,17 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AppIcons {
-  static const IconData appIcon = Icons.filter_6;
   // home
   static const IconData homeIcon = MdiIcons.home;
 
   static const IconData drawerMenuIcon = MdiIcons.menu;
-  // drawer
-  static const IconData newGameIcon = MdiIcons.viewGridPlus;
-  static const IconData joinGameIcon = MdiIcons.formTextbox;
-  static const IconData profileIcon = MdiIcons.accountSettings;
-  static const IconData signOutIcon = MdiIcons.logout;
-  static const IconData exitIcon = MdiIcons.exitToApp;
 
   // ai personality
   static const IconData pacifistIcon = MdiIcons.emoticonHappy;
@@ -50,28 +43,9 @@ class AppIcons {
   static const IconData sixDieIcon = MdiIcons.dice6Outline;
   // game - chat
   static const IconData sendMessageIcon = MdiIcons.send;
-  // settings
-  static const IconData darkModeIcon = MdiIcons.moonWaningCrescent;
-  static const IconData audioIcon = MdiIcons.volumeMedium;
-  static const IconData themeIcon = MdiIcons.palette;
+  // settingss
   static const IconData themeArrowIcon = MdiIcons.chevronRight;
   static const IconData themeSelectedIcon = MdiIcons.circle;
   static const IconData randomThemeIcon = MdiIcons.shuffle;
-  static const IconData wakelockIcon = MdiIcons.lock;
-  static const IconData languageIcon = MdiIcons.globeModel;
-  static const IconData deleteAccountIcon = MdiIcons.delete;
-  static const IconData addAIPlayersIcon = MdiIcons.robot;
-  static const IconData adaptiveAIIcon = MdiIcons.syncIcon;
-  static const IconData autoStartIcon = MdiIcons.playCircle;
-  static const IconData catchUpAssistIcon = MdiIcons.ambulance;
-  static const IconData startAssistIcon = MdiIcons.handshake;
-  static const IconData profaneIcon = MdiIcons.alphaEBox;
-  static const IconData aIPersonalityTypeIcon = MdiIcons.brain;
-  static const IconData gameSpeedIcon = MdiIcons.speedometer;
-  static const IconData maxHumanPlayerIcon = MdiIcons.account;
-  static const IconData editProfileIcon = MdiIcons.accountEdit;
   static const IconData editDoneProfileIcon = MdiIcons.checkCircle;
-  static const IconData slowGameSpeedIcon = MdiIcons.wheelchair;
-  static const IconData normalGameSpeedIcon = MdiIcons.walk;
-  static const IconData fastGameSpeedIcon = MdiIcons.run;
 }

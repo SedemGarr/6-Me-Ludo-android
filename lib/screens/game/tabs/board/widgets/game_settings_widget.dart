@@ -22,27 +22,22 @@ class GameSettingsWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           GameCatchUpAssist(
-            shouldShowIcon: false,
             canEdit: canEdit,
             game: game,
           ),
           GameStartAssist(
-            shouldShowIcon: false,
             canEdit: canEdit,
             game: game,
           ),
           GameAdaptiveAI(
-            shouldShowIcon: false,
             canEdit: canEdit,
             game: game,
           ),
           GameAIPersonality(
-            shouldShowIcon: false,
             canEdit: canEdit,
             game: game,
           ),
           GameGameSpeed(
-            shouldShowIcon: false,
             canEdit: canEdit,
             game: game,
           ),
