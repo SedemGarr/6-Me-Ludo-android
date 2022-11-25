@@ -44,6 +44,7 @@ class DialogueService extends Translations {
   static const String andText = 'andText';
   static const String versionText = 'versionText';
   static const String copyrightText = 'copyrightText';
+  static const String wayyyoutGamesText = 'wayyyoutGamesText';
   static const String zapsplatText = 'zapsplatText';
   static const String updateNeededText = 'updateNeededText';
   static const String updatePromptText = 'updatePromptText';
@@ -335,6 +336,12 @@ class DialogueService extends Translations {
   static const String privacyTitleText = 'privacyTitleText';
   static const String termsTitleText = 'termsTitleText';
   static const String licenseTitleText = 'licenseTitleText';
+  // feedback
+  static const String sendFeedbackText = 'sendFeedbackText';
+  static const String subjectText = 'subjectText';
+  static const String emailAddressText = 'emailAddressText';
+  //
+  static const String specialText = 'specialText';
   // exit
   static const String exitAppDialogTitleText = 'exitAppDialogTitleText';
   static const String exitAppDialogContentText = 'exitAppDialogContentText';

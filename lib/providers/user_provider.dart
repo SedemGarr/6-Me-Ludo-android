@@ -165,6 +165,10 @@ class UserProvider with ChangeNotifier {
     _user!.settings.prefersAudio = value;
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
     updateUser(true, true);
+
+    if (value) {
+      Utils.showToast(DialogueService.zapsplatText.tr);
+    }
   }
 
   void toggleAdaptiveAI(BuildContext context, bool value) {

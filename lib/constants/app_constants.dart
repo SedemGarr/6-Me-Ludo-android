@@ -39,6 +39,7 @@ class AppConstants {
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
   static const Duration confettiDuration = Duration(seconds: 20);
   static const Duration carouselDuration = Duration(seconds: 5);
+  static const Duration snackBarDuration = Duration(seconds: 5);
 
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
 

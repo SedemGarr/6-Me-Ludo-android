@@ -440,17 +440,18 @@ class GameProvider with ChangeNotifier {
     if (game.players.length == currentGame!.players.length) {
       List<Player> oldList = [...currentGame!.players];
       List<Player> newList = [...game.players];
-      oldList.sort((b, a) => a.id.compareTo(b.id));
-      newList.sort((b, a) => a.id.compareTo(b.id));
+      oldList.sort((b, a) => a.playerColor.compareTo(b.playerColor));
+      newList.sort((b, a) => a.playerColor.compareTo(b.playerColor));
 
-      for (var i = 0; i < newList.length; i++) {
-        if (Player.getPlayerReputation(newList[i].reputationValue) != Player.getPlayerReputation(oldList[i].reputationValue)) {
-          String userId = Get.context!.read<UserProvider>().getUserID();
+      for (Player player in newList) {
+        String newRep = Player.getPlayerReputation(player.reputationValue);
+        String oldRep = Player.getPlayerReputation(oldList[oldList.indexWhere((element) => element.id == player.id)].reputationValue);
 
-          if (newList[i].id == userId) {
-            Utils.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(newList[i].reputationValue));
+        if (newRep != oldRep) {
+          if (player.id == Get.context!.read<UserProvider>().getUserID()) {
+            Utils.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(player.reputationValue));
           } else {
-            Utils.showToast(newList[i].psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(newList[i].reputationValue));
+            Utils.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(player.reputationValue));
           }
         }
       }

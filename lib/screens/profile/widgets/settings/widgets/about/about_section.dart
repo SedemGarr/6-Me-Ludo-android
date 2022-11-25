@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/about/widgets/feedback.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/about/widgets/license.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/about/widgets/privacy.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/about/widgets/terms.dart';
@@ -21,6 +22,7 @@ class AboutSettingsSection extends StatelessWidget {
         const TermsSettings(),
         const PrivacySettings(),
         const LicenseSettings(),
+        const FeedbackSettings(),
       ],
     );
   }

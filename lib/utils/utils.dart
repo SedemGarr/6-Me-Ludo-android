@@ -14,6 +14,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:username_generator/username_generator.dart';
 import 'package:uuid/uuid.dart';
@@ -190,6 +191,7 @@ class Utils {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
+          duration: AppConstants.snackBarDuration,
           content: Text(
             message,
             style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
@@ -203,6 +205,31 @@ class Utils {
     if (await launchUrlString(url, mode: LaunchMode.externalApplication)) {
     } else {
       showToast(DialogueService.genericErrorText.tr);
+    }
+  }
+
+  static String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries.map((MapEntry<String, String> e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
+  }
+
+  static Future<void> sendFeedback() async {
+    try {
+      final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: DialogueService.emailAddressText.tr,
+        query: encodeQueryParameters(<String, String>{
+          'subject': DialogueService.subjectText.tr,
+        }),
+      );
+
+      if (await canLaunchUrl(emailLaunchUri)) {
+        launchUrl(emailLaunchUri);
+      } else {
+        Utils.showToast(DialogueService.genericErrorText.tr);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      Utils.showToast(DialogueService.genericErrorText.tr);
     }
   }
 
