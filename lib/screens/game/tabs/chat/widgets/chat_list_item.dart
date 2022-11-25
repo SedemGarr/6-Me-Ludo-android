@@ -38,7 +38,8 @@ class ChatListItem extends StatelessWidget {
     }
 
     bool hasLeft = game.players[playerNumber].hasLeft;
-    Color playerColor = Get.isDarkMode ? PlayerConstants.swatchList[playerNumber].playerSelectedColor : PlayerConstants.swatchList[playerNumber].playerColor;
+    Color playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
+    Color playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
 
     if (!userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body)) {
       return VisibilityDetector(
@@ -49,7 +50,7 @@ class ChatListItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: AppConstants.appBorderRadius,
-            color: playerColor.withOpacity(AppConstants.appOpacity),
+            color: Get.isDarkMode ? playerSelectedColor.withOpacity(AppConstants.appOpacity) : playerColor.withOpacity(AppConstants.appOpacity),
           ),
           child: CustomListTileWidget(
             leading: isMe

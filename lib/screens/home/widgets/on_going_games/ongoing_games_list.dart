@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/no_games_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list_item.dart';
 import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
+import 'package:six_me_ludo_android/widgets/loading_widget.dart';
 
 import '../../../../constants/app_constants.dart';
 
@@ -26,18 +27,22 @@ class _OngoingGamesListWidgetState extends State<OngoingGamesListWidget> with Au
         stream: userProvider.onGoingGamesStream,
         initialData: userProvider.ongoingGames,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+            return const LoadingWidget();
+          } else if (snapshot.hasData) {
             userProvider.syncOngoingGamesStreamData(snapshot.data!);
 
             return userProvider.ongoingGames.isEmpty
                 ? const NoGamesWidget()
                 : AnimationLimiter(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       key: PageStorageKey(UniqueKey()),
                       //   shrinkWrap: true,
                       itemCount: userProvider.ongoingGames.length,
                       padding: AppConstants.listViewPadding,
-                      // separatorBuilder: (context, index) => const Divider(),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8.0,
+                      ),
                       itemBuilder: (context, index) {
                         return AnimationConfiguration.staggeredList(
                           position: index,

@@ -318,9 +318,17 @@ class Player {
 
   void setReputationValue(int value) {
     if (isAIPlayer) {
-      if (value != -2 || value != 2) {
+      if (value == 0) {
         reputationValue = value;
+      } else if (value.isNegative) {
+        reputationValue = -1;
+      } else {
+        reputationValue = 1;
       }
+
+      // if (value != -2 || value != 2) {
+      //   reputationValue = value;
+      // }
     } else {
       reputationValue = value;
     }
@@ -475,14 +483,14 @@ class Player {
       isPresent: true,
       psuedonym: Utils.getRandomPseudonym(),
       numberOfDieRolls: 0,
-      reputationValue: getAIPersonality(game, user, random),
+      reputationValue: getAIPersonality(game, user.settings.aiPersonalityPreference, random),
       targetPlayerNumber: null,
       distanceToHome: calculateDefaultTotalDistanceToHome(playerNumber),
     );
   }
 
-  static int getAIPersonality(Game game, Users user, Random random) {
-    switch (user.settings.aiPersonalityPreference) {
+  static int getAIPersonality(Game game, String aiPersonalityPreference, Random random) {
+    switch (aiPersonalityPreference) {
       case PlayerConstants.averageJoe:
         return PlayerConstants.averageJoeValue;
       case PlayerConstants.vicious:

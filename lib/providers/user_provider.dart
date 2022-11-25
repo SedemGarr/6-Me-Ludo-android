@@ -5,16 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/models/version.dart';
-import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
-import 'package:six_me_ludo_android/screens/home/home.dart';
-import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
-import 'package:six_me_ludo_android/screens/profile/profile.dart';
+import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/auth_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/upgrade_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,6 +23,7 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
+import '../widgets/new_game_bottom_sheet.dart';
 import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
@@ -42,7 +42,6 @@ class UserProvider with ChangeNotifier {
   TextEditingController pseudonymController = TextEditingController();
 
   Future<void> initUser(BuildContext context) async {
-    NavProvider navProvider = context.read<NavProvider>();
     AppProvider appProvider = context.read<AppProvider>();
 
     await appProvider.getPackageInfo();
@@ -62,14 +61,16 @@ class UserProvider with ChangeNotifier {
       Future.delayed(const Duration(seconds: 4), () async {
         if (tempUser != null) {
           setUser(tempUser, appProvider, context.read<SoundProvider>());
-          navProvider.setBottomNavBarIndex(HomeScreen.routeIndex, false);
+
           NavigationService.goToHomeScreen();
         } else {
-          NavigationService.goToAuthScreen();
+          // NavigationService.goToAuthScreen();
+          appProvider.setShouldShowAuthButton(true);
+          showAuthBottomSheet(context: context);
         }
       });
     } else {
-      NavigationService.goToUpgradeScreen();
+      showUpgradeBottomSheet(context: context);
     }
   }
 
@@ -93,13 +94,14 @@ class UserProvider with ChangeNotifier {
     await UserStateUpdateService.updateUser(_user!, shouldUpdateOnline);
   }
 
-  void handleNewGameTap() {
+  void handleNewGameTap(BuildContext context) {
     if (hasReachedOngoingGamesLimit()) {
       Utils.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
-    NavigationService.goToNewGameScreen();
+    // NavigationService.goToNewGameScreen();
+    showNewGameDialog(context: context);
   }
 
   void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
@@ -140,8 +142,8 @@ class UserProvider with ChangeNotifier {
       return;
     } else {
       if (isMe(id)) {
-        if (Get.currentRoute == HomePageViewWrapper.routeName) {
-          context.read<NavProvider>().setBottomNavBarIndex(ProfileScreen.routeIndex, true);
+        if (Get.currentRoute == HomeScreen.routeName) {
+          NavigationService.goToEditAvatarScreen();
         } else {
           Utils.showToast(DialogueService.youText.tr);
         }
@@ -173,6 +175,8 @@ class UserProvider with ChangeNotifier {
   void toggleAddAI(BuildContext context, bool value) {
     if (_user!.settings.maxPlayers == 1) {
       _user!.settings.prefersAddAI = true;
+    } else if (_user!.settings.maxPlayers == 4) {
+      _user!.settings.prefersAddAI = false;
     } else {
       _user!.settings.prefersAddAI = value;
     }
@@ -217,7 +221,7 @@ class UserProvider with ChangeNotifier {
     NavigationService.genericGoBack();
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = '';
-    themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getScheme());
+    themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getRandomScheme());
     Utils.showToast(DialogueService.setThemeToRandomText.tr);
     await updateUser(true, true);
   }

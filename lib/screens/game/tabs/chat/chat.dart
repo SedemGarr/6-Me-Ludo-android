@@ -30,22 +30,21 @@ class ChatWidget extends StatelessWidget {
       children: [
         Expanded(
           child: AnimationLimiter(
-            child: ListView.builder(
+            child: ListView.separated(
               reverse: true,
               itemCount: gameProvider.getGameChatCount(),
+              padding: AppConstants.listViewPadding,
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: 8.0,
+                );
+              },
               itemBuilder: (context, index) {
                 return AnimationConfiguration.staggeredList(
                   position: index,
                   duration: AppConstants.animationDuration,
                   child: CustomAnimationWidget(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        right: 8.0,
-                        bottom: 8.0,
-                      ),
-                      child: ChatListItem(index: index),
-                    ),
+                    child: ChatListItem(index: index),
                   ),
                 );
               },

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
+import 'package:get/get.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
 
 class PassButtonWidget extends StatelessWidget {
   final GameProvider gameProvider;
@@ -15,14 +17,22 @@ class PassButtonWidget extends StatelessWidget {
     Color color = gameProvider.playerColor;
     Color contrastingColor = Utils.getContrastingColor(color);
 
-    return GestureDetector(
-      onTap: () {
+    return CustomTextButton(
+      onPressed: () {
         gameProvider.passTurn(userProvider.getUser());
       },
-      child: Icon(
-        AppIcons.skipTurnIcon,
-        color: contrastingColor,
-      ),
+      text: DialogueService.skipTurnText.tr,
+      color: contrastingColor,
     );
+
+    // return GestureDetector(
+    //   onTap: () {
+    //     gameProvider.passTurn(userProvider.getUser());
+    //   },
+    //   child: Icon(
+    //     AppIcons.skipTurnIcon,
+    //     color: contrastingColor,
+    //   ),
+    // );
   }
 }

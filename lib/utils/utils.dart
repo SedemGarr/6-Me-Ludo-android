@@ -88,7 +88,7 @@ class Utils {
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1000; i++) {
       avatars.add(Utils.generateRandomUserAvatar());
     }
 
@@ -133,6 +133,30 @@ class Utils {
     return Jiffy(value.isEmpty ? DateTime.now() : value).fromNow();
   }
 
+  static String getGameSessionDuration(String sessionStartedAt, String sessionEndedAt) {
+    try {
+      DateTime startedAt = DateTime.parse(sessionStartedAt);
+      DateTime endedAt = DateTime.parse(sessionEndedAt);
+
+      return parseDuration(endedAt.difference(startedAt));
+    } catch (e) {
+      debugPrint(e.toString());
+      return '';
+    }
+  }
+
+  static String parseDuration(Duration duration) {
+    try {
+      String twoDigits(int n) => n.toString().padLeft(2, "0");
+      String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+      String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    } catch (e) {
+      debugPrint(e.toString());
+      return '';
+    }
+  }
+
   static ThemeMode getSystemTheme() {
     return getSystemDarkModeSetting() ? ThemeMode.dark : ThemeMode.light;
   }
@@ -165,11 +189,12 @@ class Utils {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
-            behavior: SnackBarBehavior.floating,
-            content: Text(
-              message,
-              style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
-            )),
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            message,
+            style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+          ),
+        ),
       );
     });
   }

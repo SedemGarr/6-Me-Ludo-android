@@ -161,14 +161,14 @@ class AuthenticationService {
       debugPrint(e.toString());
     }
 
-    NavigationService.goToAuthScreenAfterLogOut();
+    NavigationService.goToSplashScreenAfterLogOut();
   }
 
   static Future<void> deleteAccount(Users user, BuildContext context) async {
     FirebaseAuth firebase = FirebaseAuth.instance;
     final signedInUser = firebase.currentUser;
 
-    NavigationService.goToAuthScreenAfterLogOut();
+    NavigationService.goToSplashScreenAfterLogOut();
 
     try {
       if (!user.isAnon) {

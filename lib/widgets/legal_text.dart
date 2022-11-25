@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 
 import '../constants/textstyle_constants.dart';
 import '../services/translations/dialogue_service.dart';
@@ -18,13 +19,13 @@ class LegalText extends StatelessWidget {
           text: TextSpan(
             text: DialogueService.signUpLegalese.tr,
             style: TextStyles.legalTextStyleNormal(
-              Theme.of(context).primaryColorLight,
+              Theme.of(context).colorScheme.onBackground.withOpacity(AppConstants.appOpacity),
             ),
             children: [
               TextSpan(
                   text: DialogueService.termsText.tr,
                   style: TextStyles.legalTextStyleBold(
-                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColorLight,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = () {}),
               const TextSpan(
@@ -39,7 +40,7 @@ class LegalText extends StatelessWidget {
               TextSpan(
                 text: DialogueService.privacyText.tr,
                 style: TextStyles.legalTextStyleBold(
-                  Theme.of(context).primaryColor,
+                  Theme.of(context).primaryColorLight,
                 ),
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),

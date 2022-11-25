@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
   static TextStyle appBarTitleStyle(Color color) {
@@ -38,6 +39,14 @@ class TextStyles {
     return TextStyle(
       color: color,
       fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
+    );
+  }
+
+  static TextStyle modalTitleStyle(Color color) {
+    return TextStyle(
+      color: color,
+      fontWeight: FontWeight.bold,
+      fontSize: 26,
     );
   }
 
@@ -103,7 +112,7 @@ class TextStyles {
   }
 
   static TextStyle legalTextStyleNormal(Color color) {
-    return TextStyle(
+    return GoogleFonts.workSans(
       color: color,
     );
   }

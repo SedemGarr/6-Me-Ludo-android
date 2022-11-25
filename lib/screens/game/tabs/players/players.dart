@@ -19,11 +19,11 @@ class PlayersWidget extends StatelessWidget {
     Game game = gameProvider.currentGame!;
     List<Player> players = game.players;
 
-    return Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+    return Padding(
+      padding: AppConstants.listViewPadding,
+      child: Column(
+        children: [
+          Expanded(
             child: AnimationLimiter(
               child: ReorderableListView.builder(
                 footer: !game.hasStarted ? const ReorderPlayersBanner() : null,
@@ -39,13 +39,9 @@ class PlayersWidget extends StatelessWidget {
                     key: key,
                     position: index,
                     duration: AppConstants.animationDuration,
-                    child: CustomAnimationWidget(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 8.0,
-                          right: 8.0,
-                          bottom: 8.0,
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: CustomAnimationWidget(
                         child: PlayerListItemWidget(key: key, index: index),
                       ),
                     ),
@@ -54,8 +50,8 @@ class PlayersWidget extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

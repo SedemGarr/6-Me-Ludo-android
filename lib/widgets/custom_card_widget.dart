@@ -10,12 +10,21 @@ class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.only(
+        left: 4.0,
+        right: 4.0,
+        bottom: 8.0,
+      ),
       child: Card(
         shape: AppConstants.appShape,
-        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
         elevation: 0,
-        child: child,
+        margin: EdgeInsets.zero,
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: AppConstants.appBorderRadius,
+              color: Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
+            ),
+            child: child),
       ),
     );
   }

@@ -22,7 +22,7 @@ class LicenseWidget extends StatelessWidget {
                 final List<License> licenses = snapshot.data!;
                 return AnimationLimiter(
                   child: ListView.builder(
-                      padding: const EdgeInsets.only(top: 4.0),
+                      padding: AppConstants.listViewPadding,
                       itemCount: licenses.length,
                       itemBuilder: (BuildContext context, int index) {
                         License license = licenses[index];
