@@ -175,6 +175,8 @@ class UserProvider with ChangeNotifier {
   void toggleAddAI(BuildContext context, bool value) {
     if (_user!.settings.maxPlayers == 1) {
       _user!.settings.prefersAddAI = true;
+    } else if (_user!.settings.maxPlayers == 4) {
+      _user!.settings.prefersAddAI = false;
     } else {
       _user!.settings.prefersAddAI = value;
     }
