@@ -88,7 +88,7 @@ class Utils {
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 
-    for (int i = 0; i < 28; i++) {
+    for (int i = 0; i < 1000; i++) {
       avatars.add(Utils.generateRandomUserAvatar());
     }
 
