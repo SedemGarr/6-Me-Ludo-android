@@ -91,6 +91,10 @@ class GameProvider with ChangeNotifier {
     return userVersion >= gameVersion;
   }
 
+  bool isGameOffline(Game game) {
+    return game.players.where((element) => !element.isAIPlayer).toList().length == 1;
+  }
+
   int getGameTabControllerLength() {
     return 3;
   }
@@ -1595,6 +1599,7 @@ class GameProvider with ChangeNotifier {
     currentGame!.canPlay = true;
     currentGame!.maxPlayers = currentGame!.players.length;
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
+    currentGame!.isOffline = isGameOffline(currentGame!);
 
     scrollToBoardTab();
 
@@ -1617,6 +1622,7 @@ class GameProvider with ChangeNotifier {
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.blank);
     currentGame!.die = Die.getDefaultDie();
     currentGame!.selectedPiece = null;
+    currentGame!.isOffline = isGameOffline(currentGame!);
 
     for (int i = 0; i < currentGame!.players.length; i++) {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
