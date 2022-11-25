@@ -6,16 +6,12 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
 
 class CatchUpAssist extends StatelessWidget {
-  final bool shouldShowIcon;
-
-  const CatchUpAssist({super.key, required this.shouldShowIcon});
+  const CatchUpAssist({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +19,7 @@ class CatchUpAssist extends StatelessWidget {
 
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.catchUpAssistIcon) : null,
+        //   leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.catchUpAssistIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.catchUpAssistTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.catchUpAssistSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleCatchUpAssist, value: userProvider.getUserCatchUpAssist()),

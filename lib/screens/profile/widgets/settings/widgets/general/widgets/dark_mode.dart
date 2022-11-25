@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_icon_widget.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
@@ -21,7 +19,7 @@ class DarkModeWidget extends StatelessWidget {
 
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: const SettingsIconWidget(iconData: AppIcons.darkModeIcon),
+        //   leading: const SettingsIconWidget(iconData: AppIcons.darkModeIcon),
         title: SettingsTitleWidget(text: DialogueService.darkModeTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.darkModeSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleDarkMode, value: userProvider.getUserDarkMode()),

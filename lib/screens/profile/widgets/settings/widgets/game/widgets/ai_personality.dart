@@ -5,17 +5,13 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../models/user_settings.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
 
 class AIPersonality extends StatelessWidget {
-  final bool shouldShowIcon;
-
-  const AIPersonality({super.key, required this.shouldShowIcon});
+  const AIPersonality({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +19,7 @@ class AIPersonality extends StatelessWidget {
 
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.aIPersonalityTypeIcon) : null,
+        //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.aIPersonalityTypeIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.aIPersonalityTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),
         trailing: DropdownButton<dynamic>(

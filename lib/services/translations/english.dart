@@ -43,7 +43,7 @@ class EnglishTranslation {
       DialogueService.welcome2Text: 'Hey there, ',
       DialogueService.welcome3Text: 'Welcome back, ',
       DialogueService.welcome4Text: 'Hullo, ',
-      DialogueService.welcome5Text: '🙄 About time, ',
+      DialogueService.welcome5Text: 'Hullo, ',
       DialogueService.welcome6Text: 'Welcome, ',
       DialogueService.welcome7Text: 'Howdy, ',
       DialogueService.welcome8Text: 'Hello there, ',
@@ -231,6 +231,7 @@ class EnglishTranslation {
       DialogueService.gameSettingsFullText: 'Game Settings',
       DialogueService.accountSettingsText: 'Account',
       DialogueService.personalisationSettingsText: 'Personalisation',
+      DialogueService.aboutSettingsText: 'About',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',
       DialogueService.maxPlayersSubtitleText: 'Select how many human players, including yourself, you want in your game',
@@ -298,6 +299,11 @@ class EnglishTranslation {
       DialogueService.deleteAccountDialogContentText: 'This cannot be undone. Proceed?',
       DialogueService.deleteAccountDialogYesText: 'Delete',
       DialogueService.deleteAccountDialogNoText: 'Cancel',
+      // settings - about
+      DialogueService.versionTitleText: 'Version',
+      DialogueService.privacyTitleText: 'Privacy Policy',
+      DialogueService.termsTitleText: 'Terms and Conditions',
+      DialogueService.licenseTitleText: 'Application Licenses',
       // exit dialog
       DialogueService.exitAppDialogTitleText: 'Aww...',
       DialogueService.exitAppDialogContentText: 'Are you sure you want to exit ${AppConstants.appNameEnglish}?',

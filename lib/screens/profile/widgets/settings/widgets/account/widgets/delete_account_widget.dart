@@ -3,11 +3,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../providers/user_provider.dart';
 import '../../../../../../../services/translations/dialogue_service.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
 import '../../settings_title_widget.dart';
 
@@ -23,7 +21,7 @@ class DeleteAcountWidget extends StatelessWidget {
         onTap: () {
           userProvider.showDeleteAccountDialog(context);
         },
-        leading: const SettingsIconWidget(iconData: AppIcons.deleteAccountIcon),
+        //  leading: const SettingsIconWidget(iconData: AppIcons.deleteAccountIcon),
         title: SettingsTitleWidget(text: DialogueService.deleteAccountTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.deleteAccountSubtitleText.tr),
       ),

@@ -3,11 +3,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../services/translations/dialogue_service.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
 import '../../settings_title_widget.dart';
 
@@ -20,7 +18,7 @@ class LanguageWidget extends StatelessWidget {
 
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: const SettingsIconWidget(iconData: AppIcons.languageIcon),
+        //    leading: const SettingsIconWidget(iconData: AppIcons.languageIcon),
         title: SettingsTitleWidget(text: DialogueService.languageTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.languageSubtitleText.tr),
         trailing: DropdownButton<dynamic>(

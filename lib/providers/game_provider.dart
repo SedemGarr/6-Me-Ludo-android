@@ -91,7 +91,7 @@ class GameProvider with ChangeNotifier {
     return userVersion >= gameVersion;
   }
 
-  bool isGameOffline(Game game) {
+  static bool isGameOffline(Game game) {
     return game.players.where((element) => !element.isAIPlayer).toList().length == 1;
   }
 

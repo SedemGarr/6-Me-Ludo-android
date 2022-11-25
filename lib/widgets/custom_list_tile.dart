@@ -31,7 +31,10 @@ class CustomListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       minLeadingWidth: minLeadingWidth,
-      contentPadding: const EdgeInsets.only(left: 16, right: 8.0),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 0.0,
+      ),
       shape: AppConstants.appShape,
       dense: dense ?? false,
       onTap: onTap,

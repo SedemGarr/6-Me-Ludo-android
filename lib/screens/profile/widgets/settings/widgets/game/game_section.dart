@@ -20,13 +20,13 @@ class GameSettingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SettingsHeaderWidget(text: DialogueService.gameSettingsText.tr),
-        const AddAIPlayers(shouldShowIcon: true),
-        const AutoStart(shouldShowIcon: true),
-        const CatchUpAssist(shouldShowIcon: true),
-        const StartAssist(shouldShowIcon: true),
-        const AdaptiveAI(shouldShowIcon: true),
-        const AIPersonality(shouldShowIcon: true),
-        const GameSpeed(shouldShowIcon: true),
+        const AddAIPlayers(),
+        const AutoStart(),
+        const CatchUpAssist(),
+        const StartAssist(),
+        const AdaptiveAI(),
+        const AIPersonality(),
+        const GameSpeed(),
       ],
     );
   }

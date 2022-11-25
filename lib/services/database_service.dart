@@ -213,6 +213,7 @@ class DatabaseService {
     newGame.reaction = Reaction.parseGameStatus(GameStatusService.playerJoined);
     newGame.players.add(Player.getJoiningPlayer(user, game));
     newGame.playerIds.add(user.id);
+    newGame.isOffline = GameProvider.isGameOffline(newGame);
 
     await updateGame(newGame, true, shouldSyncWithFirestore: true);
   }

@@ -6,16 +6,12 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../models/user_settings.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_icon_widget.dart';
 
 class MaxPlayers extends StatelessWidget {
-  final bool shouldShowIcon;
-
-  const MaxPlayers({super.key, required this.shouldShowIcon});
+  const MaxPlayers({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +19,7 @@ class MaxPlayers extends StatelessWidget {
 
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.maxHumanPlayerIcon) : null,
+        //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.maxHumanPlayerIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.maxPlayersTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.maxPlayersSubtitleText.tr),
         trailing: DropdownButton<dynamic>(

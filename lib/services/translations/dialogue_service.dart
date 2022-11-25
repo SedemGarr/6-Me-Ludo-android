@@ -260,6 +260,7 @@ class DialogueService extends Translations {
   static const String gameSettingsFullText = 'gameSettingsFullText';
   static const String accountSettingsText = 'accountSettingsText';
   static const String personalisationSettingsText = 'personalisationSettingsText';
+  static const String aboutSettingsText = 'aboutSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';
   static const String maxPlayersSubtitleText = 'maxPlayersSubtitleText';
@@ -327,6 +328,11 @@ class DialogueService extends Translations {
   static const String deleteAccountDialogContentText = 'deleteAccountDialogContentText';
   static const String deleteAccountDialogYesText = 'deleteAccountDialogYesText';
   static const String deleteAccountDialogNoText = 'deleteAccountDialogNoText';
+  // settings - about
+  static const String versionTitleText = 'versionTitleText';
+  static const String privacyTitleText = 'privacyTitleText';
+  static const String termsTitleText = 'termsTitleText';
+  static const String licenseTitleText = 'licenseTitleText';
   // exit
   static const String exitAppDialogTitleText = 'exitAppDialogTitleText';
   static const String exitAppDialogContentText = 'exitAppDialogContentText';

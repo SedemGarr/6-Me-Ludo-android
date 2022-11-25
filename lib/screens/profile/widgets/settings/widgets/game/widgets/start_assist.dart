@@ -6,16 +6,12 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
-import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_icon_widget.dart';
 import '../../settings_subtitle_widget.dart';
 
 class StartAssist extends StatelessWidget {
-  final bool shouldShowIcon;
-
-  const StartAssist({super.key, required this.shouldShowIcon});
+  const StartAssist({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +19,7 @@ class StartAssist extends StatelessWidget {
 
     return CustomCardWidget(
       child: CustomListTileWidget(
-        leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.startAssistIcon) : null,
+        //   leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.startAssistIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.startAssistTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.startAssistSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleStartAssist, value: userProvider.getUserStartAssist()),
