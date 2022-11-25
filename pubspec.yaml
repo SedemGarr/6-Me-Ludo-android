@@ -3,7 +3,7 @@ description: Ludo on Android.
 
 publish_to: "none"
 
-version: 1.5.1+10
+version: 1.5.2+11
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
