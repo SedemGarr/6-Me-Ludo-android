@@ -102,6 +102,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                       },
                       child: Scaffold(
                         appBar: CustomAppBarWidget(
+                          centerTitle: true,
                           backgroundColor: gameProvider.playerSelectedColor,
                           leading: BackButtonWidget(
                               color: Utils.getContrastingColor(gameProvider.playerColor),
@@ -110,7 +111,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
                               }),
                           title: game.hasSessionEnded
                               ? Text(
-                                  Utils.getGameSessionDuration(game.sessionStartedAt, game.sessionEndedAt),
+                                  DialogueService.gameSessionEndedText.tr,
                                   style: TextStyles.listTitleStyle(Utils.getContrastingColor(gameProvider.playerColor)),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

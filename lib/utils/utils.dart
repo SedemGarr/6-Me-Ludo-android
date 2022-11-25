@@ -150,7 +150,7 @@ class Utils {
       String twoDigits(int n) => n.toString().padLeft(2, "0");
       String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
       String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-      return "${DialogueService.gameSessionLengthText.tr}${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
     } catch (e) {
       debugPrint(e.toString());
       return '';

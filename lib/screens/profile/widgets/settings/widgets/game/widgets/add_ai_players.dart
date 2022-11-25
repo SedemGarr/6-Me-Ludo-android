@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_subtitle_widget.dart';
 
 class AddAIPlayers extends StatelessWidget {
   const AddAIPlayers({super.key});
@@ -21,7 +20,7 @@ class AddAIPlayers extends StatelessWidget {
       child: CustomListTileWidget(
         //   leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.addAIPlayersIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.addAIPlayersTitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.addAIPlayersSubtitleText.tr),
+        //  subtitle: SettingsSubtitleWidget(text: DialogueService.addAIPlayersSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleAddAI, value: userProvider.getUserAddAI()),
       ),
     );

@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_subtitle_widget.dart';
 
 class GameSpeed extends StatelessWidget {
   const GameSpeed({super.key});
@@ -21,7 +20,7 @@ class GameSpeed extends StatelessWidget {
       child: CustomListTileWidget(
         //    leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.gameSpeedIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.gameSpeedTitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
+        //    subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
         trailing: DropdownButton<dynamic>(
           iconEnabledColor: Theme.of(context).primaryColor,
           value: userProvider.getUserGameSpeed(),

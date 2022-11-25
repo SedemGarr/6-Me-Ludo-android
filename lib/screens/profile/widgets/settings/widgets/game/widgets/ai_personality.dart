@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import '../../../../../../../models/user_settings.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_subtitle_widget.dart';
 
 class AIPersonality extends StatelessWidget {
   const AIPersonality({super.key});
@@ -21,7 +20,7 @@ class AIPersonality extends StatelessWidget {
       child: CustomListTileWidget(
         //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.aIPersonalityTypeIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.aIPersonalityTitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),
+        //    subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),
         trailing: DropdownButton<dynamic>(
           iconEnabledColor: Theme.of(context).primaryColor,
           value: userProvider.getUserPersonalityPreference(),

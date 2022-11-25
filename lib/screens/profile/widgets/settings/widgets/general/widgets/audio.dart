@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_subtitle_widget.dart';
 
 class AudioWidget extends StatelessWidget {
   const AudioWidget({super.key});
@@ -21,7 +20,7 @@ class AudioWidget extends StatelessWidget {
       child: CustomListTileWidget(
         //  leading: const SettingsIconWidget(iconData: AppIcons.audioIcon),
         title: SettingsTitleWidget(text: DialogueService.audioTitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.audioSubtitleText.tr),
+        //  subtitle: SettingsSubtitleWidget(text: DialogueService.audioSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleAudio, value: userProvider.getUserAudio()),
       ),
     );

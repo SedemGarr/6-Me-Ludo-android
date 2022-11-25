@@ -103,6 +103,10 @@ class GameProvider with ChangeNotifier {
     return currentThread!.messages.length;
   }
 
+  String getGameTurnSum(List<Player> players) {
+    return players.fold(0, (previousValue, element) => previousValue + element.numberOfDieRolls).toString();
+  }
+
   String getGameChatUnreadCountAsString(String id) {
     int unreadCount = currentThread!.messages.where((element) => !element.seenBy.contains(id)).length;
 

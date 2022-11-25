@@ -168,7 +168,7 @@ class EnglishTranslation {
       DialogueService.playerKickedFromGameTrailingText: 'Player kicked from game',
       DialogueService.passTurnButtonText: 'Pass Turn',
       DialogueService.noWinnerText: 'No one made it to the end',
-      DialogueService.gameWinnerText: 'Winner!',
+      DialogueService.gameWinnerText: 'Winner! 😎',
       DialogueService.gameViciousText: 'Cold-Blooded  😈',
       DialogueService.gamePunchingBagText: 'Punching Bag 🥴',
       DialogueService.statsTitleText: 'Session Stats',
@@ -179,7 +179,9 @@ class EnglishTranslation {
       DialogueService.timesPluralText: ' times',
       DialogueService.reputationChangedText: ' is now ',
       DialogueService.reputationChangedPluralText: ' are now ',
-      DialogueService.gameSessionLengthText: 'Session length: ',
+      DialogueService.gameSessionLengthText: 'Session length:',
+      DialogueService.gameSessionNumberOfTurnsText: 'Number of Turns:',
+      DialogueService.gameSessionEndedText: 'Session Ended',
       // game settings
       DialogueService.catchUpAssistEnabledText: 'Host has enabled catch up assist',
       DialogueService.catchUpAssistDisabledText: 'Host has disabled catch up assist',
@@ -249,7 +251,7 @@ class EnglishTranslation {
       DialogueService.randomThemeText: 'Random Theme Selected',
       DialogueService.currentThemeText: 'Current Theme: ',
       // settings - wakelock
-      DialogueService.wakelockTitleText: 'Wakelock',
+      DialogueService.wakelockTitleText: 'Screen Always On',
       DialogueService.wakelockSubtitleText: 'Toggle whether the screen should stay on during games',
       // settings - language
       DialogueService.languageTitleText: 'Language',

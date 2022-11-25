@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_subtitle_widget.dart';
 
 class AutoStart extends StatelessWidget {
   const AutoStart({super.key});
@@ -21,7 +20,7 @@ class AutoStart extends StatelessWidget {
       child: CustomListTileWidget(
         //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.autoStartIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.autoStartTitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
+        //   subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleAutoStart, value: userProvider.getUserAutoStart()),
       ),
     );

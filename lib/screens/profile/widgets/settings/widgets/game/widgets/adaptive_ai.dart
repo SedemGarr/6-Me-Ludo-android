@@ -8,7 +8,6 @@ import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
 import '../../../../../../../widgets/custom_list_tile.dart';
-import '../../settings_subtitle_widget.dart';
 
 class AdaptiveAI extends StatelessWidget {
   const AdaptiveAI({super.key});
@@ -21,7 +20,7 @@ class AdaptiveAI extends StatelessWidget {
       child: CustomListTileWidget(
         //   leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.adaptiveAIIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.adaptiveAITitleText.tr),
-        subtitle: SettingsSubtitleWidget(text: DialogueService.adaptiveAISubtitleText.tr),
+        //  subtitle: SettingsSubtitleWidget(text: DialogueService.adaptiveAISubtitleText.tr),
         trailing: CustomSwitchWidget(onChanged: userProvider.toggleAdaptiveAI, value: userProvider.getUserAdaptiveAI()),
       ),
     );
