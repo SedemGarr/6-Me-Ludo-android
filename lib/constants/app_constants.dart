@@ -1,3 +1,4 @@
+import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +7,6 @@ class AppConstants {
   static const String lottieAnimationAuthor = 'Abdul Latif';
   static const String defaultCountryCode = 'GH';
   static const String wayyyOutLottieAssetPath = 'assets/lottie/wayyyout3.json';
-  static const String authLottieAssetPath = 'assets/lottie/playing-games.json';
   static const String appLogoAssetPath = 'assets/logo/app_logo.png';
   static const String wayyyOutLottieAssetPage = 'https://lottiefiles.com/68789-cute-mascot-astronaut-in-rocket';
   static const String playStoreURL = 'https://play.google.com/store/apps/details?id=com.wayyyoutgames.six.me.ludo';
@@ -37,7 +37,8 @@ class AppConstants {
   static const double appBorderRadiusValue = 4.0;
 
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
-  static const Duration confettiDuration = Duration(seconds: 5);
+  static const Duration confettiDuration = Duration(seconds: 20);
+  static const Duration carouselDuration = Duration(seconds: 5);
 
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
 
@@ -45,8 +46,22 @@ class AppConstants {
 
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
-  static EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: Get.height * 0.25);
+  static const EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0);
+  static const EdgeInsets modalTitlePadding = EdgeInsets.all(24.0);
+  static const EdgeInsets dialogTitlePadding = EdgeInsets.only(left: 24.0, top: 24.0, right: 24.0, bottom: 0.0);
+  static const EdgeInsets dialogActionsPadding = EdgeInsets.only(left: 0.0, top: 0.0, right: 24.0, bottom: 24.0);
   static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
   static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
   static const EdgeInsets bannerPadding = EdgeInsets.all(16.0);
+
+  static LinearGradient getLinearGradient(List<Color> colors) {
+    return LinearGradient(
+      colors: colors,
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
+  }
+
+  static const Color darkDialogBackgroundColor = CSSColors.darkSlateGrey;
+  static const Color lightDialogBackgroundColor = CSSColors.lightGray;
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 
 import '../../../constants/app_constants.dart';
 import '../../../constants/textstyle_constants.dart';
@@ -17,35 +16,33 @@ class ChangePseudonymTextField extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: 4.0),
-      child: CustomCardWidget(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16.0),
-          child: TextFormField(
-            autofocus: true,
-            controller: userProvider.pseudonymController,
-            maxLength: AppConstants.maxPseudonymLength,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(
-              hintText: DialogueService.changePseudonymHintText.tr,
-              filled: false,
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
-              errorBorder: InputBorder.none,
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
-              disabledBorder: InputBorder.none,
-              focusedErrorBorder: InputBorder.none,
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor)),
-              hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
-              counterStyle: TextStyles.listSubtitleStyle(
-                Theme.of(context).colorScheme.primaryContainer,
-              ),
+      child: Padding(
+        padding: AppConstants.listViewPadding,
+        child: TextFormField(
+          autofocus: true,
+          controller: userProvider.pseudonymController,
+          maxLength: AppConstants.maxPseudonymLength,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: InputDecoration(
+            hintText: DialogueService.changePseudonymHintText.tr,
+            filled: false,
+            border: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
+            errorBorder: InputBorder.none,
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer)),
+            disabledBorder: InputBorder.none,
+            focusedErrorBorder: InputBorder.none,
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+            hintStyle: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
+            counterStyle: TextStyles.listSubtitleStyle(
+              Theme.of(context).colorScheme.onBackground,
             ),
-            style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
-            cursorColor: Theme.of(context).primaryColor,
-            onChanged: (value) {
-              userProvider.setPseudonymControllerValue(value, true);
-            },
           ),
+          style: TextStyles.textFieldStyle(Theme.of(context).colorScheme.onBackground),
+          cursorColor: Theme.of(context).primaryColor,
+          onChanged: (value) {
+            userProvider.setPseudonymControllerValue(value, true);
+          },
         ),
       ),
     );

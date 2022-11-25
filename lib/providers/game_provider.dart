@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
@@ -14,17 +13,17 @@ import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
-import 'package:six_me_ludo_android/screens/home/home_pageview_wrapper.dart';
+import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/widgets/change_game_settings_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../constants/icon_constants.dart';
 import '../models/die.dart';
 import '../models/direction.dart';
 import '../models/game.dart';
@@ -36,6 +35,7 @@ import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/user_settings.dart';
 import '../services/game_status_service.dart';
+import '../widgets/upgrade_bottom_sheet.dart';
 
 class GameProvider with ChangeNotifier {
   late Board board;
@@ -90,12 +90,20 @@ class GameProvider with ChangeNotifier {
     return userVersion >= gameVersion;
   }
 
+  static bool isGameOffline(Game game) {
+    return game.players.where((element) => !element.isAIPlayer).toList().length == 1;
+  }
+
   int getGameTabControllerLength() {
     return 3;
   }
 
   int getGameChatCount() {
     return currentThread!.messages.length;
+  }
+
+  String getGameTurnSum(List<Player> players) {
+    return players.fold(0, (previousValue, element) => previousValue + element.numberOfDieRolls).toString();
   }
 
   String getGameChatUnreadCountAsString(String id) {
@@ -160,40 +168,33 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  String getSessionDuration(String sessionStartedAt, String sessionEndedAt) {
-    DateTime startedAt = DateTime.parse(sessionStartedAt);
-    DateTime endedAt = DateTime.parse(sessionEndedAt);
+  // IconData getAIPreferenceIcon(String value) {
+  //   switch (value) {
+  //     case PlayerConstants.pacifist:
+  //       return PlayerConstants.pacifistIcon;
+  //     case PlayerConstants.averageJoe:
+  //       return PlayerConstants.averageJoeIcon;
+  //     case PlayerConstants.vicious:
+  //       return PlayerConstants.viciousIcon;
+  //     case PlayerConstants.randomPersonality:
+  //       return PlayerConstants.randomIcon;
+  //     default:
+  //       return AppIcons.aIPersonalityTypeIcon;
+  //   }
+  // }
 
-    return Jiffy(endedAt).from(startedAt);
-  }
-
-  IconData getAIPreferenceIcon(String value) {
-    switch (value) {
-      case PlayerConstants.pacifist:
-        return PlayerConstants.pacifistIcon;
-      case PlayerConstants.averageJoe:
-        return PlayerConstants.averageJoeIcon;
-      case PlayerConstants.vicious:
-        return PlayerConstants.viciousIcon;
-      case PlayerConstants.randomPersonality:
-        return PlayerConstants.randomIcon;
-      default:
-        return AppIcons.aIPersonalityTypeIcon;
-    }
-  }
-
-  IconData gameSpeedPreferenceIcon(int value) {
-    switch (value) {
-      case UserSettings.slowSpeed:
-        return AppIcons.slowGameSpeedIcon;
-      case UserSettings.normalSpeed:
-        return AppIcons.normalGameSpeedIcon;
-      case UserSettings.fastSpeed:
-        return AppIcons.fastGameSpeedIcon;
-      default:
-        return AppIcons.gameSpeedIcon;
-    }
-  }
+  // IconData gameSpeedPreferenceIcon(int value) {
+  //   switch (value) {
+  //     case UserSettings.slowSpeed:
+  //       return AppIcons.slowGameSpeedIcon;
+  //     case UserSettings.normalSpeed:
+  //       return AppIcons.normalGameSpeedIcon;
+  //     case UserSettings.fastSpeed:
+  //       return AppIcons.fastGameSpeedIcon;
+  //     default:
+  //       return AppIcons.gameSpeedIcon;
+  //   }
+  // }
 
   Player getWinnerPlayer() {
     return currentGame!.players.firstWhere((element) => element.id == currentGame!.finishedPlayers.first);
@@ -313,6 +314,7 @@ class GameProvider with ChangeNotifier {
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
     checkForReputationChange(game);
+    checkIfGameSettingsHaveChanged(game, user.id);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
@@ -369,6 +371,68 @@ class GameProvider with ChangeNotifier {
   void checkIfGameHasReStarted(Game game) {
     if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
       Utils.showToast(DialogueService.gameHasStartedText.tr);
+    }
+  }
+
+  void checkIfGameSettingsHaveChanged(Game game, String id) {
+    if (!isPlayerHost(id) && currentGame!.hostSettings != game.hostSettings) {
+      UserSettings newSettings = game.hostSettings;
+      UserSettings oldSettings = currentGame!.hostSettings;
+
+      if (newSettings.prefersCatchupAssist != oldSettings.prefersCatchupAssist) {
+        if (newSettings.prefersCatchupAssist) {
+          Utils.showToast(DialogueService.catchUpAssistEnabledText.tr);
+        } else {
+          Utils.showToast(DialogueService.catchUpAssistDisabledText.tr);
+        }
+      }
+
+      if (newSettings.prefersStartAssist != oldSettings.prefersStartAssist) {
+        if (newSettings.prefersStartAssist) {
+          Utils.showToast(DialogueService.startAssistEnabledText.tr);
+        } else {
+          Utils.showToast(DialogueService.startAssistDisabledText.tr);
+        }
+      }
+
+      if (newSettings.prefersAdaptiveAI != oldSettings.prefersAdaptiveAI) {
+        if (newSettings.prefersAdaptiveAI) {
+          Utils.showToast(DialogueService.adaptiveAIEnabledText.tr);
+        } else {
+          Utils.showToast(DialogueService.adaptiveAIDisabledText.tr);
+        }
+      }
+
+      if (newSettings.aiPersonalityPreference != oldSettings.aiPersonalityPreference) {
+        switch (newSettings.aiPersonalityPreference) {
+          case PlayerConstants.averageJoe:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.averagePersonalityType.tr);
+            break;
+          case PlayerConstants.vicious:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.viciousPersonalityType.tr);
+            break;
+          case PlayerConstants.pacifist:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.pacifistPersonalityType.tr);
+            break;
+          case PlayerConstants.randomPersonality:
+            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.randomPersonalityType.tr);
+            break;
+        }
+      }
+
+      if (newSettings.preferredSpeed != oldSettings.preferredSpeed) {
+        switch (newSettings.preferredSpeed) {
+          case UserSettings.fastSpeed:
+            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedFastText.tr);
+            break;
+          case UserSettings.normalSpeed:
+            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedNormalText.tr);
+            break;
+          case UserSettings.slowSpeed:
+            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedSlowText.tr);
+            break;
+        }
+      }
     }
   }
 
@@ -1019,7 +1083,7 @@ class GameProvider with ChangeNotifier {
             Utils.showToast(DialogueService.gameVersionMismatchText.tr);
             appProvider.setLoading(false, true);
           } else {
-            NavigationService.goToUpgradeScreen();
+            showUpgradeBottomSheet(context: Get.context!);
           }
         }
       }
@@ -1031,11 +1095,13 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> joinGameWithCode(Users user, AppProvider appProvider) async {
-    if (Get.currentRoute != HomePageViewWrapper.routeName) {
+    if (Get.currentRoute != HomeScreen.routeName) {
       NavigationService.goToBackToHomeScreen();
     }
 
     if (isJoinGameCodeValidLength()) {
+      NavigationService.genericGoBack();
+
       appProvider.setLoading(true, true);
 
       try {
@@ -1080,7 +1146,7 @@ class GameProvider with ChangeNotifier {
               Utils.showToast(DialogueService.gameVersionMismatchText.tr);
               appProvider.setLoading(false, true);
             } else {
-              NavigationService.goToUpgradeScreen();
+              showUpgradeBottomSheet(context: Get.context!);
             }
           }
         }
@@ -1536,10 +1602,11 @@ class GameProvider with ChangeNotifier {
     currentGame!.canPlay = true;
     currentGame!.maxPlayers = currentGame!.players.length;
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
+    currentGame!.isOffline = isGameOffline(currentGame!);
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
+    await DatabaseService.updateGameSessionStartDate(currentGame!);
 
     // get ai player to start game
     if (currentGame!.players.first.isAIPlayer) {
@@ -1558,11 +1625,13 @@ class GameProvider with ChangeNotifier {
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.blank);
     currentGame!.die = Die.getDefaultDie();
     currentGame!.selectedPiece = null;
+    currentGame!.isOffline = isGameOffline(currentGame!);
 
     for (int i = 0; i < currentGame!.players.length; i++) {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
       currentGame!.players[i].hasFinished = false;
       currentGame!.players[i].numberOfDieRolls = 0;
+      currentGame!.players[i].targetPlayerNumber = null;
     }
 
     currentGame = resetKickStats();
@@ -1571,7 +1640,7 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGame(currentGame!, true);
+    await DatabaseService.updateGameSessionStartDate(currentGame!);
 
     notifyListeners();
 
@@ -1609,7 +1678,9 @@ class GameProvider with ChangeNotifier {
 
   Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
     if (currentGame != null) {
-      await setGamePresence(value);
+      if (!currentGame!.isOffline) {
+        await setGamePresence(value);
+      }
     }
   }
 
@@ -1634,6 +1705,10 @@ class GameProvider with ChangeNotifier {
       case 4:
         shareGameUrl();
         break;
+      case 5:
+        showGameSettingsDialog(
+            currentGame!, (!currentGame!.hasStarted && isPlayerHost(user.id)) || (!currentGame!.hasStarted && currentGame!.hasSessionEnded && isPlayerHost(user.id)), context);
+        break;
     }
   }
 
@@ -1644,7 +1719,7 @@ class GameProvider with ChangeNotifier {
 
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
 
-    await DatabaseService.updateGame(game, true);
+    await DatabaseService.updateGameSessionEndDate(game);
 
     scrollToBoardTab();
   }
@@ -1652,6 +1727,10 @@ class GameProvider with ChangeNotifier {
   Future<void> deleteGame(Game game, Users user) async {
     Utils.showToast(DialogueService.gameDeletedToastText.tr);
     DatabaseService.deleteGame(game.id, user);
+  }
+
+  showGameSettingsDialog(Game game, bool canEdit, BuildContext context) {
+    return showSettingsBottomSheet(game: game, canEdit: canEdit, context: context);
   }
 
   showBanPlayerDialog(Player player, BuildContext context) {

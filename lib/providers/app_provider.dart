@@ -13,6 +13,7 @@ class AppProvider with ChangeNotifier {
   bool isLoading = false;
   // for splash screen
   bool isSplashScreenLoaded = false;
+  bool shouldShowAuthButton = false;
 
   //
   Random random = Random();
@@ -30,6 +31,19 @@ class AppProvider with ChangeNotifier {
     DialogueService.loading10Text.tr,
   ];
 
+  final List<String> welcomeStrings = [
+    DialogueService.welcome1Text.tr,
+    DialogueService.welcome2Text.tr,
+    DialogueService.welcome3Text.tr,
+    DialogueService.welcome4Text.tr,
+    DialogueService.welcome5Text.tr,
+    DialogueService.welcome6Text.tr,
+    DialogueService.welcome7Text.tr,
+    DialogueService.welcome8Text.tr,
+    DialogueService.welcome9Text.tr,
+    DialogueService.welcome10Text.tr,
+  ];
+
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;
 
@@ -40,6 +54,12 @@ class AppProvider with ChangeNotifier {
 
   void setSplashScreenLoaded(bool value) {
     isSplashScreenLoaded = value;
+
+    notifyListeners();
+  }
+
+  void setShouldShowAuthButton(bool value) {
+    shouldShowAuthButton = value;
 
     notifyListeners();
   }
@@ -70,5 +90,9 @@ class AppProvider with ChangeNotifier {
 
   String getLoadingString() {
     return loadingStrings[random.nextInt(loadingStrings.length)];
+  }
+
+  String getWelcomeString() {
+    return welcomeStrings[random.nextInt(loadingStrings.length)];
   }
 }

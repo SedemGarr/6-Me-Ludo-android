@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomSwitchWidget extends StatelessWidget {
   final bool value;
-  final Function onChanged;
+  final Function? onChanged;
 
   const CustomSwitchWidget({
     Key? key,
@@ -15,7 +15,9 @@ class CustomSwitchWidget extends StatelessWidget {
     return Switch(
       value: value,
       onChanged: (value) {
-        onChanged(context, value);
+        if (onChanged != null) {
+          onChanged!(context, value);
+        }
       },
       // activeColor: Theme.of(context).primaryColor,
       // activeTrackColor: Theme.of(context).primaryColorLight,

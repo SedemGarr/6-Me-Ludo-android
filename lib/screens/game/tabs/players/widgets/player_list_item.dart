@@ -39,7 +39,6 @@ class PlayerListItemWidget extends StatelessWidget {
     bool hasLeft = isKicked || player.hasLeft;
     Color playerColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerColor;
     Color playerSelectedColor = hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[players[index].playerColor].playerSelectedColor;
-    //   Color contrastingColor = Utils.getContrastingColor(playerColor);
     Color contrastingColor = Theme.of(context).colorScheme.onBackground;
 
     return AnimatedContainer(

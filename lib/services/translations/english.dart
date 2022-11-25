@@ -22,6 +22,10 @@ class EnglishTranslation {
       DialogueService.updateNeededText: 'Update Needed',
       DialogueService.updatePromptText: '6-Me-Ludo! requires an update. Please update the app from the Google Play store',
       DialogueService.updateButtonText: 'Update',
+      DialogueService.signInRequiredText: 'Sign In Required',
+      DialogueService.authDialogContentText: 'To continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
+      DialogueService.beginText: 'Begin',
+      DialogueService.doneText: 'Done',
       // loading strings
       DialogueService.loading1Text: 'Disassembling constructors...',
       DialogueService.loading2Text: 'Barring Foos...',
@@ -34,8 +38,19 @@ class EnglishTranslation {
       DialogueService.loading9Text: 'Dereticulating splines...',
       DialogueService.loading10Text: 'Increasing sinusoidal depleneration...',
       DialogueService.loadingDefaultText: 'Loading...',
+      // welcome strings
+      DialogueService.welcome1Text: 'Hi, ',
+      DialogueService.welcome2Text: 'Hey there, ',
+      DialogueService.welcome3Text: 'Welcome back, ',
+      DialogueService.welcome4Text: 'Hullo, ',
+      DialogueService.welcome5Text: 'Hullo, ',
+      DialogueService.welcome6Text: 'Welcome, ',
+      DialogueService.welcome7Text: 'Howdy, ',
+      DialogueService.welcome8Text: 'Hello there, ',
+      DialogueService.welcome9Text: 'Hey, ',
+      DialogueService.welcome10Text: 'Hello, ',
       // welcome dialog
-      DialogueService.welcomeDialogTitleText: 'Hi!',
+      DialogueService.welcomeBottomSheetTitleText: 'Welcome to 6-Me-Ludo!',
       DialogueService.welcomeDialogContentText: 'Welcome to 6-Me-Ludo. Sign in to continue',
       DialogueService.welcomeDialogYesText: 'Sign In',
       DialogueService.welcomeDialogNoText: 'Exit',
@@ -88,13 +103,13 @@ class EnglishTranslation {
       DialogueService.playerHasLeftTheGame: 'Player has left the game',
       // game - starting
       DialogueService.newGameAppBarTitleText: 'New Game',
-      DialogueService.startGameButtonText: 'Create New Game',
+      DialogueService.startGameButtonText: 'Start Game',
       DialogueService.joinGameButtonText: 'Join Game',
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Games 😕',
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
-      DialogueService.hostGameFABText: 'Host Game',
-      DialogueService.joinGameFABText: 'Join Game',
+      DialogueService.hostGameFABText: 'Host New Game',
+      DialogueService.joinGameFABText: 'Join Game With Code',
       DialogueService.joinGameHintText: 'Enter code',
       DialogueService.gameKickedText: 'Sorry, you have been kicked from this game',
       DialogueService.gameDoesNotExistText: 'Sorry this game does not exist. It may have been deleted',
@@ -103,6 +118,7 @@ class EnglishTranslation {
       DialogueService.hostGameBannerText: 'Review your game settings and start a new game',
       DialogueService.gameVersionMismatchText: 'Sorry, game versions do not match',
       // game - playing
+      DialogueService.skipTurnText: 'Skip Turn',
       DialogueService.inAFewSecondsText: 'in a few seconds',
       DialogueService.playerTabText: 'Players',
       DialogueService.boardTabText: 'Game',
@@ -131,6 +147,7 @@ class EnglishTranslation {
       DialogueService.playerHasLeftText: ' has left the game',
       DialogueService.playerHasJoinedText: ' has joined the game',
       DialogueService.gameHasStartedText: 'The game has started',
+      DialogueService.gameSettingsChangedText: 'The host has changed the game settings',
       DialogueService.gameHasRestarted: 'The host has restarted the game',
       DialogueService.messageContainsProfanityText: 'This message is hidden due to your profanity settings',
       DialogueService.playerIsPresentText: 'Present in game',
@@ -151,7 +168,7 @@ class EnglishTranslation {
       DialogueService.playerKickedFromGameTrailingText: 'Player kicked from game',
       DialogueService.passTurnButtonText: 'Pass Turn',
       DialogueService.noWinnerText: 'No one made it to the end',
-      DialogueService.gameWinnerText: 'Winner!',
+      DialogueService.gameWinnerText: 'Winner! 😎',
       DialogueService.gameViciousText: 'Cold-Blooded  😈',
       DialogueService.gamePunchingBagText: 'Punching Bag 🥴',
       DialogueService.statsTitleText: 'Session Stats',
@@ -162,7 +179,18 @@ class EnglishTranslation {
       DialogueService.timesPluralText: ' times',
       DialogueService.reputationChangedText: ' is now ',
       DialogueService.reputationChangedPluralText: ' are now ',
-
+      DialogueService.gameSessionLengthText: 'Session length:',
+      DialogueService.gameSessionNumberOfTurnsText: 'Number of Turns:',
+      DialogueService.gameSessionEndedText: 'Session Ended',
+      // game settings
+      DialogueService.catchUpAssistEnabledText: 'Host has enabled catch up assist',
+      DialogueService.catchUpAssistDisabledText: 'Host has disabled catch up assist',
+      DialogueService.startAssistEnabledText: 'Host has enabled start assist',
+      DialogueService.startAssistDisabledText: 'Host has disabled start assist',
+      DialogueService.adaptiveAIEnabledText: 'Host has enabled adaptive AI',
+      DialogueService.adaptiveAIDisabledText: 'Host has disabled adaptive AI',
+      DialogueService.hostSetAIPersonalityText: 'Host has set the AI personality to ',
+      DialogueService.hostSetGameSpeedText: 'Host has set the game speed to ',
       // game - controls
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',
@@ -170,6 +198,8 @@ class EnglishTranslation {
       DialogueService.endGamePopupText: 'End Game',
       DialogueService.copyGameIDPopupText: 'Copy Game Code',
       DialogueService.shareGameIDPopupText: 'Share Game Invite',
+      DialogueService.viewGameSettingsPopupText: 'View Game Settings',
+      DialogueService.changeGameSettingsPopupText: 'Change Game Settings',
       // game - playing - commentary
       DialogueService.yourTurnText: 'It\'s your turn. Please tap the die to roll it',
       DialogueService.waitingForParticularPlayerText: 'Waiting for ',
@@ -202,9 +232,11 @@ class EnglishTranslation {
       DialogueService.gameSettingsText: 'Games',
       DialogueService.gameSettingsFullText: 'Game Settings',
       DialogueService.accountSettingsText: 'Account',
+      DialogueService.personalisationSettingsText: 'Personalisation',
+      DialogueService.aboutSettingsText: 'About',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',
-      DialogueService.maxPlayersSubtitleText: 'Select how many human players you want to add to your game',
+      DialogueService.maxPlayersSubtitleText: 'Select how many human players, including yourself, you want in your game',
       // settings - dark mode
       DialogueService.darkModeTitleText: 'Dark Mode',
       DialogueService.darkModeSubtitleText: 'Toggle dark mode on or off',
@@ -219,7 +251,7 @@ class EnglishTranslation {
       DialogueService.randomThemeText: 'Random Theme Selected',
       DialogueService.currentThemeText: 'Current Theme: ',
       // settings - wakelock
-      DialogueService.wakelockTitleText: 'Wakelock',
+      DialogueService.wakelockTitleText: 'Screen Always On',
       DialogueService.wakelockSubtitleText: 'Toggle whether the screen should stay on during games',
       // settings - language
       DialogueService.languageTitleText: 'Language',
@@ -269,11 +301,17 @@ class EnglishTranslation {
       DialogueService.deleteAccountDialogContentText: 'This cannot be undone. Proceed?',
       DialogueService.deleteAccountDialogYesText: 'Delete',
       DialogueService.deleteAccountDialogNoText: 'Cancel',
+      // settings - about
+      DialogueService.versionTitleText: 'Version',
+      DialogueService.privacyTitleText: 'Privacy Policy',
+      DialogueService.termsTitleText: 'Terms and Conditions',
+      DialogueService.licenseTitleText: 'Application Licenses',
       // exit dialog
       DialogueService.exitAppDialogTitleText: 'Aww...',
       DialogueService.exitAppDialogContentText: 'Are you sure you want to exit ${AppConstants.appNameEnglish}?',
       DialogueService.exitAppDialogNoText: 'Cancel',
       DialogueService.exitAppDialogYesText: 'Exit',
+      DialogueService.exitAppText: 'Exit App',
     };
   }
 }

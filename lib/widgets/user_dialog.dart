@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import '../constants/app_constants.dart';
@@ -18,14 +19,15 @@ showUserDialog({
       return AlertDialog(
         shape: AppConstants.appShape,
         actionsAlignment: MainAxisAlignment.spaceBetween,
+        backgroundColor: Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor,
         title: Text(
           DialogueService.humanPlayerCaptialText.tr,
-          style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
+          style: TextStyles.dialogTitleStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
           textAlign: TextAlign.center,
         ),
         content: UserAvatarWidget(
           backgroundColor: Theme.of(context).primaryColor,
-          borderColor: Theme.of(context).colorScheme.onBackground,
+          borderColor: Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
           avatar: user.avatar,
           shouldExpand: true,
           hasLeftGame: false,
@@ -33,11 +35,11 @@ showUserDialog({
         actions: [
           Text(
             user.psuedonym,
-            style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
+            style: TextStyles.dialogTitleStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
           ),
           ReputationWidget(
             value: user.reputationValue,
-            color: Theme.of(context).colorScheme.onBackground,
+            color: Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
             shouldPad: false,
           ),
         ],

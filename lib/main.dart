@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
         transitionDuration: AppConstants.animationDuration,
         theme: themeProvider.getLightTheme(),
         darkTheme: themeProvider.getDarkTheme(),
+        // themeMode: ThemeMode.light,
         themeMode: themeProvider.getThemeMode(),
         locale: userProvider.getLocale(),
         translations: DialogueService(),

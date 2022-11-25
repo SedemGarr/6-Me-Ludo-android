@@ -12,6 +12,7 @@ import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/
 
 import '../../../../models/game.dart';
 import '../../../../models/player.dart';
+import '../../../../widgets/custom_divider.dart';
 
 class OnGoingGamesListItemWidget extends StatelessWidget {
   final int index;
@@ -28,17 +29,15 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
 
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8.0,
-          right: 8.0,
-          bottom: 8.0,
-        ),
-        child: ClipRRect(
-          borderRadius: AppConstants.appBorderRadius,
+      child: ClipRRect(
+        borderRadius: AppConstants.appBorderRadius,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: AppConstants.appBorderRadius,
+          ),
           child: ExpansionTile(
             collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
             childrenPadding: const EdgeInsets.only(bottom: 8.0),
             key: PageStorageKey(index),
             leading: GameOwnerAvatarWidget(
@@ -53,9 +52,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Divider(
-                    color: Theme.of(context).colorScheme.background,
-                  ),
+                  const CustomDividerWidget(),
                   for (int i = 0; i < game.players.length; i++)
                     if (game.players[i].id != host.id)
                       GamePlayerWidget(

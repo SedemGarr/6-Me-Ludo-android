@@ -20,13 +20,13 @@ class ProfileSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomCardWidget(
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SettingsHeaderWidget(text: DialogueService.profileText.tr),
-            CustomListTileWidget(
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SettingsHeaderWidget(text: DialogueService.profileText.tr),
+          CustomCardWidget(
+            child: CustomListTileWidget(
               onTap: () {
                 NavigationService.goToEditPseudonymScreen();
               },
@@ -39,8 +39,8 @@ class ProfileSectionWidget extends StatelessWidget {
                 shouldPad: false,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

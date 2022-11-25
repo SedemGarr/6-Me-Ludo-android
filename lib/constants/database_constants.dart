@@ -12,4 +12,5 @@ class FirestoreConstants {
 
 class RealTimeDatabaseConstants {
   static const String gamesReference = 'games';
+  static const String appVersionReference = 'version';
 }

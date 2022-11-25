@@ -26,10 +26,17 @@ import 'game_status_service.dart';
 class DatabaseService {
   static Future<AppVersion?> getAppVersion() async {
     try {
-      return AppVersion.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.appDataCollection).doc(FirestoreConstants.versionDocument).get()).data()!);
+      return AppVersion.fromJson(
+          (Map<String, dynamic>.from(jsonDecode(jsonEncode((await FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.appVersionReference).get()).value)))));
     } catch (e) {
       return null;
     }
+
+    // try {
+    //   return AppVersion.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.appDataCollection).doc(FirestoreConstants.versionDocument).get()).data()!);
+    // } catch (e) {
+    //   return null;
+    // }
   }
 
   // users
@@ -206,6 +213,7 @@ class DatabaseService {
     newGame.reaction = Reaction.parseGameStatus(GameStatusService.playerJoined);
     newGame.players.add(Player.getJoiningPlayer(user, game));
     newGame.playerIds.add(user.id);
+    newGame.isOffline = GameProvider.isGameOffline(newGame);
 
     await updateGame(newGame, true, shouldSyncWithFirestore: true);
   }
@@ -261,6 +269,36 @@ class DatabaseService {
           await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
         }
       }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future<void> updateGameSessionStartDate(Game game) async {
+    try {
+      Map<String, dynamic> jsonGame = game.toJson();
+
+      // RTDB
+      jsonGame['sessionStartedAt'] = Utils.getRTDBServerTimestamp();
+      await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
+      // FIRESTORE
+      jsonGame['sessionStartedAt'] = Utils.getFireStoreServerTimestamp();
+      FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future<void> updateGameSessionEndDate(Game game) async {
+    try {
+      Map<String, dynamic> jsonGame = game.toJson();
+
+      // RTDB
+      jsonGame['sessionEndedAt'] = Utils.getRTDBServerTimestamp();
+      await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
+      // FIRESTORE
+      jsonGame['sessionEndedAt'] = Utils.getFireStoreServerTimestamp();
+      FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
       debugPrint(e.toString());
     }
