@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:css_colors/css_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -245,6 +246,8 @@ class Utils {
     WidgetsFlutterBinding.ensureInitialized();
     await addGoogleFontsLicenses();
     await Firebase.initializeApp();
+    listenForAppErrors();
+    listenForAsyncAppErrors();
     await GetStorage.init();
   }
 
@@ -261,6 +264,19 @@ class Utils {
       final license = await rootBundle.loadString('google_fonts/OFL.txt');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
+  }
+
+  static void listenForAppErrors() {
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+    };
+  }
+
+  static void listenForAsyncAppErrors() {
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
   }
 
   static void clearCache() async {
