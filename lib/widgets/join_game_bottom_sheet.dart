@@ -20,7 +20,7 @@ showJoinGameBottomSheet({
     builder: (BuildContext context) {
       return CustomDismissableWrapper(
         child: DraggableScrollableSheet(
-          initialChildSize: 0.9,
+          initialChildSize: 0.6,
           maxChildSize: 0.9,
           builder: (BuildContext context, ScrollController scrollController) {
             return Container(
