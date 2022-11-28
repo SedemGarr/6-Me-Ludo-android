@@ -19,8 +19,10 @@ dependencies:
   cloud_firestore: ^4.0.3
   confetti: ^0.7.0
   css_colors: ^1.1.1
+  firebase_analytics: ^10.0.6
   firebase_auth: ^4.1.0
   firebase_core: ^2.1.1
+  firebase_crashlytics: ^3.0.6
   firebase_database: ^10.0.3
   flex_color_scheme: ^6.0.0
   flutter_cache_manager: ^3.3.0
@@ -45,9 +47,6 @@ dependencies:
   uuid: ^3.0.6
   visibility_detector: ^0.3.3
   wakelock: ^0.6.2
-  firebase_analytics: ^10.0.6
-  firebase_crashlytics: ^3.0.6
-  firebase_performance: ^0.9.0+6
 
 dev_dependencies:
   flutter_test:
