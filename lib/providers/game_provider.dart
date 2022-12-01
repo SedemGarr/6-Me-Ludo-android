@@ -308,7 +308,7 @@ class GameProvider with ChangeNotifier {
     checkIfPlayerHasLeftGame(game);
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
-    checkForReputationChange(game);
+    // checkForReputationChange(game);
     checkIfGameSettingsHaveChanged(game, user.id);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);

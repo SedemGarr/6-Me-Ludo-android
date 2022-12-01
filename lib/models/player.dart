@@ -326,10 +326,6 @@ class Player {
       } else {
         reputationValue = 1;
       }
-
-      // if (value != -2 || value != 2) {
-      //   reputationValue = value;
-      // }
     } else {
       reputationValue = value;
     }
