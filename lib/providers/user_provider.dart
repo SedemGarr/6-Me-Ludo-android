@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -10,11 +12,11 @@ import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/auth_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/upgrade_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/user_dialog.dart';
+import 'package:username_generator/username_generator.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/game.dart';
@@ -40,6 +42,84 @@ class UserProvider with ChangeNotifier {
 
   // text editing controller
   TextEditingController pseudonymController = TextEditingController();
+
+  static String generateRandomUserAvatar() {
+    return List.generate(12, (_) => Random().nextInt(100)).join();
+  }
+
+  static String getRandomPseudonym() {
+    UsernameGenerator generator = UsernameGenerator();
+    generator.separator = ' ';
+
+    String initialPseudonym = generator.generateRandom();
+
+    String finalPseudonym = '';
+
+    for (int i = 0; i < initialPseudonym.length; i++) {
+      if (!initialPseudonym[i].isNum) {
+        finalPseudonym += initialPseudonym[i];
+      }
+    }
+
+    // strip out any potentially offensive words
+    if (AppProvider.isStringProfane(finalPseudonym) || finalPseudonym.length > AppConstants.maxPseudonymLength) {
+      return getRandomPseudonym();
+    }
+
+    return convertToTitleCase(finalPseudonym.trim());
+  }
+
+  static String convertToTitleCase(String text) {
+    if (text.length <= 1) {
+      return text.toUpperCase();
+    }
+
+    // Split string into multiple words
+    final List<String> words = text.split(' ');
+
+    // Capitalize first letter of each word
+    final capitalizedWords = words.map((word) {
+      if (word.trim().isNotEmpty) {
+        final String firstLetter = word.trim().substring(0, 1).toUpperCase();
+        final String remainingLetters = word.trim().substring(1);
+
+        return '$firstLetter$remainingLetters';
+      }
+      return '';
+    });
+
+    // Merge all words back to one String
+    return capitalizedWords.join(' ');
+  }
+
+  static String getInitials(String name) {
+    int numberOfWords = name.trim().split(RegExp(' +')).length;
+    return name.isNotEmpty ? name.trim().split(RegExp(' +')).map((s) => s[0]).take(numberOfWords).join() : '';
+  }
+
+  static List<String> generateAvatarSelectionCodes(String avatar) {
+    List<String> avatars = [];
+
+    for (int i = 0; i < 1000; i++) {
+      avatars.add(generateRandomUserAvatar());
+    }
+
+    avatars[0] = avatar;
+
+    return avatars;
+  }
+
+  static String parsePsuedonymName(String value) {
+    bool endsWithS = value[value.length - 1].toLowerCase() == 's';
+
+    if (endsWithS) {
+      value += "' ";
+    } else {
+      value += '\'s ';
+    }
+
+    return value;
+  }
 
   Future<void> initUser(BuildContext context) async {
     AppProvider appProvider = context.read<AppProvider>();
@@ -96,7 +176,7 @@ class UserProvider with ChangeNotifier {
 
   void handleNewGameTap(BuildContext context) {
     if (hasReachedOngoingGamesLimit()) {
-      Utils.showToast(DialogueService.maxGamesText.tr);
+      AppProvider.showToast(DialogueService.maxGamesText.tr);
       return;
     }
 
@@ -116,7 +196,7 @@ class UserProvider with ChangeNotifier {
   }
 
   void intialiseAvatarList(bool shouldRebuild) {
-    avatarList = Utils.generateAvatarSelectionCodes(getUserAvatar());
+    avatarList = generateAvatarSelectionCodes(getUserAvatar());
 
     selectedAvatar = _user!.avatar;
 
@@ -145,7 +225,7 @@ class UserProvider with ChangeNotifier {
         if (Get.currentRoute == HomeScreen.routeName) {
           NavigationService.goToEditAvatarScreen();
         } else {
-          Utils.showToast(DialogueService.youText.tr);
+          AppProvider.showToast(DialogueService.youText.tr);
         }
       } else {
         showUserDialog(user: (await DatabaseService.getUser(id))!, context: context);
@@ -167,7 +247,7 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
 
     if (value) {
-      Utils.showToast(DialogueService.zapsplatText.tr);
+      AppProvider.showToast(DialogueService.zapsplatText.tr);
     }
   }
 
@@ -217,7 +297,7 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = flexScheme.name;
     themeProvider.setTheme(_user!.settings.prefersDarkMode, flexScheme);
-    Utils.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name.capitalizeFirst!);
+    AppProvider.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name.capitalizeFirst!);
     await updateUser(true, true);
   }
 
@@ -226,7 +306,7 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = '';
     themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getRandomScheme());
-    Utils.showToast(DialogueService.setThemeToRandomText.tr);
+    AppProvider.showToast(DialogueService.setThemeToRandomText.tr);
     await updateUser(true, true);
   }
 
@@ -291,17 +371,17 @@ class UserProvider with ChangeNotifier {
     }
 
     if (value.length < AppConstants.minPseudonymLength) {
-      Utils.showToast(DialogueService.tooShortText.tr);
+      AppProvider.showToast(DialogueService.tooShortText.tr);
       return;
     }
 
     if (value.length > AppConstants.maxPseudonymLength) {
-      Utils.showToast(DialogueService.tooLongText.tr);
+      AppProvider.showToast(DialogueService.tooLongText.tr);
       return;
     }
 
-    if (Utils.isStringProfane(value)) {
-      Utils.showToast(DialogueService.profaneStringText.tr);
+    if (AppProvider.isStringProfane(value)) {
+      AppProvider.showToast(DialogueService.profaneStringText.tr);
       return;
     }
 
@@ -314,7 +394,7 @@ class UserProvider with ChangeNotifier {
 
   void handleWakelockLogic(bool value) {
     if (getUserWakelock()) {
-      Utils.setWakeLock(value);
+      AppProvider.setWakeLock(value);
     }
   }
 
@@ -374,7 +454,7 @@ class UserProvider with ChangeNotifier {
     if (_user!.settings.theme == '') {
       return DialogueService.randomThemeText.tr;
     } else {
-      return DialogueService.currentThemeText.tr + Utils.convertToTitleCase(_user!.settings.theme);
+      return DialogueService.currentThemeText.tr + convertToTitleCase(_user!.settings.theme);
     }
   }
 
@@ -382,7 +462,7 @@ class UserProvider with ChangeNotifier {
     String gameName = '';
     bool isHost = host.id == _user!.id;
 
-    gameName += isHost ? DialogueService.yourGameText.tr : Utils.parsePsuedonymName(host.psuedonym);
+    gameName += isHost ? DialogueService.yourGameText.tr : parsePsuedonymName(host.psuedonym);
 
     switch (players.length) {
       case 1:

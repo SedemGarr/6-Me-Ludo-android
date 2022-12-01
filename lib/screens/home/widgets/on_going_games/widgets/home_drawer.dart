@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/join_game_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/new_game_bottom_sheet.dart';
 
@@ -127,7 +127,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       ),
                       onTap: () {
                         NavigationService.genericGoBack();
-                        Utils.showExitDialog(context);
+                        AppProvider.showExitDialog(context);
                       },
                     ),
                   ),

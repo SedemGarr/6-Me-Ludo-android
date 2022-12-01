@@ -11,10 +11,9 @@ import 'providers/app_provider.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/user_provider.dart';
-import 'utils/utils.dart';
 
 Future<void> main() async {
-  await Utils.initApp();
+  await AppProvider.initApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) {
       runApp(

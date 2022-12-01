@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/edit_profile/widgets/change_pseudonym_textfield.dart';
 import 'package:six_me_ludo_android/screens/edit_profile/widgets/save_pseudonym_widget.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
 import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
 import 'package:six_me_ludo_android/widgets/banner_widget.dart';
@@ -33,7 +33,7 @@ class _EditPseudonymScreenState extends State<EditPseudonymScreen> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Utils.dismissKeyboard();
+        AppProvider.dismissKeyboard();
       },
       child: Scaffold(
         appBar: CustomAppBarWidget(

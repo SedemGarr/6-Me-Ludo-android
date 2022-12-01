@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
+
+import '../providers/theme_provider.dart';
 import 'cell.dart';
 
 class Board {
@@ -292,19 +293,19 @@ class Board {
   // cell icon color
   static Color? determineCellIconColor(int index) {
     if (index == 21) {
-      return Utils.getContrastingColor(PlayerConstants.swatchList[0].playerColor);
+      return ThemeProvider.getContrastingColor(PlayerConstants.swatchList[0].playerColor);
     } else if (index == 7) {
       return PlayerConstants.swatchList[0].playerColor;
     } else if (index == 121) {
-      return Utils.getContrastingColor(PlayerConstants.swatchList[2].playerColor);
+      return ThemeProvider.getContrastingColor(PlayerConstants.swatchList[2].playerColor);
     } else if (index == 105) {
       return PlayerConstants.swatchList[2].playerColor;
     } else if (index == 203) {
-      return Utils.getContrastingColor(PlayerConstants.swatchList[1].playerColor);
+      return ThemeProvider.getContrastingColor(PlayerConstants.swatchList[1].playerColor);
     } else if (index == 217) {
       return PlayerConstants.swatchList[3].playerColor;
     } else if (index == 103) {
-      return Utils.getContrastingColor(PlayerConstants.swatchList[3].playerColor);
+      return ThemeProvider.getContrastingColor(PlayerConstants.swatchList[3].playerColor);
     } else if (index == 119) {
       return PlayerConstants.swatchList[1].playerColor;
     } else if (index == 97) {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
 import '../../../../../services/translations/dialogue_service.dart';
-import '../../../../../utils/utils.dart';
 
 class LastPlayedAtWidget extends StatelessWidget {
   final GameProvider gameProvider;
@@ -19,7 +19,7 @@ class LastPlayedAtWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        Utils.parseDateFromNow(game.lastUpdatedAt) == DialogueService.inAFewSecondsText.tr ? '' : DialogueService.lastPlayedAtText.tr + Utils.parseDateFromNow(game.lastUpdatedAt),
+        AppProvider.parseDateFromNow(game.lastUpdatedAt) == DialogueService.inAFewSecondsText.tr ? '' : DialogueService.lastPlayedAtText.tr + AppProvider.parseDateFromNow(game.lastUpdatedAt),
         style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
       ),
     );

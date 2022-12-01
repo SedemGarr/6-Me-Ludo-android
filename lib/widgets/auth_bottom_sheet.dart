@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
 import 'package:six_me_ludo_android/widgets/dismissible_wrapper.dart';
@@ -10,6 +10,7 @@ import 'package:six_me_ludo_android/widgets/title_widget.dart';
 import '../constants/app_constants.dart';
 import '../constants/icon_constants.dart';
 import '../constants/textstyle_constants.dart';
+import '../providers/theme_provider.dart';
 import '../services/authentication_service.dart';
 import 'custom_outlined_button.dart';
 import 'custom_text_button.dart';
@@ -41,12 +42,13 @@ showAuthBottomSheet({
                   TitleWidget(width: Get.width * 1 / 4),
                   Text(
                     DialogueService.welcomeBottomSheetTitleText.tr,
-                    style: TextStyles.modalTitleStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+                    style: TextStyles.modalTitleStyle(
+                        ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
                   ),
                   Text(
                     DialogueService.authDialogContentText.tr,
-                    style:
-                        TextStyles.dialogContentStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+                    style: TextStyles.dialogContentStyle(
+                        ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
                     textAlign: TextAlign.center,
                   ),
                   Column(
@@ -71,7 +73,7 @@ showAuthBottomSheet({
                           Expanded(
                             child: CustomOutlinedButton(
                               iconData: AppIcons.anonIcon,
-                              color: Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
+                              color: ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
                               onPressed: () {
                                 NavigationService.genericGoBack();
                                 AuthenticationService.signInAnon(context);
@@ -87,10 +89,10 @@ showAuthBottomSheet({
                           children: [
                             Expanded(
                               child: CustomTextButton(
-                                color: Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
+                                color: ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
                                 onPressed: () {
                                   NavigationService.genericGoBack();
-                                  Utils.exitApp();
+                                  AppProvider.exitApp();
                                 },
                                 text: DialogueService.exitAppText.tr,
                               ),

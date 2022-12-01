@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
+import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../constants/textstyle_constants.dart';
-import '../utils/utils.dart';
 
 class UserSettings {
   static const int slowSpeed = 500;
@@ -146,7 +146,7 @@ class UserSettings {
       prefersAddAI: true,
       prefersAutoStart: false,
       prefersAudio: true,
-      prefersDarkMode: Utils.getSystemDarkModeSetting(),
+      prefersDarkMode: ThemeProvider.getSystemDarkModeSetting(),
       prefersCatchupAssist: true,
       prefersAdaptiveAI: true,
       prefersStartAssist: true,

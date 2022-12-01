@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/dismissible_wrapper.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 
+import '../providers/theme_provider.dart';
 import 'join_game_textfield_widget.dart';
 
 showJoinGameBottomSheet({
@@ -35,8 +35,8 @@ showJoinGameBottomSheet({
                     padding: AppConstants.modalTitlePadding,
                     child: Text(
                       DialogueService.joinGameButtonText.tr,
-                      style:
-                          TextStyles.modalTitleStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+                      style: TextStyles.modalTitleStyle(
+                          ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
                     ),
                   ),
                   const JoinGameTextFieldWidget(),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
-
-import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../services/navigation_service.dart';
 
@@ -18,7 +17,7 @@ class NavProvider with ChangeNotifier {
   }
 
   void handleHomeWrapperBackPress(BuildContext context) {
-    Utils.showExitDialog(context);
+    AppProvider.showExitDialog(context);
   }
 
   void handleGameScreenBackPress(GameProvider gameProvider) {

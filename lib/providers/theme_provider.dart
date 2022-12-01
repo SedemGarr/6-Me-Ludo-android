@@ -1,11 +1,12 @@
 import 'dart:math';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import '../services/local_storage_service.dart';
-import '../utils/utils.dart';
 
 class ThemeProvider with ChangeNotifier {
   late ThemeData _lightThemeData;
@@ -36,7 +37,19 @@ class ThemeProvider with ChangeNotifier {
   }
 
   ThemeMode initThemeMode() {
-    return LocalStorageService.getDarkModePreference() == null ? Utils.getSystemTheme() : LocalStorageService.getThemeMode();
+    return LocalStorageService.getDarkModePreference() == null ? getSystemTheme() : LocalStorageService.getThemeMode();
+  }
+
+  static ThemeMode getSystemTheme() {
+    return getSystemDarkModeSetting() ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  static bool getSystemDarkModeSetting() {
+    return SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
+  }
+
+  static Color getContrastingColor(Color color) {
+    return color.computeLuminance() > 0.5 ? AppConstants.blackColor : AppConstants.whiteColor;
   }
 
   FlexScheme getScheme() {

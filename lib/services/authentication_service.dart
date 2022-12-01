@@ -4,7 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import '../models/user.dart';
 
 import '../providers/sound_provider.dart';
@@ -55,21 +54,21 @@ class AuthenticationService {
             NavigationService.goToHomeScreen();
           } else {
             appProvider.setLoading(false, true);
-            Utils.showToast(DialogueService.genericErrorText.tr);
+            AppProvider.showToast(DialogueService.genericErrorText.tr);
           }
         } catch (e) {
           appProvider.setLoading(false, true);
-          Utils.showToast(DialogueService.genericErrorText.tr);
+          AppProvider.showToast(DialogueService.genericErrorText.tr);
           debugPrint(e.toString());
         }
       } else {
         // if user is null
         appProvider.setLoading(false, true);
-        Utils.showToast(DialogueService.noUserSelectedText.tr);
+        AppProvider.showToast(DialogueService.noUserSelectedText.tr);
       }
     } catch (e) {
       appProvider.setLoading(false, true);
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -99,7 +98,7 @@ class AuthenticationService {
       }
     } catch (e) {
       appProvider.setLoading(false, true);
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -155,9 +154,9 @@ class AuthenticationService {
 
       await firebase.signOut();
       LocalStorageService.clearUser();
-      Utils.clearCache();
+      AppProvider.clearCache();
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
 
@@ -188,16 +187,16 @@ class AuthenticationService {
           await firebase.signOut();
           await DatabaseService.deleteUserData(user);
           LocalStorageService.clearUser();
-          Utils.clearCache();
+          AppProvider.clearCache();
         }
       } else {
         await firebase.signOut();
         await DatabaseService.deleteUserData(user);
         LocalStorageService.clearUser();
-        Utils.clearCache();
+        AppProvider.clearCache();
       }
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }

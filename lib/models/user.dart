@@ -1,4 +1,5 @@
-import '../utils/utils.dart';
+import 'package:six_me_ludo_android/providers/user_provider.dart';
+
 import 'user_settings.dart';
 
 class Users {
@@ -52,10 +53,10 @@ class Users {
 
   static Future<Users> getDefaultUser(String uid, String email, bool isAnon, String appVersion, int buildNumber) async {
     return Users(
-      avatar: Utils.generateRandomUserAvatar(),
+      avatar: UserProvider.generateRandomUserAvatar(),
       id: uid,
       settings: UserSettings.getDefaultSettings(),
-      psuedonym: Utils.getRandomPseudonym(),
+      psuedonym: UserProvider.getRandomPseudonym(),
       reputationValue: 0,
       isAnon: isAnon,
       email: email,
