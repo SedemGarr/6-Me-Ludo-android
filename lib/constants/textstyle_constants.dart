@@ -112,7 +112,7 @@ class TextStyles {
   }
 
   static TextStyle legalTextStyleNormal(Color color) {
-    return GoogleFonts.workSans(
+    return GoogleFonts.quantico(
       color: color,
     );
   }

@@ -15,7 +15,7 @@ class WayOutWidget extends StatelessWidget {
         fit: BoxFit.fitWidth,
         child: Text(
           'wayyy out! games',
-          style: GoogleFonts.patrickHand(
+          style: GoogleFonts.quantico(
             color: Theme.of(context).colorScheme.onBackground,
           ),
         ),
