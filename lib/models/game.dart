@@ -5,7 +5,7 @@ import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/reaction.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/models/user_settings.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
+import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:uuid/uuid.dart';
 import '../constants/player_constants.dart';
 import '../services/game_status_service.dart';
@@ -97,7 +97,7 @@ class Game {
     Random random = Random();
 
     for (int i = 0; i < (4 - game.maxPlayers); i++) {
-      String id = Utils.getAIPlayerId(uuid);
+      String id = Player.getAIPlayerId(uuid);
 
       game.players.add(Player.getJoiningAIPlayer(id, game, user, random));
       game.playerIds.add(id);
@@ -108,7 +108,7 @@ class Game {
 
   static Game getDefaultGame(Users user, String gameId, bool isOffline) {
     return Game(
-      createdAt: Utils.getDeviceTime(),
+      createdAt: DatabaseService.getDeviceTime(),
       hostSettings: user.settings,
       reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
       id: gameId,
@@ -160,33 +160,33 @@ class Game {
     isOffline = json['isOffline'];
     lastUpdatedBy = json['lastUpdatedBy'];
     createdAt = json['createdAt'] == null
-        ? Utils.getDeviceTime()
+        ? DatabaseService.getDeviceTime()
         : json['createdAt'] is int
             ? DateTime.fromMillisecondsSinceEpoch(json['createdAt']).toString()
             : json['createdAt'] is String
                 ? json['createdAt']
-                : Utils.getDeviceTime();
+                : DatabaseService.getDeviceTime();
     lastUpdatedAt = json['lastUpdatedAt'] == null
-        ? Utils.getDeviceTime()
+        ? DatabaseService.getDeviceTime()
         : json['lastUpdatedAt'] is int
             ? DateTime.fromMillisecondsSinceEpoch(json['lastUpdatedAt']).toString()
             : json['lastUpdatedAt'] is String
                 ? json['lastUpdatedAt']
-                : Utils.getDeviceTime();
+                : DatabaseService.getDeviceTime();
     sessionEndedAt = json['sessionEndedAt'] == null
-        ? Utils.getDeviceTime()
+        ? DatabaseService.getDeviceTime()
         : json['sessionEndedAt'] is int
             ? DateTime.fromMillisecondsSinceEpoch(json['sessionEndedAt']).toString()
             : json['sessionEndedAt'] is String
                 ? json['sessionEndedAt']
-                : Utils.getDeviceTime();
+                : DatabaseService.getDeviceTime();
     sessionStartedAt = json['sessionStartedAt'] == null
-        ? Utils.getDeviceTime()
+        ? DatabaseService.getDeviceTime()
         : json['sessionStartedAt'] is int
             ? DateTime.fromMillisecondsSinceEpoch(json['sessionStartedAt']).toString()
             : json['sessionStartedAt'] is String
                 ? json['sessionStartedAt']
-                : Utils.getDeviceTime();
+                : DatabaseService.getDeviceTime();
     maxPlayers = json['maxPlayers'];
     playerTurn = json['playerTurn'];
     die = Die.fromJson(json['die']);

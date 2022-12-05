@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../../../../../../../constants/textstyle_constants.dart';
 import '../../../../../../../providers/app_provider.dart';
@@ -33,7 +32,7 @@ class _VersionSettingsState extends State<VersionSettings> {
     counter++;
 
     if (counter >= 5 && canShowToast) {
-      Utils.showToast(DialogueService.specialText.tr);
+      AppProvider.showToast(DialogueService.specialText.tr);
       canShowToast = !canShowToast;
 
       Future.delayed(AppConstants.snackBarDuration, () {

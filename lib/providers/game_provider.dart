@@ -18,7 +18,6 @@ import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/change_game_settings_bottom_sheet.dart';
 import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
 import 'package:uuid/uuid.dart';
@@ -88,10 +87,6 @@ class GameProvider with ChangeNotifier {
 
   bool hasNoVersionMismatch(int userVersion, int gameVersion) {
     return userVersion >= gameVersion;
-  }
-
-  static bool isGameOffline(Game game) {
-    return game.players.where((element) => !element.isAIPlayer).toList().length == 1;
   }
 
   int getGameTabControllerLength() {
@@ -313,7 +308,7 @@ class GameProvider with ChangeNotifier {
     checkIfPlayerHasLeftGame(game);
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
-    checkForReputationChange(game);
+    // checkForReputationChange(game);
     checkIfGameSettingsHaveChanged(game, user.id);
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);
@@ -345,7 +340,7 @@ class GameProvider with ChangeNotifier {
 
   void checkIfPlayerIsKickedFromGame(Game game, String id) {
     if (game.kickedPlayers.contains(id)) {
-      Utils.showToast(DialogueService.gameKickedText.tr);
+      AppProvider.showToast(DialogueService.gameKickedText.tr);
       goBack();
     }
   }
@@ -354,23 +349,23 @@ class GameProvider with ChangeNotifier {
     if (game.players.length < currentGame!.players.length) {
       for (var i = 0; i < currentGame!.players.length; i++) {
         if (!game.players.contains(currentGame!.players[i])) {
-          Utils.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+          AppProvider.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
         }
       }
     } else if (game.players.length > currentGame!.players.length) {
-      Utils.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
+      AppProvider.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
     }
   }
 
   void checkIfGameHasStarted(Game game) {
     if (!currentGame!.hasStarted && game.hasStarted) {
-      Utils.showToast(DialogueService.gameHasStartedText.tr);
+      AppProvider.showToast(DialogueService.gameHasStartedText.tr);
     }
   }
 
   void checkIfGameHasReStarted(Game game) {
     if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
-      Utils.showToast(DialogueService.gameHasStartedText.tr);
+      AppProvider.showToast(DialogueService.gameHasStartedText.tr);
     }
   }
 
@@ -381,41 +376,41 @@ class GameProvider with ChangeNotifier {
 
       if (newSettings.prefersCatchupAssist != oldSettings.prefersCatchupAssist) {
         if (newSettings.prefersCatchupAssist) {
-          Utils.showToast(DialogueService.catchUpAssistEnabledText.tr);
+          AppProvider.showToast(DialogueService.catchUpAssistEnabledText.tr);
         } else {
-          Utils.showToast(DialogueService.catchUpAssistDisabledText.tr);
+          AppProvider.showToast(DialogueService.catchUpAssistDisabledText.tr);
         }
       }
 
       if (newSettings.prefersStartAssist != oldSettings.prefersStartAssist) {
         if (newSettings.prefersStartAssist) {
-          Utils.showToast(DialogueService.startAssistEnabledText.tr);
+          AppProvider.showToast(DialogueService.startAssistEnabledText.tr);
         } else {
-          Utils.showToast(DialogueService.startAssistDisabledText.tr);
+          AppProvider.showToast(DialogueService.startAssistDisabledText.tr);
         }
       }
 
       if (newSettings.prefersAdaptiveAI != oldSettings.prefersAdaptiveAI) {
         if (newSettings.prefersAdaptiveAI) {
-          Utils.showToast(DialogueService.adaptiveAIEnabledText.tr);
+          AppProvider.showToast(DialogueService.adaptiveAIEnabledText.tr);
         } else {
-          Utils.showToast(DialogueService.adaptiveAIDisabledText.tr);
+          AppProvider.showToast(DialogueService.adaptiveAIDisabledText.tr);
         }
       }
 
       if (newSettings.aiPersonalityPreference != oldSettings.aiPersonalityPreference) {
         switch (newSettings.aiPersonalityPreference) {
           case PlayerConstants.averageJoe:
-            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.averagePersonalityType.tr);
+            AppProvider.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.averagePersonalityType.tr);
             break;
           case PlayerConstants.vicious:
-            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.viciousPersonalityType.tr);
+            AppProvider.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.viciousPersonalityType.tr);
             break;
           case PlayerConstants.pacifist:
-            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.pacifistPersonalityType.tr);
+            AppProvider.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.pacifistPersonalityType.tr);
             break;
           case PlayerConstants.randomPersonality:
-            Utils.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.randomPersonalityType.tr);
+            AppProvider.showToast(DialogueService.hostSetAIPersonalityText.tr + DialogueService.randomPersonalityType.tr);
             break;
         }
       }
@@ -423,13 +418,13 @@ class GameProvider with ChangeNotifier {
       if (newSettings.preferredSpeed != oldSettings.preferredSpeed) {
         switch (newSettings.preferredSpeed) {
           case UserSettings.fastSpeed:
-            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedFastText.tr);
+            AppProvider.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedFastText.tr);
             break;
           case UserSettings.normalSpeed:
-            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedNormalText.tr);
+            AppProvider.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedNormalText.tr);
             break;
           case UserSettings.slowSpeed:
-            Utils.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedSlowText.tr);
+            AppProvider.showToast(DialogueService.hostSetGameSpeedText.tr + DialogueService.gameSpeedSlowText.tr);
             break;
         }
       }
@@ -449,9 +444,9 @@ class GameProvider with ChangeNotifier {
 
         if (newRep != oldRep) {
           if (player.id == Get.context!.read<UserProvider>().getUserID()) {
-            Utils.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(player.reputationValue));
+            AppProvider.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(player.reputationValue));
           } else {
-            Utils.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(player.reputationValue));
+            AppProvider.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(player.reputationValue));
           }
         }
       }
@@ -485,12 +480,12 @@ class GameProvider with ChangeNotifier {
   }
 
   void copyGameID() {
-    Utils.showToast(DialogueService.gameIDCopiedToClipboardText.tr);
-    Utils.copyToClipboard(currentGame!.id);
+    AppProvider.showToast(DialogueService.gameIDCopiedToClipboardText.tr);
+    AppProvider.copyToClipboard(currentGame!.id);
   }
 
   void handleSuddenGameDeletion() {
-    Utils.showToast(DialogueService.gameDeletedText.tr);
+    AppProvider.showToast(DialogueService.gameDeletedText.tr);
     goBack();
   }
 
@@ -1052,7 +1047,7 @@ class GameProvider with ChangeNotifier {
       NavigationService.goToGameScreen();
     } catch (e) {
       appProvider.setLoading(false, true);
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -1065,7 +1060,7 @@ class GameProvider with ChangeNotifier {
 
       if (newGame == null) {
         appProvider.setLoading(false, true);
-        Utils.showToast(DialogueService.gameDeletedToastText.tr);
+        AppProvider.showToast(DialogueService.gameDeletedToastText.tr);
         return;
       } else {
         if (hasNoVersionMismatch(user.appBuildNumber, newGame.hostBuildNumber)) {
@@ -1081,7 +1076,7 @@ class GameProvider with ChangeNotifier {
           NavigationService.goToGameScreen();
         } else {
           if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
-            Utils.showToast(DialogueService.gameVersionMismatchText.tr);
+            AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
             appProvider.setLoading(false, true);
           } else {
             showUpgradeBottomSheet(context: Get.context!);
@@ -1090,7 +1085,7 @@ class GameProvider with ChangeNotifier {
       }
     } catch (e) {
       appProvider.setLoading(false, true);
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -1112,13 +1107,13 @@ class GameProvider with ChangeNotifier {
 
         // does game exist?
         if (newGame == null) {
-          Utils.showToast(DialogueService.gameDoesNotExistText.tr);
+          AppProvider.showToast(DialogueService.gameDoesNotExistText.tr);
           appProvider.setLoading(false, true);
           return;
         } else {
           // kicked
           if (newGame.kickedPlayers.contains(user.id)) {
-            Utils.showToast(DialogueService.gameKickedText.tr);
+            AppProvider.showToast(DialogueService.gameKickedText.tr);
             appProvider.setLoading(false, true);
             return;
           }
@@ -1130,7 +1125,7 @@ class GameProvider with ChangeNotifier {
             return;
           } else if (newGame.players.length == newGame.maxPlayers) {
             // full
-            Utils.showToast(DialogueService.gameFullText.tr);
+            AppProvider.showToast(DialogueService.gameFullText.tr);
             appProvider.setLoading(false, true);
             return;
           }
@@ -1144,7 +1139,7 @@ class GameProvider with ChangeNotifier {
             NavigationService.goToGameScreen();
           } else {
             if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
-              Utils.showToast(DialogueService.gameVersionMismatchText.tr);
+              AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
               appProvider.setLoading(false, true);
             } else {
               showUpgradeBottomSheet(context: Get.context!);
@@ -1152,7 +1147,7 @@ class GameProvider with ChangeNotifier {
           }
         }
       } catch (e) {
-        Utils.showToast(DialogueService.genericErrorText.tr);
+        AppProvider.showToast(DialogueService.genericErrorText.tr);
         appProvider.setLoading(false, true);
         return;
       }
@@ -1169,13 +1164,13 @@ class GameProvider with ChangeNotifier {
     if (gameChatController.text.isNotEmpty) {
       String value = gameChatController.text.trim();
 
-      if (!currentGame!.hostSettings.prefersProfanity && Utils.isStringProfane(value)) {
-        Utils.showToast(DialogueService.profaneMessageText.tr);
+      if (!currentGame!.hostSettings.prefersProfanity && AppProvider.isStringProfane(value)) {
+        AppProvider.showToast(DialogueService.profaneMessageText.tr);
         return;
       }
 
       gameChatController.clear();
-      Utils.dismissKeyboard();
+      AppProvider.dismissKeyboard();
 
       soundProvider.playSound(GameStatusService.newMessageSent);
       DatabaseService.sendGameChat(id, currentGame!.id, value);
@@ -1195,7 +1190,7 @@ class GameProvider with ChangeNotifier {
   Future<void> togglePlayerBanFromChat(Player player, BuildContext context) async {
     if (currentGame!.bannedPlayers.contains(player.id)) {
       currentGame!.bannedPlayers.remove(player.id);
-      Utils.showToast(player.psuedonym + DialogueService.playerUnBannedText.tr);
+      AppProvider.showToast(player.psuedonym + DialogueService.playerUnBannedText.tr);
     } else {
       showBanPlayerDialog(player, context);
     }
@@ -1208,7 +1203,7 @@ class GameProvider with ChangeNotifier {
     currentGame = resetGamePiecesToDefaultAfterPlayerLeaves(currentGame!, player.id);
     currentGame!.players[currentGame!.players.indexWhere((element) => element.id == player.id)].hasLeft = true;
     removePlayerMessages(player.id);
-    Utils.showToast(player.psuedonym + DialogueService.playerKickedFromGameText.tr);
+    AppProvider.showToast(player.psuedonym + DialogueService.playerKickedFromGameText.tr);
 
     await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
@@ -1394,7 +1389,7 @@ class GameProvider with ChangeNotifier {
           }
         } catch (e) {
           await passTurn(user);
-          Utils.showToast(DialogueService.genericErrorText.tr);
+          AppProvider.showToast(DialogueService.genericErrorText.tr);
         }
       });
     }
@@ -1496,7 +1491,7 @@ class GameProvider with ChangeNotifier {
                 await incrementPlayerPosition(destinationIndex, false, false, user);
               } else {
                 // stack pieces
-                Utils.showToast('Can\'t make that move');
+                AppProvider.showToast('Can\'t make that move');
                 // figure out how to stack pieces. Not urgent
                 return;
               }
@@ -1637,7 +1632,7 @@ class GameProvider with ChangeNotifier {
 
     currentGame = resetKickStats();
 
-    Utils.showToast(DialogueService.yourGameHasBeenRestartedText.tr);
+    AppProvider.showToast(DialogueService.yourGameHasBeenRestartedText.tr);
 
     scrollToBoardTab();
 
@@ -1726,7 +1721,7 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> deleteGame(Game game, Users user) async {
-    Utils.showToast(DialogueService.gameDeletedToastText.tr);
+    AppProvider.showToast(DialogueService.gameDeletedToastText.tr);
     DatabaseService.deleteGame(game.id, user);
   }
 
@@ -1743,7 +1738,7 @@ class GameProvider with ChangeNotifier {
       onYes: () {
         currentGame!.bannedPlayers.add(player.id);
         removePlayerMessages(player.id);
-        Utils.showToast(player.psuedonym + DialogueService.playerBannedText.tr);
+        AppProvider.showToast(player.psuedonym + DialogueService.playerBannedText.tr);
       },
       onNo: () {},
       context: context,
@@ -1818,6 +1813,36 @@ class GameProvider with ChangeNotifier {
         onNo: () {},
         context: context,
       );
+    }
+  }
+
+  // static
+
+  static bool isGameOffline(Game game) {
+    return game.players.where((element) => !element.isAIPlayer).toList().length == 1;
+  }
+
+  static String getGameSessionDuration(String sessionStartedAt, String sessionEndedAt) {
+    try {
+      DateTime startedAt = DateTime.parse(sessionStartedAt);
+      DateTime endedAt = DateTime.parse(sessionEndedAt);
+
+      return parseDuration(endedAt.difference(startedAt));
+    } catch (e) {
+      debugPrint(e.toString());
+      return '';
+    }
+  }
+
+  static String parseDuration(Duration duration) {
+    try {
+      String twoDigits(int n) => n.toString().padLeft(2, "0");
+      String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+      String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    } catch (e) {
+      debugPrint(e.toString());
+      return '';
     }
   }
 }

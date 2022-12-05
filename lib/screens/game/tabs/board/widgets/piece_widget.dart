@@ -5,9 +5,9 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../../../../../models/game.dart';
+import '../../../../../providers/theme_provider.dart';
 
 class PieceWidget extends StatelessWidget {
   final GameProvider gameProvider;
@@ -62,9 +62,9 @@ class PieceWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 3.0),
                       child: Text(
-                        Utils.getInitials(game.players[i].psuedonym),
+                        UserProvider.getInitials(game.players[i].psuedonym),
                         style: TextStyle(
-                          color: isSelected ? CSSColors.black : Utils.getContrastingColor(PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor),
+                          color: isSelected ? AppConstants.blackColor : ThemeProvider.getContrastingColor(PlayerConstants.swatchList[game.players[i].pieces[j].owner].playerColor),
                           fontStyle: isSelected ? FontStyle.italic : FontStyle.normal,
                           fontWeight: FontWeight.bold,
                         ),

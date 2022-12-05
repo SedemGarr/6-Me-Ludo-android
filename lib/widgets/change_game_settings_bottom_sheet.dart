@@ -6,13 +6,13 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/game.dart';
+import '../providers/theme_provider.dart';
 import '../screens/game/tabs/board/widgets/game_settings/adaptive_ai.dart';
 import '../screens/game/tabs/board/widgets/game_settings/ai_personality.dart';
 import '../screens/game/tabs/board/widgets/game_settings/catch_up_assist.dart';
 import '../screens/game/tabs/board/widgets/game_settings/game_speed.dart';
 import '../screens/game/tabs/board/widgets/game_settings/start_assist.dart';
 import '../services/navigation_service.dart';
-import '../utils/utils.dart';
 import 'custom_elevated_button.dart';
 import 'dismissible_wrapper.dart';
 
@@ -48,7 +48,7 @@ showSettingsBottomSheet({
                       child: Text(
                         canEdit ? DialogueService.changeGameSettingsPopupText.tr : DialogueService.viewGameSettingsPopupText.tr,
                         style: TextStyles.modalTitleStyle(
-                            Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+                            ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
                       ),
                     ),
                   ),

@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
+
+import '../../../../../providers/theme_provider.dart';
 
 class PassButtonWidget extends StatelessWidget {
   final GameProvider gameProvider;
@@ -15,7 +16,7 @@ class PassButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color color = gameProvider.playerColor;
-    Color contrastingColor = Utils.getContrastingColor(color);
+    Color contrastingColor = ThemeProvider.getContrastingColor(color);
 
     return CustomTextButton(
       onPressed: () {

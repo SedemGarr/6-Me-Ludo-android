@@ -10,7 +10,6 @@ import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../constants/database_constants.dart';
@@ -20,10 +19,23 @@ import '../models/reaction.dart';
 import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/version.dart';
+import '../providers/app_provider.dart';
 import '../providers/dynamic_link_provider.dart';
 import 'game_status_service.dart';
 
 class DatabaseService {
+  static String getDeviceTime() {
+    return DateTime.now().toString();
+  }
+
+  static dynamic getRTDBServerTimestamp() {
+    return ServerValue.timestamp;
+  }
+
+  static dynamic getFireStoreServerTimestamp() {
+    return FieldValue.serverTimestamp();
+  }
+
   static Future<AppVersion?> getAppVersion() async {
     try {
       return AppVersion.fromJson(
@@ -72,7 +84,7 @@ class DatabaseService {
       UserStateUpdateService.updateUser(newUser, true);
       return newUser;
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
       return null;
     }
@@ -99,7 +111,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(user.id).set(user.toJson(), SetOptions(merge: true));
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -108,7 +120,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -117,7 +129,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -238,7 +250,7 @@ class DatabaseService {
         "messages": FieldValue.arrayUnion([jsonMessage]),
       });
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }
@@ -248,7 +260,7 @@ class DatabaseService {
 
     try {
       if (shouldUpdateDate) {
-        jsonGame['lastUpdatedAt'] = Utils.getRTDBServerTimestamp();
+        jsonGame['lastUpdatedAt'] = getRTDBServerTimestamp();
       }
 
       if (shouldCreate != null && shouldCreate) {
@@ -259,11 +271,11 @@ class DatabaseService {
 
       if (shouldSyncWithFirestore != null && shouldSyncWithFirestore) {
         if (shouldUpdateDate) {
-          jsonGame['lastUpdatedAt'] = Utils.getFireStoreServerTimestamp();
+          jsonGame['lastUpdatedAt'] = getFireStoreServerTimestamp();
         }
 
         if (shouldCreate != null && shouldCreate) {
-          jsonGame['createdAt'] = Utils.getFireStoreServerTimestamp();
+          jsonGame['createdAt'] = getFireStoreServerTimestamp();
           await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).set(jsonGame);
         } else {
           await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
@@ -279,10 +291,10 @@ class DatabaseService {
       Map<String, dynamic> jsonGame = game.toJson();
 
       // RTDB
-      jsonGame['sessionStartedAt'] = Utils.getRTDBServerTimestamp();
+      jsonGame['sessionStartedAt'] = getRTDBServerTimestamp();
       await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
       // FIRESTORE
-      jsonGame['sessionStartedAt'] = Utils.getFireStoreServerTimestamp();
+      jsonGame['sessionStartedAt'] = getFireStoreServerTimestamp();
       FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
       debugPrint(e.toString());
@@ -294,10 +306,10 @@ class DatabaseService {
       Map<String, dynamic> jsonGame = game.toJson();
 
       // RTDB
-      jsonGame['sessionEndedAt'] = Utils.getRTDBServerTimestamp();
+      jsonGame['sessionEndedAt'] = getRTDBServerTimestamp();
       await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
       // FIRESTORE
-      jsonGame['sessionEndedAt'] = Utils.getFireStoreServerTimestamp();
+      jsonGame['sessionEndedAt'] = getFireStoreServerTimestamp();
       FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
       debugPrint(e.toString());
@@ -321,7 +333,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(gameID).delete();
       await deleteThread(gameID);
     } catch (e) {
-      Utils.showToast(DialogueService.genericErrorText.tr);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
   }

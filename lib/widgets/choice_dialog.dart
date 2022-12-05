@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
+import '../providers/theme_provider.dart';
 import '../services/navigation_service.dart';
-import '../utils/utils.dart';
 import 'custom_elevated_button.dart';
 import 'custom_outlined_button.dart';
 
@@ -28,11 +28,12 @@ showChoiceDialog({
         backgroundColor: Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor,
         title: Text(
           titleMessage,
-          style: TextStyles.dialogTitleStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+          style: TextStyles.dialogTitleStyle(ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
         ),
         content: Text(
           contentMessage,
-          style: TextStyles.dialogContentStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+          style:
+              TextStyles.dialogContentStyle(ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
           //  textAlign: TextAlign.center,
         ),
         actions: [
@@ -42,7 +43,7 @@ showChoiceDialog({
                 onNo();
               },
               text: noMessage.tr,
-              color: Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+              color: ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
           CustomElevatedButton(
               onPressed: () {
                 NavigationService.genericGoBack();

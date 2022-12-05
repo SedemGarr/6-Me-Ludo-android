@@ -15,7 +15,6 @@ import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../../../../../../utils/utils.dart';
 
 class EndGameWidget extends StatefulWidget {
   final GameProvider gameProvider;
@@ -236,7 +235,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                         style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                       ),
                       trailing: Text(
-                        Utils.getGameSessionDuration(game.sessionStartedAt, game.sessionEndedAt),
+                        GameProvider.getGameSessionDuration(game.sessionStartedAt, game.sessionEndedAt),
                         style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
                       ),
                     ),

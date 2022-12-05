@@ -8,13 +8,13 @@ import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
 import '../../../../../models/message.dart';
+import '../../../../../providers/app_provider.dart';
 import '../../../../../widgets/custom_list_tile.dart';
 
 class ChatListItem extends StatelessWidget {
@@ -41,7 +41,7 @@ class ChatListItem extends StatelessWidget {
     Color playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     Color playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
 
-    if (!userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body)) {
+    if (!userProvider.getUserProfaneMessages() && AppProvider.isStringProfane(message.body)) {
       return VisibilityDetector(
         key: ValueKey(index),
         onVisibilityChanged: (visibilityInfo) {
@@ -110,7 +110,7 @@ class ChatListItem extends StatelessWidget {
               message.body,
               style: TextStyles.chatListSubtitleStyle(
                 Theme.of(context).colorScheme.onBackground,
-                !userProvider.getUserProfaneMessages() && Utils.isStringProfane(message.body),
+                !userProvider.getUserProfaneMessages() && AppProvider.isStringProfane(message.body),
               ),
               textAlign: textAlign,
             ),

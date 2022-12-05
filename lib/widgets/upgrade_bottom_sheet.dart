@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 
 import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
 import 'package:six_me_ludo_android/widgets/dismissible_wrapper.dart';
 import 'package:six_me_ludo_android/widgets/title_widget.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
+import '../providers/theme_provider.dart';
 import 'custom_outlined_button.dart';
 
 showUpgradeBottomSheet({
@@ -37,12 +38,13 @@ showUpgradeBottomSheet({
                   TitleWidget(width: Get.width * 1 / 4),
                   Text(
                     DialogueService.updateNeededText.tr,
-                    style: TextStyles.modalTitleStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+                    style: TextStyles.modalTitleStyle(
+                        ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
                   ),
                   Text(
                     DialogueService.updatePromptText.tr,
-                    style:
-                        TextStyles.dialogContentStyle(Utils.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
+                    style: TextStyles.dialogContentStyle(
+                        ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
                     textAlign: TextAlign.center,
                   ),
                   Column(
@@ -53,7 +55,7 @@ showUpgradeBottomSheet({
                           Expanded(
                             child: CustomElevatedButton(
                               onPressed: () {
-                                Utils.openURL(AppConstants.playStoreURL);
+                                AppProvider.openURL(AppConstants.playStoreURL);
                               },
                               text: DialogueService.updateButtonText.tr,
                             ),
@@ -67,7 +69,7 @@ showUpgradeBottomSheet({
                             Expanded(
                               child: CustomOutlinedButton(
                                 onPressed: () {
-                                  Utils.exitApp();
+                                  AppProvider.exitApp();
                                 },
                                 text: DialogueService.exitAppDialogYesText.tr,
                                 color: Theme.of(context).colorScheme.primary,

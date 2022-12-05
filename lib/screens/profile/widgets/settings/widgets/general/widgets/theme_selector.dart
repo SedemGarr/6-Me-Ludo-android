@@ -10,7 +10,6 @@ import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../providers/theme_provider.dart';
 import '../../../../../../../providers/user_provider.dart';
 import '../../../../../../../services/navigation_service.dart';
-import '../../../../../../../utils/utils.dart';
 import '../../../../../../../widgets/animation_wrapper.dart';
 import '../../../../../../../widgets/app_bar_title_widget.dart';
 import '../../../../../../../widgets/random_theme_button.dart';
@@ -63,7 +62,8 @@ class ThemeSelectionScreen extends StatelessWidget {
                       child: userProvider.isThemeSelected(themeProvider.getSettingsColorListNameByIndex(index))
                           ? Icon(
                               AppIcons.themeSelectedIcon,
-                              color: Utils.getContrastingColor(themeProvider.getSettingsColorListByIndex(FlexColor.schemes.keys.toList()[index], userProvider.getUserDarkMode())),
+                              color: ThemeProvider.getContrastingColor(
+                                  themeProvider.getSettingsColorListByIndex(FlexColor.schemes.keys.toList()[index], userProvider.getUserDarkMode())),
                             )
                           : null,
                     ),

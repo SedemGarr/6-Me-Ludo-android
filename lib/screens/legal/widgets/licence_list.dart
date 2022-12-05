@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
+import 'package:six_me_ludo_android/providers/app_provider.dart';
 import '../../../constants/app_constants.dart';
 import '../../../models/license.dart';
-import '../../../utils/utils.dart';
 import '../../../widgets/animation_wrapper.dart';
 import '../../../widgets/loading_widget.dart';
 
@@ -16,7 +16,7 @@ class LicenseWidget extends StatelessWidget {
       children: [
         Expanded(
           child: FutureBuilder<List<License>>(
-            future: Utils.loadLicenses(),
+            future: AppProvider.loadLicenses(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List<License> licenses = snapshot.data!;

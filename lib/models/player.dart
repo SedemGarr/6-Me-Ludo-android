@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/piece.dart';
 import 'package:six_me_ludo_android/models/user.dart';
+import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:uuid/uuid.dart';
 
-import '../utils/utils.dart';
 import 'board.dart';
 import 'game.dart';
 
@@ -325,10 +326,6 @@ class Player {
       } else {
         reputationValue = 1;
       }
-
-      // if (value != -2 || value != 2) {
-      //   reputationValue = value;
-      // }
     } else {
       reputationValue = value;
     }
@@ -472,7 +469,7 @@ class Player {
 
     return Player(
       id: id,
-      avatar: Utils.generateRandomUserAvatar(),
+      avatar: UserProvider.generateRandomUserAvatar(),
       pieces: Piece.getDefaultPieces(playerNumber),
       playerColor: playerNumber,
       hasLeft: false,
@@ -481,7 +478,7 @@ class Player {
       numberOfTimesKickerInSession: 0,
       isAIPlayer: true,
       isPresent: true,
-      psuedonym: Utils.getRandomPseudonym(),
+      psuedonym: UserProvider.getRandomPseudonym(),
       numberOfDieRolls: 0,
       reputationValue: getAIPersonality(game, user.settings.aiPersonalityPreference, random),
       targetPlayerNumber: null,
@@ -502,6 +499,14 @@ class Player {
       default:
         return 0;
     }
+  }
+
+  static String getOfflineGameId(Uuid uuid) {
+    return uuid.v1();
+  }
+
+  static String getAIPlayerId(Uuid uuid) {
+    return uuid.v1();
   }
 
   Player.fromJson(Map<String, dynamic> json) {

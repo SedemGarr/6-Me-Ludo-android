@@ -65,4 +65,7 @@ class AppConstants {
 
   static const Color darkDialogBackgroundColor = CSSColors.darkSlateGrey;
   static const Color lightDialogBackgroundColor = CSSColors.lightGray;
+  //
+  static const Color blackColor = CSSColors.black;
+  static const Color whiteColor = CSSColors.white;
 }

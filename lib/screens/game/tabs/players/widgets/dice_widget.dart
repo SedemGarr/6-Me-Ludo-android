@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
-import 'package:six_me_ludo_android/utils/utils.dart';
 
 import '../../../../../constants/icon_constants.dart';
+import '../../../../../providers/theme_provider.dart';
 
 class DiceWidget extends StatefulWidget {
   final bool shouldAnimate;
@@ -127,7 +127,7 @@ class DiceWidgetState extends State<DiceWidget> {
               child: Icon(
                 diceValues[value],
                 // size: MediaQuery.of(context).size.width * 0.07,
-                color: Utils.getContrastingColor(startColor),
+                color: ThemeProvider.getContrastingColor(startColor),
                 key: ValueKey(value),
               ),
             ),

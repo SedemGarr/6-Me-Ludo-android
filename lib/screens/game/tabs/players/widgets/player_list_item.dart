@@ -14,8 +14,8 @@ import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
 import '../../../../../models/player.dart';
 import '../../../../../providers/game_provider.dart';
+import '../../../../../providers/theme_provider.dart';
 import '../../../../../providers/user_provider.dart';
-import '../../../../../utils/utils.dart';
 import '../../../../../widgets/custom_list_tile.dart';
 import '../../../../../widgets/reputation_widget.dart';
 
@@ -72,7 +72,7 @@ class PlayerListItemWidget extends StatelessWidget {
           subtitle: isKicked || hasLeft
               ? Text(
                   isKicked ? DialogueService.playerKickedFromGameTrailingText.tr : DialogueService.playerHasLeftTheGame.tr,
-                  style: TextStyles.listSubtitleStyle(Utils.getContrastingColor(playerColor)),
+                  style: TextStyles.listSubtitleStyle(ThemeProvider.getContrastingColor(playerColor)),
                 )
               : PlayerProgressWidget(
                   player: player,
