@@ -196,7 +196,7 @@ class EnglishTranslation {
       DialogueService.restartGamePopupText: 'Restart Game',
       DialogueService.startSessionPopupText: 'Start Session',
       DialogueService.stopSessionPopupText: 'Stop Session',
-      DialogueService.endGamePopupText: 'End Game',
+      DialogueService.endGamePopupText: 'Delete Game',
       DialogueService.copyGameIDPopupText: 'Copy Game Code',
       DialogueService.shareGameIDPopupText: 'Share Game Invite',
       DialogueService.viewGameSettingsPopupText: 'View Game Settings',

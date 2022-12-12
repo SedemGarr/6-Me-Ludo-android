@@ -11,7 +11,12 @@ class TitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.only(
+        left: 8.0,
+        right: 8.0,
+        bottom: 8.0,
+        top: 0.0,
+      ),
       child: ClipRRect(
         borderRadius: AppConstants.appBorderRadius,
         child: Image.asset(

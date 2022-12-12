@@ -10,7 +10,10 @@ class WayOutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 8.0,
+      ),
       child: FittedBox(
         fit: BoxFit.fitWidth,
         child: Text(

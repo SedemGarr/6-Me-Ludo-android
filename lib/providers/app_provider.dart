@@ -21,7 +21,7 @@ import 'package:wakelock/wakelock.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/license.dart';
-import '../widgets/choice_dialog.dart';
+import '../widgets/dialogs/choice_dialog.dart';
 
 class AppProvider with ChangeNotifier {
   late PackageInfo _packageInfo;

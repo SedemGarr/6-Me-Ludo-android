@@ -6,7 +6,7 @@ import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/board_grid_w
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_commentary_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_reaction_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/last_played_widget.dart';
-import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/die_wrapper.dart';
+import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/die_wrapper.dart';
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 import '../../../../models/game.dart';

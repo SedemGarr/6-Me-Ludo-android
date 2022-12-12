@@ -42,15 +42,15 @@ class AppLifeCycleManagerState extends State<AppLifeCycleManager> with WidgetsBi
         case AppLifecycleState.detached:
           userProvider.handleWakelockLogic(false);
           break;
+        case AppLifecycleState.inactive:
+          await gameProvider.handleGameAppLifecycleChange(false, user);
+          userProvider.handleWakelockLogic(false);
+          break;
         case AppLifecycleState.resumed:
           await gameProvider.handleGameAppLifecycleChange(true, user);
           if (Get.currentRoute == GameScreenWrapper.routeName) {
             userProvider.handleWakelockLogic(true);
           }
-          break;
-        case AppLifecycleState.inactive:
-          await gameProvider.handleGameAppLifecycleChange(false, user);
-          userProvider.handleWakelockLogic(false);
           break;
         default:
       }
