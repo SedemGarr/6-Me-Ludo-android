@@ -44,28 +44,22 @@ showAuthDialog({
                 TextStyles.dialogContentStyle(ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
           ),
           actions: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CustomElevatedButton(
-                  iconData: AppIcons.googleIcon,
-                  onPressed: () {
-                    NavigationService.genericGoBack();
-                    AuthenticationService.signInWithGoogle(context);
-                  },
-                  text: DialogueService.signInGoogleText.tr,
-                ),
-                CustomOutlinedButton(
-                  iconData: AppIcons.anonIcon,
-                  color: ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
-                  onPressed: () {
-                    NavigationService.genericGoBack();
-                    AuthenticationService.signInAnon(context);
-                  },
-                  text: DialogueService.signInAnonText.tr,
-                ),
-              ],
+            CustomOutlinedButton(
+              iconData: AppIcons.anonIcon,
+              color: ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor),
+              onPressed: () {
+                NavigationService.genericGoBack();
+                AuthenticationService.signInAnon(context);
+              },
+              text: DialogueService.signInAnonText.tr,
+            ),
+            CustomElevatedButton(
+              iconData: AppIcons.googleIcon,
+              onPressed: () {
+                NavigationService.genericGoBack();
+                AuthenticationService.signInWithGoogle(context);
+              },
+              text: DialogueService.signInGoogleText.tr,
             ),
           ],
         ),

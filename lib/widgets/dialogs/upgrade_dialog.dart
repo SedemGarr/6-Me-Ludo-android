@@ -36,24 +36,18 @@ showUpgradeDialog({
               TextStyles.dialogContentStyle(ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
         ),
         actions: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              CustomElevatedButton(
-                onPressed: () {
-                  AppProvider.openURL(AppConstants.playStoreURL);
-                },
-                text: DialogueService.updateButtonText.tr,
-              ),
-              CustomOutlinedButton(
-                onPressed: () {
-                  AppProvider.exitApp();
-                },
-                text: DialogueService.exitAppDialogYesText.tr,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ],
+          CustomOutlinedButton(
+            onPressed: () {
+              AppProvider.exitApp();
+            },
+            text: DialogueService.exitAppDialogYesText.tr,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          CustomElevatedButton(
+            onPressed: () {
+              AppProvider.openURL(AppConstants.playStoreURL);
+            },
+            text: DialogueService.updateButtonText.tr,
           ),
         ],
       );

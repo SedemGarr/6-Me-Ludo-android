@@ -56,7 +56,7 @@ showNewGameDialog({
               gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, userProvider.isGameOffline(), context);
             },
             text: DialogueService.startGameButtonText.tr,
-          )
+          ),
         ],
       );
     },
