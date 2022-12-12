@@ -293,6 +293,7 @@ class EnglishTranslation {
       DialogueService.signOutSubtitleText: 'Sign out this account',
       DialogueService.signOutDialogTitleText: 'Sign Out?',
       DialogueService.signOutDialogContentText: 'Are you sure you want to sign out?',
+      DialogueService.signOutAnonDialogContentText: 'Are you sure you want to sign out? Your account is anonymous and cannot be recovered',
       DialogueService.signOutDialogYesText: 'Sign Out',
       DialogueService.signOutDialogNoText: 'Cancel',
       // settings - delete account
@@ -315,7 +316,7 @@ class EnglishTranslation {
       DialogueService.specialText: 'You found me! Lol. Congrats. Your reward is my real name. I\'m Sedem, a developer from Ghana. Nice to meet you',
       // exit dialog
       DialogueService.exitAppDialogTitleText: 'Aww...',
-      DialogueService.exitAppDialogContentText: 'Are you sure you want to exit ${AppConstants.appNameEnglish}?',
+      DialogueService.exitAppDialogContentText: 'Are you sure you want to exit?',
       DialogueService.exitAppDialogNoText: 'Cancel',
       DialogueService.exitAppDialogYesText: 'Exit',
       DialogueService.exitAppText: 'Exit App',

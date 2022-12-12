@@ -26,6 +26,8 @@ class AppConstants {
 
   static const double appOpacity = 0.25;
 
+  static const double lottieAnimationCutoffPoint = 1.0;
+
   static const double standardAppbarHeight = kToolbarHeight + 4;
   static const double standardTabbarHeight = kTextTabBarHeight;
 
@@ -37,6 +39,7 @@ class AppConstants {
   static const double appBorderRadiusValue = 4.0;
 
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
+  static const Duration lottieDuration = Duration(seconds: 6);
   static const Duration confettiDuration = Duration(seconds: 20);
   static const Duration carouselDuration = Duration(seconds: 5);
   static const Duration snackBarDuration = Duration(seconds: 5);
@@ -62,9 +65,7 @@ class AppConstants {
       end: Alignment.bottomRight,
     );
   }
-
-  static const Color darkDialogBackgroundColor = CSSColors.darkSlateGrey;
-  static const Color lightDialogBackgroundColor = CSSColors.lightGray;
+  
   //
   static const Color blackColor = CSSColors.black;
   static const Color whiteColor = CSSColors.white;

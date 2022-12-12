@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/default_dialog.dart';
 
-import '../../constants/app_constants.dart';
 import '../../constants/textstyle_constants.dart';
-import '../../providers/theme_provider.dart';
 import '../../services/navigation_service.dart';
 import '../custom_elevated_button.dart';
 import '../custom_outlined_button.dart';
@@ -17,38 +16,32 @@ showChoiceDialog({
   required VoidCallback onNo,
   required BuildContext context,
 }) {
-  return showDialog(
+  return showDefaultDialog(
     context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: AppConstants.appShape,
-        backgroundColor: Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor,
-        title: Text(
-          titleMessage,
-          style: TextStyles.dialogTitleStyle(ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
-        ),
-        content: Text(
-          contentMessage,
-          style:
-              TextStyles.dialogContentStyle(ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
-        ),
-        actions: [
-          CustomOutlinedButton(
-              onPressed: () {
-                NavigationService.genericGoBack();
-                onNo();
-              },
-              text: noMessage.tr,
-              color: ThemeProvider.getContrastingColor(Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor)),
-          CustomElevatedButton(
-              onPressed: () {
-                NavigationService.genericGoBack();
-                onYes();
-              },
-              text: yesMessage.tr),
-        ],
-      );
-    },
+    isDismissible: true,
+    onPop: null,
+    title: Text(
+      titleMessage,
+      style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+    ),
+    content: Text(
+      contentMessage,
+      style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
+    ),
+    actions: [
+      CustomOutlinedButton(
+        onPressed: () {
+          NavigationService.genericGoBack();
+          onNo();
+        },
+        text: noMessage.tr,
+      ),
+      CustomElevatedButton(
+          onPressed: () {
+            NavigationService.genericGoBack();
+            onYes();
+          },
+          text: yesMessage.tr),
+    ],
   );
 }

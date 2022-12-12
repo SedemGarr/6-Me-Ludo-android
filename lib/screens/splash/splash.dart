@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution.dart';
@@ -7,10 +6,7 @@ import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution
 import '../../constants/app_constants.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
-import '../../services/translations/dialogue_service.dart';
-import '../../widgets/dialogs/auth_dialog.dart';
 import '../../widgets/custom_animated_crossfade.dart';
-import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/loading_screen.dart';
 import '../../widgets/wayout_widget.dart';
 
@@ -21,10 +17,12 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late UserProvider userProvider;
+  late AppProvider appProvider;
 
-  Future<void> init(BuildContext context) async {
+  Future<void> init(BuildContext context, TickerProvider tickerProvider) async {
+    appProvider.initialiseController(tickerProvider);
     await userProvider.initUser(context);
   }
 
@@ -32,7 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     userProvider = context.read<UserProvider>();
-    init(context);
+    appProvider = context.read<AppProvider>();
+    init(context, this);
   }
 
   @override
@@ -62,9 +61,15 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                           child: CustomAnimatedCrossFade(
                             firstChild: Lottie.asset(
+                              controller: appProvider.lottieController,
                               AppConstants.wayyyOutLottieAssetPath,
-                              onLoaded: (p0) {
+                              onLoaded: (LottieComposition p0) {
                                 appProvider.setSplashScreenLoaded(true);
+                                appProvider.lottieController
+                                  ..duration = AppConstants.lottieDuration
+                                  ..animateTo(
+                                    AppConstants.lottieAnimationCutoffPoint,
+                                  ).whenComplete(() => userProvider.completeInit(appProvider.needsUpgrade, context));
                               },
                               repeat: true,
                               fit: BoxFit.cover,
@@ -75,23 +80,24 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
                       WayOutWidget(width: MediaQuery.of(context).size.width * 0.8),
-                      Expanded(
-                        child: appProvider.shouldShowAuthButton && !appProvider.isLoading
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: Get.width * 2 / 4,
-                                    child: CustomElevatedButton(
-                                        onPressed: () {
-                                          showAuthDialog(context: context);
-                                        },
-                                        text: DialogueService.beginText.tr),
-                                  ),
-                                ],
-                              )
-                            : Container(),
-                      ),
+                      const Spacer(),
+                      // Expanded(
+                      //   child: appProvider.shouldShowAuthButton && !appProvider.isLoading
+                      //       ? Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: [
+                      //             SizedBox(
+                      //               width: Get.width * 2 / 4,
+                      //               child: CustomElevatedButton(
+                      //                   onPressed: () {
+                      //                     showAuthDialog(context: context);
+                      //                   },
+                      //                   text: DialogueService.beginText.tr),
+                      //             ),
+                      //           ],
+                      //         )
+                      //       : Container(),
+                      // ),
                       const AnimationAttributionWidget()
                     ],
                   ),

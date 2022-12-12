@@ -30,7 +30,6 @@ showNewGameDialog({
 
       return AlertDialog(
         shape: AppConstants.appShape,
-        backgroundColor: Get.isDarkMode ? AppConstants.darkDialogBackgroundColor : AppConstants.lightDialogBackgroundColor,
         title: Text(
           DialogueService.newGameAppBarTitleText.tr,
           style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),

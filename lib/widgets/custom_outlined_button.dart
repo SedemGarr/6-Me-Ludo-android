@@ -5,7 +5,6 @@ import '../constants/textstyle_constants.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final Color color;
   final String text;
   final IconData? iconData;
 
@@ -13,12 +12,13 @@ class CustomOutlinedButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
-    required this.color,
     this.iconData,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color color = Theme.of(context).primaryColor;
+
     return iconData != null
         ? OutlinedButton.icon(
             style: OutlinedButton.styleFrom(

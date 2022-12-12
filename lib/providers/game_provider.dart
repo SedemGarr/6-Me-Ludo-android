@@ -1103,6 +1103,7 @@ class GameProvider with ChangeNotifier {
     }
 
     if (isJoinGameCodeValidLength()) {
+      AppProvider.dismissKeyboard();
       NavigationService.genericGoBack();
 
       appProvider.setLoading(true, true);

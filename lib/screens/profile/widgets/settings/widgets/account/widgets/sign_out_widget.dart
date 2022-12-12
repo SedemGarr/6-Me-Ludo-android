@@ -15,15 +15,17 @@ class SignOutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomCardWidget(
-      child: CustomListTileWidget(
-        onTap: () {
-          userProvider.showSignOutDialog(context);
-        },
-        //   leading: const SettingsIconWidget(iconData: AppIcons.signOutIcon),
-        title: SettingsTitleWidget(text: DialogueService.signOutTitleText.tr),
-        //  subtitle: SettingsSubtitleWidget(text: DialogueService.signOutSubtitleText.tr),
-      ),
-    );
+    return userProvider.isUserAnon()
+        ? const SizedBox.shrink()
+        : CustomCardWidget(
+            child: CustomListTileWidget(
+              onTap: () {
+                userProvider.showSignOutDialog(context);
+              },
+              //   leading: const SettingsIconWidget(iconData: AppIcons.signOutIcon),
+              title: SettingsTitleWidget(text: DialogueService.signOutTitleText.tr),
+              //  subtitle: SettingsSubtitleWidget(text: DialogueService.signOutSubtitleText.tr),
+            ),
+          );
   }
 }

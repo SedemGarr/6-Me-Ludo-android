@@ -15,7 +15,7 @@ import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/auth_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/upgrade_dialog.dart';
-import 'package:six_me_ludo_android/widgets/user_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/user_dialog.dart';
 import 'package:username_generator/username_generator.dart';
 import 'package:uuid/uuid.dart';
 
@@ -30,6 +30,7 @@ import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
   Users? _user;
+  Users? tempUser;
   late Stream<List<Game>> onGoingGamesStream;
   late List<Game> ongoingGames = [];
 
@@ -129,32 +130,36 @@ class UserProvider with ChangeNotifier {
     AppVersion? appVersion = await DatabaseService.getAppVersion();
 
     if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
-      late Users? tempUser;
-
       try {
         tempUser = await LocalStorageService.getUser();
       } catch (e) {
         debugPrint(e.toString());
         tempUser = null;
       }
-
-      Future.delayed(const Duration(milliseconds: 5500), () async {
-        if (tempUser != null) {
-          setUser(tempUser, appProvider, context.read<SoundProvider>());
-
-          NavigationService.goToHomeScreen();
-        } else {
-          // NavigationService.goToAuthScreen();
-          appProvider.setShouldShowAuthButton(true);
-          showAuthDialog(context: context);
-        }
-      });
     } else {
+      appProvider.setNeedsUpgrade(true);
       showUpgradeDialog(context: context);
     }
   }
 
-  void jasdjamds(Users? tempUser) {}
+  void completeInit(bool needsUpgrade, BuildContext context) {
+    AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
+
+    if (!needsUpgrade) {
+      appProvider.setSplashScreenLoaded(false);
+
+      Future.delayed(AppConstants.animationDuration, () {
+        if (tempUser != null) {
+          setUser(tempUser, appProvider, soundProvider);
+          NavigationService.goToHomeScreen();
+        } else {
+          appProvider.setShouldShowAuthButton(true);
+          showAuthDialog(context: Get.context!);
+        }
+      });
+    }
+  }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {
     if (shouldRebuild) {
@@ -190,6 +195,8 @@ class UserProvider with ChangeNotifier {
     _user = user;
     _user!.appVersion = appProvider.getAppVersion();
     _user!.appBuildNumber = appProvider.getAppBuildNumber();
+
+    tempUser = _user;
 
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);

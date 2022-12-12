@@ -31,7 +31,6 @@ class GameActionsWidget extends StatelessWidget {
             );
           },
           text: host.id == userProvider.getUserID() ? DialogueService.deleteGameDialogYesText.tr : DialogueService.leaveGameDialogYesText.tr,
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
         ),
         CustomElevatedButton(
           onPressed: () {

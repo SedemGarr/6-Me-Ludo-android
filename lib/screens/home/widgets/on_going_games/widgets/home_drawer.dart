@@ -110,11 +110,15 @@ class HomeDrawerWidget extends StatelessWidget {
                     child: CustomListTileWidget(
                       //        leading: const Icon(AppIcons.signOutIcon),
                       title: Text(
-                        DialogueService.signOutTitleText.tr,
+                        userProvider.isUserAnon() ? DialogueService.deleteAccountTitleText.tr : DialogueService.signOutTitleText.tr,
                         style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                       ),
                       onTap: () {
-                        userProvider.showSignOutDialog(context);
+                        if (userProvider.isUserAnon()) {
+                          userProvider.showDeleteAccountDialog(context);
+                        } else {
+                          userProvider.showSignOutDialog(context);
+                        }
                       },
                     ),
                   ),
