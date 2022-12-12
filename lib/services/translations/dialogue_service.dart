@@ -322,6 +322,7 @@ class DialogueService extends Translations {
   static const String signOutSubtitleText = 'signOutSubtitleText';
   static const String signOutDialogTitleText = 'signOutDialogTitleText';
   static const String signOutDialogContentText = 'signOutDialogContentText';
+  static const String signOutAnonDialogContentText = 'signOutAnonDialogContentText';
   static const String signOutDialogYesText = 'signOutDialogYesText';
   static const String signOutDialogNoText = 'signOutDialogNoText';
   // settings - delete account

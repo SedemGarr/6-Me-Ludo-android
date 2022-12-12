@@ -12,10 +12,10 @@ import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
-import 'package:six_me_ludo_android/widgets/auth_bottom_sheet.dart';
-import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
-import 'package:six_me_ludo_android/widgets/upgrade_bottom_sheet.dart';
-import 'package:six_me_ludo_android/widgets/user_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/auth_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/upgrade_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/user_dialog.dart';
 import 'package:username_generator/username_generator.dart';
 import 'package:uuid/uuid.dart';
 
@@ -25,11 +25,12 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
-import '../widgets/new_game_bottom_sheet.dart';
+import '../widgets/dialogs/new_game_dialog.dart';
 import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
   Users? _user;
+  Users? tempUser;
   late Stream<List<Game>> onGoingGamesStream;
   late List<Game> ongoingGames = [];
 
@@ -129,28 +130,34 @@ class UserProvider with ChangeNotifier {
     AppVersion? appVersion = await DatabaseService.getAppVersion();
 
     if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
-      late Users? tempUser;
-
       try {
         tempUser = await LocalStorageService.getUser();
       } catch (e) {
         debugPrint(e.toString());
         tempUser = null;
       }
+    } else {
+      appProvider.setNeedsUpgrade(true);
+      showUpgradeDialog(context: context);
+    }
+  }
 
-      Future.delayed(const Duration(seconds: 4), () async {
+  void completeInit(bool needsUpgrade, BuildContext context) {
+    AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
+
+    if (!needsUpgrade) {
+      appProvider.setSplashScreenLoaded(false);
+
+      Future.delayed(AppConstants.animationDuration, () {
         if (tempUser != null) {
-          setUser(tempUser, appProvider, context.read<SoundProvider>());
-
+          setUser(tempUser, appProvider, soundProvider);
           NavigationService.goToHomeScreen();
         } else {
-          // NavigationService.goToAuthScreen();
           appProvider.setShouldShowAuthButton(true);
-          showAuthBottomSheet(context: context);
+          showAuthDialog(context: Get.context!);
         }
       });
-    } else {
-      showUpgradeBottomSheet(context: context);
     }
   }
 
@@ -188,6 +195,8 @@ class UserProvider with ChangeNotifier {
     _user = user;
     _user!.appVersion = appProvider.getAppVersion();
     _user!.appBuildNumber = appProvider.getAppBuildNumber();
+
+    tempUser = _user;
 
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);

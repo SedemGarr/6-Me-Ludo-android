@@ -15,7 +15,6 @@ import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
 import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-
 class EndGameWidget extends StatefulWidget {
   final GameProvider gameProvider;
   final UserProvider userProvider;
@@ -81,7 +80,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   DialogueService.gameWinnerText.tr,
-                  style: TextStyles.modalTitleStyle(Theme.of(context).colorScheme.onBackground),
+                  style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
                 ),
               ),
             ),
@@ -109,7 +108,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 DialogueService.gameViciousText.tr,
-                style: TextStyles.modalTitleStyle(Theme.of(context).colorScheme.onBackground),
+                style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
               ),
             ),
             Flexible(
@@ -146,7 +145,7 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 DialogueService.gamePunchingBagText.tr,
-                style: TextStyles.modalTitleStyle(Theme.of(context).colorScheme.onBackground),
+                style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),
               ),
             ),
             Flexible(

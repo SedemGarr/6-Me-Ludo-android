@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 
 class AppConstants {
   static const String appNameEnglish = '6-Me-Ludo!';
-  static const String lottieAnimationAuthor = 'Abdul Latif';
+  static const String lottieAnimationAuthor = 'Pierre Blavette';
   static const String defaultCountryCode = 'GH';
-  static const String wayyyOutLottieAssetPath = 'assets/lottie/wayyyout3.json';
+  static const String wayyyOutLottieAssetPath = 'assets/lottie/wayyyout1.json';
   static const String appLogoAssetPath = 'assets/logo/app_logo.png';
-  static const String wayyyOutLottieAssetPage = 'https://lottiefiles.com/68789-cute-mascot-astronaut-in-rocket';
+  static const String wayyyOutLottieAssetPage = 'https://lottiefiles.com/45722-rocket-loader';
   static const String playStoreURL = 'https://play.google.com/store/apps/details?id=com.wayyyoutgames.six.me.ludo';
   static const String privacyURL = 'https://sites.google.com/view/6-me-ludo-terms/home';
   static const String termsURL = 'https://sites.google.com/view/6-me-ludo-terms/home';
@@ -26,6 +26,8 @@ class AppConstants {
 
   static const double appOpacity = 0.25;
 
+  static const double lottieAnimationCutoffPoint = 1.0;
+
   static const double standardAppbarHeight = kToolbarHeight + 4;
   static const double standardTabbarHeight = kTextTabBarHeight;
 
@@ -37,6 +39,7 @@ class AppConstants {
   static const double appBorderRadiusValue = 4.0;
 
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
+  static const Duration lottieDuration = Duration(seconds: 6);
   static const Duration confettiDuration = Duration(seconds: 20);
   static const Duration carouselDuration = Duration(seconds: 5);
   static const Duration snackBarDuration = Duration(seconds: 5);
@@ -62,9 +65,7 @@ class AppConstants {
       end: Alignment.bottomRight,
     );
   }
-
-  static const Color darkDialogBackgroundColor = CSSColors.darkSlateGrey;
-  static const Color lightDialogBackgroundColor = CSSColors.lightGray;
+  
   //
   static const Color blackColor = CSSColors.black;
   static const Color whiteColor = CSSColors.white;

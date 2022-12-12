@@ -18,8 +18,8 @@ import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/change_game_settings_bottom_sheet.dart';
-import 'package:six_me_ludo_android/widgets/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/change_game_settings_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -34,7 +34,7 @@ import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/user_settings.dart';
 import '../services/game_status_service.dart';
-import '../widgets/upgrade_bottom_sheet.dart';
+import '../widgets/dialogs/upgrade_dialog.dart';
 
 class GameProvider with ChangeNotifier {
   late Board board;
@@ -308,6 +308,7 @@ class GameProvider with ChangeNotifier {
     checkIfPlayerHasLeftGame(game);
     checkIfGameHasStarted(game);
     checkIfGameHasReStarted(game);
+    checkForSessionEnd(game, user.id);
     // checkForReputationChange(game);
     checkIfGameSettingsHaveChanged(game, user.id);
     currentGame = game;
@@ -433,14 +434,9 @@ class GameProvider with ChangeNotifier {
 
   void checkForReputationChange(Game game) {
     if (game.players.length == currentGame!.players.length) {
-      List<Player> oldList = [...currentGame!.players];
-      List<Player> newList = [...game.players];
-      oldList.sort((b, a) => a.playerColor.compareTo(b.playerColor));
-      newList.sort((b, a) => a.playerColor.compareTo(b.playerColor));
-
-      for (Player player in newList) {
-        String newRep = Player.getPlayerReputation(player.reputationValue);
-        String oldRep = Player.getPlayerReputation(oldList[oldList.indexWhere((element) => element.id == player.id)].reputationValue);
+      for (Player player in currentGame!.players) {
+        String oldRep = Player.getPlayerReputation(player.reputationValue);
+        String newRep = Player.getPlayerReputation(game.players[game.players.indexWhere((element) => element.id == player.id)].reputationValue);
 
         if (newRep != oldRep) {
           if (player.id == Get.context!.read<UserProvider>().getUserID()) {
@@ -450,6 +446,17 @@ class GameProvider with ChangeNotifier {
           }
         }
       }
+    }
+  }
+
+  void checkForSessionEnd(Game game, String id) {
+    if (!currentGame!.hasSessionEnded && game.hasSessionEnded) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (isPlayerHost(id)) {
+          DatabaseService.updateGameSessionEndDate(game);
+        }
+        scrollToBoardTab();
+      });
     }
   }
 
@@ -1079,7 +1086,7 @@ class GameProvider with ChangeNotifier {
             AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
             appProvider.setLoading(false, true);
           } else {
-            showUpgradeBottomSheet(context: Get.context!);
+            showUpgradeDialog(context: Get.context!);
           }
         }
       }
@@ -1096,6 +1103,7 @@ class GameProvider with ChangeNotifier {
     }
 
     if (isJoinGameCodeValidLength()) {
+      AppProvider.dismissKeyboard();
       NavigationService.genericGoBack();
 
       appProvider.setLoading(true, true);
@@ -1142,7 +1150,7 @@ class GameProvider with ChangeNotifier {
               AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
               appProvider.setLoading(false, true);
             } else {
-              showUpgradeBottomSheet(context: Get.context!);
+              showUpgradeDialog(context: Get.context!);
             }
           }
         }
@@ -1726,7 +1734,7 @@ class GameProvider with ChangeNotifier {
   }
 
   showGameSettingsDialog(Game game, bool canEdit, BuildContext context) {
-    return showSettingsBottomSheet(game: game, canEdit: canEdit, context: context);
+    return showSettingsDialog(game: game, canEdit: canEdit, context: context);
   }
 
   showBanPlayerDialog(Player player, BuildContext context) {

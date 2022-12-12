@@ -21,7 +21,7 @@ import 'package:wakelock/wakelock.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/license.dart';
-import '../widgets/choice_dialog.dart';
+import '../widgets/dialogs/choice_dialog.dart';
 
 class AppProvider with ChangeNotifier {
   late PackageInfo _packageInfo;
@@ -31,6 +31,9 @@ class AppProvider with ChangeNotifier {
   // for splash screen
   bool isSplashScreenLoaded = false;
   bool shouldShowAuthButton = false;
+  bool needsUpgrade = false;
+
+  late AnimationController lottieController;
 
   //
   Random random = Random();
@@ -61,6 +64,10 @@ class AppProvider with ChangeNotifier {
     DialogueService.welcome10Text.tr,
   ];
 
+  void initialiseController(TickerProvider tickerProvider) {
+    lottieController = AnimationController(vsync: tickerProvider);
+  }
+
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;
 
@@ -77,6 +84,12 @@ class AppProvider with ChangeNotifier {
 
   void setShouldShowAuthButton(bool value) {
     shouldShowAuthButton = value;
+
+    notifyListeners();
+  }
+
+   void setNeedsUpgrade(bool value) {
+    needsUpgrade = value;
 
     notifyListeners();
   }
@@ -117,7 +130,7 @@ class AppProvider with ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-    static String getDefaultcountryCode() {
+  static String getDefaultcountryCode() {
     return Get.deviceLocale!.countryCode ?? AppConstants.defaultCountryCode;
   }
 

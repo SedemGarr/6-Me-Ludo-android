@@ -37,23 +37,19 @@ class LicenseWidget extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: AppConstants.appBorderRadius,
                                   child: ExpansionTile(
-                                    collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(AppConstants.appOpacity),
+                                    collapsedBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
                                     backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                                     iconColor: Theme.of(context).colorScheme.primary,
                                     collapsedIconColor: Theme.of(context).primaryColor,
+                                    childrenPadding: const EdgeInsets.symmetric(
+                                      vertical: 8.0,
+                                      horizontal: 24,
+                                    ),
                                     title: Text(
                                       license.title,
                                       style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                                     ),
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0,
-                                          horizontal: 24,
-                                        ),
-                                        child: Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground)),
-                                      )
-                                    ],
+                                    children: [Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground))],
                                   ),
                                 ),
                               ),

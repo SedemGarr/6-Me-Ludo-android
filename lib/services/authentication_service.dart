@@ -92,8 +92,8 @@ class AuthenticationService {
       );
 
       if (user != null) {
-        appProvider.setLoading(false, true);
         userProvider.setUser(user, appProvider, soundProvider);
+        appProvider.setLoading(false, true);
         NavigationService.goToHomeScreen();
       }
     } catch (e) {
