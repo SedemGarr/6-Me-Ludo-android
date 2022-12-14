@@ -42,6 +42,12 @@ class NavigationService {
     Get.offAll(() => const HomeScreen());
   }
 
+  static void closeDrawerAfterOfflineToggle() {
+    if (Get.currentRoute == HomeScreen.routeName) {
+      NavigationService.genericGoBack();
+    }
+  }
+
   static void genericGoBack() {
     Get.back();
   }

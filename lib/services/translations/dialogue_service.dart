@@ -323,6 +323,11 @@ class DialogueService extends Translations {
   static const String profaneMessagesSubtitleText = 'profaneMessagesSubtitleText';
   // settings - offline
   static const String offlineModeTitleText = 'offlineModeTitleText';
+  static const String offlineModeContentText = 'offlineModeContentText';
+  static const String offlineModeYesText = 'offlineModeYesText';
+  static const String offlineModeNoText = 'offlineModeNoText';
+  static const String offlineModeToastOnText = 'offlineModeToastOnText';
+  static const String offlineModeToastOffText = 'offlineModeToastOffText';
   // settings - sign out
   static const String signOutTitleText = 'signOutTitleText';
   static const String signOutSubtitleText = 'signOutSubtitleText';

@@ -5,7 +5,7 @@ import 'local_storage_service.dart';
 class UserStateUpdateService {
   static Future<void> updateUser(Users user, bool shouldUpdateOnline) async {
     LocalStorageService.setUser(user);
-    if (shouldUpdateOnline) {
+    if (shouldUpdateOnline || !user.settings.isOffline) {
       await DatabaseService.updateUserData(user);
     }
   }

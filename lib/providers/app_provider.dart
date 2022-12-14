@@ -25,6 +25,7 @@ import 'package:wakelock/wakelock.dart';
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/license.dart';
+import '../services/database_service.dart';
 import '../widgets/dialogs/choice_dialog.dart';
 
 class AppProvider with ChangeNotifier {
@@ -114,8 +115,9 @@ class AppProvider with ChangeNotifier {
     _packageInfo = await PackageInfo.fromPlatform();
   }
 
-  bool isVersionUpToDate(AppVersion appVersion) {
-    return appVersion.version == getAppVersion();
+  Future<bool> isVersionUpToDate() async {
+    AppVersion? appVersion = await DatabaseService.getAppVersion();
+    return appVersion != null && appVersion.version == getAppVersion();
   }
 
   String getAppName() {

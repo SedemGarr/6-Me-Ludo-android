@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
-import 'package:six_me_ludo_android/models/version.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
@@ -127,6 +126,8 @@ class UserProvider with ChangeNotifier {
     AppProvider appProvider = context.read<AppProvider>();
     SoundProvider soundProvider = context.read<SoundProvider>();
 
+    await appProvider.getPackageInfo();
+
     if (LocalStorageService.isAppOffline()) {
       offlineModeInit(appProvider, soundProvider);
       return;
@@ -141,11 +142,7 @@ class UserProvider with ChangeNotifier {
       return;
     }
 
-    await appProvider.getPackageInfo();
-
-    AppVersion? appVersion = await DatabaseService.getAppVersion();
-
-    if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
+    if (await appProvider.isVersionUpToDate()) {
       tempUser = await LocalStorageService.getUser();
       completeInit(appProvider, soundProvider, appProvider.needsUpgrade);
     } else {
@@ -260,6 +257,17 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  void setOfflineMode(bool value) async {
+    _user!.settings.isOffline = value;
+    AppProvider.showToast(value ? DialogueService.offlineModeToastOnText.tr : DialogueService.offlineModeToastOffText.tr);
+    updateUser(true, true);
+
+    AppProvider appProvider = Get.context!.read<AppProvider>();
+    if (!(await appProvider.isVersionUpToDate())) {
+      showUpgradeDialog(context: Get.context!);
+    }
+  }
+
   void toggleDarkMode(BuildContext context, bool value) {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.prefersDarkMode = value;
@@ -268,7 +276,15 @@ class UserProvider with ChangeNotifier {
   }
 
   void toggleOfflineMode(BuildContext context, bool value) {
+    if (value) {
+      showOfflineDialog(context);
+      return;
+    }
+
+    NavigationService.closeDrawerAfterOfflineToggle();
+
     _user!.settings.isOffline = value;
+    AppProvider.showToast(value ? DialogueService.offlineModeToastOnText.tr : DialogueService.offlineModeToastOffText.tr);
     updateUser(true, true);
   }
 
@@ -428,6 +444,21 @@ class UserProvider with ChangeNotifier {
     if (getUserWakelock()) {
       AppProvider.setWakeLock(value);
     }
+  }
+
+  void showOfflineDialog(BuildContext context) {
+    showChoiceDialog(
+      titleMessage: DialogueService.offlineModeTitleText.tr,
+      contentMessage: DialogueService.offlineModeContentText.tr,
+      yesMessage: DialogueService.offlineModeYesText.tr,
+      noMessage: DialogueService.offlineModeNoText.tr,
+      onYes: () {
+        NavigationService.closeDrawerAfterOfflineToggle();
+        setOfflineMode(true);
+      },
+      onNo: () {},
+      context: context,
+    );
   }
 
   void showSignOutDialog(BuildContext context) {

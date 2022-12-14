@@ -294,6 +294,12 @@ class EnglishTranslation {
       DialogueService.profaneMessagesSubtitleText: 'Toggle whether chat messages containing profanity are visible to you',
       // settings - profanity
       DialogueService.offlineModeTitleText: 'Offline Mode',
+      DialogueService.offlineModeContentText:
+          'You are about to take the application offline. All online features will be disabled and you will only be able to play games against the AI',
+      DialogueService.offlineModeYesText: 'Go Offline',
+      DialogueService.offlineModeNoText: 'Cancel',
+      DialogueService.offlineModeToastOnText: 'Offline mode enabled',
+      DialogueService.offlineModeToastOffText: 'Application back online',
       // settings - sign out
       DialogueService.signOutTitleText: 'Sign Out',
       DialogueService.signOutSubtitleText: 'Sign out this account',

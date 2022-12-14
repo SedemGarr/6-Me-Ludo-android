@@ -1082,7 +1082,7 @@ class GameProvider with ChangeNotifier {
           appProvider.setLoading(false, true);
           NavigationService.goToGameScreen();
         } else {
-          if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
+          if (await appProvider.isVersionUpToDate()) {
             AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
             appProvider.setLoading(false, true);
           } else {
@@ -1146,7 +1146,7 @@ class GameProvider with ChangeNotifier {
             appProvider.setLoading(false, true);
             NavigationService.goToGameScreen();
           } else {
-            if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
+            if (await appProvider.isVersionUpToDate()) {
               AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
               appProvider.setLoading(false, true);
             } else {
