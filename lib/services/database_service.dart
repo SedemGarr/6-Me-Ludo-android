@@ -39,16 +39,15 @@ class DatabaseService {
   static Future<AppVersion?> getAppVersion() async {
     try {
       return AppVersion.fromJson(
-          (Map<String, dynamic>.from(jsonDecode(jsonEncode((await FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.appVersionReference).get()).value)))));
+        (Map<String, dynamic>.from(
+          jsonDecode(
+            jsonEncode((await FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.appVersionReference).get()).value),
+          ),
+        )),
+      );
     } catch (e) {
       return null;
     }
-
-    // try {
-    //   return AppVersion.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.appDataCollection).doc(FirestoreConstants.versionDocument).get()).data()!);
-    // } catch (e) {
-    //   return null;
-    // }
   }
 
   // users

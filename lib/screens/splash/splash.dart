@@ -11,6 +11,8 @@ import '../../widgets/loading_screen.dart';
 import '../../widgets/wayout_widget.dart';
 
 class SplashScreen extends StatefulWidget {
+  static String routeName = '/';
+
   const SplashScreen({super.key});
 
   @override
@@ -32,6 +34,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     userProvider = context.read<UserProvider>();
     appProvider = context.read<AppProvider>();
     init(context, this);
+  }
+
+  @override
+  void dispose() {
+    appProvider.disposeLottieController();
+    super.dispose();
   }
 
   @override
@@ -65,11 +73,14 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               AppConstants.wayyyOutLottieAssetPath,
                               onLoaded: (LottieComposition p0) {
                                 appProvider.setSplashScreenLoaded(true);
+                                // appProvider.lottieController
+                                //   ..duration = AppConstants.lottieDuration
+                                //   ..animateTo(
+                                //     AppConstants.lottieAnimationCutoffPoint,
+                                //   ).whenComplete(() => userProvider.completeInit( appProvider, soundProvider));
                                 appProvider.lottieController
                                   ..duration = AppConstants.lottieDuration
-                                  ..animateTo(
-                                    AppConstants.lottieAnimationCutoffPoint,
-                                  ).whenComplete(() => userProvider.completeInit(appProvider.needsUpgrade, context));
+                                  ..repeat();
                               },
                               repeat: true,
                               fit: BoxFit.cover,

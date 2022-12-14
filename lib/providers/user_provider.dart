@@ -14,6 +14,7 @@ import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/auth_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/no_internet_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/upgrade_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/user_dialog.dart';
 import 'package:username_generator/username_generator.dart';
@@ -124,29 +125,41 @@ class UserProvider with ChangeNotifier {
 
   Future<void> initUser(BuildContext context) async {
     AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
+
+    if (LocalStorageService.isAppOffline()) {
+      offlineModeInit(appProvider, soundProvider);
+      return;
+    }
+
+    appProvider.checkForPotentialNetworkTimeout();
+
+    bool hasInternet = await AppProvider.hasNetwork();
+
+    if (!hasInternet) {
+      showNoInternetDialog(context: Get.context!);
+      return;
+    }
 
     await appProvider.getPackageInfo();
 
     AppVersion? appVersion = await DatabaseService.getAppVersion();
 
     if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
-      try {
-        tempUser = await LocalStorageService.getUser();
-      } catch (e) {
-        debugPrint(e.toString());
-        tempUser = null;
-      }
+      tempUser = await LocalStorageService.getUser();
+      completeInit(appProvider, soundProvider, appProvider.needsUpgrade);
     } else {
       appProvider.setNeedsUpgrade(true);
       showUpgradeDialog(context: context);
     }
   }
 
-  void completeInit(bool needsUpgrade, BuildContext context) {
-    AppProvider appProvider = context.read<AppProvider>();
-    SoundProvider soundProvider = context.read<SoundProvider>();
+  void completeInit(AppProvider appProvider, SoundProvider soundProvider, bool needsUpgrade) {
+    if (needsUpgrade) {
+      return;
+    }
 
-    if (!needsUpgrade) {
+    Future.delayed(AppConstants.lottieDuration, () {
       appProvider.setSplashScreenLoaded(false);
 
       Future.delayed(AppConstants.animationDuration, () {
@@ -158,7 +171,12 @@ class UserProvider with ChangeNotifier {
           showAuthDialog(context: Get.context!);
         }
       });
-    }
+    });
+  }
+
+  void offlineModeInit(AppProvider appProvider, SoundProvider soundProvider) async {
+    tempUser = await LocalStorageService.getUser();
+    completeInit(appProvider, soundProvider, false);
   }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {
@@ -246,6 +264,11 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.prefersDarkMode = value;
     themeProvider.toggleDarkMode(_user!.settings.prefersDarkMode);
+    updateUser(true, true);
+  }
+
+  void toggleOfflineMode(BuildContext context, bool value) {
+    _user!.settings.isOffline = value;
     updateUser(true, true);
   }
 
@@ -521,6 +544,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserDarkMode() {
     return _user!.settings.prefersDarkMode;
+  }
+
+  bool getUserIsOffline() {
+    return _user!.settings.isOffline;
   }
 
   bool getUserAudio() {

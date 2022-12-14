@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/widgets/audio.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/widgets/dark_mode.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/widgets/language.dart';
+import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/widgets/offline.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/widgets/theme.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/general/widgets/wakelock.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
@@ -24,6 +25,7 @@ class GeneralSettingsSection extends StatelessWidget {
         const AudioWidget(),
         const WakelockWidget(),
         const ProfaneMessages(),
+        const OfflineModeWidget(),
         const LanguageWidget(),
       ],
     );

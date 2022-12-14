@@ -32,6 +32,9 @@ class DialogueService extends Translations {
 
   static const String appName = 'appName';
   static const String genericErrorText = 'genericErrorText';
+  static const String noInternetErrorTitleText = 'noInternetErrorTitleText';
+  static const String noInternetErrorContentText = 'noInternetErrorContentText';
+  static const String noInternetErrorSnackbarText = 'noInternetErrorSnackbarText';
   static const String animationByText = 'animationByText';
   static const String licenceText = 'licenceText';
   static const String licenceShortText = 'licenceShortText';
@@ -53,6 +56,7 @@ class DialogueService extends Translations {
   static const String authDialogContentText = 'authDialogContentText';
   static const String beginText = 'beginText';
   static const String doneText = 'doneText';
+  static const String restartAppYesText = 'restartAppYesText';
   // loading strings
   static const String loading1Text = 'loading1Text';
   static const String loading2Text = 'loading2Text';
@@ -317,6 +321,8 @@ class DialogueService extends Translations {
   // settings - profanity
   static const String profaneMessagesTitleText = 'profaneMessagesTitleText';
   static const String profaneMessagesSubtitleText = 'profaneMessagesSubtitleText';
+  // settings - offline
+  static const String offlineModeTitleText = 'offlineModeTitleText';
   // settings - sign out
   static const String signOutTitleText = 'signOutTitleText';
   static const String signOutSubtitleText = 'signOutSubtitleText';

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:clipboard/clipboard.dart';
@@ -12,7 +14,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:profanity_filter/profanity_filter.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:six_me_ludo_android/models/version.dart';
+import 'package:six_me_ludo_android/screens/splash/splash.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -68,6 +72,18 @@ class AppProvider with ChangeNotifier {
     lottieController = AnimationController(vsync: tickerProvider);
   }
 
+  void disposeLottieController() {
+    lottieController.dispose();
+  }
+
+  void checkForPotentialNetworkTimeout() {
+    Future.delayed(AppConstants.newtworkTimeoutDuration, () {
+      if (Get.currentRoute == SplashScreen.routeName) {
+        AppProvider.showToast(DialogueService.noInternetErrorSnackbarText.tr, duration: AppConstants.snackBarLongDuration);
+      }
+    });
+  }
+
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;
 
@@ -88,7 +104,7 @@ class AppProvider with ChangeNotifier {
     notifyListeners();
   }
 
-   void setNeedsUpgrade(bool value) {
+  void setNeedsUpgrade(bool value) {
     needsUpgrade = value;
 
     notifyListeners();
@@ -124,6 +140,15 @@ class AppProvider with ChangeNotifier {
 
   String getWelcomeString() {
     return welcomeStrings[random.nextInt(loadingStrings.length)];
+  }
+
+  static Future<bool> hasNetwork() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 
   static void dismissKeyboard() {
@@ -259,6 +284,10 @@ class AppProvider with ChangeNotifier {
         exitApp();
       },
     );
+  }
+
+  static void restartApp() {
+    Restart.restartApp();
   }
 
   static void exitApp() {

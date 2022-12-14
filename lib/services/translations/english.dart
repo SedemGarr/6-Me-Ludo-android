@@ -6,6 +6,9 @@ class EnglishTranslation {
     return {
       DialogueService.appName: AppConstants.appNameEnglish,
       DialogueService.genericErrorText: 'Sorry, something went wrong. Please check your internet connection and try again',
+      DialogueService.noInternetErrorTitleText: 'No Internet',
+      DialogueService.noInternetErrorContentText: 'Sorry, it seems you do not have an internet connection. Please check your connection and restart the app',
+      DialogueService.noInternetErrorSnackbarText: 'Sorry, there seems to be something wrong with your internet connection. Retrying...',
       DialogueService.animationByText: 'Animation by ',
       DialogueService.licenceText: 'Application Licences',
       DialogueService.licenceShortText: 'Licences',
@@ -27,6 +30,7 @@ class EnglishTranslation {
       DialogueService.authDialogContentText: 'To continue, please choose a sign in option. Please note that anonymous accounts will be permanently lost if you sign out',
       DialogueService.beginText: 'Begin',
       DialogueService.doneText: 'Done',
+      DialogueService.restartAppYesText: 'Restart',
       // loading strings
       DialogueService.loading1Text: 'Disassembling constructors...',
       DialogueService.loading2Text: 'Barring Foos...',
@@ -288,6 +292,8 @@ class EnglishTranslation {
       // settings - profanity
       DialogueService.profaneMessagesTitleText: 'Profanity',
       DialogueService.profaneMessagesSubtitleText: 'Toggle whether chat messages containing profanity are visible to you',
+      // settings - profanity
+      DialogueService.offlineModeTitleText: 'Offline Mode',
       // settings - sign out
       DialogueService.signOutTitleText: 'Sign Out',
       DialogueService.signOutSubtitleText: 'Sign out this account',

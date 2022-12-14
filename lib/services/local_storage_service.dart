@@ -29,6 +29,18 @@ class LocalStorageService {
     return box.read('user') != null;
   }
 
+  static bool isAppOffline() {
+    if (isThereLocalUser()) {
+      Users? user = getLocalUser();
+
+      if (user != null) {
+        return user.settings.isOffline;
+      }
+    }
+
+    return false;
+  }
+
   static Future<Users?> getUser() async {
     return getLocalUser();
   }

@@ -4,8 +4,8 @@ import 'package:six_me_ludo_android/providers/dynamic_link_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list.dart';
-import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/drawer_button_widget.dart';
-import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/home_drawer.dart';
+import 'package:six_me_ludo_android/screens/home/widgets/drawer_button_widget.dart';
+import 'package:six_me_ludo_android/screens/home/widgets/home_drawer.dart';
 import 'package:six_me_ludo_android/widgets/app_bar_avatar_widget.dart';
 
 import '../../providers/app_provider.dart';

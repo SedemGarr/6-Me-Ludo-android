@@ -8,12 +8,14 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 import 'package:six_me_ludo_android/widgets/dialogs/join_game_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/new_game_dialog.dart';
 
-import '../../../../../constants/app_constants.dart';
-import '../../../../../constants/textstyle_constants.dart';
-import '../../../../../providers/user_provider.dart';
-import '../../../../../widgets/custom_card_widget.dart';
-import '../../../../../widgets/custom_list_tile.dart';
-import '../../../../../widgets/user_avatar_widget.dart';
+import '../../../constants/app_constants.dart';
+import '../../../constants/textstyle_constants.dart';
+import '../../../providers/user_provider.dart';
+import '../../../widgets/custom_card_widget.dart';
+import '../../../widgets/custom_list_tile.dart';
+import '../../../widgets/user_avatar_widget.dart';
+import '../../profile/widgets/settings/widgets/general/widgets/dark_mode.dart';
+import '../../profile/widgets/settings/widgets/general/widgets/offline.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
   const HomeDrawerWidget({super.key});
@@ -104,6 +106,8 @@ class HomeDrawerWidget extends StatelessWidget {
                       },
                     ),
                   ),
+                  const DarkModeWidget(),
+                  const OfflineModeWidget(),
                   const Spacer(),
                   const Divider(),
                   CustomCardWidget(
