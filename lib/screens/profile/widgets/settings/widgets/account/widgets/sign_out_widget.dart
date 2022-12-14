@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
+import '../../../../../../../widgets/custom_animated_crossfade.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
 
@@ -17,15 +18,18 @@ class SignOutWidget extends StatelessWidget {
 
     return userProvider.isUserAnon()
         ? const SizedBox.shrink()
-        : CustomCardWidget(
-            child: CustomListTileWidget(
-              onTap: () {
-                userProvider.showSignOutDialog(context);
-              },
-              //   leading: const SettingsIconWidget(iconData: AppIcons.signOutIcon),
-              title: SettingsTitleWidget(text: DialogueService.signOutTitleText.tr),
-              //  subtitle: SettingsSubtitleWidget(text: DialogueService.signOutSubtitleText.tr),
+        : CustomAnimatedCrossFade(
+            firstChild: const SizedBox.shrink(),
+            secondChild: CustomCardWidget(
+              child: CustomListTileWidget(
+                onTap: () {
+                  userProvider.showSignOutDialog(context);
+                },
+                //   leading: const SettingsIconWidget(iconData: AppIcons.signOutIcon),
+                title: SettingsTitleWidget(text: DialogueService.signOutTitleText.tr),
+                //  subtitle: SettingsSubtitleWidget(text: DialogueService.signOutSubtitleText.tr),
+              ),
             ),
-          );
+            condition: userProvider.getUserIsOffline());
   }
 }

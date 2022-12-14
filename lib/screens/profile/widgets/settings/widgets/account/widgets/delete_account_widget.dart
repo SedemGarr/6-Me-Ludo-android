@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
 
 import '../../../../../../../providers/user_provider.dart';
 import '../../../../../../../services/translations/dialogue_service.dart';
+import '../../../../../../../widgets/custom_animated_crossfade.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../settings_title_widget.dart';
 
@@ -15,15 +16,18 @@ class DeleteAcountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomCardWidget(
-      child: CustomListTileWidget(
-        onTap: () {
-          userProvider.showDeleteAccountDialog(context);
-        },
-        //  leading: const SettingsIconWidget(iconData: AppIcons.deleteAccountIcon),
-        title: SettingsTitleWidget(text: DialogueService.deleteAccountTitleText.tr),
-        //  subtitle: SettingsSubtitleWidget(text: DialogueService.deleteAccountSubtitleText.tr),
-      ),
-    );
+    return CustomAnimatedCrossFade(
+        firstChild: const SizedBox.shrink(),
+        secondChild: CustomCardWidget(
+          child: CustomListTileWidget(
+            onTap: () {
+              userProvider.showDeleteAccountDialog(context);
+            },
+            //  leading: const SettingsIconWidget(iconData: AppIcons.deleteAccountIcon),
+            title: SettingsTitleWidget(text: DialogueService.deleteAccountTitleText.tr),
+            //  subtitle: SettingsSubtitleWidget(text: DialogueService.deleteAccountSubtitleText.tr),
+          ),
+        ),
+        condition: userProvider.getUserIsOffline());
   }
 }

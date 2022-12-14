@@ -5,6 +5,7 @@ import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/join_game_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/new_game_dialog.dart';
 
@@ -79,19 +80,22 @@ class HomeDrawerWidget extends StatelessWidget {
                       },
                     ),
                   ),
-                  CustomCardWidget(
-                    child: CustomListTileWidget(
-                      //    leading: const Icon(AppIcons.joinGameIcon),
-                      title: Text(
-                        DialogueService.joinGameFABText.tr,
-                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                  CustomAnimatedCrossFade(
+                      firstChild: const SizedBox.shrink(),
+                      secondChild: CustomCardWidget(
+                        child: CustomListTileWidget(
+                          //    leading: const Icon(AppIcons.joinGameIcon),
+                          title: Text(
+                            DialogueService.joinGameFABText.tr,
+                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                          ),
+                          onTap: () {
+                            NavigationService.genericGoBack();
+                            showJoinGameDialog(context: context);
+                          },
+                        ),
                       ),
-                      onTap: () {
-                        NavigationService.genericGoBack();
-                        showJoinGameDialog(context: context);
-                      },
-                    ),
-                  ),
+                      condition: userProvider.getUserIsOffline()),
                   SettingsHeaderWidget(text: DialogueService.personalisationSettingsText.tr),
                   CustomCardWidget(
                     child: CustomListTileWidget(
@@ -110,22 +114,25 @@ class HomeDrawerWidget extends StatelessWidget {
                   const OfflineModeWidget(),
                   const Spacer(),
                   const Divider(),
-                  CustomCardWidget(
-                    child: CustomListTileWidget(
-                      //        leading: const Icon(AppIcons.signOutIcon),
-                      title: Text(
-                        userProvider.isUserAnon() ? DialogueService.deleteAccountTitleText.tr : DialogueService.signOutTitleText.tr,
-                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                  CustomAnimatedCrossFade(
+                      firstChild: const SizedBox.shrink(),
+                      secondChild: CustomCardWidget(
+                        child: CustomListTileWidget(
+                          //        leading: const Icon(AppIcons.signOutIcon),
+                          title: Text(
+                            userProvider.isUserAnon() ? DialogueService.deleteAccountTitleText.tr : DialogueService.signOutTitleText.tr,
+                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                          ),
+                          onTap: () {
+                            if (userProvider.isUserAnon()) {
+                              userProvider.showDeleteAccountDialog(context);
+                            } else {
+                              userProvider.showSignOutDialog(context);
+                            }
+                          },
+                        ),
                       ),
-                      onTap: () {
-                        if (userProvider.isUserAnon()) {
-                          userProvider.showDeleteAccountDialog(context);
-                        } else {
-                          userProvider.showSignOutDialog(context);
-                        }
-                      },
-                    ),
-                  ),
+                      condition: userProvider.getUserIsOffline()),
                   CustomCardWidget(
                     child: CustomListTileWidget(
                       //       leading: const Icon(AppIcons.exitIcon),
