@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
@@ -125,11 +126,12 @@ class UserProvider with ChangeNotifier {
   Future<void> initUser(BuildContext context) async {
     AppProvider appProvider = context.read<AppProvider>();
     SoundProvider soundProvider = context.read<SoundProvider>();
+    GameProvider gameProvider = context.read<GameProvider>();
 
     await appProvider.getPackageInfo();
 
     if (LocalStorageService.isAppOffline()) {
-      offlineModeInit(appProvider, soundProvider);
+      offlineModeInit(appProvider, soundProvider, gameProvider);
       return;
     }
 
@@ -144,17 +146,19 @@ class UserProvider with ChangeNotifier {
 
     if (await appProvider.isVersionUpToDate()) {
       tempUser = await LocalStorageService.getUser();
-      completeInit(appProvider, soundProvider, appProvider.needsUpgrade);
+      completeInit(appProvider, soundProvider, gameProvider, appProvider.needsUpgrade);
     } else {
       appProvider.setNeedsUpgrade(true);
       showUpgradeDialog(context: context);
     }
   }
 
-  void completeInit(AppProvider appProvider, SoundProvider soundProvider, bool needsUpgrade) {
+  void completeInit(AppProvider appProvider, SoundProvider soundProvider, GameProvider gameProvider, bool needsUpgrade) {
     if (needsUpgrade) {
       return;
     }
+
+    gameProvider.initLocalGame();
 
     Future.delayed(AppConstants.lottieDuration, () {
       appProvider.setSplashScreenLoaded(false);
@@ -162,6 +166,7 @@ class UserProvider with ChangeNotifier {
       Future.delayed(AppConstants.animationDuration, () {
         if (tempUser != null) {
           setUser(tempUser, appProvider, soundProvider);
+
           NavigationService.goToHomeScreen();
         } else {
           appProvider.setShouldShowAuthButton(true);
@@ -171,9 +176,9 @@ class UserProvider with ChangeNotifier {
     });
   }
 
-  void offlineModeInit(AppProvider appProvider, SoundProvider soundProvider) async {
+  void offlineModeInit(AppProvider appProvider, SoundProvider soundProvider, GameProvider gameProvider) async {
     tempUser = await LocalStorageService.getUser();
-    completeInit(appProvider, soundProvider, false);
+    completeInit(appProvider, soundProvider, gameProvider, false);
   }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {

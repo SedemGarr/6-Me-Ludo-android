@@ -111,7 +111,8 @@ class EnglishTranslation {
       DialogueService.startGameButtonText: 'Start Game',
       DialogueService.joinGameButtonText: 'Join Game',
       DialogueService.orButtonText: 'or',
-      DialogueService.noGamesText: 'No Games 😕',
+      DialogueService.noGamesText: 'No Online Games',
+      DialogueService.noLocalGamesText: 'No Local Game',
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
       DialogueService.hostGameFABText: 'Host New Game',
       DialogueService.joinGameFABText: 'Join Game With Code',
@@ -292,7 +293,8 @@ class EnglishTranslation {
       // settings - profanity
       DialogueService.profaneMessagesTitleText: 'Profanity',
       DialogueService.profaneMessagesSubtitleText: 'Toggle whether chat messages containing profanity are visible to you',
-      // settings - profanity
+      // settings - offline
+      DialogueService.offlineText: 'Offline',
       DialogueService.offlineModeTitleText: 'Offline Mode',
       DialogueService.offlineModeContentText:
           'You are about to take the application offline. All online features will be disabled and you will only be able to play games against the AI',
@@ -300,6 +302,8 @@ class EnglishTranslation {
       DialogueService.offlineModeNoText: 'Cancel',
       DialogueService.offlineModeToastOnText: 'Offline mode enabled',
       DialogueService.offlineModeToastOffText: 'Application back online',
+      DialogueService.newOfflineGameText: 'New Offline Game',
+      DialogueService.continueOfflineGameText: 'Continue Offline Game',
       // settings - sign out
       DialogueService.signOutTitleText: 'Sign Out',
       DialogueService.signOutSubtitleText: 'Sign out this account',

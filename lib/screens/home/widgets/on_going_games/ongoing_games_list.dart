@@ -10,24 +10,18 @@ import 'package:six_me_ludo_android/widgets/loading_widget.dart';
 
 import '../../../../constants/app_constants.dart';
 
-class OngoingGamesListWidget extends StatefulWidget {
+class OngoingGamesListWidget extends StatelessWidget {
   const OngoingGamesListWidget({super.key});
 
   @override
-  State<OngoingGamesListWidget> createState() => _OngoingGamesListWidgetState();
-}
-
-class _OngoingGamesListWidgetState extends State<OngoingGamesListWidget> with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     UserProvider userProvider = context.watch<UserProvider>();
 
     return StreamBuilder<List<Game>>(
         stream: userProvider.onGoingGamesStream,
         initialData: userProvider.ongoingGames,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingWidget();
           } else if (snapshot.hasData) {
             userProvider.syncOngoingGamesStreamData(snapshot.data!);
@@ -59,7 +53,4 @@ class _OngoingGamesListWidgetState extends State<OngoingGamesListWidget> with Au
           }
         });
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

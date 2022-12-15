@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
@@ -24,6 +25,7 @@ class HomeDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
+    GameProvider gameProvider = context.watch<GameProvider>();
 
     return Drawer(
       shape: AppConstants.appShape,
@@ -67,19 +69,37 @@ class HomeDrawerWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SettingsHeaderWidget(text: DialogueService.gameSettingsText.tr),
-                  CustomCardWidget(
-                    child: CustomListTileWidget(
-                      //     leading: const Icon(AppIcons.newGameIcon),
-                      title: Text(
-                        DialogueService.hostGameFABText.tr,
-                        style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                  CustomAnimatedCrossFade(
+                      firstChild: CustomCardWidget(
+                        child: CustomListTileWidget(
+                          //     leading: const Icon(AppIcons.newGameIcon),
+                          title: Text(
+                            gameProvider.isThereLocalGame() ? DialogueService.continueOfflineGameText.tr : DialogueService.newOfflineGameText.tr,
+                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                          ),
+                          onTap: () {
+                            if (gameProvider.isThereLocalGame()) {
+                              NavigationService.genericGoBack();
+                            } else {
+                              NavigationService.genericGoBack();
+                            }
+                          },
+                        ),
                       ),
-                      onTap: () {
-                        NavigationService.genericGoBack();
-                        showNewGameDialog(context: context);
-                      },
-                    ),
-                  ),
+                      secondChild: CustomCardWidget(
+                        child: CustomListTileWidget(
+                          //     leading: const Icon(AppIcons.newGameIcon),
+                          title: Text(
+                            DialogueService.hostGameFABText.tr,
+                            style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                          ),
+                          onTap: () {
+                            NavigationService.genericGoBack();
+                            showNewGameDialog(context: context);
+                          },
+                        ),
+                      ),
+                      condition: userProvider.getUserIsOffline()),
                   CustomAnimatedCrossFade(
                       firstChild: const SizedBox.shrink(),
                       secondChild: CustomCardWidget(

@@ -53,6 +53,9 @@ class GameProvider with ChangeNotifier {
   late Color playerSelectedColor;
   late List<int> validMoveIndices;
 
+  // offline
+  Game? localGame;
+
   // thread
   Thread? currentThread;
   Stream<Thread>? currentThreadStream;
@@ -1681,6 +1684,10 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
+    if (user.settings.isOffline) {
+      return;
+    }
+
     if (currentGame != null) {
       if (!currentGame!.isOffline) {
         await setGamePresence(value);
@@ -1822,6 +1829,24 @@ class GameProvider with ChangeNotifier {
         context: context,
       );
     }
+  }
+
+  // offline games
+
+  void initLocalGame() {
+    localGame = LocalStorageService.getLocalGame();
+  }
+
+  bool isThereLocalGame() {
+    return localGame != null;
+  }
+
+  static Game? getLocalGame() {
+    return LocalStorageService.getLocalGame();
+  }
+
+  static void setLocalGame(Game game) {
+    LocalStorageService.setLocalGame(game);
   }
 
   // static

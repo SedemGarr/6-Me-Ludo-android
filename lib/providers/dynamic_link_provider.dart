@@ -40,9 +40,15 @@ class DynamicLinkProvider with ChangeNotifier {
       String? id = data.link.queryParameters['id'];
 
       if (id != null) {
-        GameProvider gameProvider = Get.context!.read<GameProvider>();
-        AppProvider appProvider = Get.context!.read<AppProvider>();
-        UserProvider userProvider = Get.context!.read<UserProvider>();
+        BuildContext context = Get.context!;
+
+        GameProvider gameProvider = context.read<GameProvider>();
+        AppProvider appProvider = context.read<AppProvider>();
+        UserProvider userProvider = context.read<UserProvider>();
+
+        if (userProvider.getUserIsOffline()) {
+          userProvider.toggleOfflineMode(context, false);
+        }
 
         gameProvider.setJoinGameController(id, false);
 

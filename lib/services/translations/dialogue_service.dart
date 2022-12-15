@@ -115,6 +115,7 @@ class DialogueService extends Translations {
   static const String joinGameButtonText = 'joinGameButtonText';
   static const String orButtonText = 'orButtonText';
   static const String noGamesText = 'noGamesText';
+  static const String noLocalGamesText = 'noLocalGamesText';
   static const String maxGamesText = 'maxGamesText';
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
@@ -322,12 +323,15 @@ class DialogueService extends Translations {
   static const String profaneMessagesTitleText = 'profaneMessagesTitleText';
   static const String profaneMessagesSubtitleText = 'profaneMessagesSubtitleText';
   // settings - offline
+  static const String offlineText = 'offlineText';
   static const String offlineModeTitleText = 'offlineModeTitleText';
   static const String offlineModeContentText = 'offlineModeContentText';
   static const String offlineModeYesText = 'offlineModeYesText';
   static const String offlineModeNoText = 'offlineModeNoText';
   static const String offlineModeToastOnText = 'offlineModeToastOnText';
   static const String offlineModeToastOffText = 'offlineModeToastOffText';
+  static const String newOfflineGameText = 'newOfflineGameText';
+  static const String continueOfflineGameText = 'continueOfflineGameText';
   // settings - sign out
   static const String signOutTitleText = 'signOutTitleText';
   static const String signOutSubtitleText = 'signOutSubtitleText';

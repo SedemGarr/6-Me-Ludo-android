@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:six_me_ludo_android/models/game.dart';
 import '../models/user.dart';
 
 class LocalStorageService {
@@ -58,5 +59,22 @@ class LocalStorageService {
   static void clearUser() async {
     GetStorage box = GetStorage();
     box.erase();
+  }
+
+  // games
+
+  static bool isThereLocalGame() {
+    GetStorage box = GetStorage();
+    return box.read('game') != null;
+  }
+
+  static Game? getLocalGame() {
+    GetStorage box = GetStorage();
+    return isThereLocalGame() ? Game.fromJson(box.read('game')) : null;
+  }
+
+  static void setLocalGame(Game game) {
+    GetStorage box = GetStorage();
+    box.write('game', game.toJson());
   }
 }
