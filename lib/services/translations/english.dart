@@ -304,6 +304,10 @@ class EnglishTranslation {
       DialogueService.offlineModeToastOffText: 'Application back online',
       DialogueService.newOfflineGameText: 'New Offline Game',
       DialogueService.continueOfflineGameText: 'Continue Offline Game',
+      DialogueService.offlineJoiningGameTitleText: 'You are offline',
+      DialogueService.offlineJoiningGameContentText: 'Joining this game requires that offline mode be disabled. Do you want to continue?',
+      DialogueService.offlineJoiningGameYesText: 'Join Game',
+      DialogueService.offlineJoiningGameNoText: 'Cancel',
       // settings - sign out
       DialogueService.signOutTitleText: 'Sign Out',
       DialogueService.signOutSubtitleText: 'Sign out this account',

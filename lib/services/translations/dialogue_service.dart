@@ -332,6 +332,10 @@ class DialogueService extends Translations {
   static const String offlineModeToastOffText = 'offlineModeToastOffText';
   static const String newOfflineGameText = 'newOfflineGameText';
   static const String continueOfflineGameText = 'continueOfflineGameText';
+  static const String offlineJoiningGameTitleText = 'offlineJoiningGameTitleText';
+  static const String offlineJoiningGameContentText = 'offlineJoiningGameContentText';
+  static const String offlineJoiningGameYesText = 'offlineJoiningGameYesText';
+  static const String offlineJoiningGameNoText = 'offlineJoiningGameNoText';
   // settings - sign out
   static const String signOutTitleText = 'signOutTitleText';
   static const String signOutSubtitleText = 'signOutSubtitleText';
