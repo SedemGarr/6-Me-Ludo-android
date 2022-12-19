@@ -92,8 +92,8 @@ class GameProvider with ChangeNotifier {
     return userVersion >= gameVersion;
   }
 
-  int getGameTabControllerLength() {
-    return 3;
+  int getGameTabControllerLength(bool isUserOffline) {
+    return isUserOffline ? 2 : 3;
   }
 
   int getGameChatCount() {
@@ -126,6 +126,12 @@ class GameProvider with ChangeNotifier {
 
   String getGameStatusText() {
     if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
+      UserProvider userProvider = Get.context!.read<UserProvider>();
+
+      if (userProvider.getUserIsOffline()) {
+        return '';
+      }
+
       int numberOfPlayersToJoin = currentGame!.maxPlayers - currentGame!.players.length;
       return numberOfPlayersToJoin == 1
           ? DialogueService.waitingForOneMoreText.tr
@@ -291,7 +297,9 @@ class GameProvider with ChangeNotifier {
     board = Board.generateBoard();
   }
 
-  void initialiseGame(Game game, Thread thread, String id) {
+  void initialiseGame(Game game, Thread? thread, String id) {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
     // game
     currentGame = game;
     currentGameStream = DatabaseService.getCurrentGameStream(currentGame!.id);
@@ -301,7 +309,9 @@ class GameProvider with ChangeNotifier {
     validMoveIndices = [];
     // thread
     currentThread = thread;
-    currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
+    if (!userProvider.getUserIsOffline()) {
+      currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
+    }
     // chat
     gameChatController.clear();
   }
@@ -325,7 +335,7 @@ class GameProvider with ChangeNotifier {
 
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
     playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
-    startGame(user);
+    startGame(user, false);
   }
 
   void syncThreadData(BuildContext context, Thread thread, Users user) {
@@ -511,12 +521,12 @@ class GameProvider with ChangeNotifier {
     });
   }
 
-  Future<void> startGame(Users user) async {
+  Future<void> startGame(Users user, bool shouldRebuild) async {
     if (isPlayerHost(user.id)) {
       if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
         if (currentGame!.maxPlayers == currentGame!.players.length) {
           if (currentGame!.shouldAutoStart) {
-            await forceStartGame(user);
+            await forceStartGame(user, shouldRebuild);
           }
         }
       }
@@ -1062,10 +1072,38 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  Future<void> hostOfflineGame(Users user, Uuid uuid, BuildContext context) async {
+    AppProvider appProvider = context.read<AppProvider>();
+
+    appProvider.setLoading(true, true);
+
+    try {
+      Game newGame = await DatabaseService.createOfflineGame(user, uuid, context);
+
+      initialiseGame(newGame, null, user.id);
+
+      DatabaseService.updateGameLocally();
+
+      appProvider.setLoading(false, true);
+      NavigationService.goToGameScreen();
+    } catch (e) {
+      appProvider.setLoading(false, true);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
+  }
+
   Future<void> reJoinGame(Game game, Users user, AppProvider appProvider) async {
     appProvider.setLoading(true, true);
 
     try {
+      if (user.settings.isOffline) {
+        initialiseGame(game, null, user.id);
+        appProvider.setLoading(false, true);
+        NavigationService.goToGameScreen();
+        return;
+      }
+
       Game? newGame = await DatabaseService.getGame(game.id);
 
       if (newGame == null) {
@@ -1374,10 +1412,18 @@ class GameProvider with ChangeNotifier {
             if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
               handleAIPlayerGameLogic(user);
             } else {
+              UserProvider userProvider = Get.context!.read<UserProvider>();
               Game tempGame = Game.fromJson(currentGame!.toJson());
-              tempGame.canPass = true;
-              tempGame.canPlay = true;
-              await DatabaseService.updateGame(tempGame, true);
+
+              if (userProvider.getUserIsOffline()) {
+                currentGame!.canPass = true;
+                currentGame!.canPlay = true;
+              } else {
+                tempGame.canPass = true;
+                tempGame.canPlay = true;
+              }
+
+              await DatabaseService.updateGame(userProvider.getUserIsOffline() ? currentGame! : tempGame, true);
             }
           }
         });
@@ -1604,7 +1650,7 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> forceStartGame(Users user) async {
+  Future<void> forceStartGame(Users user, bool shouldRebuild) async {
     currentGame!.hasStarted = true;
     currentGame!.canPlay = true;
     currentGame!.maxPlayers = currentGame!.players.length;
@@ -1613,7 +1659,7 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGameSessionStartDate(currentGame!);
+    await DatabaseService.updateGameSessionStartDate(currentGame!, shouldRebuild);
 
     // get ai player to start game
     if (currentGame!.players.first.isAIPlayer) {
@@ -1647,7 +1693,7 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGameSessionStartDate(currentGame!);
+    await DatabaseService.updateGameSessionStartDate(currentGame!, true);
 
     notifyListeners();
 
@@ -1702,7 +1748,7 @@ class GameProvider with ChangeNotifier {
         break;
       case 1:
         if (!currentGame!.hasStarted && isPlayerHost(user.id) && currentGame!.players.length > 1) {
-          forceStartGame(user);
+          forceStartGame(user, true);
         } else {
           endSession(currentGame!);
         }
@@ -1837,9 +1883,9 @@ class GameProvider with ChangeNotifier {
     localGame = LocalStorageService.getLocalGame();
   }
 
-  bool isThereLocalGame() {
-    return localGame != null;
-  }
+  // bool isThereLocalGame() {
+  //   return localGame != null;
+  // }
 
   static Game? getLocalGame() {
     return LocalStorageService.getLocalGame();
@@ -1877,5 +1923,9 @@ class GameProvider with ChangeNotifier {
       debugPrint(e.toString());
       return '';
     }
+  }
+
+  void rebuild() {
+    notifyListeners();
   }
 }

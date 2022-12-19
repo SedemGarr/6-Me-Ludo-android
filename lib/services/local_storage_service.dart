@@ -77,4 +77,9 @@ class LocalStorageService {
     GetStorage box = GetStorage();
     box.write('game', game.toJson());
   }
+
+  static void deleteLocalGame() {
+    GetStorage box = GetStorage();
+    box.remove('game');
+  }
 }

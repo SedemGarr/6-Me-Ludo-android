@@ -17,40 +17,42 @@ class OngoingGamesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return StreamBuilder<List<Game>>(
-        stream: userProvider.onGoingGamesStream,
-        initialData: userProvider.ongoingGames,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingWidget();
-          } else if (snapshot.hasData) {
-            userProvider.syncOngoingGamesStreamData(snapshot.data!);
+    return Expanded(
+      child: StreamBuilder<List<Game>>(
+          stream: userProvider.onGoingGamesStream,
+          initialData: userProvider.ongoingGames,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+              return const LoadingWidget();
+            } else if (snapshot.hasData) {
+              userProvider.syncOngoingGamesStreamData(snapshot.data!);
 
-            return userProvider.ongoingGames.isEmpty
-                ? const NoGamesWidget()
-                : AnimationLimiter(
-                    child: ListView.separated(
-                      key: PageStorageKey(UniqueKey()),
-                      //   shrinkWrap: true,
-                      itemCount: userProvider.ongoingGames.length,
-                      padding: AppConstants.listViewPadding,
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 8.0,
+              return userProvider.ongoingGames.isEmpty
+                  ? const NoGamesWidget()
+                  : AnimationLimiter(
+                      child: ListView.separated(
+                        key: PageStorageKey(UniqueKey()),
+                        //   shrinkWrap: true,
+                        itemCount: userProvider.ongoingGames.length,
+                        padding: AppConstants.listViewPadding,
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 8.0,
+                        ),
+                        itemBuilder: (context, index) {
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: AppConstants.animationDuration,
+                            child: CustomAnimationWidget(
+                              child: OnGoingGamesListItemWidget(game: userProvider.ongoingGames[index]),
+                            ),
+                          );
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: AppConstants.animationDuration,
-                          child: CustomAnimationWidget(
-                            child: OnGoingGamesListItemWidget(index: index),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-          } else {
-            return const NoGamesWidget();
-          }
-        });
+                    );
+            } else {
+              return const NoGamesWidget();
+            }
+          }),
+    );
   }
 }

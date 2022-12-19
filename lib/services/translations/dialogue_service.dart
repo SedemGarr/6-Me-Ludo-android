@@ -271,6 +271,7 @@ class DialogueService extends Translations {
   static const String aboutSettingsText = 'aboutSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';
+  static const String maxPlayersOfflineTitleText = 'maxPlayersOfflineTitleText';
   static const String maxPlayersSubtitleText = 'maxPlayersSubtitleText';
   // settings - dark mode
   static const String darkModeTitleText = 'darkModeTitleText';

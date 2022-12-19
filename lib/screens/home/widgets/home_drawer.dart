@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_header.dart';
+import 'package:six_me_ludo_android/services/local_storage_service.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
@@ -26,6 +28,9 @@ class HomeDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
+    AppProvider appProvider = context.watch<AppProvider>();
+
+    Users user = userProvider.getUser();
 
     return Drawer(
       shape: AppConstants.appShape,
@@ -74,14 +79,16 @@ class HomeDrawerWidget extends StatelessWidget {
                         child: CustomListTileWidget(
                           //     leading: const Icon(AppIcons.newGameIcon),
                           title: Text(
-                            gameProvider.isThereLocalGame() ? DialogueService.continueOfflineGameText.tr : DialogueService.newOfflineGameText.tr,
+                            LocalStorageService.isThereLocalGame() ? DialogueService.continueOfflineGameText.tr : DialogueService.newOfflineGameText.tr,
                             style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
                           ),
                           onTap: () {
-                            if (gameProvider.isThereLocalGame()) {
+                            if (LocalStorageService.isThereLocalGame()) {
                               NavigationService.genericGoBack();
+                              gameProvider.reJoinGame(LocalStorageService.getLocalGame()!, user, appProvider);
                             } else {
                               NavigationService.genericGoBack();
+                              showNewGameDialog(context: context);
                             }
                           },
                         ),

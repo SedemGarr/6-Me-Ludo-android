@@ -310,6 +310,10 @@ class UserProvider with ChangeNotifier {
   }
 
   void toggleAddAI(BuildContext context, bool value) {
+    if (getUserIsOffline()) {
+      return;
+    }
+
     if (_user!.settings.maxPlayers == 1) {
       _user!.settings.prefersAddAI = true;
     } else if (_user!.settings.maxPlayers == 4) {
@@ -646,6 +650,10 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.maxPlayers;
   }
 
+  int getGameIndex(Game game) {
+    return ongoingGames.indexWhere((element) => element.id == game.id);
+  }
+
   Users getUser() {
     return _user!;
   }
@@ -667,5 +675,9 @@ class UserProvider with ChangeNotifier {
   Locale parseUserLocale(String locale) {
     List<String> localeCodes = locale.split('_');
     return Locale(localeCodes[0], localeCodes[1]);
+  }
+
+  void rebuild() {
+    notifyListeners();
   }
 }

@@ -67,5 +67,5 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => !widget.userProvider.getUserIsOffline();
 }

@@ -15,16 +15,15 @@ import '../../../../models/player.dart';
 import '../../../../widgets/custom_divider.dart';
 
 class OnGoingGamesListItemWidget extends StatelessWidget {
-  final int index;
+  final Game game;
 
-  const OnGoingGamesListItemWidget({super.key, required this.index});
+  const OnGoingGamesListItemWidget({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
     GameProvider gameProvider = context.watch<GameProvider>();
 
-    Game game = userProvider.ongoingGames[index];
     Player host = userProvider.getOngoingGamesHostPlayerAtIndex(game);
 
     return Theme(
@@ -39,7 +38,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
             collapsedBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             childrenPadding: const EdgeInsets.only(bottom: 8.0),
-            key: PageStorageKey(index),
+            key: PageStorageKey(userProvider.getGameIndex(game)),
             leading: GameOwnerAvatarWidget(
               id: host.id,
               avatar: host.avatar,

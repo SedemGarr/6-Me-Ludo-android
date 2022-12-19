@@ -52,7 +52,11 @@ showNewGameDialog({
           CustomElevatedButton(
             onPressed: () {
               NavigationService.genericGoBack();
-              gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, userProvider.isGameOffline(), context);
+              if (userProvider.getUserIsOffline()) {
+                gameProvider.hostOfflineGame(userProvider.getUser(), userProvider.uuid, context);
+              } else {
+                gameProvider.hostGame(userProvider.getUser(), userProvider.uuid, userProvider.isGameOffline(), context);
+              }
             },
             text: DialogueService.startGameButtonText.tr,
           ),

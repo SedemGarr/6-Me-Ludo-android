@@ -242,12 +242,13 @@ class EnglishTranslation {
       DialogueService.aboutSettingsText: 'About',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',
+      DialogueService.maxPlayersOfflineTitleText: 'Number of Players',
       DialogueService.maxPlayersSubtitleText: 'Select how many human players, including yourself, you want in your game',
       // settings - dark mode
       DialogueService.darkModeTitleText: 'Dark Mode',
       DialogueService.darkModeSubtitleText: 'Toggle dark mode on or off',
       // settings - audio
-      DialogueService.audioTitleText: 'Audio',
+      DialogueService.audioTitleText: 'Game Sounds',
       DialogueService.audioSubtitleText: 'Toggle game sounds on or off',
       // settings - theme
       DialogueService.themeTitleText: 'Theme',
@@ -291,7 +292,7 @@ class EnglishTranslation {
       DialogueService.gameSpeedNormalText: 'Normal',
       DialogueService.gameSpeedSlowText: 'Slow',
       // settings - profanity
-      DialogueService.profaneMessagesTitleText: 'Profanity',
+      DialogueService.profaneMessagesTitleText: 'Sensitive Language',
       DialogueService.profaneMessagesSubtitleText: 'Toggle whether chat messages containing profanity are visible to you',
       // settings - offline
       DialogueService.offlineText: 'Offline',

@@ -44,7 +44,7 @@ class AppConstants {
   static const Duration carouselDuration = Duration(seconds: 5);
   static const Duration snackBarDuration = Duration(seconds: 5);
   static const Duration snackBarLongDuration = Duration(seconds: 10);
-  static const Duration newtworkTimeoutDuration = Duration(seconds: 15);
+  static const Duration newtworkTimeoutDuration = Duration(seconds: 30);
 
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
 

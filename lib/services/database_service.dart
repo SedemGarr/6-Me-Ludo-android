@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/services/local_storage_service.dart';
+import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:uuid/uuid.dart';
@@ -210,6 +213,17 @@ class DatabaseService {
     return game;
   }
 
+  static Future<Game> createOfflineGame(Users user, Uuid uuid, BuildContext context) async {
+    Game game = Game.getDefaultOfflineGame(user, uuid);
+
+    if (user.settings.prefersAddAI) {
+      game = Game.autoFillWithAIPlayers(game, user, uuid);
+      game.maxPlayers = 4;
+    }
+
+    return game;
+  }
+
   static Future<Thread> createThread(Users user, String id) async {
     Thread thread = Thread.getDefaultThread(user, id);
 
@@ -254,7 +268,51 @@ class DatabaseService {
     }
   }
 
+  static bool isUserOffline() {
+    BuildContext context = Get.context!;
+    UserProvider userProvider = context.read<UserProvider>();
+    return userProvider.getUserIsOffline();
+  }
+
+  static void updateGameLocally() {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+    gameProvider.currentGame!.lastUpdatedAt = getDeviceTime();
+    LocalStorageService.setLocalGame(gameProvider.currentGame!);
+    gameProvider.rebuild();
+  }
+
+  static void updateGameSessionStartDateLocally(bool shouldRebuild) {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+    gameProvider.currentGame!.sessionStartedAt = getDeviceTime();
+    LocalStorageService.setLocalGame(gameProvider.currentGame!);
+    if (shouldRebuild) {
+      gameProvider.rebuild();
+    }
+  }
+
+  static void updateGameSessionEndDateLocally(bool shouldRebuild) {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+    gameProvider.currentGame!.sessionEndedAt = getDeviceTime();
+    LocalStorageService.setLocalGame(gameProvider.currentGame!);
+    if (shouldRebuild) {
+      gameProvider.rebuild();
+    }
+  }
+
+  static void deleteGameLocally() {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+
+    LocalStorageService.deleteLocalGame();
+    gameProvider.currentGame = null;
+    NavigationService.goToHomeScreen();
+  }
+
   static Future<void> updateGame(Game game, bool shouldUpdateDate, {bool? shouldCreate, bool? shouldSyncWithFirestore}) async {
+    if (isUserOffline()) {
+      updateGameLocally();
+      return;
+    }
+
     Map<String, dynamic> jsonGame = game.toJson();
 
     try {
@@ -285,7 +343,12 @@ class DatabaseService {
     }
   }
 
-  static Future<void> updateGameSessionStartDate(Game game) async {
+  static Future<void> updateGameSessionStartDate(Game game, bool shouldRebuild) async {
+    if (isUserOffline()) {
+      updateGameSessionStartDateLocally(shouldRebuild);
+      return;
+    }
+
     try {
       Map<String, dynamic> jsonGame = game.toJson();
 
@@ -301,6 +364,11 @@ class DatabaseService {
   }
 
   static Future<void> updateGameSessionEndDate(Game game) async {
+    if (isUserOffline()) {
+      updateGameSessionEndDateLocally(true);
+      return;
+    }
+
     try {
       Map<String, dynamic> jsonGame = game.toJson();
 
@@ -316,6 +384,11 @@ class DatabaseService {
   }
 
   static Future<void> deleteGame(String gameID, Users user) async {
+    if (isUserOffline()) {
+      deleteGameLocally();
+      return;
+    }
+
     GameProvider gameProvider = Get.context!.read<GameProvider>();
 
     try {

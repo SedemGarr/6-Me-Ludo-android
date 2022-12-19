@@ -15,6 +15,7 @@ import 'package:six_me_ludo_android/widgets/banner_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 import '../../providers/app_provider.dart';
+import '../../services/local_storage_service.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/loading_screen.dart';
 import '../../widgets/welcome_appbar_text_widget.dart';
@@ -59,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 actions: [AppBarAvatarWidget()],
               ),
               body: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomAnimatedCrossFade(
                     firstChild: BannerWidget(text: DialogueService.offlineText.tr),
@@ -67,7 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     condition: userProvider.getUserIsOffline(),
                   ),
                   Expanded(
-                    child: !userProvider.getUserIsOffline() ? const OngoingGamesListWidget() : const LocalGameWidget(),
+                    child: Column(
+                      mainAxisAlignment: LocalStorageService.isThereLocalGame() ? MainAxisAlignment.start : MainAxisAlignment.center,
+                      children: [
+                        userProvider.getUserIsOffline() ? const LocalGameWidget() : const OngoingGamesListWidget(),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
+import '../../../../../../../widgets/custom_animated_crossfade.dart';
 import '../../../../../../../widgets/custom_card_widget.dart';
 import '../../../../../../../widgets/custom_list_tile.dart';
 
@@ -16,13 +17,28 @@ class AutoStart extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return CustomCardWidget(
-      child: CustomListTileWidget(
-        //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.autoStartIcon) : null,
-        title: SettingsTitleWidget(text: DialogueService.autoStartTitleText.tr),
-        //   subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
-        trailing: CustomSwitchWidget(onChanged: userProvider.toggleAutoStart, value: userProvider.getUserAutoStart()),
+    return CustomAnimatedCrossFade(
+      firstChild: const SizedBox.shrink(),
+      secondChild: CustomCardWidget(
+        child: CustomCardWidget(
+          child: CustomListTileWidget(
+            //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.autoStartIcon) : null,
+            title: SettingsTitleWidget(text: DialogueService.autoStartTitleText.tr),
+            //   subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
+            trailing: CustomSwitchWidget(onChanged: userProvider.toggleAutoStart, value: userProvider.getUserAutoStart()),
+          ),
+        ),
       ),
+      condition: userProvider.getUserIsOffline(),
     );
+
+    // return CustomCardWidget(
+    //   child: CustomListTileWidget(
+    //     //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.autoStartIcon) : null,
+    //     title: SettingsTitleWidget(text: DialogueService.autoStartTitleText.tr),
+    //     //   subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
+    //     trailing: CustomSwitchWidget(onChanged: userProvider.toggleAutoStart, value: userProvider.getUserAutoStart()),
+    //   ),
+    // );
   }
 }

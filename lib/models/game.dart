@@ -136,8 +136,59 @@ class Game {
       hasStarted: false,
       hostId: user.id,
       hostBuildNumber: user.appBuildNumber,
-      players: [Player.getDefaultPlayer(user, 0)],
-      playerIds: [user.id],
+      players: [
+        Player.getDefaultPlayer(user, 0),
+      ],
+      playerIds: [
+        user.id,
+      ],
+    );
+  }
+
+  static Game getDefaultOfflineGame(Users user, Uuid uuid) {
+    UserSettings hostSettings = user.settings;
+
+    // override the ff user preferences for offline games
+
+    hostSettings.prefersAutoStart = true;
+    hostSettings.prefersAddAI = true;
+    hostSettings.maxPlayers = 1;
+
+    return Game(
+      createdAt: DatabaseService.getDeviceTime(),
+      hostSettings: hostSettings,
+      reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
+      id: Player.getOfflineGameId(uuid),
+      die: Die.getDefaultDie(),
+      bannedPlayers: [],
+      kickedPlayers: [],
+      finishedPlayers: [],
+      lastUpdatedBy: user.id,
+      lastUpdatedAt: '',
+      sessionEndedAt: '',
+      sessionStartedAt: '',
+      deepLinkUrl: '',
+      canPass: false,
+      canPlay: false,
+      hasFinished: false,
+      hasRestarted: false,
+      hasSessionEnded: false,
+      isOffline: true,
+      hasAdaptiveAI: hostSettings.prefersAdaptiveAI,
+      shouldAssistStart: hostSettings.prefersStartAssist,
+      shouldAutoStart: hostSettings.prefersAutoStart,
+      maxPlayers: hostSettings.maxPlayers,
+      playerTurn: 0,
+      selectedPiece: null,
+      hasStarted: false,
+      hostId: user.id,
+      hostBuildNumber: user.appBuildNumber,
+      players: [
+        Player.getDefaultPlayer(user, 0),
+      ],
+      playerIds: [
+        user.id,
+      ],
     );
   }
 
