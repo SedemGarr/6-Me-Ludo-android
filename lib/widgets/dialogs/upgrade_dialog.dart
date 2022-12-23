@@ -24,6 +24,7 @@ showUpgradeDialog({
         Text(
           DialogueService.updateNeededText.tr,
           style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          textAlign: TextAlign.center,
         ),
       ],
     ),

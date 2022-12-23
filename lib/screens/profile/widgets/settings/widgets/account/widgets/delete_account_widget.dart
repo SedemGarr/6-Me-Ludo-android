@@ -28,6 +28,6 @@ class DeleteAcountWidget extends StatelessWidget {
             //  subtitle: SettingsSubtitleWidget(text: DialogueService.deleteAccountSubtitleText.tr),
           ),
         ),
-        condition: userProvider.getUserIsOffline());
+        condition: userProvider.getUserIsOffline() || userProvider.isUserAnon());
   }
 }

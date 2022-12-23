@@ -61,6 +61,8 @@ class _EndGameWidgetState extends State<EndGameWidget> with AutomaticKeepAliveCl
       vicious = gameProvider.getViciousPlayer();
       punchingBag = gameProvider.getPunchingBagPlayer();
     }
+
+    gameProvider.handleGameEndSound(hasWinner ? winner!.id == userProvider.getUserID() : false, hasWinner);
   }
 
   @override

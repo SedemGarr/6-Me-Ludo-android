@@ -6,13 +6,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
-import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
-import 'package:six_me_ludo_android/widgets/dialogs/auth_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/welcome_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/no_internet_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/upgrade_dialog.dart';
@@ -126,59 +125,41 @@ class UserProvider with ChangeNotifier {
   Future<void> initUser(BuildContext context) async {
     AppProvider appProvider = context.read<AppProvider>();
     SoundProvider soundProvider = context.read<SoundProvider>();
-    GameProvider gameProvider = context.read<GameProvider>();
 
     await appProvider.getPackageInfo();
 
     if (LocalStorageService.isAppOffline()) {
-      offlineModeInit(appProvider, soundProvider, gameProvider);
+      offlineModeInit(appProvider, soundProvider);
       return;
     }
 
-    appProvider.checkForPotentialNetworkTimeout();
-
-    bool hasInternet = await AppProvider.hasNetwork();
-
-    if (!hasInternet) {
+    if (!(await AppProvider.hasNetwork())) {
       showNoInternetDialog(context: Get.context!);
       return;
     }
 
     if (await appProvider.isVersionUpToDate()) {
       tempUser = await LocalStorageService.getUser();
-      completeInit(appProvider, soundProvider, gameProvider, appProvider.needsUpgrade);
+      completeInit(appProvider, soundProvider);
     } else {
-      appProvider.setNeedsUpgrade(true);
       showUpgradeDialog(context: context);
     }
   }
 
-  void completeInit(AppProvider appProvider, SoundProvider soundProvider, GameProvider gameProvider, bool needsUpgrade) {
-    if (needsUpgrade) {
-      return;
-    }
-
-    gameProvider.initLocalGame();
-
-    Future.delayed(AppConstants.lottieDuration, () {
-      appProvider.setSplashScreenLoaded(false);
-
-      Future.delayed(AppConstants.animationDuration, () {
-        if (tempUser != null) {
-          setUser(tempUser, appProvider, soundProvider);
-
-          NavigationService.goToHomeScreen();
-        } else {
-          appProvider.setShouldShowAuthButton(true);
-          showAuthDialog(context: Get.context!);
-        }
-      });
+  void completeInit(AppProvider appProvider, SoundProvider soundProvider) {
+    Future.delayed(AppConstants.lottieDuration, () async {
+      if (tempUser != null) {
+        setUser(tempUser, appProvider, soundProvider);
+        NavigationService.goToHomeScreen();
+      } else {
+        showWelcomeDialog(context: Get.context!);
+      }
     });
   }
 
-  void offlineModeInit(AppProvider appProvider, SoundProvider soundProvider, GameProvider gameProvider) async {
+  void offlineModeInit(AppProvider appProvider, SoundProvider soundProvider) async {
     tempUser = await LocalStorageService.getUser();
-    completeInit(appProvider, soundProvider, gameProvider, false);
+    completeInit(appProvider, soundProvider);
   }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {
@@ -484,6 +465,20 @@ class UserProvider with ChangeNotifier {
     );
   }
 
+  void showConvertAccountDialog(BuildContext context) {
+    showChoiceDialog(
+      titleMessage: DialogueService.convertAccountDialogTitleText.tr,
+      contentMessage: DialogueService.convertAccountDialogContentText.tr,
+      yesMessage: DialogueService.convertAccountDialogYesText.tr,
+      noMessage: DialogueService.convertAccountDialogNoText.tr,
+      onYes: () {
+        AuthenticationService.convertToGoogle(context);
+      },
+      onNo: () {},
+      context: context,
+    );
+  }
+
   void showDeleteAccountDialog(BuildContext context) {
     showChoiceDialog(
       titleMessage: DialogueService.deleteAccountDialogTitleText.tr,
@@ -491,7 +486,7 @@ class UserProvider with ChangeNotifier {
       yesMessage: DialogueService.deleteAccountDialogYesText.tr,
       noMessage: DialogueService.deleteAccountDialogNoText.tr,
       onYes: () {
-        AuthenticationService.deleteAccount(_user!, context);
+        AuthenticationService.deleteAccount(true);
       },
       onNo: () {},
       context: context,
@@ -588,6 +583,12 @@ class UserProvider with ChangeNotifier {
 
   bool getUserIsOffline() {
     return _user!.settings.isOffline;
+  }
+
+  static bool isUserOfflineStatic() {
+    BuildContext context = Get.context!;
+    UserProvider userProvider = context.read<UserProvider>();
+    return userProvider.getUserIsOffline();
   }
 
   bool getUserAudio() {

@@ -38,10 +38,6 @@ class NavigationService {
     await Get.to(() => const LegalScreen());
   }
 
-  static void goToBackToHomeScreen() {
-    Get.offAll(() => const HomeScreen());
-  }
-
   static void closeDrawerAfterOfflineToggle() {
     if (Get.currentRoute == HomeScreen.routeName) {
       NavigationService.genericGoBack();

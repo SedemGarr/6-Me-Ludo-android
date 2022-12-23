@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/dynamic_link_provider.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/local_games/local_game_widget.dart';
@@ -15,7 +16,6 @@ import 'package:six_me_ludo_android/widgets/banner_widget.dart';
 import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 import '../../providers/app_provider.dart';
-import '../../services/local_storage_service.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/loading_screen.dart';
 import '../../widgets/welcome_appbar_text_widget.dart';
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     child: Column(
-                      mainAxisAlignment: LocalStorageService.isThereLocalGame() ? MainAxisAlignment.start : MainAxisAlignment.center,
+                      mainAxisAlignment: GameProvider.isThereLocalGame() ? MainAxisAlignment.start : MainAxisAlignment.center,
                       children: [
                         userProvider.getUserIsOffline() ? const LocalGameWidget() : const OngoingGamesListWidget(),
                       ],

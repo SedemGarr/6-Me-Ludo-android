@@ -53,9 +53,6 @@ class GameProvider with ChangeNotifier {
   late Color playerSelectedColor;
   late List<int> validMoveIndices;
 
-  // offline
-  Game? localGame;
-
   // thread
   Thread? currentThread;
   Stream<Thread>? currentThreadStream;
@@ -324,6 +321,9 @@ class GameProvider with ChangeNotifier {
     checkForSessionEnd(game, user.id);
     // checkForReputationChange(game);
     checkIfGameSettingsHaveChanged(game, user.id);
+    // game sounds
+    checkIfDieisRolling(game);
+    //
     currentGame = game;
     playerNumber = game.playerIds.indexWhere((element) => element == user.id);
 
@@ -347,7 +347,15 @@ class GameProvider with ChangeNotifier {
     if (newThread.messages.length > currentThread!.messages.length) {
       if (newThread.messages.first.createdById != id) {
         SoundProvider soundProvider = context.read<SoundProvider>();
+        NavProvider navProvider = context.read<NavProvider>();
         soundProvider.playSound(GameStatusService.newMessageReceived);
+
+        if (!navProvider.isChatScreenActive()) {
+          AppProvider.showToast(
+            newThread.messages.first.body,
+            title: currentGame!.players[currentGame!.players.indexWhere((element) => element.id == newThread.messages.first.createdById)].psuedonym,
+          );
+        }
       }
     }
   }
@@ -380,6 +388,13 @@ class GameProvider with ChangeNotifier {
   void checkIfGameHasReStarted(Game game) {
     if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
       AppProvider.showToast(DialogueService.gameHasStartedText.tr);
+    }
+  }
+
+  void checkIfDieisRolling(Game game) {
+    if (currentGame!.hasStarted && game.die.isRolling) {
+      SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+      soundProvider.playSound(GameStatusService.playerRoll);
     }
   }
 
@@ -515,9 +530,23 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  void handleGameEndSound(bool isWinner, hasWinner) {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+
+    if (!hasWinner) {
+      soundProvider.playSpecificSound(GameStatusService.gameFinish);
+    } else {
+      if (isWinner) {
+        soundProvider.playSpecificSound(GameStatusService.gameWon);
+      } else {
+        soundProvider.playSpecificSound(GameStatusService.gameLost);
+      }
+    }
+  }
+
   void goBack() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      NavigationService.goToBackToHomeScreen();
+      NavigationService.goToHomeScreen();
     });
   }
 
@@ -1140,7 +1169,7 @@ class GameProvider with ChangeNotifier {
 
   Future<void> joinGameWithCode(Users user, AppProvider appProvider) async {
     if (Get.currentRoute != HomeScreen.routeName) {
-      NavigationService.goToBackToHomeScreen();
+      NavigationService.goToHomeScreen();
     }
 
     if (isJoinGameCodeValidLength()) {
@@ -1289,7 +1318,7 @@ class GameProvider with ChangeNotifier {
       }
 
       if (Get.currentRoute == GameScreenWrapper.routeName) {
-        NavigationService.goToBackToHomeScreen();
+        NavigationService.goToHomeScreen();
       }
     }
   }
@@ -1879,20 +1908,12 @@ class GameProvider with ChangeNotifier {
 
   // offline games
 
-  void initLocalGame() {
-    localGame = LocalStorageService.getLocalGame();
+  static bool isThereLocalGame() {
+    return LocalStorageService.isThereLocalGame();
   }
 
-  // bool isThereLocalGame() {
-  //   return localGame != null;
-  // }
-
-  static Game? getLocalGame() {
+  Game? getLocalGame() {
     return LocalStorageService.getLocalGame();
-  }
-
-  static void setLocalGame(Game game) {
-    LocalStorageService.setLocalGame(game);
   }
 
   // static

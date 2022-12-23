@@ -13,6 +13,8 @@ class GameStatusService {
   static const String gameWaiting = 'gameWaiting';
   static const String gameStart = 'gameStart';
   static const String gameFinish = 'gameFinish';
+  static const String gameWon = 'gameWon';
+  static const String gameLost = 'gameLost';
   static const String newMessageReceived = 'newMessageReceived';
   static const String newMessageSent = 'newMessageSent';
 

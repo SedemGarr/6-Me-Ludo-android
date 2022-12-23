@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/new_game_dialog.dart';
 
-import '../services/local_storage_service.dart';
 import 'custom_elevated_button.dart';
 
 class NewGameButton extends StatelessWidget {
@@ -16,7 +16,7 @@ class NewGameButton extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
 
     if (userProvider.getUserIsOffline()) {
-      if (LocalStorageService.isThereLocalGame()) {
+      if (GameProvider.isThereLocalGame()) {
         return CustomElevatedButton(
           onPressed: () {},
           text: DialogueService.continueOfflineGameText.tr,

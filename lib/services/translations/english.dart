@@ -55,15 +55,10 @@ class EnglishTranslation {
       DialogueService.welcome9Text: 'Hey, ',
       DialogueService.welcome10Text: 'Hello, ',
       // welcome dialog
-      DialogueService.welcomeBottomSheetTitleText: 'Welcome to 6-Me-Ludo!',
-      DialogueService.welcomeDialogContentText: 'Welcome to 6-Me-Ludo. Sign in to continue',
-      DialogueService.welcomeDialogYesText: 'Sign In',
-      DialogueService.welcomeDialogNoText: 'Exit',
-      DialogueService.signInGoogleText: 'Google',
-      DialogueService.signInAnonText: 'Anonymous',
-      DialogueService.anonWarningText: 'Anonymous accounts do not persist and will be lost permanently if you sign out',
-      DialogueService.welcomeEmojiText: 'Hello there, 👋',
-      DialogueService.welcomeSubtileText: 'Welcome to 6-Me-Ludo! 👋 ',
+      DialogueService.welcomeDialogTitleText: 'Welcome to 6-Me-Ludo!',
+      DialogueService.welcomeDialogContentText: 'We hope you enjoy this ad-free Ludo game. Select one of the following options to begin',
+      DialogueService.signInGoogleText: 'Want to sign in with Google to keep your account permanently?',
+      DialogueService.signInAnonText: 'Begin',
       //
       DialogueService.anonSignInTitleText: 'Sign In?',
       DialogueService.anonSignInYesText: 'Sign In',
@@ -71,6 +66,7 @@ class EnglishTranslation {
       // welcome error
       DialogueService.noUserSelectedText: 'Oops! You didn\'t select an account',
       // home
+      DialogueService.welcomeToastText: 'Hi, welcome to 6-Me-Ludo!',
       DialogueService.welcomeText: 'Hi, ',
       DialogueService.newGameText: 'New Game',
       DialogueService.profileAndSettingsText: 'Profile & Settings',
@@ -129,6 +125,7 @@ class EnglishTranslation {
       DialogueService.playerTabText: 'Players',
       DialogueService.boardTabText: 'Game',
       DialogueService.chatTabText: 'Chat',
+      DialogueService.chatSaysText: ' says: ',
       DialogueService.gameDeletedText: 'Sorry this game no longer exists',
       DialogueService.sendMessagesHereText: 'Send Messages here',
       DialogueService.playerBannedBannerText: 'You have been banned from the chat',
@@ -317,6 +314,13 @@ class EnglishTranslation {
       DialogueService.signOutAnonDialogContentText: 'Are you sure you want to sign out? Your account is anonymous and cannot be recovered',
       DialogueService.signOutDialogYesText: 'Sign Out',
       DialogueService.signOutDialogNoText: 'Cancel',
+      // settings - convert account
+      DialogueService.convertAccountTitleText: 'Sign In',
+      DialogueService.convertAccountSubtitleText: 'Convert your account to a permanent account',
+      DialogueService.convertAccountDialogTitleText: 'Sign In With Google?',
+      DialogueService.convertAccountDialogContentText: 'Do you want to sign in with Google? This will allow you to keep your games should you reinstall the app',
+      DialogueService.convertAccountDialogYesText: 'Sign In',
+      DialogueService.convertAccountDialogNoText: 'Cancel',
       // settings - delete account
       DialogueService.deleteAccountTitleText: 'Delete Account',
       DialogueService.deleteAccountSubtitleText: 'Permantently delete your account',

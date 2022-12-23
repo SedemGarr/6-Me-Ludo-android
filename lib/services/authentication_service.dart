@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'navigation_service.dart';
 
 class AuthenticationService {
-  static Future<void> signInWithGoogle(BuildContext context) async {
+  static Future<void> convertToGoogle(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     FirebaseAuth auth = FirebaseAuth.instance;
     UserProvider userProvider = context.read<UserProvider>();
@@ -38,23 +38,41 @@ class AuthenticationService {
         );
 
         try {
-          final UserCredential userCredential = await auth.signInWithCredential(credential);
+          UserCredential? userCredential;
 
-          Users? user = await DatabaseService.createUser(
-            userCredential.user!,
-            false,
-            appProvider.getAppVersion(),
-            appProvider.getAppBuildNumber(),
-          );
+          try {
+            userCredential = await auth.currentUser?.linkWithCredential(credential);
+          } on FirebaseAuthException catch (e) {
+            switch (e.code) {
+              case "credential-already-in-use":
+                await deleteAccount(false);
+                await signInWithGoogle(credential);
+                return;
+              default:
+                appProvider.setLoading(false, true);
+                AppProvider.showToast(DialogueService.genericErrorText.tr);
+                debugPrint(e.toString());
+                break;
+            }
+          }
 
-          if (user != null) {
-            appProvider.setLoading(false, false);
-            userProvider.setUser(user, appProvider, soundProvider);
-            themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
-            NavigationService.goToHomeScreen();
-          } else {
-            appProvider.setLoading(false, true);
-            AppProvider.showToast(DialogueService.genericErrorText.tr);
+          if (userCredential != null) {
+            Users? user = await DatabaseService.createUser(
+              userCredential.user!,
+              false,
+              appProvider.getAppVersion(),
+              appProvider.getAppBuildNumber(),
+            );
+
+            if (user != null) {
+              appProvider.setLoading(false, false);
+              userProvider.setUser(user, appProvider, soundProvider);
+              themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
+              NavigationService.goToHomeScreen();
+            } else {
+              appProvider.setLoading(false, true);
+              AppProvider.showToast(DialogueService.genericErrorText.tr);
+            }
           }
         } catch (e) {
           appProvider.setLoading(false, true);
@@ -103,45 +121,39 @@ class AuthenticationService {
     }
   }
 
-  // Future<void> convertAnonToGoogle(AppVersion appVersion) async {
-  //   // Google Sign-in
-  //   final GoogleSignIn googleSignIn = GoogleSignIn();
+  static Future<void> signInWithGoogle(AuthCredential credential) async {
+    BuildContext context = Get.context!;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    UserProvider userProvider = context.read<UserProvider>();
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
 
-  //   final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    try {
+      final UserCredential userCredential = await auth.signInWithCredential(credential);
 
-  //   if (googleSignInAccount != null) {
-  //     final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      Users? user = await DatabaseService.createUser(
+        userCredential.user!,
+        false,
+        appProvider.getAppVersion(),
+        appProvider.getAppBuildNumber(),
+      );
 
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleSignInAuthentication.accessToken,
-  //       idToken: googleSignInAuthentication.idToken,
-  //     );
-
-  //     try {
-  //       final userCredential = await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
-
-  //       if (userCredential != null) {
-  //         await DatabaseService.createUser(userCredential.user!, false, appVersion.version);
-  //       }
-  //     } on FirebaseAuthException catch (e) {
-  //       switch (e.code) {
-  //         case "provider-already-linked":
-  //           print("The provider has already been linked to the user.");
-  //           break;
-  //         case "invalid-credential":
-  //           print("The provider's credential is not valid.");
-  //           break;
-  //         case "credential-already-in-use":
-  //           print("The account corresponding to the credential already exists, "
-  //               "or is already linked to a Firebase User.");
-  //           break;
-  //         // See the API reference for the full list of error codes.
-  //         default:
-  //           print("Unknown error.");
-  //       }
-  //     }
-  //   }
-  // }
+      if (user != null) {
+        appProvider.setLoading(false, false);
+        userProvider.setUser(user, appProvider, soundProvider);
+        themeProvider.toggleDarkMode(user.settings.prefersDarkMode);
+        NavigationService.goToHomeScreen();
+      } else {
+        appProvider.setLoading(false, true);
+        AppProvider.showToast(DialogueService.genericErrorText.tr);
+      }
+    } catch (e) {
+      appProvider.setLoading(false, true);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
+      debugPrint(e.toString());
+    }
+  }
 
   static Future<void> signOut(Users user, BuildContext context) async {
     FirebaseAuth firebase = FirebaseAuth.instance;
@@ -163,11 +175,16 @@ class AuthenticationService {
     NavigationService.goToSplashScreenAfterLogOut();
   }
 
-  static Future<void> deleteAccount(Users user, BuildContext context) async {
+  static Future<void> deleteAccount(bool shouldGoBackToSplash) async {
+    BuildContext context = Get.context!;
+    UserProvider userProvider = context.read<UserProvider>();
+    Users user = userProvider.getUser();
     FirebaseAuth firebase = FirebaseAuth.instance;
-    final signedInUser = firebase.currentUser;
+    final User? signedInUser = firebase.currentUser;
 
-    NavigationService.goToSplashScreenAfterLogOut();
+    if (shouldGoBackToSplash) {
+      NavigationService.goToSplashScreenAfterLogOut();
+    }
 
     try {
       if (!user.isAnon) {
@@ -183,21 +200,25 @@ class AuthenticationService {
           );
 
           await signedInUser!.reauthenticateWithCredential(credential);
-          await googleSignIn.signOut();
-          await firebase.signOut();
-          await DatabaseService.deleteUserData(user);
-          LocalStorageService.clearUser();
-          AppProvider.clearCache();
+          await deleteUser(signedInUser, googleSignIn, firebase, user);
         }
       } else {
-        await firebase.signOut();
-        await DatabaseService.deleteUserData(user);
-        LocalStorageService.clearUser();
-        AppProvider.clearCache();
+        await deleteUser(signedInUser!, null, firebase, user);
       }
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
       debugPrint(e.toString());
     }
+  }
+
+  static Future<void> deleteUser(User signedInUser, GoogleSignIn? googleSignIn, FirebaseAuth firebase, Users user) async {
+    await signedInUser.delete();
+    if (googleSignIn != null) {
+      await googleSignIn.signOut();
+    }
+    await firebase.signOut();
+    await DatabaseService.deleteUserData(user);
+    LocalStorageService.clearUser();
+    AppProvider.clearCache();
   }
 }

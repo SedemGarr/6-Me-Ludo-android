@@ -13,7 +13,9 @@ class SoundProvider with ChangeNotifier {
   static const AudioFocusStrategy audioFocusStrategy = AudioFocusStrategy.request(resumeAfterInterruption: true, resumeOthersPlayersAfterDone: true);
   static const HeadPhoneStrategy headPhoneStrategy = HeadPhoneStrategy.none;
 
-  List<String> dieRollURLs = [];
+  List<String> dieRollURLs = [
+    'assets/sounds/dice1.mp3',
+  ];
 
   List<String> playerMoveURLs = [];
 
@@ -28,6 +30,10 @@ class SoundProvider with ChangeNotifier {
   List<String> playerLeftURLs = [];
 
   List<String> gameFinishURLs = [];
+
+  List<String> gameWonURLs = [];
+
+  List<String> gameLostURLs = [];
 
   String newMessageReceivedPath = 'assets/sounds/receive.mp3';
 
@@ -63,6 +69,12 @@ class SoundProvider with ChangeNotifier {
           break;
         case GameStatusService.gameFinish:
           playSpecificSound(gameFinishURLs[random.nextInt(gameFinishURLs.length)]);
+          break;
+        case GameStatusService.gameWon:
+          playSpecificSound(gameWonURLs[random.nextInt(gameFinishURLs.length)]);
+          break;
+        case GameStatusService.gameLost:
+          playSpecificSound(gameLostURLs[random.nextInt(gameFinishURLs.length)]);
           break;
         case GameStatusService.newMessageReceived:
           playSpecificSound(newMessageReceivedPath);

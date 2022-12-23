@@ -83,15 +83,10 @@ class DialogueService extends Translations {
   static const String welcome10Text = 'welcome10Text';
 
   // welcome dialog
-  static const String welcomeBottomSheetTitleText = 'welcomeBottomSheetTitleText';
+  static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
-  static const String welcomeDialogNoText = 'welcomeDialogNoText';
-  static const String welcomeDialogYesText = 'welcomeDialogYesText';
   static const String signInGoogleText = 'signInGoogleText';
   static const String signInAnonText = 'signInAnonText';
-  static const String anonWarningText = 'anonWarningText';
-  static const String welcomeEmojiText = 'welcomeEmojiText';
-  static const String welcomeSubtileText = 'welcomeSubtileText';
   //
   static const String anonSignInTitleText = 'anonSignInTitleText';
   static const String anonSignInYesText = 'anonSignInYesText';
@@ -100,6 +95,7 @@ class DialogueService extends Translations {
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home
+  static const String welcomeToastText = 'welcomeToastText';
   static const String welcomeText = 'welcomeText';
   static const String newGameText = 'newGameText';
   static const String profileAndSettingsText = 'profileAndSettingsText';
@@ -159,6 +155,7 @@ class DialogueService extends Translations {
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';
   static const String chatTabText = 'chatTabText';
+  static const String chatSaysText = 'chatSaysText';
   static const String gameDeletedText = 'gameDeletedText';
   static const String sendMessagesHereText = 'sendMessagesHereText';
   static const String playerBannedBannerText = 'playerBannedBannerText';
@@ -345,6 +342,13 @@ class DialogueService extends Translations {
   static const String signOutAnonDialogContentText = 'signOutAnonDialogContentText';
   static const String signOutDialogYesText = 'signOutDialogYesText';
   static const String signOutDialogNoText = 'signOutDialogNoText';
+  // settings - convert account
+  static const String convertAccountTitleText = 'convertAccountTitleText';
+  static const String convertAccountSubtitleText = 'convertAccountSubtitleText';
+  static const String convertAccountDialogTitleText = 'convertAccountDialogTitleText';
+  static const String convertAccountDialogContentText = 'convertAccountDialogContentText';
+  static const String convertAccountDialogYesText = 'convertAccountDialogYesText';
+  static const String convertAccountDialogNoText = 'convertAccountDialogNoText';
   // settings - delete account
   static const String deleteAccountTitleText = 'deleteAccountTitleText';
   static const String deleteAccountSubtitleText = 'deleteAccountSubtitleText';

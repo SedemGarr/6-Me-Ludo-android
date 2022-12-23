@@ -244,12 +244,27 @@ class DatabaseService {
   }
 
   static Future<void> updateOngoingGamesAfterUserChange(Users user) async {
-    List<Game> games = await getOngoingGames(user.id);
+    if (GameProvider.isThereLocalGame()) {
+      Game? localGame = LocalStorageService.getLocalGame();
+      if (localGame != null) {
+        localGame.players[localGame.players.indexWhere((element) => element.id == user.id)].avatar = user.avatar;
+        localGame.players[localGame.players.indexWhere((element) => element.id == user.id)].psuedonym = user.psuedonym;
+        LocalStorageService.setLocalGame(localGame);
+      }
+    }
 
-    for (Game game in games) {
+    BuildContext context = Get.context!;
+    UserProvider userProvider = context.read<UserProvider>();
+    GameProvider gameProvider = context.read<GameProvider>();
+    List<Game> ongoingGames = userProvider.ongoingGames;
+
+    for (Game game in ongoingGames) {
       game.players[game.players.indexWhere((element) => element.id == user.id)].avatar = user.avatar;
       game.players[game.players.indexWhere((element) => element.id == user.id)].psuedonym = user.psuedonym;
-      await updateGame(game, false, shouldSyncWithFirestore: true);
+      if (UserProvider.isUserOfflineStatic()) {
+        gameProvider.rebuild();
+      }
+      await updateGameBothOffAndOnline(game);
     }
   }
 
@@ -268,17 +283,22 @@ class DatabaseService {
     }
   }
 
-  static bool isUserOffline() {
-    BuildContext context = Get.context!;
-    UserProvider userProvider = context.read<UserProvider>();
-    return userProvider.getUserIsOffline();
-  }
-
   static void updateGameLocally() {
     GameProvider gameProvider = Get.context!.read<GameProvider>();
-    gameProvider.currentGame!.lastUpdatedAt = getDeviceTime();
-    LocalStorageService.setLocalGame(gameProvider.currentGame!);
-    gameProvider.rebuild();
+    bool hasCurrentGame = gameProvider.currentGame != null;
+
+    Game? game = hasCurrentGame ? gameProvider.currentGame : LocalStorageService.getLocalGame();
+
+    if (game != null) {
+      game.lastUpdatedAt = getDeviceTime();
+      LocalStorageService.setLocalGame(game);
+
+      if (hasCurrentGame && gameProvider.currentGame!.id == game.id) {
+        gameProvider.currentGame = game;
+      }
+
+      gameProvider.rebuild();
+    }
   }
 
   static void updateGameSessionStartDateLocally(bool shouldRebuild) {
@@ -308,7 +328,7 @@ class DatabaseService {
   }
 
   static Future<void> updateGame(Game game, bool shouldUpdateDate, {bool? shouldCreate, bool? shouldSyncWithFirestore}) async {
-    if (isUserOffline()) {
+    if (UserProvider.isUserOfflineStatic()) {
       updateGameLocally();
       return;
     }
@@ -343,8 +363,19 @@ class DatabaseService {
     }
   }
 
+  static Future<void> updateGameBothOffAndOnline(Game game) async {
+    Map<String, dynamic> jsonGame = game.toJson();
+
+    try {
+      await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
+      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   static Future<void> updateGameSessionStartDate(Game game, bool shouldRebuild) async {
-    if (isUserOffline()) {
+    if (UserProvider.isUserOfflineStatic()) {
       updateGameSessionStartDateLocally(shouldRebuild);
       return;
     }
@@ -364,7 +395,7 @@ class DatabaseService {
   }
 
   static Future<void> updateGameSessionEndDate(Game game) async {
-    if (isUserOffline()) {
+    if (UserProvider.isUserOfflineStatic()) {
       updateGameSessionEndDateLocally(true);
       return;
     }
@@ -384,7 +415,7 @@ class DatabaseService {
   }
 
   static Future<void> deleteGame(String gameID, Users user) async {
-    if (isUserOffline()) {
+    if (UserProvider.isUserOfflineStatic()) {
       deleteGameLocally();
       return;
     }

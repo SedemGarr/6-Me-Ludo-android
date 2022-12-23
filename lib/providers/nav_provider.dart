@@ -25,7 +25,15 @@ class NavProvider with ChangeNotifier {
       gameScreenTabController.animateTo(1);
     } else {
       gameProvider.setGamePresence(false);
-      NavigationService.goToBackToHomeScreen();
+      NavigationService.goToHomeScreen();
     }
+  }
+
+  int getGameScreenTabControllerIndex() {
+    return gameScreenTabController.index;
+  }
+
+  bool isChatScreenActive() {
+    return getGameScreenTabControllerIndex() == 2;
   }
 }

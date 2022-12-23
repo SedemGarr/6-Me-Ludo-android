@@ -16,7 +16,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:six_me_ludo_android/models/version.dart';
-import 'package:six_me_ludo_android/screens/splash/splash.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -33,12 +32,6 @@ class AppProvider with ChangeNotifier {
 
   // for global loader
   bool isLoading = false;
-  // for splash screen
-  bool isSplashScreenLoaded = false;
-  bool shouldShowAuthButton = false;
-  bool needsUpgrade = false;
-
-  late AnimationController lottieController;
 
   //
   Random random = Random();
@@ -69,46 +62,12 @@ class AppProvider with ChangeNotifier {
     DialogueService.welcome10Text.tr,
   ];
 
-  void initialiseController(TickerProvider tickerProvider) {
-    lottieController = AnimationController(vsync: tickerProvider);
-  }
-
-  void disposeLottieController() {
-    lottieController.dispose();
-  }
-
-  void checkForPotentialNetworkTimeout() {
-    Future.delayed(AppConstants.newtworkTimeoutDuration, () {
-      if (Get.currentRoute == SplashScreen.routeName) {
-        AppProvider.showToast(DialogueService.noInternetErrorSnackbarText.tr, duration: AppConstants.snackBarLongDuration);
-      }
-    });
-  }
-
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;
 
     if (shouldRebuild) {
       notifyListeners();
     }
-  }
-
-  void setSplashScreenLoaded(bool value) {
-    isSplashScreenLoaded = value;
-
-    notifyListeners();
-  }
-
-  void setShouldShowAuthButton(bool value) {
-    shouldShowAuthButton = value;
-
-    notifyListeners();
-  }
-
-  void setNeedsUpgrade(bool value) {
-    needsUpgrade = value;
-
-    notifyListeners();
   }
 
   Future<void> getPackageInfo() async {
@@ -178,16 +137,32 @@ class AppProvider with ChangeNotifier {
     return filter.hasProfanity(value);
   }
 
-  static void showToast(String message, {Duration? duration}) {
+  static void showToast(String message, {String? title, Duration? duration}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
           duration: duration ?? AppConstants.snackBarDuration,
-          content: Text(
-            message,
-            style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
-          ),
+          content: title != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title + DialogueService.chatSaysText.tr,
+                      style: TextStyles.listTitleStyle(Theme.of(Get.context!).colorScheme.surface),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      message,
+                      style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+                    ),
+                  ],
+                )
+              : Text(
+                  message,
+                  style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+                ),
         ),
       );
     });
