@@ -6,6 +6,8 @@ class GameStatusService {
   static const String playerRoll = 'playerRoll';
   static const String playerMove = 'playerMove';
   static const String playerKick = 'playerKick';
+  static const String playerKickMe = 'playerKickMe';
+  static const String playerKickOther = 'playerKickOther';
   static const String playerHome = 'playerHome';
   static const String playerFinish = 'playerFinish';
   static const String playerJoined = 'playerJoined';

@@ -47,6 +47,7 @@ class GameProvider with ChangeNotifier {
 
   // game
   Game? currentGame;
+  Game? oldGame;
   Stream<Game>? currentGameStream;
   late int playerNumber;
   late Color playerColor;
@@ -294,11 +295,16 @@ class GameProvider with ChangeNotifier {
     board = Board.generateBoard();
   }
 
+  void assignOldGame(Game game) {
+    oldGame = Game.fromJson(game.toJson());
+  }
+
   void initialiseGame(Game game, Thread? thread, String id) {
     UserProvider userProvider = Get.context!.read<UserProvider>();
 
     // game
     currentGame = game;
+    assignOldGame(game);
     currentGameStream = DatabaseService.getCurrentGameStream(currentGame!.id);
     playerNumber = game.playerIds.indexWhere((element) => element == id);
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
@@ -314,28 +320,30 @@ class GameProvider with ChangeNotifier {
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {
-    checkIfPlayerIsKickedFromGame(game, user.id);
-    checkIfPlayerHasLeftGame(game);
-    checkIfGameHasStarted(game);
-    checkIfGameHasReStarted(game);
-    checkForSessionEnd(game, user.id);
-    // checkForReputationChange(game);
-    checkIfGameSettingsHaveChanged(game, user.id);
-    // game sounds
-    checkIfDieisRolling(game);
-    //
-    currentGame = game;
-    playerNumber = game.playerIds.indexWhere((element) => element == user.id);
-
-    if (playerNumber == -1) {
-      // if player has left game or for some reason cannot be found
+    try {
+      checkIfPlayerIsKickedFromGame(game, user.id);
+      checkIfPlayerHasLeftGame(game);
+      checkIfGameHasStarted(game);
+      checkIfGameHasReStarted(game);
+      checkForSessionEnd(game, user.id);
+      checkForReputationChange(game);
+      checkIfGameSettingsHaveChanged(game, user.id);
+      // game sounds
+      checkIfDieisRolling(game);
+      checkIfPlayerIsKicked(game);
+      checkIfPlayerIsHome(game);
+      // sync new game data
+      currentGame = game;
+      assignOldGame(game);
+      playerNumber = game.playerIds.indexWhere((element) => element == user.id);
+      playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
+      playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
+      startGame(user, false);
+    } catch (e) {
+      // if something catastrophic has happened
       goBack();
       return;
     }
-
-    playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
-    playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
-    startGame(user, false);
   }
 
   void syncThreadData(BuildContext context, Thread thread, Users user) {
@@ -371,10 +379,12 @@ class GameProvider with ChangeNotifier {
     if (game.players.length < currentGame!.players.length) {
       for (var i = 0; i < currentGame!.players.length; i++) {
         if (!game.players.contains(currentGame!.players[i])) {
+          playGameSound(GameStatusService.playerLeft);
           AppProvider.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
         }
       }
     } else if (game.players.length > currentGame!.players.length) {
+      playGameSound(GameStatusService.playerJoined);
       AppProvider.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
     }
   }
@@ -393,9 +403,48 @@ class GameProvider with ChangeNotifier {
 
   void checkIfDieisRolling(Game game) {
     if (currentGame!.hasStarted && game.die.isRolling) {
-      SoundProvider soundProvider = Get.context!.read<SoundProvider>();
-      soundProvider.playSound(GameStatusService.playerRoll);
+      playGameSound(GameStatusService.playerRoll);
     }
+  }
+
+  void checkIfPlayerIsKicked(Game game) {
+    for (Player player in game.players) {
+      for (Piece piece in player.pieces) {
+        Piece oldPiece = oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces[oldGame!
+            .players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
+            .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+
+        if ((piece.isBased && !piece.isHome) && (!oldPiece.isBased)) {
+          if (piece.owner == playerNumber) {
+            playGameSound(GameStatusService.playerKickMe);
+          } else {
+            playGameSound(GameStatusService.playerKickOther);
+          }
+        }
+      }
+    }
+  }
+
+  void checkIfPlayerIsHome(Game game) {
+    for (Player player in game.players) {
+      for (Piece piece in player.pieces) {
+        Piece oldPiece = oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces[oldGame!
+            .players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
+            .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+
+        if ((piece.isHome) && (!oldPiece.isHome)) {
+          if (isPlayerFinished(game, piece.owner)) {
+            playGameSound(GameStatusService.playerFinish);
+          } else {
+            playGameSound(GameStatusService.playerHome);
+          }
+        }
+      }
+    }
+  }
+
+  bool isPlayerFinished(Game game, int owner) {
+    return game.players[owner].pieces.where((element) => !element.isHome).isEmpty;
   }
 
   void checkIfGameSettingsHaveChanged(Game game, String id) {
@@ -461,16 +510,16 @@ class GameProvider with ChangeNotifier {
   }
 
   void checkForReputationChange(Game game) {
-    if (game.players.length == currentGame!.players.length) {
-      for (Player player in currentGame!.players) {
-        String oldRep = Player.getPlayerReputation(player.reputationValue);
-        String newRep = Player.getPlayerReputation(game.players[game.players.indexWhere((element) => element.id == player.id)].reputationValue);
+    if (game.players.length == oldGame!.players.length) {
+      for (Player player in oldGame!.players) {
+        String oldRep = Player.getPlayerReputationName(player.reputationValue);
+        String newRep = Player.getPlayerReputationName(game.players[game.players.indexWhere((element) => element.id == player.id)].reputationValue);
 
         if (newRep != oldRep) {
           if (player.id == Get.context!.read<UserProvider>().getUserID()) {
-            AppProvider.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(player.reputationValue));
+            AppProvider.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + newRep);
           } else {
-            AppProvider.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(player.reputationValue));
+            AppProvider.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + newRep);
           }
         }
       }
@@ -486,6 +535,11 @@ class GameProvider with ChangeNotifier {
         scrollToBoardTab();
       });
     }
+  }
+
+  void playGameSound(String sound) {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+    soundProvider.playSound(sound);
   }
 
   void removePlayerMessages(String id) {

@@ -10,30 +10,61 @@ class SoundProvider with ChangeNotifier {
   Random random = Random();
   final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
-  static const AudioFocusStrategy audioFocusStrategy = AudioFocusStrategy.request(resumeAfterInterruption: true, resumeOthersPlayersAfterDone: true);
+  static const AudioFocusStrategy audioFocusStrategy = AudioFocusStrategy.request(
+    resumeAfterInterruption: true,
+    resumeOthersPlayersAfterDone: true,
+  );
   static const HeadPhoneStrategy headPhoneStrategy = HeadPhoneStrategy.none;
 
   List<String> dieRollURLs = [
-    'assets/sounds/dice1.mp3',
+    'assets/sounds/dice.mp3',
   ];
 
   List<String> playerMoveURLs = [];
 
-  List<String> playerKickURLs = [];
+  List<String> playerKickMeURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> playerHomeURLs = [];
+  List<String> playerKickOtherURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> playerFinishURLs = [];
+  List<String> playerHomeURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> playerJoinedURLs = [];
+  List<String> playerFinishURLs = [
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> playerLeftURLs = [];
+  List<String> playerJoinedURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> gameFinishURLs = [];
+  List<String> playerLeftURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> gameWonURLs = [];
+  List<String> gameFinishURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
-  List<String> gameLostURLs = [];
+  List<String> gameWonURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
+
+  List<String> gameLostURLs = [
+    // temp
+    'assets/sounds/player_finish.mp3',
+  ];
 
   String newMessageReceivedPath = 'assets/sounds/receive.mp3';
 
@@ -45,6 +76,7 @@ class SoundProvider with ChangeNotifier {
 
   void playSound(String sound) {
     if (prefersAudio) {
+      print('Sound played: $sound');
       switch (sound) {
         case GameStatusService.playerRoll:
           playSpecificSound(dieRollURLs[random.nextInt(dieRollURLs.length)]);
@@ -52,8 +84,11 @@ class SoundProvider with ChangeNotifier {
         case GameStatusService.playerMove:
           playSpecificSound(playerMoveURLs[random.nextInt(playerMoveURLs.length)]);
           break;
-        case GameStatusService.playerKick:
-          playSpecificSound(playerKickURLs[random.nextInt(playerKickURLs.length)]);
+        case GameStatusService.playerKickMe:
+          playSpecificSound(playerKickMeURLs[random.nextInt(playerKickMeURLs.length)]);
+          break;
+        case GameStatusService.playerKickOther:
+          playSpecificSound(playerKickOtherURLs[random.nextInt(playerKickOtherURLs.length)]);
           break;
         case GameStatusService.playerHome:
           playSpecificSound(playerHomeURLs[random.nextInt(playerHomeURLs.length)]);
