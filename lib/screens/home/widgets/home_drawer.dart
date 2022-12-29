@@ -34,41 +34,36 @@ class HomeDrawerWidget extends StatelessWidget {
 
     return Drawer(
       shape: AppConstants.appShape,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColorDark,
-            ),
-            margin: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            curve: AppConstants.animationCurve,
-            duration: AppConstants.animationDuration,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorDark,
+              ),
+              margin: EdgeInsets.zero,
+              curve: AppConstants.animationCurve,
+              duration: AppConstants.animationDuration,
+              child: Row(
+                children: [
+                  Expanded(
                     child: UserAvatarWidget(
                       avatar: userProvider.getUserAvatar(),
-                      backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColorDark : Theme.of(context).colorScheme.onPrimary,
                       borderColor: Theme.of(context).colorScheme.onBackground,
                       id: userProvider.getUserID(),
                       hasLeftGame: false,
                       shouldExpand: true,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-                left: 4.0,
-                right: 4.0,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 4.0,
+                horizontal: 4.0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,8 +134,7 @@ class HomeDrawerWidget extends StatelessWidget {
                   ),
                   const DarkModeWidget(),
                   const OfflineModeWidget(),
-                  const Spacer(),
-                  const Divider(),
+                  SettingsHeaderWidget(text: DialogueService.appSettingsText.tr),
                   CustomAnimatedCrossFade(
                       firstChild: const SizedBox.shrink(),
                       secondChild: CustomCardWidget(
@@ -175,9 +169,9 @@ class HomeDrawerWidget extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

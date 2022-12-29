@@ -17,7 +17,7 @@ class CustomOutlinedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).primaryColor;
+    Color color = Theme.of(context).colorScheme.primary;
 
     return iconData != null
         ? OutlinedButton.icon(

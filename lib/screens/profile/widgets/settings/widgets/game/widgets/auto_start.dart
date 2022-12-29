@@ -20,13 +20,11 @@ class AutoStart extends StatelessWidget {
     return CustomAnimatedCrossFade(
       firstChild: const SizedBox.shrink(),
       secondChild: CustomCardWidget(
-        child: CustomCardWidget(
-          child: CustomListTileWidget(
-            //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.autoStartIcon) : null,
-            title: SettingsTitleWidget(text: DialogueService.autoStartTitleText.tr),
-            //   subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
-            trailing: CustomSwitchWidget(onChanged: userProvider.toggleAutoStart, value: userProvider.getUserAutoStart()),
-          ),
+        child: CustomListTileWidget(
+          //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.autoStartIcon) : null,
+          title: SettingsTitleWidget(text: DialogueService.autoStartTitleText.tr),
+          //   subtitle: SettingsSubtitleWidget(text: DialogueService.autoStartSubtitleText.tr),
+          trailing: CustomSwitchWidget(onChanged: userProvider.toggleAutoStart, value: userProvider.getUserAutoStart()),
         ),
       ),
       condition: userProvider.getUserIsOffline(),

@@ -46,7 +46,7 @@ class GamePlayerWidget extends StatelessWidget {
                 : player.isAIPlayer
                     ? DialogueService.aiPlayerText.tr
                     : DialogueService.humanPlayerText.tr,
-        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
+        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
       ),
       trailing: null,
     );

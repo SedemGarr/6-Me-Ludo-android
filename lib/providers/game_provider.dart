@@ -317,6 +317,10 @@ class GameProvider with ChangeNotifier {
     }
     // chat
     gameChatController.clear();
+    // sound
+    if (shouldStartOrResumeGameLoopSound()) {
+      startGameLoopSound();
+    }
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {
@@ -354,14 +358,16 @@ class GameProvider with ChangeNotifier {
   void checkIfNewMessageHasArrived(Thread newThread, String id, BuildContext context) {
     if (newThread.messages.length > currentThread!.messages.length) {
       if (newThread.messages.first.createdById != id) {
-        SoundProvider soundProvider = context.read<SoundProvider>();
         NavProvider navProvider = context.read<NavProvider>();
-        soundProvider.playSound(GameStatusService.newMessageReceived);
+
+        playGameSound(GameStatusService.newMessageReceived);
 
         if (!navProvider.isChatScreenActive()) {
           AppProvider.showToast(
             newThread.messages.first.body,
             title: currentGame!.players[currentGame!.players.indexWhere((element) => element.id == newThread.messages.first.createdById)].psuedonym,
+            backgroundColor: PlayerConstants
+                .swatchList[currentGame!.players[currentGame!.players.indexWhere((element) => element.id == newThread.messages.first.createdById)].playerColor].playerSelectedColor,
           );
         }
       }
@@ -380,12 +386,18 @@ class GameProvider with ChangeNotifier {
       for (var i = 0; i < currentGame!.players.length; i++) {
         if (!game.players.contains(currentGame!.players[i])) {
           playGameSound(GameStatusService.playerLeft);
-          AppProvider.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+          AppProvider.showToast(
+            currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr,
+            backgroundColor: PlayerConstants.swatchList[currentGame!.players[i].playerColor].playerSelectedColor,
+          );
         }
       }
     } else if (game.players.length > currentGame!.players.length) {
       playGameSound(GameStatusService.playerJoined);
-      AppProvider.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
+      AppProvider.showToast(
+        game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr,
+        backgroundColor: PlayerConstants.swatchList[game.players.last.playerColor].playerSelectedColor,
+      );
     }
   }
 
@@ -517,9 +529,15 @@ class GameProvider with ChangeNotifier {
 
         if (newRep != oldRep) {
           if (player.id == Get.context!.read<UserProvider>().getUserID()) {
-            AppProvider.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + newRep);
+            AppProvider.showToast(
+              DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + newRep,
+              backgroundColor: playerSelectedColor,
+            );
           } else {
-            AppProvider.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + newRep);
+            AppProvider.showToast(
+              player.psuedonym + DialogueService.reputationChangedText.tr + newRep,
+              backgroundColor: PlayerConstants.swatchList[game.players[game.players.indexWhere((element) => element.id == player.id)].playerColor].playerSelectedColor,
+            );
           }
         }
       }
@@ -535,6 +553,16 @@ class GameProvider with ChangeNotifier {
         scrollToBoardTab();
       });
     }
+  }
+
+  void startGameLoopSound() {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+    soundProvider.startGameLoopSound();
+  }
+
+  void endGameLoopSound() {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+    soundProvider.endGameLoopSound();
   }
 
   void playGameSound(String sound) {
@@ -588,12 +616,12 @@ class GameProvider with ChangeNotifier {
     SoundProvider soundProvider = Get.context!.read<SoundProvider>();
 
     if (!hasWinner) {
-      soundProvider.playSpecificSound(GameStatusService.gameFinish);
+      soundProvider.playSound(GameStatusService.gameFinish);
     } else {
       if (isWinner) {
-        soundProvider.playSpecificSound(GameStatusService.gameWon);
+        soundProvider.playSound(GameStatusService.gameWon);
       } else {
-        soundProvider.playSpecificSound(GameStatusService.gameLost);
+        soundProvider.playSound(GameStatusService.gameLost);
       }
     }
   }
@@ -857,6 +885,10 @@ class GameProvider with ChangeNotifier {
     } else {
       return randomValue;
     }
+  }
+
+  bool shouldStartOrResumeGameLoopSound() {
+    return currentGame!.hasStarted && !currentGame!.hasSessionEnded;
   }
 
   bool getIndexHitDefermentStatus(int index) {
@@ -1322,7 +1354,10 @@ class GameProvider with ChangeNotifier {
   Future<void> togglePlayerBanFromChat(Player player, BuildContext context) async {
     if (currentGame!.bannedPlayers.contains(player.id)) {
       currentGame!.bannedPlayers.remove(player.id);
-      AppProvider.showToast(player.psuedonym + DialogueService.playerUnBannedText.tr);
+      AppProvider.showToast(
+        player.psuedonym + DialogueService.playerUnBannedText.tr,
+        backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
+      );
     } else {
       showBanPlayerDialog(player, context);
     }
@@ -1335,7 +1370,10 @@ class GameProvider with ChangeNotifier {
     currentGame = resetGamePiecesToDefaultAfterPlayerLeaves(currentGame!, player.id);
     currentGame!.players[currentGame!.players.indexWhere((element) => element.id == player.id)].hasLeft = true;
     removePlayerMessages(player.id);
-    AppProvider.showToast(player.psuedonym + DialogueService.playerKickedFromGameText.tr);
+    AppProvider.showToast(
+      player.psuedonym + DialogueService.playerKickedFromGameText.tr,
+      backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
+    );
 
     await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
@@ -1742,6 +1780,8 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
+    startGameLoopSound();
+
     await DatabaseService.updateGameSessionStartDate(currentGame!, shouldRebuild);
 
     // get ai player to start game
@@ -1779,6 +1819,8 @@ class GameProvider with ChangeNotifier {
     await DatabaseService.updateGameSessionStartDate(currentGame!, true);
 
     notifyListeners();
+
+    startGameLoopSound();
 
     // get ai player to start currentGame!
     if (currentGame!.players.first.isAIPlayer) {
@@ -1859,6 +1901,8 @@ class GameProvider with ChangeNotifier {
 
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
 
+    endGameLoopSound();
+
     await DatabaseService.updateGameSessionEndDate(game);
 
     scrollToBoardTab();
@@ -1882,7 +1926,10 @@ class GameProvider with ChangeNotifier {
       onYes: () {
         currentGame!.bannedPlayers.add(player.id);
         removePlayerMessages(player.id);
-        AppProvider.showToast(player.psuedonym + DialogueService.playerBannedText.tr);
+        AppProvider.showToast(
+          player.psuedonym + DialogueService.playerBannedText.tr,
+          backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
+        );
       },
       onNo: () {},
       context: context,

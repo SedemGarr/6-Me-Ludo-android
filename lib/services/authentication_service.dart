@@ -41,7 +41,11 @@ class AuthenticationService {
           UserCredential? userCredential;
 
           try {
-            userCredential = await auth.currentUser?.linkWithCredential(credential);
+            if (auth.currentUser == null) {
+              await signInWithGoogle(credential);
+            } else {
+              userCredential = await auth.currentUser?.linkWithCredential(credential);
+            }
           } on FirebaseAuthException catch (e) {
             switch (e.code) {
               case "credential-already-in-use":

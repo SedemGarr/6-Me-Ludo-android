@@ -285,6 +285,17 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  void toggleMusic(BuildContext context, bool value) {
+    SoundProvider soundProvider = context.read<SoundProvider>();
+    _user!.settings.prefersMusic = value;
+    soundProvider.setPrefersMusic(_user!.settings.prefersMusic);
+    updateUser(true, true);
+
+    if (value) {
+      AppProvider.showToast(DialogueService.zapsplatText.tr);
+    }
+  }
+
   void toggleAdaptiveAI(BuildContext context, bool value) {
     _user!.settings.prefersAdaptiveAI = value;
     updateUser(true, true);
@@ -593,6 +604,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserAudio() {
     return _user!.settings.prefersAudio;
+  }
+
+  bool getUserMusic() {
+    return _user!.settings.prefersMusic;
   }
 
   bool getUserAdaptiveAI() {

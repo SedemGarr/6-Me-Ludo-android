@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
@@ -12,6 +13,8 @@ import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/
 
 import '../../../../models/game.dart';
 import '../../../../models/player.dart';
+import '../../../../providers/app_provider.dart';
+import '../../../../services/translations/dialogue_service.dart';
 import '../../../../widgets/custom_divider.dart';
 
 class OnGoingGamesListItemWidget extends StatelessWidget {
@@ -25,6 +28,8 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
     GameProvider gameProvider = context.watch<GameProvider>();
 
     Player host = userProvider.getOngoingGamesHostPlayerAtIndex(game);
+
+    bool isOffline = userProvider.getUserIsOffline();
 
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -46,7 +51,10 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
               hasLeft: host.hasLeft,
             ),
             title: GameNameWidget(host: host, players: game.players),
-            subtitle: GameDateWidget(createdAt: game.createdAt),
+            subtitle: GameDateWidget(
+                text: isOffline
+                    ? DialogueService.lastPlayedAtText.tr + AppProvider.parseDateFromNow(game.lastUpdatedAt)
+                    : DialogueService.createdAtText.tr + AppProvider.parseDateFromNow(game.createdAt)),
             trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
             children: [
               Column(

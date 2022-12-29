@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/default_dialog.dart';
 import '../../constants/textstyle_constants.dart';
@@ -18,6 +19,7 @@ showJoinGameDialog({
       style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
     ),
     content: const JoinGameTextFieldWidget(),
+    contentPadding: AppConstants.dialogContentPaddingNarrow,
     actions: [],
   );
 }

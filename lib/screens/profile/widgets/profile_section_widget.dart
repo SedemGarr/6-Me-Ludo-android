@@ -14,7 +14,9 @@ import '../../../widgets/custom_card_widget.dart';
 import '../../../widgets/custom_list_tile.dart';
 
 class ProfileSectionWidget extends StatelessWidget {
-  const ProfileSectionWidget({super.key});
+  const ProfileSectionWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

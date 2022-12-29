@@ -30,6 +30,7 @@ showNewGameDialog({
 
       return AlertDialog(
         shape: AppConstants.appShape,
+        contentPadding: AppConstants.dialogContentPaddingNarrow,
         title: Text(
           DialogueService.newGameAppBarTitleText.tr,
           style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onBackground),

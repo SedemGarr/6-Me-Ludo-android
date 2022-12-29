@@ -17,15 +17,19 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Theme.of(context).colorScheme.secondary;
+    Color textColor = Theme.of(context).colorScheme.onSecondary;
+    Color overlayColor = Theme.of(context).colorScheme.secondaryContainer;
+
     return iconData != null
         ? ElevatedButton.icon(
             icon: Icon(
               iconData,
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
             style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Theme.of(context).primaryColorDark),
-              backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+              overlayColor: MaterialStateProperty.all(overlayColor),
+              backgroundColor: MaterialStateProperty.all(color),
               shape: MaterialStateProperty.all(
                 AppConstants.appShape,
               ),
@@ -36,14 +40,14 @@ class CustomElevatedButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 text,
-                style: TextStyles.elevatedButtonStyle(Theme.of(context).colorScheme.onPrimary),
+                style: TextStyles.elevatedButtonStyle(textColor),
               ),
             ),
           )
         : ElevatedButton(
             style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Theme.of(context).primaryColorDark),
-              backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+              overlayColor: MaterialStateProperty.all(overlayColor),
+              backgroundColor: MaterialStateProperty.all(color),
               shape: MaterialStateProperty.all(
                 AppConstants.appShape,
               ),
@@ -54,7 +58,7 @@ class CustomElevatedButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 text,
-                style: TextStyles.elevatedButtonStyle(Theme.of(context).colorScheme.onPrimary),
+                style: TextStyles.elevatedButtonStyle(textColor),
               ),
             ),
           );

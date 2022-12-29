@@ -57,6 +57,7 @@ class OfflineGameScreen extends StatelessWidget {
                 color: ThemeProvider.getContrastingColor(gameProvider.playerColor),
                 onPressed: () {
                   navProvider.handleGameScreenBackPress(gameProvider);
+                  soundProvider.endGameLoopSound();
                 }),
             title: game.hasSessionEnded
                 ? Text(

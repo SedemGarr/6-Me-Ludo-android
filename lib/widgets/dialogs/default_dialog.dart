@@ -9,6 +9,7 @@ showDefaultDialog({
   required Widget title,
   required Widget content,
   required List<Widget> actions,
+  EdgeInsets? contentPadding,
 }) {
   bool shouldOverridePop = onPop != null;
 
@@ -24,7 +25,9 @@ showDefaultDialog({
           return !shouldOverridePop;
         },
         child: AlertDialog(
+          // backgroundColor: Theme.of(context).colorScheme.primary,
           shape: AppConstants.appShape,
+          contentPadding: contentPadding,
           title: title,
           content: content,
           actions: actions,

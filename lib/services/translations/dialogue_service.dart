@@ -265,6 +265,7 @@ class DialogueService extends Translations {
   static const String gameSettingsFullText = 'gameSettingsFullText';
   static const String accountSettingsText = 'accountSettingsText';
   static const String personalisationSettingsText = 'personalisationSettingsText';
+  static const String appSettingsText = 'appSettingsText';
   static const String aboutSettingsText = 'aboutSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';
@@ -276,6 +277,9 @@ class DialogueService extends Translations {
   // settings - audio
   static const String audioTitleText = 'audioTitleText';
   static const String audioSubtitleText = 'audioSubtitleText';
+  // settings - music
+  static const String musicTitleText = 'musicTitleText';
+  static const String musicSubtitleText = 'musicSubtitleText';
   // settings - theme
   static const String themeTitleText = 'themeTitleText';
   static const String themeSubtitleText = 'themeSubtitleText';

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 
@@ -18,12 +19,14 @@ class AppLifeCycleManager extends StatefulWidget {
 class AppLifeCycleManagerState extends State<AppLifeCycleManager> with WidgetsBindingObserver {
   late GameProvider gameProvider;
   late UserProvider userProvider;
+  late SoundProvider soundProvider;
 
   @override
   void initState() {
     super.initState();
     gameProvider = context.read<GameProvider>();
     userProvider = context.read<UserProvider>();
+    soundProvider = context.read<SoundProvider>();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -38,18 +41,22 @@ class AppLifeCycleManagerState extends State<AppLifeCycleManager> with WidgetsBi
         case AppLifecycleState.paused:
           await gameProvider.handleGameAppLifecycleChange(false, user);
           userProvider.handleWakelockLogic(false);
+          soundProvider.handleSoundLifecycleChanges(true);
           break;
         case AppLifecycleState.detached:
           userProvider.handleWakelockLogic(false);
+          soundProvider.handleSoundLifecycleChanges(true);
           break;
         case AppLifecycleState.inactive:
           await gameProvider.handleGameAppLifecycleChange(false, user);
+          soundProvider.handleSoundLifecycleChanges(true);
           userProvider.handleWakelockLogic(false);
           break;
         case AppLifecycleState.resumed:
           await gameProvider.handleGameAppLifecycleChange(true, user);
           if (Get.currentRoute == GameScreenWrapper.routeName) {
             userProvider.handleWakelockLogic(true);
+            soundProvider.handleSoundLifecycleChanges(false);
           }
           break;
         default:

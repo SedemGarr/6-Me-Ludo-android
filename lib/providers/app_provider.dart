@@ -16,6 +16,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:six_me_ludo_android/models/version.dart';
+import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -137,12 +138,19 @@ class AppProvider with ChangeNotifier {
     return filter.hasProfanity(value);
   }
 
-  static void showToast(String message, {String? title, Duration? duration}) {
+  static void showToast(String message, {String? title, Duration? duration, Color? backgroundColor}) {
+    Color? contrastingColor;
+
+    if (backgroundColor != null) {
+      contrastingColor = ThemeProvider.getContrastingColor(backgroundColor);
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
           duration: duration ?? AppConstants.snackBarDuration,
+          backgroundColor: backgroundColor,
           content: title != null
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,18 +158,18 @@ class AppProvider with ChangeNotifier {
                   children: [
                     Text(
                       title + DialogueService.chatSaysText.tr,
-                      style: TextStyles.listTitleStyle(Theme.of(Get.context!).colorScheme.surface),
+                      style: TextStyles.listTitleStyle(contrastingColor ?? Theme.of(Get.context!).colorScheme.surface),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       message,
-                      style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+                      style: TextStyles.listSubtitleStyle(contrastingColor ?? Theme.of(Get.context!).colorScheme.surface),
                     ),
                   ],
                 )
               : Text(
                   message,
-                  style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
+                  style: TextStyles.listSubtitleStyle(contrastingColor ?? Theme.of(Get.context!).colorScheme.surface),
                 ),
         ),
       );

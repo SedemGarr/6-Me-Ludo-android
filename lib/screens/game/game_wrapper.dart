@@ -53,6 +53,7 @@ class _GameScreenWrapperState extends State<GameScreenWrapper> with SingleTicker
     return WillPopScope(
       onWillPop: () async {
         navProvider.handleGameScreenBackPress(gameProvider);
+        soundProvider.endGameLoopSound();
         return false;
       },
       child: userProvider.getUserIsOffline()

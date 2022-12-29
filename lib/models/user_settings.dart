@@ -29,6 +29,7 @@ class UserSettings {
   late int maxPlayers;
   late bool prefersDarkMode;
   late bool prefersAudio;
+  late bool prefersMusic;
   late bool prefersStartAssist;
   late bool prefersAutoStart;
   late bool prefersCatchupAssist;
@@ -47,6 +48,7 @@ class UserSettings {
     required this.preferredSpeed,
     required this.aiPersonalityPreference,
     required this.prefersAudio,
+    required this.prefersMusic,
     required this.prefersDarkMode,
     required this.prefersCatchupAssist,
     required this.prefersAdaptiveAI,
@@ -110,6 +112,7 @@ class UserSettings {
     prefersCatchupAssist = json['prefersCatchupAssist'] ?? false;
     preferredSpeed = json['preferredSpeed'];
     prefersAudio = json['prefersAudio'];
+    prefersMusic = json['prefersMusic'] ?? true;
     prefersDarkMode = json['prefersDarkMode'];
     prefersStartAssist = json['prefersStartAssist'];
     prefersAddAI = json['prefersAddAI'] ?? true;
@@ -129,6 +132,7 @@ class UserSettings {
     data['preferredSpeed'] = preferredSpeed;
     data['prefersDarkMode'] = prefersDarkMode;
     data['prefersAudio'] = prefersAudio;
+    data['prefersMusic'] = prefersMusic;
     data['prefersStartAssist'] = prefersStartAssist;
     data['prefersCatchupAssist'] = prefersCatchupAssist;
     data['prefersAdaptiveAI'] = prefersAdaptiveAI;
@@ -150,6 +154,7 @@ class UserSettings {
       prefersAddAI: true,
       prefersAutoStart: false,
       prefersAudio: true,
+      prefersMusic: true,
       prefersDarkMode: ThemeProvider.getSystemDarkModeSetting(),
       prefersCatchupAssist: true,
       prefersAdaptiveAI: true,
@@ -225,6 +230,7 @@ class UserSettings {
         other.prefersAddAI == prefersAddAI &&
         other.prefersAutoStart == prefersAutoStart &&
         other.prefersAudio == prefersAudio &&
+        other.prefersMusic == prefersMusic &&
         other.prefersCatchupAssist == prefersCatchupAssist &&
         other.prefersDarkMode == prefersDarkMode &&
         other.prefersAdaptiveAI == prefersAdaptiveAI &&
@@ -241,6 +247,7 @@ class UserSettings {
       aiPersonalityPreference.hashCode ^
       prefersAutoStart.hashCode ^
       prefersAudio.hashCode ^
+      prefersMusic.hashCode ^
       prefersAddAI.hashCode ^
       prefersCatchupAssist.hashCode ^
       prefersDarkMode.hashCode ^

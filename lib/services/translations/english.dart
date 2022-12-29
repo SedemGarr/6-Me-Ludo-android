@@ -57,7 +57,7 @@ class EnglishTranslation {
       // welcome dialog
       DialogueService.welcomeDialogTitleText: 'Welcome to 6-Me-Ludo!',
       DialogueService.welcomeDialogContentText: 'We hope you enjoy this ad-free Ludo game. Select one of the following options to begin',
-      DialogueService.signInGoogleText: 'Want to sign in with Google to keep your account permanently?',
+      DialogueService.signInGoogleText: 'Sign In With Google',
       DialogueService.signInAnonText: 'Begin',
       //
       DialogueService.anonSignInTitleText: 'Sign In?',
@@ -236,6 +236,7 @@ class EnglishTranslation {
       DialogueService.gameSettingsFullText: 'Game Settings',
       DialogueService.accountSettingsText: 'Account',
       DialogueService.personalisationSettingsText: 'Personalisation',
+      DialogueService.appSettingsText: 'App',
       DialogueService.aboutSettingsText: 'About',
       // settings - max players
       DialogueService.maxPlayersTitleText: 'Number of Human Players',
@@ -247,6 +248,9 @@ class EnglishTranslation {
       // settings - audio
       DialogueService.audioTitleText: 'Game Sounds',
       DialogueService.audioSubtitleText: 'Toggle game sounds on or off',
+      // settings - music
+      DialogueService.musicTitleText: 'Game Music',
+      DialogueService.musicSubtitleText: 'Toggle game sounds on or off',
       // settings - theme
       DialogueService.themeTitleText: 'Theme',
       DialogueService.themeSubtitleText: 'Select your preferred theme',
