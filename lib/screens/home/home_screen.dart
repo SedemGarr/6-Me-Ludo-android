@@ -102,12 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Get.height * 0.17,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: AppConstants.appBorderRadius,
-                onPanelOpened: () {
-                  appProvider.setIsPanelOpen(true);
-                },
-                onPanelClosed: () {
-                  appProvider.setIsPanelOpen(false);
-                },
               ),
             ),
     );

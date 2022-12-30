@@ -77,15 +77,13 @@ class AppProvider with ChangeNotifier {
   }
 
   void openPanelController() {
+    setIsPanelOpen(true);
     panelController.open();
-    
-    notifyListeners();
   }
 
   void closePanelController() {
+    setIsPanelOpen(false);
     panelController.close();
-    
-    notifyListeners();
   }
 
   void setIsPanelOpen(bool value) {

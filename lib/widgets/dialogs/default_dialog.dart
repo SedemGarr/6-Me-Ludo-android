@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/app_constants.dart';
 
@@ -25,7 +26,7 @@ showDefaultDialog({
           return !shouldOverridePop;
         },
         child: AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          backgroundColor: Get.isDarkMode ? Colors.grey[900] : Colors.grey[900],
           shape: AppConstants.appShape,
           contentPadding: contentPadding,
           title: title,
