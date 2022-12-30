@@ -48,6 +48,7 @@ dependencies:
   uuid: ^3.0.7
   visibility_detector: ^0.3.3
   wakelock: ^0.6.2
+  advance_expansion_tile: ^1.0.2
 
 dev_dependencies:
   flutter_test:

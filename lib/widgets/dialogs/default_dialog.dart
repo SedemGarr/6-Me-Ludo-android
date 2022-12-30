@@ -25,7 +25,7 @@ showDefaultDialog({
           return !shouldOverridePop;
         },
         child: AlertDialog(
-          // backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           shape: AppConstants.appShape,
           contentPadding: contentPadding,
           title: title,

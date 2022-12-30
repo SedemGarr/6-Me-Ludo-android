@@ -18,6 +18,7 @@ import 'package:restart_app/restart_app.dart';
 import 'package:six_me_ludo_android/models/version.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wakelock/wakelock.dart';
@@ -36,6 +37,10 @@ class AppProvider with ChangeNotifier {
 
   //
   Random random = Random();
+
+  //
+  PanelController panelController = PanelController();
+  bool isPanelOpen = false;
 
   final List<String> loadingStrings = [
     DialogueService.loading1Text.tr,
@@ -62,6 +67,31 @@ class AppProvider with ChangeNotifier {
     DialogueService.welcome9Text.tr,
     DialogueService.welcome10Text.tr,
   ];
+
+  void togglePanelController() {
+    if (isPanelOpen) {
+      closePanelController();
+    } else {
+      openPanelController();
+    }
+  }
+
+  void openPanelController() {
+    panelController.open();
+    
+    notifyListeners();
+  }
+
+  void closePanelController() {
+    panelController.close();
+    
+    notifyListeners();
+  }
+
+  void setIsPanelOpen(bool value) {
+    isPanelOpen = value;
+    notifyListeners();
+  }
 
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;

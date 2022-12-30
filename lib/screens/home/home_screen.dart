@@ -65,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 actions: [SettingsButton()],
               ),
               body: SlidingUpPanel(
+                controller: appProvider.panelController,
                 body: Column(
                   children: [
                     CustomAnimatedCrossFade(
@@ -85,9 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 panelBuilder: (sc) {
                   return shouldPanelHide ? const SizedBox.shrink() : const GameOptionsPanel();
                 },
-                panelSnapping: true,
                 backdropEnabled: true,
                 backdropTapClosesPanel: true,
+                renderPanelSheet: false,
                 backdropOpacity: 0.0,
                 minHeight: shouldPanelHide
                     ? 0
@@ -101,6 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Get.height * 0.17,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: AppConstants.appBorderRadius,
+                onPanelOpened: () {
+                  appProvider.setIsPanelOpen(true);
+                },
+                onPanelClosed: () {
+                  appProvider.setIsPanelOpen(false);
+                },
               ),
             ),
     );

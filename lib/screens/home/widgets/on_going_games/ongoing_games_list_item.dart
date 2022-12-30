@@ -1,3 +1,4 @@
+import 'package:advance_expansion_tile/advance_expansion_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,9 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: AppConstants.appBorderRadius,
           ),
-          child: ExpansionTile(
+          child: AdvanceExpansionTile(
+            disabled: isOffline,
+            initiallyExpanded: isOffline,
             collapsedBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             childrenPadding: const EdgeInsets.only(bottom: 8.0),

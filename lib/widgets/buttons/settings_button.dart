@@ -9,12 +9,13 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () {
-          NavigationService.goToProfileScreen();
-        },
-        icon: Icon(
-          AppIcons.settingsIcon,
-          color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-        ));
+      onPressed: () {
+        NavigationService.goToProfileScreen();
+      },
+      icon: Icon(
+        AppIcons.settingsIcon,
+        color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
+      ),
+    );
   }
 }

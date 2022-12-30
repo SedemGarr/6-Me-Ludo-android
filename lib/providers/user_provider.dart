@@ -265,8 +265,6 @@ class UserProvider with ChangeNotifier {
       return;
     }
 
-    NavigationService.closeDrawerAfterOfflineToggle();
-
     _user!.settings.isOffline = value;
     AppProvider.showToast(value ? DialogueService.offlineModeToastOnText.tr : DialogueService.offlineModeToastOffText.tr);
     updateUser(true, true);
@@ -450,7 +448,6 @@ class UserProvider with ChangeNotifier {
       yesMessage: DialogueService.offlineModeYesText.tr,
       noMessage: DialogueService.offlineModeNoText.tr,
       onYes: () {
-        NavigationService.closeDrawerAfterOfflineToggle();
         setOfflineMode(true);
       },
       onNo: () {},

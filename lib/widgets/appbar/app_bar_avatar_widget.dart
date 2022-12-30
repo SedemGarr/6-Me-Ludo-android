@@ -13,17 +13,17 @@ class AppBarAvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8.0,
-      ),
-      child: UserAvatarWidget(
-        avatar: userProvider.getUserAvatar(),
-        backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColorDark : Theme.of(context).colorScheme.onPrimary,
-        borderColor: Theme.of(context).colorScheme.onBackground,
-        id: userProvider.getUserID(),
-        hasLeftGame: false,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        UserAvatarWidget(
+          avatar: userProvider.getUserAvatar(),
+          backgroundColor: Get.isDarkMode ? Theme.of(context).primaryColorDark : Theme.of(context).colorScheme.onPrimary,
+          borderColor: Theme.of(context).colorScheme.onBackground,
+          id: userProvider.getUserID(),
+          hasLeftGame: false,
+        ),
+      ],
     );
   }
 }
