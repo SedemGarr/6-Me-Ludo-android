@@ -3,6 +3,7 @@ import 'package:six_me_ludo_android/screens/edit_profile/edit_avatar.dart';
 import 'package:six_me_ludo_android/screens/edit_profile/edit_pseudonym.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
+import 'package:six_me_ludo_android/screens/new_game/new_game.dart';
 import 'package:six_me_ludo_android/screens/profile/profile.dart';
 import 'package:six_me_ludo_android/screens/splash/splash.dart';
 
@@ -16,6 +17,10 @@ class NavigationService {
 
   static void goToProfileScreen() {
     Get.to(() => const ProfileScreen());
+  }
+
+  static Future<void> goToNewGameScreen() async {
+    await Get.to(() => const NewGameScreen());
   }
 
   static Future<void> goToGameScreen() async {

@@ -6,8 +6,8 @@ import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution
 import '../../constants/app_constants.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
-import '../../widgets/loading_screen.dart';
-import '../../widgets/wayout_widget.dart';
+import '../../widgets/loading/loading_screen.dart';
+import '../../widgets/app/wayout_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName = '/';

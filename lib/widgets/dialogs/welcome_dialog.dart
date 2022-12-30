@@ -4,13 +4,13 @@ import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_outlined_button.dart';
 
 import 'package:six_me_ludo_android/widgets/dialogs/default_dialog.dart';
-import 'package:six_me_ludo_android/widgets/title_widget.dart';
+import 'package:six_me_ludo_android/widgets/app/title_widget.dart';
 import '../../constants/textstyle_constants.dart';
 import '../../services/authentication_service.dart';
-import '../custom_elevated_button.dart';
+import '../buttons/custom_elevated_button.dart';
+import '../buttons/custom_outlined_button.dart';
 
 showWelcomeDialog({
   required BuildContext context,
@@ -21,7 +21,7 @@ showWelcomeDialog({
     onPop: () {
       AppProvider.exitApp();
     },
-    title: TitleWidget(width: Get.width * 1 / 4),
+    title: TitleWidget(width: Get.width * 1 / 5),
     content: Text(
       DialogueService.welcomeDialogTitleText.tr,
       style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
@@ -33,16 +33,6 @@ showWelcomeDialog({
         children: [
           SizedBox(
             width: Get.width,
-            child: CustomElevatedButton(
-              onPressed: () {
-                NavigationService.genericGoBack();
-                AuthenticationService.signInAnon(context);
-              },
-              text: DialogueService.signInAnonText.tr,
-            ),
-          ),
-          SizedBox(
-            width: Get.width,
             child: CustomOutlinedButton(
               onPressed: () {
                 NavigationService.genericGoBack();
@@ -50,6 +40,16 @@ showWelcomeDialog({
               },
               text: DialogueService.signInGoogleText.tr,
               iconData: AppIcons.googleIcon,
+            ),
+          ),
+          SizedBox(
+            width: Get.width,
+            child: CustomElevatedButton(
+              onPressed: () {
+                NavigationService.genericGoBack();
+                AuthenticationService.signInAnon(context);
+              },
+              text: DialogueService.signInAnonText.tr,
             ),
           ),
         ],

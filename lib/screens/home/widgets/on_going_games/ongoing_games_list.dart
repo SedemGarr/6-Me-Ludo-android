@@ -5,10 +5,11 @@ import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/no_games_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list_item.dart';
-import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
-import 'package:six_me_ludo_android/widgets/loading_widget.dart';
+import 'package:six_me_ludo_android/widgets/wrappers/animation_wrapper.dart';
+
 
 import '../../../../constants/app_constants.dart';
+import '../../../../widgets/loading/loading_widget.dart';
 
 class OngoingGamesListWidget extends StatelessWidget {
   const OngoingGamesListWidget({super.key});

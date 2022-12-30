@@ -4,8 +4,8 @@ import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import '../../../constants/app_constants.dart';
 import '../../../models/license.dart';
-import '../../../widgets/animation_wrapper.dart';
-import '../../../widgets/loading_widget.dart';
+import '../../../widgets/wrappers/animation_wrapper.dart';
+import '../../../widgets/loading/loading_widget.dart';
 
 class LicenseWidget extends StatelessWidget {
   const LicenseWidget({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class LicenseWidget extends StatelessWidget {
                           duration: AppConstants.animationDuration,
                           child: CustomAnimationWidget(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
                               child: Theme(
                                 data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                                 child: ClipRRect(

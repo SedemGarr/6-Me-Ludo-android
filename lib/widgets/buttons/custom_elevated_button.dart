@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_constants.dart';
-import '../constants/textstyle_constants.dart';
+import '../../constants/app_constants.dart';
+import '../../constants/textstyle_constants.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -17,9 +17,9 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).colorScheme.secondary;
-    Color textColor = Theme.of(context).colorScheme.onSecondary;
-    Color overlayColor = Theme.of(context).colorScheme.secondaryContainer;
+    Color color = Theme.of(context).colorScheme.primary;
+    Color textColor = Theme.of(context).colorScheme.onPrimary;
+    Color overlayColor = Theme.of(context).primaryColorDark;
 
     return iconData != null
         ? ElevatedButton.icon(

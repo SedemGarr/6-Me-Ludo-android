@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_text_button.dart';
+import 'package:six_me_ludo_android/widgets/buttons/custom_text_button.dart';
 
 import '../../../../../providers/theme_provider.dart';
 

@@ -22,7 +22,7 @@ class EnglishTranslation {
       DialogueService.versionText: 'Version ',
       DialogueService.copyrightText: 'Copyright © ',
       DialogueService.wayyyoutGamesText: ' wayyy out! games',
-      DialogueService.zapsplatText: 'Sounds from Zapsplat.com',
+      DialogueService.zapsplatText: 'Sounds from zapsplat.com',
       DialogueService.updateNeededText: 'Update Needed',
       DialogueService.updatePromptText: '6-Me-Ludo! requires an update. Please update the app from the Google Play store',
       DialogueService.updateButtonText: 'Update',
@@ -99,18 +99,19 @@ class EnglishTranslation {
       DialogueService.leaveGameDialogYesText: 'Leave',
       DialogueService.leaveGameDialogNoText: 'Cancel',
       DialogueService.lastPlayedAtText: 'Last played ',
-      DialogueService.createdAtText: 'Game created ',
+      DialogueService.createdAtText: 'Created ',
       DialogueService.createNewGameText: 'Or create a new game',
       DialogueService.playerHasLeftTheGame: 'Player has left the game',
       // game - starting
-      DialogueService.newGameAppBarTitleText: 'New Game',
+      DialogueService.newOnlineGameAppBarTitleText: 'New Online Game',
+      DialogueService.newOfflineGameAppBarTitleText: 'New Offline Game',
       DialogueService.startGameButtonText: 'Start Game',
       DialogueService.joinGameButtonText: 'Join Game',
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Online Games',
       DialogueService.noLocalGamesText: 'No Local Game',
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
-      DialogueService.hostGameFABText: 'Host New Game',
+      DialogueService.hostGameFABText: 'New Online Game',
       DialogueService.joinGameFABText: 'Join Game With Code',
       DialogueService.joinGameHintText: 'Enter code',
       DialogueService.gameKickedText: 'Sorry, you have been kicked from this game',
@@ -217,7 +218,9 @@ class EnglishTranslation {
       // profile
       DialogueService.reputationValueText: 'Reputation Value: ',
       DialogueService.changeAvatarText: 'Change Your Avatar',
+      DialogueService.refreshAvatarText: 'Refresh List',
       DialogueService.changePseudonymText: 'Change Your Pseudonym',
+      DialogueService.savePseudonymText: 'Save Changes',
       DialogueService.closeDialogText: 'Close',
       DialogueService.savePseudonymDialogText: 'Save',
       DialogueService.changePseudonymHintText: 'Enter a pseudonym',
@@ -250,13 +253,14 @@ class EnglishTranslation {
       DialogueService.audioSubtitleText: 'Toggle game sounds on or off',
       // settings - music
       DialogueService.musicTitleText: 'Game Music',
-      DialogueService.musicSubtitleText: 'Toggle game sounds on or off',
+      DialogueService.musicSubtitleText: 'Toggle game music on or off',
       // settings - theme
       DialogueService.themeTitleText: 'Theme',
       DialogueService.themeSubtitleText: 'Select your preferred theme',
       DialogueService.setThemeToRandomText: 'Random theme selected',
       DialogueService.setThemeToValueText: 'Set theme to ',
       DialogueService.randomThemeText: 'Random Theme Selected',
+      DialogueService.randomiseThemeText: 'Randomise Theme',
       DialogueService.currentThemeText: 'Current Theme: ',
       // settings - wakelock
       DialogueService.wakelockTitleText: 'Screen Always On',
@@ -298,6 +302,7 @@ class EnglishTranslation {
       // settings - offline
       DialogueService.offlineText: 'Offline',
       DialogueService.offlineModeTitleText: 'Offline Mode',
+      DialogueService.offlineModeSubtitleText: 'Toggle offline mode on or off',
       DialogueService.offlineModeContentText:
           'You are about to take the application offline. All online features will be disabled and you will only be able to play games against the AI',
       DialogueService.offlineModeYesText: 'Go Offline',
@@ -313,6 +318,7 @@ class EnglishTranslation {
       // settings - sign out
       DialogueService.signOutTitleText: 'Sign Out',
       DialogueService.signOutSubtitleText: 'Sign out this account',
+      DialogueService.signInSubtitleText: 'Sign in with Google',
       DialogueService.signOutDialogTitleText: 'Sign Out?',
       DialogueService.signOutDialogContentText: 'Are you sure you want to sign out?',
       DialogueService.signOutAnonDialogContentText: 'Are you sure you want to sign out? Your account is anonymous and cannot be recovered',
@@ -336,19 +342,24 @@ class EnglishTranslation {
       DialogueService.versionTitleText: 'Version',
       DialogueService.privacyTitleText: 'Privacy Policy',
       DialogueService.termsTitleText: 'Terms and Conditions',
+      DialogueService.privacySubtitleText: 'View our privacy policy',
+      DialogueService.termsSubtitleText: 'View our terms and conditions',
       DialogueService.licenseTitleText: 'Application Licenses',
+      DialogueService.licenseSubTitleText: 'Nerrrrrrrd!',
       // feedback
       DialogueService.sendFeedbackText: 'Send Feedback',
+      DialogueService.sendFeedbackSubtitleText: 'Please be kind, we\'re fragile',
       DialogueService.subjectText: 'Feedback on ${AppConstants.appNameEnglish}',
       DialogueService.emailAddressText: 'wayyy.out.games@gmail.com',
       // special text
-      DialogueService.specialText: 'You found me! Lol. Congrats. Your reward is my real name. I\'m Sedem, a developer from Ghana. Nice to meet you',
+      DialogueService.specialText: 'You found me! Lol. I\'m Sedem, a developer from Ghana. Nice to meet you',
       // exit dialog
       DialogueService.exitAppDialogTitleText: 'Aww...',
       DialogueService.exitAppDialogContentText: 'Are you sure you want to exit?',
       DialogueService.exitAppDialogNoText: 'Cancel',
       DialogueService.exitAppDialogYesText: 'Exit',
-      DialogueService.exitAppText: 'Exit App',
+      DialogueService.exitAppTitleText: 'Exit App',
+      DialogueService.exitAppSubtitleText: 'Bad things will happen if you tap this',
     };
   }
 }

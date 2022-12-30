@@ -9,6 +9,7 @@ class CustomListTileWidget extends StatelessWidget {
   final Widget? trailing;
 
   final bool? dense;
+  final bool? isThreeLine;
 
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
@@ -25,6 +26,7 @@ class CustomListTileWidget extends StatelessWidget {
     this.onLongPress,
     this.dense,
     this.minLeadingWidth,
+    this.isThreeLine,
   });
 
   @override
@@ -36,7 +38,8 @@ class CustomListTileWidget extends StatelessWidget {
         vertical: 0.0,
       ),
       shape: AppConstants.appShape,
-      dense: dense ?? false,
+      dense: dense ?? true,
+      isThreeLine: isThreeLine ?? false,
       onTap: onTap,
       onLongPress: onLongPress,
       leading: leading,

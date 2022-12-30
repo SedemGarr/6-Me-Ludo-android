@@ -6,11 +6,11 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../../../../../../../models/user_settings.dart';
-import '../../../../../../../widgets/custom_card_widget.dart';
-import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../../../../../models/game.dart';
 import '../../../../../../models/player.dart';
 import '../../../../../../services/database_service.dart';
+import '../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../widgets/general/custom_list_tile.dart';
 
 class GameAIPersonality extends StatefulWidget {
   final bool canEdit;
@@ -58,7 +58,7 @@ class _GameAIPersonalityState extends State<GameAIPersonality> {
         title: SettingsTitleWidget(text: DialogueService.aIPersonalityTitleText.tr),
         //  subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).primaryColor,
+          iconEnabledColor: Theme.of(context).colorScheme.secondary,
           value: game.hostSettings.aiPersonalityPreference,
           items: UserSettings.getPersonalityDropDownMenuItems(context),
           underline: const SizedBox.shrink(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../constants/textstyle_constants.dart';
+import '../../constants/textstyle_constants.dart';
 
 class AppBarTitleWidget extends StatelessWidget {
   final String text;

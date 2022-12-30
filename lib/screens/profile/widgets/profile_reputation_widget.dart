@@ -21,7 +21,7 @@ class ProfileStatusWidget extends StatelessWidget {
     return Text(
       status,
       style: TextStyles.listSubtitleStyle(
-        Theme.of(context).colorScheme.onBackground,
+        Theme.of(context).colorScheme.primary,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

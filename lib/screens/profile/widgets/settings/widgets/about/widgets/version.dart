@@ -6,8 +6,8 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import '../../../../../../../constants/textstyle_constants.dart';
 import '../../../../../../../providers/app_provider.dart';
 import '../../../../../../../services/translations/dialogue_service.dart';
-import '../../../../../../../widgets/custom_card_widget.dart';
-import '../../../../../../../widgets/custom_list_tile.dart';
+import '../../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../../widgets/general/custom_list_tile.dart';
 import '../../settings_title_widget.dart';
 
 class VersionSettings extends StatefulWidget {

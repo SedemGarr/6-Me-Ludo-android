@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../constants/icon_constants.dart';
+import '../../constants/icon_constants.dart';
 
 class BackButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;

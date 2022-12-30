@@ -2,17 +2,18 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
+import 'package:six_me_ludo_android/widgets/buttons/back_button_widget.dart';
+import 'package:six_me_ludo_android/widgets/appbar/custom_appbar.dart';
 
 import '../../../../../../../constants/app_constants.dart';
 import '../../../../../../../constants/icon_constants.dart';
 import '../../../../../../../providers/theme_provider.dart';
 import '../../../../../../../providers/user_provider.dart';
 import '../../../../../../../services/navigation_service.dart';
-import '../../../../../../../widgets/animation_wrapper.dart';
-import '../../../../../../../widgets/app_bar_title_widget.dart';
-import '../../../../../../../widgets/random_theme_button.dart';
+import '../../../../../../../widgets/wrappers/animation_wrapper.dart';
+
+import '../../../../../../../widgets/appbar/app_bar_title_widget.dart';
+import '../../../../../../../widgets/buttons/random_theme_button.dart';
 
 class ThemeSelectionScreen extends StatelessWidget {
   const ThemeSelectionScreen({Key? key}) : super(key: key);
@@ -24,7 +25,6 @@ class ThemeSelectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBarWidget(
-        actions: const [RandomThemeButtonWidget()],
         leading: const BackButtonWidget(onPressed: NavigationService.genericGoBack),
         title: AppBarTitleWidget(text: userProvider.getThemeName()),
       ),
@@ -74,6 +74,7 @@ class ThemeSelectionScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomSheet: const RandomThemeButtonWidget(),
     );
   }
 }

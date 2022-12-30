@@ -149,6 +149,7 @@ class AppProvider with ChangeNotifier {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
+          shape: AppConstants.appShape,
           duration: duration ?? AppConstants.snackBarDuration,
           backgroundColor: backgroundColor,
           content: title != null

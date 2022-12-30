@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
-import '../providers/user_provider.dart';
+import '../../providers/user_provider.dart';
+import '../user/user_avatar_widget.dart';
 
 class AppBarAvatarWidget extends StatelessWidget {
   const AppBarAvatarWidget({super.key});
@@ -15,7 +15,7 @@ class AppBarAvatarWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(
-        right: 8.0,
+        left: 8.0,
       ),
       child: UserAvatarWidget(
         avatar: userProvider.getUserAvatar(),

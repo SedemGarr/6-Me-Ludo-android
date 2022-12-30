@@ -8,14 +8,16 @@ import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
+
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
 import '../../../../../models/message.dart';
 import '../../../../../providers/app_provider.dart';
-import '../../../../../widgets/custom_list_tile.dart';
+import '../../../../../widgets/general/custom_list_tile.dart';
+import '../../../../../widgets/user/user_avatar_widget.dart';
+
 
 class ChatListItem extends StatelessWidget {
   final int index;

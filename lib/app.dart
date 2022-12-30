@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/analytics_provider.dart';
 
-import '../constants/app_constants.dart';
-import '../providers/theme_provider.dart';
-import '../providers/user_provider.dart';
-import '../screens/splash/splash.dart';
-import '../services/translations/dialogue_service.dart';
-import 'app_lifecycle_manager.dart';
+import 'constants/app_constants.dart';
+import 'providers/theme_provider.dart';
+import 'providers/user_provider.dart';
+import 'screens/splash/splash.dart';
+import 'services/translations/dialogue_service.dart';
+import 'widgets/wrappers/app_lifecycle_manager.dart';
 
 class SixMeLudo extends StatelessWidget {
   const SixMeLudo({Key? key}) : super(key: key);

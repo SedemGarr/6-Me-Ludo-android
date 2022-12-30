@@ -7,7 +7,7 @@ import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../constants/textstyle_constants.dart';
+import '../../constants/textstyle_constants.dart';
 
 class JoinGameTextFieldWidget extends StatelessWidget {
   const JoinGameTextFieldWidget({super.key});

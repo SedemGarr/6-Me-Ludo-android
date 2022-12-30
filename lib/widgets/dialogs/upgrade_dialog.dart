@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import 'package:six_me_ludo_android/widgets/custom_elevated_button.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/default_dialog.dart';
-import 'package:six_me_ludo_android/widgets/title_widget.dart';
+import 'package:six_me_ludo_android/widgets/app/title_widget.dart';
 import '../../constants/app_constants.dart';
 import '../../constants/textstyle_constants.dart';
-
-import '../custom_outlined_button.dart';
+import '../buttons/custom_elevated_button.dart';
+import '../buttons/custom_outlined_button.dart';
 
 showUpgradeDialog({
   required BuildContext context,
@@ -33,18 +32,28 @@ showUpgradeDialog({
       style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
     ),
     actions: [
-      CustomOutlinedButton(
-        onPressed: () {
-          AppProvider.exitApp();
-        },
-        text: DialogueService.exitAppDialogYesText.tr,
-      ),
-      CustomElevatedButton(
-        onPressed: () {
-          AppProvider.openURL(AppConstants.playStoreURL);
-        },
-        text: DialogueService.updateButtonText.tr,
-      ),
+      Column(
+        children: [
+          SizedBox(
+            width: Get.width,
+            child: CustomOutlinedButton(
+              onPressed: () {
+                AppProvider.exitApp();
+              },
+              text: DialogueService.exitAppDialogYesText.tr,
+            ),
+          ),
+          SizedBox(
+            width: Get.width,
+            child: CustomElevatedButton(
+              onPressed: () {
+                AppProvider.openURL(AppConstants.playStoreURL);
+              },
+              text: DialogueService.updateButtonText.tr,
+            ),
+          ),
+        ],
+      )
     ],
   );
 }

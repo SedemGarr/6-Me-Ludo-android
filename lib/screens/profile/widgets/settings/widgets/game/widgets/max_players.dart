@@ -6,9 +6,11 @@ import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/set
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../../../../../../../models/user_settings.dart';
-import '../../../../../../../widgets/custom_animated_crossfade.dart';
-import '../../../../../../../widgets/custom_card_widget.dart';
-import '../../../../../../../widgets/custom_list_tile.dart';
+
+import '../../../../../../../widgets/general/custom_animated_crossfade.dart';
+import '../../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../../widgets/general/custom_list_tile.dart';
+import '../../settings_subtitle_widget.dart';
 
 class MaxPlayers extends StatelessWidget {
   const MaxPlayers({super.key});
@@ -23,9 +25,9 @@ class MaxPlayers extends StatelessWidget {
         child: CustomListTileWidget(
           //  leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.maxHumanPlayerIcon) : null,
           title: SettingsTitleWidget(text: userProvider.getUserIsOffline() ? DialogueService.maxPlayersOfflineTitleText.tr : DialogueService.maxPlayersTitleText.tr),
-          //   subtitle: SettingsSubtitleWidget(text: DialogueService.maxPlayersSubtitleText.tr),
+          subtitle: SettingsSubtitleWidget(text: DialogueService.maxPlayersSubtitleText.tr),
           trailing: DropdownButton<dynamic>(
-            iconEnabledColor: Theme.of(context).primaryColor,
+            iconEnabledColor: Theme.of(context).colorScheme.secondary,
             value: userProvider.getUserHumanPlayerNumber(),
             items: UserSettings.getHumanPlayerDropDownMenuItems(context),
             underline: const SizedBox.shrink(),
@@ -33,6 +35,7 @@ class MaxPlayers extends StatelessWidget {
               userProvider.setHumanPlayerNumber(value!, context);
             },
           ),
+          isThreeLine: true,
         ),
       ),
       condition: userProvider.getUserIsOffline(),

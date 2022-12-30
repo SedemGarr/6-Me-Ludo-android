@@ -6,8 +6,10 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../../../../../../../widgets/custom_card_widget.dart';
-import '../../../../../../../widgets/custom_list_tile.dart';
+
+import '../../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../../widgets/general/custom_list_tile.dart';
+import '../../settings_subtitle_widget.dart';
 
 class GameSpeed extends StatelessWidget {
   const GameSpeed({super.key});
@@ -20,9 +22,9 @@ class GameSpeed extends StatelessWidget {
       child: CustomListTileWidget(
         //    leading: shouldShowIcon ? const SettingsIconWidget(iconData: AppIcons.gameSpeedIcon) : null,
         title: SettingsTitleWidget(text: DialogueService.gameSpeedTitleText.tr),
-        //    subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
+        subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).primaryColor,
+          iconEnabledColor: Theme.of(context).colorScheme.secondary,
           value: userProvider.getUserGameSpeed(),
           items: UserSettings.getGameSpeedDropDownMenuItems(context),
           underline: const SizedBox.shrink(),
@@ -30,6 +32,7 @@ class GameSpeed extends StatelessWidget {
             userProvider.setGameSpeed(value!);
           },
         ),
+        // isThreeLine: true,
       ),
     );
   }

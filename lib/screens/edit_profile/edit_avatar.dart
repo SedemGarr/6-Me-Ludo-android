@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/screens/edit_profile/widgets/refresh_avatar_list_widget.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
-import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
-import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
+
+import 'package:six_me_ludo_android/widgets/buttons/back_button_widget.dart';
+import 'package:six_me_ludo_android/widgets/appbar/custom_appbar.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/user_provider.dart';
 import '../../services/translations/dialogue_service.dart';
-import '../../widgets/animation_wrapper.dart';
-import '../../widgets/banner_widget.dart';
-import '../../widgets/user_avatar_widget.dart';
+import '../../widgets/text/banner_widget.dart';
+import '../../widgets/user/user_avatar_widget.dart';
+import '../../widgets/wrappers/animation_wrapper.dart';
+import '../../widgets/appbar/app_bar_title_widget.dart';
+
+import '../../widgets/buttons/custom_elevated_button.dart';
 
 class EditAvatarScreen extends StatefulWidget {
   const EditAvatarScreen({super.key});
@@ -50,7 +52,6 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
             NavigationService.genericGoBack();
           }),
           title: AppBarTitleWidget(text: DialogueService.changeAvatarText.tr),
-          actions: const [RefreshAvatarListButton()],
         ),
         body: Column(
           children: [
@@ -91,6 +92,16 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
               ),
             ),
           ],
+        ),
+        bottomSheet: Container(
+          width: Get.width,
+          padding: const EdgeInsets.all(8.0),
+          child: CustomElevatedButton(
+            onPressed: () {
+              userProvider.intialiseAvatarList(true);
+            },
+            text: DialogueService.refreshAvatarText.tr,
+          ),
         ),
       ),
     );

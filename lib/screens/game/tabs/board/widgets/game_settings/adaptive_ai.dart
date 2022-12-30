@@ -4,10 +4,10 @@ import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_switch.dart';
 
-import '../../../../../../../widgets/custom_list_tile.dart';
+import '../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../widgets/general/custom_list_tile.dart';
+import '../../../../../../widgets/general/custom_switch.dart';
 
 class GameAdaptiveAI extends StatefulWidget {
   final bool canEdit;

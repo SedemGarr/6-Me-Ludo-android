@@ -4,8 +4,8 @@ import 'package:multiavatar/multiavatar.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
-import '../constants/app_constants.dart';
-import '../constants/player_constants.dart';
+import '../../constants/app_constants.dart';
+import '../../constants/player_constants.dart';
 
 class UserAvatarWidget extends StatelessWidget {
   final String? id;

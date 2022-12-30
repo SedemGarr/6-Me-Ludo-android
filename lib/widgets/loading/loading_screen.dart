@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
-import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
-import 'package:six_me_ludo_android/widgets/loading_widget.dart';
+
+import 'package:six_me_ludo_android/widgets/appbar/custom_appbar.dart';
+
+import '../appbar/app_bar_title_widget.dart';
+import 'loading_widget.dart';
 
 class LoadingScreen extends StatefulWidget {
   final String? text;

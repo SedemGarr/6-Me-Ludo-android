@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
+import 'package:six_me_ludo_android/services/navigation_service.dart';
 
-import '../providers/user_provider.dart';
+import '../../providers/user_provider.dart';
 import 'app_bar_title_widget.dart';
 
 class WelcomeAppbarTitleText extends StatefulWidget {
@@ -27,8 +28,13 @@ class _WelcomeAppbarTitleTextState extends State<WelcomeAppbarTitleText> {
   Widget build(BuildContext context) {
     UserProvider userProvider = context.watch<UserProvider>();
 
-    return AppBarTitleWidget(
-      text: welcomeString + userProvider.getUserPseudonym(),
+    return GestureDetector(
+      onTap: () {
+        NavigationService.goToEditPseudonymScreen();
+      },
+      child: AppBarTitleWidget(
+        text: welcomeString + userProvider.getUserPseudonym(),
+      ),
     );
   }
 }

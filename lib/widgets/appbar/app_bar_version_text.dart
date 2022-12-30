@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
-import '../constants/textstyle_constants.dart';
+import '../../constants/textstyle_constants.dart';
 
 class AppBarVersionText extends StatelessWidget {
   const AppBarVersionText({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 
-import '../constants/textstyle_constants.dart';
+import '../../constants/textstyle_constants.dart';
 
 class CustomTextButton extends StatelessWidget {
   final VoidCallback? onPressed;

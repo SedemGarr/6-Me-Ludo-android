@@ -13,17 +13,18 @@ import 'package:six_me_ludo_android/models/user.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
+import 'package:six_me_ludo_android/screens/game/reputation_summary.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/end_game_screen/end_game_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/chat.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/pass_button_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
-import 'package:six_me_ludo_android/widgets/loading_screen.dart';
+import 'package:six_me_ludo_android/widgets/buttons/back_button_widget.dart';
+import 'package:six_me_ludo_android/widgets/appbar/custom_appbar.dart';
 
 import '../../models/thread.dart';
+import '../../widgets/loading/loading_screen.dart';
 
 class OnlineGameScreen extends StatelessWidget {
   final GameProvider gameProvider;
@@ -81,7 +82,11 @@ class OnlineGameScreen extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               )
-                            : null,
+                            : ReputationSummary(
+                                gameProvider: gameProvider,
+                                userProvider: userProvider,
+                                canSkip: canSkip,
+                              ),
                         actions: [
                           if (canSkip)
                             PassButtonWidget(

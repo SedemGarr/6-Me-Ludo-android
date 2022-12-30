@@ -4,8 +4,8 @@ import 'package:six_me_ludo_android/widgets/dialogs/default_dialog.dart';
 
 import '../../constants/textstyle_constants.dart';
 import '../../services/navigation_service.dart';
-import '../custom_elevated_button.dart';
-import '../custom_outlined_button.dart';
+import '../buttons/custom_elevated_button.dart';
+import '../buttons/custom_outlined_button.dart';
 
 showChoiceDialog({
   required String titleMessage,
@@ -29,19 +29,29 @@ showChoiceDialog({
       style: TextStyles.dialogContentStyle(Theme.of(context).colorScheme.onSurface),
     ),
     actions: [
-      CustomOutlinedButton(
-        onPressed: () {
-          NavigationService.genericGoBack();
-          onNo();
-        },
-        text: noMessage.tr,
-      ),
-      CustomElevatedButton(
-          onPressed: () {
-            NavigationService.genericGoBack();
-            onYes();
-          },
-          text: yesMessage.tr),
+      Column(
+        children: [
+          SizedBox(
+            width: Get.width,
+            child: CustomOutlinedButton(
+              onPressed: () {
+                NavigationService.genericGoBack();
+                onNo();
+              },
+              text: noMessage.tr,
+            ),
+          ),
+          SizedBox(
+            width: Get.width,
+            child: CustomElevatedButton(
+                onPressed: () {
+                  NavigationService.genericGoBack();
+                  onYes();
+                },
+                text: yesMessage.tr),
+          ),
+        ],
+      )
     ],
   );
 }

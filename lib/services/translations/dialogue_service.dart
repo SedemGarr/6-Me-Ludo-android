@@ -106,7 +106,8 @@ class DialogueService extends Translations {
   static const String newGamesText = 'newGamesText';
   static const String createNewGameText = 'createNewGameText';
   // game - starting
-  static const String newGameAppBarTitleText = 'newGameAppBarTitleText';
+  static const String newOnlineGameAppBarTitleText = 'newOnlineGameAppBarTitleText';
+  static const String newOfflineGameAppBarTitleText = 'newOfflineGameAppBarTitleText';
   static const String startGameButtonText = 'startGameButtonText';
   static const String joinGameButtonText = 'joinGameButtonText';
   static const String orButtonText = 'orButtonText';
@@ -246,7 +247,9 @@ class DialogueService extends Translations {
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';
+  static const String refreshAvatarText = 'refreshAvatarText';
   static const String changePseudonymText = 'changePseudonymText';
+  static const String savePseudonymText = 'savePseudonymText';
   static const String closeDialogText = 'closeDialogText';
   static const String savePseudonymDialogText = 'savePseudonymDialogText';
   static const String changePseudonymHintText = 'changePseudonymHintText';
@@ -286,6 +289,7 @@ class DialogueService extends Translations {
   static const String setThemeToRandomText = 'setThemeToRandomText';
   static const String setThemeToValueText = 'setThemeToValueText';
   static const String randomThemeText = 'randomThemeText';
+  static const String randomiseThemeText = 'randomiseThemeText';
   static const String currentThemeText = 'curentThemeText';
   // settings - wakelock
   static const String wakelockTitleText = 'wakelockTitleText';
@@ -327,6 +331,7 @@ class DialogueService extends Translations {
   // settings - offline
   static const String offlineText = 'offlineText';
   static const String offlineModeTitleText = 'offlineModeTitleText';
+  static const String offlineModeSubtitleText = 'offlineModeSubtitleText';
   static const String offlineModeContentText = 'offlineModeContentText';
   static const String offlineModeYesText = 'offlineModeYesText';
   static const String offlineModeNoText = 'offlineModeNoText';
@@ -340,6 +345,7 @@ class DialogueService extends Translations {
   static const String offlineJoiningGameNoText = 'offlineJoiningGameNoText';
   // settings - sign out
   static const String signOutTitleText = 'signOutTitleText';
+  static const String signInSubtitleText = 'signInSubtitleText';
   static const String signOutSubtitleText = 'signOutSubtitleText';
   static const String signOutDialogTitleText = 'signOutDialogTitleText';
   static const String signOutDialogContentText = 'signOutDialogContentText';
@@ -364,9 +370,13 @@ class DialogueService extends Translations {
   static const String versionTitleText = 'versionTitleText';
   static const String privacyTitleText = 'privacyTitleText';
   static const String termsTitleText = 'termsTitleText';
+  static const String privacySubtitleText = 'privacySubtitleText';
+  static const String termsSubtitleText = 'termsSubtitleText';
   static const String licenseTitleText = 'licenseTitleText';
+  static const String licenseSubTitleText = 'licenseSubTitleText';
   // feedback
   static const String sendFeedbackText = 'sendFeedbackText';
+  static const String sendFeedbackSubtitleText = 'sendFeedbackSubtitleText';
   static const String subjectText = 'subjectText';
   static const String emailAddressText = 'emailAddressText';
   //
@@ -376,7 +386,8 @@ class DialogueService extends Translations {
   static const String exitAppDialogContentText = 'exitAppDialogContentText';
   static const String exitAppDialogNoText = 'exitAppDialogNoText';
   static const String exitAppDialogYesText = 'exitAppDialogYesText';
-  static const String exitAppText = 'exitAppText';
+  static const String exitAppTitleText = 'exitAppTitleText';
+  static const String exitAppSubtitleText = 'exitAppSubtitleText';
 
   @override
   Map<String, Map<String, String>> get keys => {

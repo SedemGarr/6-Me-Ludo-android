@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_constants.dart';
-import '../constants/textstyle_constants.dart';
+import '../../constants/app_constants.dart';
+import '../../constants/textstyle_constants.dart';
 
 class BannerWidget extends StatelessWidget {
   final String text;

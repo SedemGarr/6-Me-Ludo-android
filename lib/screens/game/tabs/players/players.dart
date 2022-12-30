@@ -4,7 +4,7 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_list_item.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/reorder_players_banner.dart';
-import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
+import 'package:six_me_ludo_android/widgets/wrappers/animation_wrapper.dart';
 
 import '../../../../models/game.dart';
 import '../../../../models/player.dart';

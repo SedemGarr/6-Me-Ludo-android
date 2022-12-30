@@ -25,7 +25,6 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
-import '../widgets/dialogs/new_game_dialog.dart';
 import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
@@ -101,7 +100,7 @@ class UserProvider with ChangeNotifier {
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 20; i++) {
       avatars.add(generateRandomUserAvatar());
     }
 
@@ -188,8 +187,7 @@ class UserProvider with ChangeNotifier {
       return;
     }
 
-    // NavigationService.goToNewGameScreen();
-    showNewGameDialog(context: context);
+    NavigationService.goToNewGameScreen();
   }
 
   void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
@@ -346,7 +344,6 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = flexScheme.name;
     themeProvider.setTheme(_user!.settings.prefersDarkMode, flexScheme);
-    AppProvider.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name.capitalizeFirst!);
     await updateUser(true, true);
   }
 
@@ -355,7 +352,6 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = '';
     themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getRandomScheme());
-    AppProvider.showToast(DialogueService.setThemeToRandomText.tr);
     await updateUser(true, true);
   }
 

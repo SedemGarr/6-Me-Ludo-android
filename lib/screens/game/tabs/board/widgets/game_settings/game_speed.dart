@@ -4,10 +4,10 @@ import 'package:six_me_ludo_android/models/user_settings.dart';
 import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../../../../../../../widgets/custom_card_widget.dart';
-import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../../../../../models/game.dart';
 import '../../../../../../services/database_service.dart';
+import '../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../widgets/general/custom_list_tile.dart';
 
 class GameGameSpeed extends StatefulWidget {
   final bool canEdit;
@@ -49,7 +49,7 @@ class _GameGameSpeedState extends State<GameGameSpeed> {
         title: SettingsTitleWidget(text: DialogueService.gameSpeedTitleText.tr),
         //  subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).primaryColor,
+          iconEnabledColor: Theme.of(context).colorScheme.secondary,
           value: game.hostSettings.preferredSpeed,
           items: UserSettings.getGameSpeedDropDownMenuItems(context),
           underline: const SizedBox.shrink(),

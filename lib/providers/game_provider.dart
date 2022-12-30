@@ -1533,18 +1533,18 @@ class GameProvider with ChangeNotifier {
             if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
               handleAIPlayerGameLogic(user);
             } else {
-              UserProvider userProvider = Get.context!.read<UserProvider>();
-              Game tempGame = Game.fromJson(currentGame!.toJson());
+              // UserProvider userProvider = Get.context!.read<UserProvider>();
+              //   Game tempGame = Game.fromJson(currentGame!.toJson());
 
-              if (userProvider.getUserIsOffline()) {
-                currentGame!.canPass = true;
-                currentGame!.canPlay = true;
-              } else {
-                tempGame.canPass = true;
-                tempGame.canPlay = true;
-              }
+              //    if (userProvider.getUserIsOffline()) {
+              currentGame!.canPass = true;
+              currentGame!.canPlay = true;
+              //   } else {
+              //   tempGame.canPass = true;
+              //  tempGame.canPlay = true;
+              //    }
 
-              await DatabaseService.updateGame(userProvider.getUserIsOffline() ? currentGame! : tempGame, true);
+              await DatabaseService.updateGame(currentGame!, true);
             }
           }
         });

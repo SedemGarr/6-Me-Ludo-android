@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/game.dart';
+import 'package:six_me_ludo_android/screens/game/reputation_summary.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/board.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/end_game_screen/end_game_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/players.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/pass_button_widget.dart';
-import 'package:six_me_ludo_android/widgets/loading_screen.dart';
 
 import '../../constants/app_constants.dart';
 import '../../constants/icon_constants.dart';
@@ -19,8 +19,9 @@ import '../../providers/sound_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../services/translations/dialogue_service.dart';
-import '../../widgets/back_button_widget.dart';
-import '../../widgets/custom_appbar.dart';
+import '../../widgets/buttons/back_button_widget.dart';
+import '../../widgets/appbar/custom_appbar.dart';
+import '../../widgets/loading/loading_screen.dart';
 
 class OfflineGameScreen extends StatelessWidget {
   final GameProvider gameProvider;
@@ -51,7 +52,7 @@ class OfflineGameScreen extends StatelessWidget {
         },
         child: Scaffold(
           appBar: CustomAppBarWidget(
-            centerTitle: true,
+            centerTitle: canSkip,
             backgroundColor: gameProvider.playerSelectedColor,
             leading: BackButtonWidget(
                 color: ThemeProvider.getContrastingColor(gameProvider.playerColor),
@@ -66,7 +67,11 @@ class OfflineGameScreen extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   )
-                : null,
+                : ReputationSummary(
+                    gameProvider: gameProvider,
+                    userProvider: userProvider,
+                    canSkip: canSkip,
+                  ),
             actions: [
               if (canSkip)
                 PassButtonWidget(

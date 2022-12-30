@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/player.dart';
+import '../../models/player.dart';
 
 class ReputationWidget extends StatelessWidget {
   final int value;

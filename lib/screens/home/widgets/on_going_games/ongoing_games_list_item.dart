@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_actions_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_date_widget.dart';
-import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_has_started_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_name_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_owner_avatar_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/widgets/game_player_widget.dart';
@@ -15,7 +13,9 @@ import '../../../../models/game.dart';
 import '../../../../models/player.dart';
 import '../../../../providers/app_provider.dart';
 import '../../../../services/translations/dialogue_service.dart';
-import '../../../../widgets/custom_divider.dart';
+import '../../../../widgets/buttons/custom_elevated_button.dart';
+import '../../../../widgets/buttons/custom_outlined_button.dart';
+import '../../../../widgets/general/custom_divider.dart';
 
 class OnGoingGamesListItemWidget extends StatelessWidget {
   final Game game;
@@ -55,7 +55,13 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
                 text: isOffline
                     ? DialogueService.lastPlayedAtText.tr + AppProvider.parseDateFromNow(game.lastUpdatedAt)
                     : DialogueService.createdAtText.tr + AppProvider.parseDateFromNow(game.createdAt)),
-            trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
+            //  trailing: GameHasStarteWidget(hasGameStarted: game.hasStarted),
+            trailing: CustomElevatedButton(
+              onPressed: () {
+                gameProvider.showRejoinGameDialog(game, userProvider.getUser(), context);
+              },
+              text: DialogueService.rejoinGameDialogYesText.tr,
+            ),
             children: [
               Column(
                 children: [
@@ -67,11 +73,20 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
                         game: game,
                         userProvider: userProvider,
                       ),
-                  GameActionsWidget(
-                    game: game,
-                    gameProvider: gameProvider,
-                    host: host,
-                    userProvider: userProvider,
+                  Container(
+                    width: Get.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: CustomOutlinedButton(
+                      onPressed: () {
+                        gameProvider.showLeaveOrDeleteGameDialog(
+                          game,
+                          userProvider.getUser(),
+                          context,
+                        );
+                      },
+                      text: host.id == userProvider.getUserID() ? DialogueService.deleteGameDialogYesText.tr : DialogueService.leaveGameDialogYesText.tr,
+                      color: Theme.of(context).backgroundColor,
+                    ),
                   ),
                 ],
               ),

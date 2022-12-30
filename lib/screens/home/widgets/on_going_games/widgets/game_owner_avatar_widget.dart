@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/constants/player_constants.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
+
+import '../../../../../widgets/user/user_avatar_widget.dart';
 
 class GameOwnerAvatarWidget extends StatelessWidget {
   final String? id;

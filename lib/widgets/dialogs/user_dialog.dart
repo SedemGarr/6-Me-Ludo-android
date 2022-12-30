@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/default_dialog.dart';
-import 'package:six_me_ludo_android/widgets/reputation_widget.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
+
 import '../../constants/textstyle_constants.dart';
 import '../../models/user.dart';
+import '../user/reputation_widget.dart';
+import '../user/user_avatar_widget.dart';
 
 showUserDialog({
   required Users user,

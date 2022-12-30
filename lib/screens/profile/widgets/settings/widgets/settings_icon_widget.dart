@@ -7,13 +7,9 @@ class SettingsIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          iconData,
-        ),
-      ],
+    return Icon(
+      iconData,
+      color: Theme.of(context).colorScheme.secondary,
     );
   }
 }

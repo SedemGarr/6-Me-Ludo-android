@@ -10,10 +10,11 @@ import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_card_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_list_tile.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../widgets/general/custom_list_tile.dart';
+import '../../../../../../widgets/user/user_avatar_widget.dart';
 
 class EndGameWidget extends StatefulWidget {
   final GameProvider gameProvider;
