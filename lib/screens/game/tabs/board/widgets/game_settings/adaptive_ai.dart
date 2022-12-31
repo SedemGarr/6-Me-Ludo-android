@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:six_me_ludo_android/models/game.dart';
-import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 

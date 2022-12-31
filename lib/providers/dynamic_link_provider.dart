@@ -9,6 +9,8 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
 
+import '../services/logging_service.dart';
+
 class DynamicLinkProvider with ChangeNotifier {
   FirebaseDynamicLinks firebase = FirebaseDynamicLinks.instance;
 
@@ -33,7 +35,7 @@ class DynamicLinkProvider with ChangeNotifier {
     firebase.onLink.listen((PendingDynamicLinkData event) async {
       await _handleDeepLinkData(event);
     }).onError((error) {
-      debugPrint(error.toString());
+      LoggingService.logMessage(error.toString());
     });
   }
 

@@ -21,52 +21,49 @@ class GameOptionsPanel extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          appProvider.togglePanelController();
-        },
-        child: Container(
-          color: Colors.transparent,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 12.0,
-                ),
-                child: AnimatedContainer(
-                  height: Get.height * 0.01,
-                  width: Get.width * 1 / 2,
-                  duration: AppConstants.animationDuration,
-                  decoration: BoxDecoration(
-                    color: appProvider.isPanelOpen ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                    borderRadius: AppConstants.appBorderRadius,
-                  ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 16.0,
+                bottom: 12.0,
+              ),
+              child: AnimatedContainer(
+                height: Get.height * 0.01,
+                width: Get.width * 1 / 2,
+                duration: AppConstants.animationDuration,
+                decoration: BoxDecoration(
+                  color: appProvider.isPanelOpen ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primary.withOpacity(AppConstants.panelHeader),
+                  borderRadius: AppConstants.appBorderRadius,
                 ),
               ),
-              if (!userProvider.getUserIsOffline() || (userProvider.getUserIsOffline() && !GameProvider.isThereLocalGame()))
-                SizedBox(
-                  width: Get.width,
-                  child: CustomElevatedButton(
-                      onPressed: () {
-                        userProvider.handleNewGameTap(context);
-                      },
-                      text: userProvider.getUserIsOffline() ? DialogueService.newOfflineGameText.tr : DialogueService.newOnlineGameAppBarTitleText.tr),
-                ),
-              if (!userProvider.getUserIsOffline())
-                SizedBox(
-                  width: Get.width,
-                  child: CustomOutlinedButton(
-                      onPressed: () {
-                        appProvider.closePanelController();
-                        showJoinGameDialog(context: context);
-                      },
-                      text: DialogueService.joinGameFABText.tr),
-                ),
-            ],
+            ),
           ),
-        ),
+          if (!userProvider.getUserIsOffline() || (userProvider.getUserIsOffline() && !GameProvider.isThereLocalGame()))
+            Flexible(
+              child: SizedBox(
+                width: Get.width,
+                child: CustomElevatedButton(
+                    onPressed: () {
+                      userProvider.handleNewGameTap(context);
+                    },
+                    text: userProvider.getUserIsOffline() ? DialogueService.newOfflineGameText.tr : DialogueService.newOnlineGameAppBarTitleText.tr),
+              ),
+            ),
+          if (!userProvider.getUserIsOffline())
+            Flexible(
+              child: SizedBox(
+                width: Get.width,
+                child: CustomOutlinedButton(
+                    onPressed: () {
+                      showJoinGameDialog(context: context);
+                    },
+                    text: DialogueService.joinGameFABText.tr),
+              ),
+            ),
+        ],
       ),
     );
   }

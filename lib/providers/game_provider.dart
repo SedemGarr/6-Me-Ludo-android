@@ -34,6 +34,7 @@ import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/user_settings.dart';
 import '../services/game_status_service.dart';
+import '../services/logging_service.dart';
 import '../widgets/dialogs/upgrade_dialog.dart';
 
 class GameProvider with ChangeNotifier {
@@ -202,14 +203,14 @@ class GameProvider with ChangeNotifier {
     return currentGame!.players.firstWhere((element) => element.id == currentGame!.finishedPlayers.first);
   }
 
-  Player getViciousPlayer() {
-    List<Player> listOfPlayers = [...currentGame!.players];
+  Player getViciousPlayer(Game game) {
+    List<Player> listOfPlayers = [...game.players];
     listOfPlayers.sort((b, a) => a.numberOfTimesKickerInSession.compareTo(b.numberOfTimesKickerInSession));
     return listOfPlayers.first;
   }
 
-  Player getPunchingBagPlayer() {
-    List<Player> listOfPlayers = [...currentGame!.players];
+  Player getPunchingBagPlayer(Game game) {
+    List<Player> listOfPlayers = [...game.players];
     listOfPlayers.sort((b, a) => a.numberOfTimesKickedInSession.compareTo(b.numberOfTimesKickedInSession));
     return listOfPlayers.first;
   }
@@ -345,6 +346,7 @@ class GameProvider with ChangeNotifier {
       startGame(user, false);
     } catch (e) {
       // if something catastrophic has happened
+      LoggingService.logMessage(e.toString());
       goBack();
       return;
     }
@@ -414,7 +416,7 @@ class GameProvider with ChangeNotifier {
   }
 
   void checkIfDieisRolling(Game game) {
-    if (currentGame!.hasStarted && game.die.isRolling) {
+    if ((currentGame!.hasStarted && game.die.isRolling) && !oldGame!.die.isRolling) {
       playGameSound(GameStatusService.playerRoll);
     }
   }
@@ -422,15 +424,19 @@ class GameProvider with ChangeNotifier {
   void checkIfPlayerIsKicked(Game game) {
     for (Player player in game.players) {
       for (Piece piece in player.pieces) {
-        Piece oldPiece = oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces[oldGame!
-            .players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
-            .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+        int playerNumber = oldGame!.players.indexWhere((element) => element.playerColor == piece.owner);
 
-        if ((piece.isBased && !piece.isHome) && (!oldPiece.isBased)) {
-          if (piece.owner == playerNumber) {
-            playGameSound(GameStatusService.playerKickMe);
-          } else {
-            playGameSound(GameStatusService.playerKickOther);
+        if (playerNumber != -1) {
+          Piece oldPiece = oldGame!.players[playerNumber].pieces[oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
+              .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+
+          if ((piece.isBased && !piece.isHome) && (!oldPiece.isBased)) {
+            if (piece.owner == playerNumber) {
+              playGameSound(GameStatusService.playerKickMe);
+            } else {
+              playGameSound(GameStatusService.playerKickOther);
+            }
+            vibrate();
           }
         }
       }
@@ -440,15 +446,18 @@ class GameProvider with ChangeNotifier {
   void checkIfPlayerIsHome(Game game) {
     for (Player player in game.players) {
       for (Piece piece in player.pieces) {
-        Piece oldPiece = oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces[oldGame!
-            .players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
-            .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+        int playerNumber = oldGame!.players.indexWhere((element) => element.playerColor == piece.owner);
 
-        if ((piece.isHome) && (!oldPiece.isHome)) {
-          if (isPlayerFinished(game, piece.owner)) {
-            playGameSound(GameStatusService.playerFinish);
-          } else {
-            playGameSound(GameStatusService.playerHome);
+        if (playerNumber != -1) {
+          Piece oldPiece = oldGame!.players[playerNumber].pieces[oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
+              .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+
+          if ((piece.isHome) && (!oldPiece.isHome)) {
+            if (isPlayerFinished(game, piece.owner)) {
+              playGameSound(GameStatusService.playerFinish);
+            } else {
+              playGameSound(GameStatusService.playerHome);
+            }
           }
         }
       }
@@ -568,6 +577,11 @@ class GameProvider with ChangeNotifier {
   void playGameSound(String sound) {
     SoundProvider soundProvider = Get.context!.read<SoundProvider>();
     soundProvider.playSound(sound);
+  }
+
+  void vibrate() {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+    AppProvider.vibrate(userProvider.getUserVibrate());
   }
 
   void removePlayerMessages(String id) {
@@ -1183,7 +1197,7 @@ class GameProvider with ChangeNotifier {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -1204,7 +1218,7 @@ class GameProvider with ChangeNotifier {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -1249,7 +1263,7 @@ class GameProvider with ChangeNotifier {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -1631,7 +1645,8 @@ class GameProvider with ChangeNotifier {
         // if player is human, check if a kick is possible and update reputation
         if (!currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
           currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue + 1);
-          await updateUserCouldKick(currentGame!, user);
+          // await updateUserCouldKick(currentGame!, user);
+          updateUserCouldKick(currentGame!, user);
         }
       }
 
@@ -1905,7 +1920,29 @@ class GameProvider with ChangeNotifier {
 
     await DatabaseService.updateGameSessionEndDate(game);
 
+    handleStats();
+
     scrollToBoardTab();
+  }
+
+  Future<void> handleStats() async {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
+    if (currentGame != null) {
+      for (Player player in currentGame!.players.where((element) => !element.isAIPlayer).toList()) {
+        Users? user = await DatabaseService.getUser(player.id);
+        if (user != null) {
+          user.stats.updateStats(currentGame!, player);
+
+          if (userProvider.isMe(user.id)) {
+            userProvider.assignUser(user);
+            userProvider.updateUser(false, true);
+          } else {
+            DatabaseService.updateUserData(user);
+          }
+        }
+      }
+    }
   }
 
   Future<void> deleteGame(Game game, Users user) async {
@@ -2030,7 +2067,7 @@ class GameProvider with ChangeNotifier {
 
       return parseDuration(endedAt.difference(startedAt));
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       return '';
     }
   }
@@ -2042,7 +2079,7 @@ class GameProvider with ChangeNotifier {
       String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       return '';
     }
   }

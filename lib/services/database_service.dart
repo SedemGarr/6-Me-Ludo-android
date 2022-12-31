@@ -25,6 +25,7 @@ import '../models/version.dart';
 import '../providers/app_provider.dart';
 import '../providers/dynamic_link_provider.dart';
 import 'game_status_service.dart';
+import 'logging_service.dart';
 
 class DatabaseService {
   static String getDeviceTime() {
@@ -87,7 +88,7 @@ class DatabaseService {
       return newUser;
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       return null;
     }
   }
@@ -114,7 +115,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(user.id).set(user.toJson(), SetOptions(merge: true));
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -123,7 +124,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -132,7 +133,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -170,7 +171,7 @@ class DatabaseService {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
 
     return games;
@@ -279,7 +280,7 @@ class DatabaseService {
       });
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -359,7 +360,7 @@ class DatabaseService {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -370,7 +371,7 @@ class DatabaseService {
       await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
       await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -390,7 +391,7 @@ class DatabaseService {
       jsonGame['sessionStartedAt'] = getFireStoreServerTimestamp();
       FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -410,7 +411,7 @@ class DatabaseService {
       jsonGame['sessionEndedAt'] = getFireStoreServerTimestamp();
       FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -437,7 +438,7 @@ class DatabaseService {
       await deleteThread(gameID);
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -445,7 +446,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(thread.id).update(thread.toJson());
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -453,7 +454,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).delete();
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 }

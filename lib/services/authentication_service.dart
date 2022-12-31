@@ -13,9 +13,40 @@ import 'database_service.dart';
 import 'local_storage_service.dart';
 import 'package:flutter/material.dart';
 
+import 'logging_service.dart';
 import 'navigation_service.dart';
 
 class AuthenticationService {
+  static Future<void> signInAnon(BuildContext context) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    UserProvider userProvider = context.read<UserProvider>();
+    AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
+
+    appProvider.setLoading(true, true);
+
+    try {
+      UserCredential userCredential = await auth.signInAnonymously();
+
+      Users? user = await DatabaseService.createUser(
+        userCredential.user!,
+        true,
+        appProvider.getAppVersion(),
+        appProvider.getAppBuildNumber(),
+      );
+
+      if (user != null) {
+        userProvider.setUser(user, appProvider, soundProvider);
+        appProvider.setLoading(false, true);
+        NavigationService.goToHomeScreen();
+      }
+    } catch (e) {
+      appProvider.setLoading(false, true);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
+      LoggingService.logMessage(e.toString());
+    }
+  }
+
   static Future<void> convertToGoogle(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -55,7 +86,7 @@ class AuthenticationService {
               default:
                 appProvider.setLoading(false, true);
                 AppProvider.showToast(DialogueService.genericErrorText.tr);
-                debugPrint(e.toString());
+                LoggingService.logMessage(e.toString());
                 break;
             }
           }
@@ -81,7 +112,7 @@ class AuthenticationService {
         } catch (e) {
           appProvider.setLoading(false, true);
           AppProvider.showToast(DialogueService.genericErrorText.tr);
-          debugPrint(e.toString());
+          LoggingService.logMessage(e.toString());
         }
       } else {
         // if user is null
@@ -91,37 +122,7 @@ class AuthenticationService {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
-    }
-  }
-
-  static Future<void> signInAnon(BuildContext context) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    UserProvider userProvider = context.read<UserProvider>();
-    AppProvider appProvider = context.read<AppProvider>();
-    SoundProvider soundProvider = context.read<SoundProvider>();
-
-    appProvider.setLoading(true, true);
-
-    try {
-      UserCredential userCredential = await auth.signInAnonymously();
-
-      Users? user = await DatabaseService.createUser(
-        userCredential.user!,
-        true,
-        appProvider.getAppVersion(),
-        appProvider.getAppBuildNumber(),
-      );
-
-      if (user != null) {
-        userProvider.setUser(user, appProvider, soundProvider);
-        appProvider.setLoading(false, true);
-        NavigationService.goToHomeScreen();
-      }
-    } catch (e) {
-      appProvider.setLoading(false, true);
-      AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -155,7 +156,7 @@ class AuthenticationService {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -173,7 +174,7 @@ class AuthenticationService {
       AppProvider.clearCache();
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
 
     NavigationService.goToSplashScreenAfterLogOut();
@@ -211,7 +212,7 @@ class AuthenticationService {
       }
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 

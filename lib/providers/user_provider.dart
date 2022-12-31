@@ -190,8 +190,12 @@ class UserProvider with ChangeNotifier {
     NavigationService.goToNewGameScreen();
   }
 
-  void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
+  void assignUser(Users? user) {
     _user = user;
+  }
+
+  void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
+    assignUser(user);
     _user!.appVersion = appProvider.getAppVersion();
     _user!.appBuildNumber = appProvider.getAppBuildNumber();
 
@@ -199,6 +203,7 @@ class UserProvider with ChangeNotifier {
 
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
     soundProvider.setPrefersSound(_user!.settings.prefersAudio);
+    soundProvider.setPrefersMusic(_user!.settings.prefersMusic);
 
     notifyListeners();
   }
@@ -267,7 +272,7 @@ class UserProvider with ChangeNotifier {
 
     _user!.settings.isOffline = value;
     AppProvider.showToast(value ? DialogueService.offlineModeToastOnText.tr : DialogueService.offlineModeToastOffText.tr);
-    updateUser(true, true);
+    syncUser(true);
   }
 
   void toggleAudio(BuildContext context, bool value) {
@@ -334,6 +339,11 @@ class UserProvider with ChangeNotifier {
 
   void toggleWakelock(BuildContext context, bool value) {
     _user!.settings.prefersWakelock = value;
+    updateUser(true, true);
+  }
+
+  void toggleVibrate(BuildContext context, bool value) {
+    _user!.settings.prefersVibrate = value;
     updateUser(true, true);
   }
 
@@ -438,6 +448,25 @@ class UserProvider with ChangeNotifier {
   void handleWakelockLogic(bool value) {
     if (getUserWakelock()) {
       AppProvider.setWakeLock(value);
+    }
+  }
+
+  void syncUser(bool shouldRebuild) async {
+    if (!getUserIsOffline()) {
+      if (shouldRebuild) {
+        notifyListeners();
+      }
+
+      Users? tempUser = await DatabaseService.getUser(_user!.id);
+
+      if (tempUser != null) {
+        if (_user!.stats.counter < tempUser.stats.counter) {
+          _user!.stats = tempUser.stats;
+          LocalStorageService.setUser(_user!);
+        } else if (_user!.stats.counter > tempUser.stats.counter) {
+          updateUser(shouldRebuild, true);
+        }
+      }
     }
   }
 
@@ -561,6 +590,54 @@ class UserProvider with ChangeNotifier {
     return name == _user!.psuedonym ? 'You' : name;
   }
 
+  String parseNumberOfGamesText(int value) {
+    if (value < 25) {
+      return DialogueService.numberOfGamesNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.numberOfGamesExperiencedText.tr;
+    } else if (value < 100) {
+      return DialogueService.numberOfGamesVeteranText.tr;
+    }
+
+    return DialogueService.numberOfGamesSleepText.tr;
+  }
+
+  String parsePercentageFinishedText(double value) {
+    if (value < 0.25) {
+      return DialogueService.percentageFinishedNoobText.tr;
+    } else if (value < 0.50) {
+      return DialogueService.percentageFinishedExperiencedText.tr;
+    } else if (value < 0.75) {
+      return DialogueService.percentageFinishedVeteranText.tr;
+    }
+
+    return DialogueService.percentageFinishedSleepText.tr;
+  }
+
+  String parsePercentageWonText(double value) {
+    if (value < 0.25) {
+      return DialogueService.percentageWonNoobText.tr;
+    } else if (value < 0.50) {
+      return DialogueService.percentageWonExperiencedText.tr;
+    } else if (value < 0.75) {
+      return DialogueService.percentageWonVeteranText.tr;
+    }
+
+    return DialogueService.percentageWonSleepText.tr;
+  }
+
+  String parsePercentageHumanText(double value) {
+    if (value < 0.25) {
+      return DialogueService.percentageHumanNoobText.tr;
+    } else if (value < 0.50) {
+      return DialogueService.percentageHumanExperiencedText.tr;
+    } else if (value < 0.75) {
+      return DialogueService.percentageHumanVeteranText.tr;
+    }
+
+    return DialogueService.percentageHumanSleepText.tr;
+  }
+
   String getUserEmail() {
     return _user!.email;
   }
@@ -633,6 +710,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserWakelock() {
     return _user!.settings.prefersWakelock;
+  }
+
+  bool getUserVibrate() {
+    return _user!.settings.prefersVibrate;
   }
 
   bool isAvatarSelected(String avatar) {

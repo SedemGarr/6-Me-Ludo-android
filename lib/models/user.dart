@@ -1,3 +1,4 @@
+import 'package:six_me_ludo_android/models/stats.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
 
 import 'user_settings.dart';
@@ -12,6 +13,7 @@ class Users {
   late int reputationValue;
   late bool isAnon;
   late UserSettings settings;
+  late Stats stats;
 
   Users({
     required this.id,
@@ -23,6 +25,7 @@ class Users {
     required this.email,
     required this.appVersion,
     required this.appBuildNumber,
+    required this.stats,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -30,6 +33,7 @@ class Users {
     id = json['id'];
     psuedonym = json['psuedonym'];
     settings = UserSettings.fromJson(json['settings']);
+    stats = json['stats'] == null ? Stats.getDefaultStats() : Stats.fromJson(json['stats']);
     reputationValue = json['reputationValue'];
     isAnon = json['isAnon'];
     email = json['email'] ?? '';
@@ -43,6 +47,7 @@ class Users {
     data['avatar'] = avatar;
     data['psuedonym'] = psuedonym;
     data['settings'] = settings.toJson();
+    data['stats'] = stats.toJson();
     data['reputationValue'] = reputationValue;
     data['isAnon'] = isAnon;
     data['email'] = email;
@@ -62,6 +67,7 @@ class Users {
       email: email,
       appVersion: appVersion,
       appBuildNumber: buildNumber,
+      stats: Stats.getDefaultStats(),
     );
   }
 

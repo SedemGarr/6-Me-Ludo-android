@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import '../models/game.dart';
 import '../services/game_status_service.dart';
+import '../services/logging_service.dart';
 
 class SoundProvider with ChangeNotifier {
   late bool prefersAudio = true;
@@ -172,7 +173,7 @@ class SoundProvider with ChangeNotifier {
           default:
         }
       } catch (e) {
-        debugPrint(e.toString());
+        LoggingService.logMessage(e.toString());
       }
     }
   }
@@ -187,7 +188,7 @@ class SoundProvider with ChangeNotifier {
           loopMode: LoopMode.single,
         );
       } catch (e) {
-        debugPrint(e.toString());
+        LoggingService.logMessage(e.toString());
       }
     }
   }
@@ -197,7 +198,7 @@ class SoundProvider with ChangeNotifier {
       try {
         gameLoopPlayer.pause();
       } catch (e) {
-        debugPrint(e.toString());
+        LoggingService.logMessage(e.toString());
       }
     }
   }
@@ -214,7 +215,7 @@ class SoundProvider with ChangeNotifier {
           }
         }
       } catch (e) {
-        debugPrint(e.toString());
+        LoggingService.logMessage(e.toString());
       }
     }
   }
@@ -224,7 +225,7 @@ class SoundProvider with ChangeNotifier {
       try {
         gameLoopPlayer.stop();
       } catch (e) {
-        debugPrint(e.toString());
+        LoggingService.logMessage(e.toString());
       }
     }
   }

@@ -35,7 +35,8 @@ class AppIcons {
   static const IconData sixDieIcon = MdiIcons.dice6Outline;
   // game - chat
   static const IconData sendMessageIcon = MdiIcons.send;
-  // settingss
+  // settings
+  static const IconData statsIcon = MdiIcons.trophy;
   static const IconData themeArrowIcon = MdiIcons.chevronRight;
   static const IconData themeSelectedIcon = MdiIcons.circle;
   static const IconData webIcon = MdiIcons.web;

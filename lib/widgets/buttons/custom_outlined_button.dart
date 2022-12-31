@@ -23,27 +23,29 @@ class CustomOutlinedButton extends StatelessWidget {
         ? OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
               shape: AppConstants.appShape,
-              side: BorderSide(color: color ?? Theme.of(context).colorScheme.secondary),
+              side: BorderSide(color: color ?? Theme.of(context).colorScheme.onBackground),
+              foregroundColor: color ?? Theme.of(context).colorScheme.onBackground,
             ),
             onPressed: onPressed,
             label: Text(
               text,
-              style: TextStyles.textButtonStyle(color ?? Theme.of(context).colorScheme.secondary),
+              style: TextStyles.textButtonStyle(color ?? Theme.of(context).colorScheme.onBackground),
             ),
             icon: Icon(
               iconData,
-              color: color ?? Theme.of(context).colorScheme.secondary,
+              color: color ?? Theme.of(context).colorScheme.onBackground,
             ),
           )
         : OutlinedButton(
             style: OutlinedButton.styleFrom(
               shape: AppConstants.appShape,
-              side: BorderSide(color: color ?? Theme.of(context).colorScheme.secondary),
+              side: BorderSide(color: color ?? Theme.of(context).colorScheme.onBackground),
+              foregroundColor: color ?? Theme.of(context).colorScheme.onBackground,
             ),
             onPressed: onPressed,
             child: Text(
               text,
-              style: TextStyles.textButtonStyle(color ?? Theme.of(context).colorScheme.secondary),
+              style: TextStyles.textButtonStyle(color ?? Theme.of(context).colorScheme.onBackground),
             ),
           );
   }

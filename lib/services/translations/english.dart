@@ -254,6 +254,9 @@ class EnglishTranslation {
       // settings - music
       DialogueService.musicTitleText: 'Game Music',
       DialogueService.musicSubtitleText: 'Toggle game music on or off',
+      // settings - music
+      DialogueService.vibrateTitleText: 'Game Vibrations',
+      DialogueService.vibrateSubtitleText: 'Toggle game vibrations on or off',
       // settings - theme
       DialogueService.themeTitleText: 'Theme',
       DialogueService.themeSubtitleText: 'Select your preferred theme',
@@ -360,6 +363,35 @@ class EnglishTranslation {
       DialogueService.exitAppDialogYesText: 'Exit',
       DialogueService.exitAppTitleText: 'Exit App',
       DialogueService.exitAppSubtitleText: 'Bad things will happen if you tap this',
+      // stats
+      DialogueService.seeMoreStatsButtonText: 'See More Stats and Achievements',
+      DialogueService.statsAppBarTitleText: 'Stats & Achievements',
+      DialogueService.statsTabText: 'Stats',
+      DialogueService.achievementsTabText: 'Achievements',
+      // number of Games
+      DialogueService.numberOfGamesText: 'Number of Games',
+      DialogueService.numberOfGamesNoobText: 'Noob',
+      DialogueService.numberOfGamesExperiencedText: 'Experienced',
+      DialogueService.numberOfGamesVeteranText: 'Veteran',
+      DialogueService.numberOfGamesSleepText: 'Don\'t you ever sleep!?',
+      // percentage finished
+      DialogueService.percentageFinishedTitleText: 'Percentage of Games Finished',
+      DialogueService.percentageFinishedNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentageFinishedExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentageFinishedVeteranText: 'Great job!',
+      DialogueService.percentageFinishedSleepText: 'Great! You finish what you start',
+      // percentage won
+      DialogueService.percentageWonTitleText: 'Percentage of Games Won',
+      DialogueService.percentageWonNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentageWonExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentageWonVeteranText: 'Great job!',
+      DialogueService.percentageWonSleepText: 'Great! You finish what you start',
+      // percentage Human
+      DialogueService.percentageHumanTitleText: 'Percentage of Games Against Humans Only',
+      DialogueService.percentageHumanNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentageHumanExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentageHumanVeteranText: 'Great job!',
+      DialogueService.percentageHumanSleepText: 'Great! You finish what you start',
     };
   }
 }

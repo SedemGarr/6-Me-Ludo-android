@@ -23,8 +23,10 @@ class AppConstants {
   static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;
   static const int gameThreadMessageLimit = 500;
+  static const int vibrationDuration = 125;
 
   static const double appOpacity = 0.25;
+  static const double panelHeader = 0.8;
 
   static const double lottieAnimationCutoffPoint = 1.0;
 

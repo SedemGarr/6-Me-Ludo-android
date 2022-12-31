@@ -44,7 +44,7 @@ class OfflineGameScreen extends StatelessWidget {
 
       // bool shouldShowShareAndCopyPopups = gameProvider.isPlayerHost(userProvider.getUserID()) && !game.isOffline;
       // bool canEditGameSettings = (!game.hasStarted && isHost) || (!game.hasStarted && game.hasSessionEnded && isHost);
-      bool canSkip = gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass;
+      bool canSkip = !game.hasSessionEnded && gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass;
 
       return GestureDetector(
         onTap: () {
@@ -52,7 +52,7 @@ class OfflineGameScreen extends StatelessWidget {
         },
         child: Scaffold(
           appBar: CustomAppBarWidget(
-            centerTitle: canSkip,
+            centerTitle: true,
             backgroundColor: gameProvider.playerSelectedColor,
             leading: BackButtonWidget(
                 color: ThemeProvider.getContrastingColor(gameProvider.playerColor),

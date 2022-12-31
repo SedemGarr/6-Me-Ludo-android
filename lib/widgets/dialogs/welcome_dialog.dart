@@ -21,7 +21,7 @@ showWelcomeDialog({
     onPop: () {
       AppProvider.exitApp();
     },
-    title: TitleWidget(width: Get.width * 1 / 5),
+    title: TitleWidget(width: Get.width * 1 / 4),
     content: Text(
       DialogueService.welcomeDialogTitleText.tr,
       style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),

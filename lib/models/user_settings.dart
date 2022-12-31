@@ -37,6 +37,7 @@ class UserSettings {
   late bool prefersProfanity;
   late bool prefersAddAI;
   late bool prefersWakelock;
+  late bool prefersVibrate;
   late bool isOffline;
   late String aiPersonalityPreference;
   late String locale;
@@ -56,6 +57,7 @@ class UserSettings {
     required this.prefersProfanity,
     required this.prefersAddAI,
     required this.prefersWakelock,
+    required this.prefersVibrate,
     required this.isOffline,
     required this.maxPlayers,
     required this.theme,
@@ -120,6 +122,7 @@ class UserSettings {
     prefersAutoStart = json['prefersAutoStart'] ?? false;
     prefersProfanity = json['prefersProfanity'] ?? false;
     prefersWakelock = json['prefersWakelock'] ?? true;
+    prefersVibrate = json['prefersVibrate'] ?? true;
     isOffline = json['isOffline'] ?? false;
     maxPlayers = json['maxPlayers'] ?? AppConstants.maxPlayerUpperLimit;
     locale = json['locale'] ?? Get.deviceLocale.toString();
@@ -140,6 +143,7 @@ class UserSettings {
     data['prefersProfanity'] = prefersProfanity;
     data['prefersAddAI'] = prefersAddAI;
     data['prefersWakelock'] = prefersWakelock;
+    data['prefersVibrate'] = prefersVibrate;
     data['isOffline'] = isOffline;
     data['maxPlayers'] = maxPlayers;
     data['locale'] = locale;
@@ -161,6 +165,7 @@ class UserSettings {
       prefersStartAssist: true,
       prefersProfanity: false,
       prefersWakelock: true,
+      prefersVibrate: true,
       isOffline: false,
       maxPlayers: AppConstants.maxPlayerUpperLimit,
       locale: DialogueService.englishUS.toString(),
@@ -237,6 +242,7 @@ class UserSettings {
         other.prefersStartAssist == prefersStartAssist &&
         other.prefersProfanity == prefersProfanity &&
         other.prefersWakelock == prefersWakelock &&
+        other.prefersVibrate == prefersVibrate &&
         other.isOffline == isOffline &&
         other.maxPlayers == maxPlayers;
   }
@@ -255,6 +261,7 @@ class UserSettings {
       prefersProfanity.hashCode ^
       prefersStartAssist.hashCode ^
       prefersWakelock.hashCode ^
+      prefersVibrate.hashCode ^
       isOffline.hashCode ^
       maxPlayers;
 }

@@ -18,15 +18,17 @@ import 'package:restart_app/restart_app.dart';
 import 'package:six_me_ludo_android/models/version.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:logging/logging.dart';
 
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/license.dart';
 import '../services/database_service.dart';
+import '../services/logging_service.dart';
 import '../widgets/dialogs/choice_dialog.dart';
 
 class AppProvider with ChangeNotifier {
@@ -38,8 +40,6 @@ class AppProvider with ChangeNotifier {
   //
   Random random = Random();
 
-  //
-  PanelController panelController = PanelController();
   bool isPanelOpen = false;
 
   final List<String> loadingStrings = [
@@ -68,27 +68,11 @@ class AppProvider with ChangeNotifier {
     DialogueService.welcome10Text.tr,
   ];
 
-  void togglePanelController() {
-    if (isPanelOpen) {
-      closePanelController();
-    } else {
-      openPanelController();
-    }
-  }
-
-  void openPanelController() {
-    setIsPanelOpen(true);
-    panelController.open();
-  }
-
-  void closePanelController() {
-    setIsPanelOpen(false);
-    panelController.close();
-  }
-
   void setIsPanelOpen(bool value) {
-    isPanelOpen = value;
-    notifyListeners();
+    if (isPanelOpen != value) {
+      isPanelOpen = value;
+      notifyListeners();
+    }
   }
 
   void setLoading(bool value, bool shouldRebuild) {
@@ -232,7 +216,7 @@ class AppProvider with ChangeNotifier {
         showToast(DialogueService.genericErrorText.tr);
       }
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       showToast(DialogueService.genericErrorText.tr);
     }
   }
@@ -245,13 +229,42 @@ class AppProvider with ChangeNotifier {
     Wakelock.toggle(enable: value);
   }
 
+  static void vibrate(bool prefersVibrate) async {
+    if (!prefersVibrate) {
+      return;
+    }
+
+    bool? canVibrate = await Vibration.hasVibrator();
+
+    if (canVibrate == null) {
+      return;
+    }
+
+    if (canVibrate) {
+      Vibration.vibrate(
+        duration: AppConstants.vibrationDuration,
+      );
+    }
+  }
+
   static Future<void> initApp() async {
+    initLogger();
     WidgetsFlutterBinding.ensureInitialized();
     await addGoogleFontsLicenses();
     await Firebase.initializeApp();
     listenForAppErrors();
     listenForAsyncAppErrors();
     await GetStorage.init();
+  }
+
+  static initLogger() {
+    if (kReleaseMode) {
+      Logger.root.level = Level.WARNING;
+    }
+
+    Logger.root.onRecord.listen((record) {
+      debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+    });
   }
 
   static Future<List<License>> loadLicenses() async {

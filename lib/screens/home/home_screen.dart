@@ -34,11 +34,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late DynamicLinkProvider dynamicLinkProvider;
+  late UserProvider userProvider;
 
   @override
   void initState() {
     super.initState();
-    dynamicLinkProvider = context.read();
+    dynamicLinkProvider = context.read<DynamicLinkProvider>();
+    userProvider = context.read<UserProvider>();
+    userProvider.syncUser(false);
     dynamicLinkProvider.handleDynamicLinks();
   }
 
@@ -65,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 actions: [SettingsButton()],
               ),
               body: SlidingUpPanel(
-                controller: appProvider.panelController,
+                //  controller: appProvider.panelController,
                 body: Column(
                   children: [
                     CustomAnimatedCrossFade(
@@ -102,6 +105,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Get.height * 0.17,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: AppConstants.appBorderRadius,
+                onPanelOpened: () {},
+                onPanelClosed: () {},
+                onPanelSlide: (position) {
+                  if (position > 0.5) {
+                    appProvider.setIsPanelOpen(true);
+                  } else {
+                    appProvider.setIsPanelOpen(false);
+                  }
+                },
               ),
             ),
     );

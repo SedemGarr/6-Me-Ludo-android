@@ -1,3 +1,4 @@
+import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +27,7 @@ showDefaultDialog({
           return !shouldOverridePop;
         },
         child: AlertDialog(
-          backgroundColor: Get.isDarkMode ? Colors.grey[900] : Colors.grey[900],
+          backgroundColor: Get.isDarkMode ? CSSColors.darkSlateGray : null,
           shape: AppConstants.appShape,
           contentPadding: contentPadding,
           title: title,

@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  advance_expansion_tile: ^1.0.2
   assets_audio_player: ^3.0.6
   carousel_slider: ^4.2.1
   clipboard: ^0.1.3
@@ -34,6 +35,7 @@ dependencies:
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.2
   jiffy: ^5.0.0
+  logging: ^1.1.0
   lottie: ^2.1.0
   material_design_icons_flutter: ^6.0.7096
   multiavatar: ^0.1.5
@@ -47,8 +49,8 @@ dependencies:
   url_launcher: ^6.1.7
   uuid: ^3.0.7
   visibility_detector: ^0.3.3
+  vibration: ^1.7.6
   wakelock: ^0.6.2
-  advance_expansion_tile: ^1.0.2
 
 dev_dependencies:
   flutter_test:
