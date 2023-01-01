@@ -15,12 +15,12 @@ class PercentageAI extends StatelessWidget {
     UserProvider userProvider = context.read<UserProvider>();
     Users user = userProvider.getUser();
 
-    double percentageHuman = user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfGamesWithOnlyHumans / user.stats.numberOfGames) * 100;
+    double percentageAI = user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfGamesWithOnlyAI / user.stats.numberOfGames) * 100;
 
     return StatsTileWidget(
-      titleText: DialogueService.percentageHumanTitleText.tr,
-      subTitleText: userProvider.parsePercentageHumanText(percentageHuman),
-      trailingText: '${percentageHuman.toStringAsFixed(1)}%',
+      titleText: DialogueService.percentageAITitleText.tr,
+      subTitleText: userProvider.parsePercentageAIText(percentageAI),
+      trailingText: '${percentageAI.toStringAsFixed(1)}%',
     );
   }
 }

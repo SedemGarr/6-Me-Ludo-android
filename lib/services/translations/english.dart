@@ -387,17 +387,42 @@ class EnglishTranslation {
       DialogueService.percentageWonVeteranText: 'Great job!',
       DialogueService.percentageWonSleepText: 'Great! You finish what you start',
       // percentage Human
-      DialogueService.percentageHumanTitleText: 'Percentage of Games Against Humans Only',
+      DialogueService.percentageHumanTitleText: 'Percentage of Games Against Humans',
       DialogueService.percentageHumanNoobText: 'Oh dear. Is this too hard for you?',
       DialogueService.percentageHumanExperiencedText: 'Meh, we\'ve seen better',
       DialogueService.percentageHumanVeteranText: 'Great job!',
       DialogueService.percentageHumanSleepText: 'Great! You finish what you start',
-      // percentage Human
+      // cummulative time
       DialogueService.cummulativeTimeTitleText: 'Total length of all games',
       DialogueService.cummulativeTimeNoobText: 'Oh dear. Is this too hard for you?',
       DialogueService.cummulativeTimeExperiencedText: 'Meh, we\'ve seen better',
       DialogueService.cummulativeTimeVeteranText: 'Great job!',
       DialogueService.cummulativeTimeSleepText: 'Great! You finish what you start',
+      // percentage AI
+      DialogueService.percentageAITitleText: 'Percentage of Games Against AI',
+      DialogueService.percentageAINoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentageAIExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentageAIVeteranText: 'Great job!',
+      DialogueService.percentageAISleepText: 'Great! You finish what you start',
+      // fav color
+      DialogueService.favouriteColorTitleText: 'Favourite Colour',
+      DialogueService.favouriteColorSubtitleText: 'We\'re not sure why you care about this lol',
+      DialogueService.redText: 'Red',
+      DialogueService.yellowText: 'Yellow',
+      DialogueService.greenText: 'Green',
+      DialogueService.blueText: 'Blue',
+      DialogueService.orangeText: 'Orange',
+      // k -ratio
+      DialogueService.kickerRatioTitleText: 'Kicker to Kickee Ratio',
+      DialogueService.kickerRatioSubtitleText: 'Yes, we know this name sounds ridiculous. Try and come up with a better one',
+      // reputation
+      DialogueService.reputationTitleText: 'Your Reputation',
+      // percentage mixed
+      DialogueService.percentageMixedTitleText: 'Percentage of Games Against Humans and AI',
+      // percentage pb
+      DialogueService.percentagePunchingBagTitleText: 'Percentage of Games Where You Were The Punching Bag',
+      // percentage v
+      DialogueService.percentageViciousTitleText: 'Percentage of Games Where You Were The Vicious Player',
     };
   }
 }

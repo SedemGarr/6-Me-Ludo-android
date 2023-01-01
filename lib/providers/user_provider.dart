@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
@@ -544,7 +545,7 @@ class UserProvider with ChangeNotifier {
   }
 
   String getUserReputationValueAsString() {
-    return _user!.reputationValue.toString();
+    return Player.getPlayerReputationName(_user!.reputationValue);
   }
 
   String getUserPersonalityPreference() {
@@ -637,6 +638,26 @@ class UserProvider with ChangeNotifier {
     }
 
     return DialogueService.percentageHumanSleepText.tr;
+  }
+
+  String parseFavouriteColorText(int value) {
+    try {
+      return PlayerConstants.swatchListNames[value];
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String parsePercentageAIText(double value) {
+    if (value < 0.25) {
+      return DialogueService.percentageAINoobText.tr;
+    } else if (value < 0.50) {
+      return DialogueService.percentageAIExperiencedText.tr;
+    } else if (value < 0.75) {
+      return DialogueService.percentageAIVeteranText.tr;
+    }
+
+    return DialogueService.percentageAISleepText.tr;
   }
 
   String parseCummulativeTimeText(String value) {

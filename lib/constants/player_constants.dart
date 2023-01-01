@@ -1,7 +1,9 @@
 import 'package:css_colors/css_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:six_me_ludo_android/constants/icon_constants.dart';
 import 'package:six_me_ludo_android/models/swatch.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 class PlayerConstants {
   static const String pacifist = 'pacifist';
@@ -179,5 +181,13 @@ class PlayerConstants {
     Swatch(playerColor: CSSColors.yellow, playerSelectedColor: CSSColors.orange),
     Swatch(playerColor: CSSColors.red, playerSelectedColor: CSSColors.darkRed),
     Swatch(playerColor: CSSColors.orange, playerSelectedColor: CSSColors.orange),
+  ];
+
+  static List<String> swatchListNames = [
+    DialogueService.blueText.tr,
+    DialogueService.greenText.tr,
+    DialogueService.yellowText.tr,
+    DialogueService.redText.tr,
+    DialogueService.orangeText.tr,
   ];
 }

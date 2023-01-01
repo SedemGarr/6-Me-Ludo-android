@@ -5,22 +5,17 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/widgets/stats_tile_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-import '../../../../models/user.dart';
-
-class PercentageVicious extends StatelessWidget {
-  const PercentageVicious({super.key});
+class ReputationStat extends StatelessWidget {
+  const ReputationStat({super.key});
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.read<UserProvider>();
-    Users user = userProvider.getUser();
-
-    double percentageVicious = user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfTimesBeingViciousPlayer / user.stats.numberOfGames) * 100;
 
     return StatsTileWidget(
-      titleText: DialogueService.percentageViciousTitleText.tr,
-      subTitleText: userProvider.parsePercentageHumanText(percentageVicious),
-      trailingText: '${percentageVicious.toStringAsFixed(1)}%',
+      titleText: DialogueService.reputationTitleText.tr,
+      subTitleText: userProvider.getUserReputationValueAsString(),
+      trailingText: userProvider.getUserReputationValue().toStringAsFixed(1),
     );
   }
 }

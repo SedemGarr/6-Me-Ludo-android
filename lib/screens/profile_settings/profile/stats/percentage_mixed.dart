@@ -15,12 +15,12 @@ class PercentageMixed extends StatelessWidget {
     UserProvider userProvider = context.read<UserProvider>();
     Users user = userProvider.getUser();
 
-    double percentageHuman = user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfGamesWithOnlyHumans / user.stats.numberOfGames) * 100;
+    double percentageMixed = user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfGamesWithMixtureOfHumansAndAI / user.stats.numberOfGames) * 100;
 
     return StatsTileWidget(
-      titleText: DialogueService.percentageHumanTitleText.tr,
-      subTitleText: userProvider.parsePercentageHumanText(percentageHuman),
-      trailingText: '${percentageHuman.toStringAsFixed(1)}%',
+      titleText: DialogueService.percentageMixedTitleText.tr,
+      subTitleText: '',
+      trailingText: '${percentageMixed.toStringAsFixed(1)}%',
     );
   }
 }

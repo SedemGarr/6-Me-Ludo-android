@@ -6,6 +6,9 @@ import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/kicke
 import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/percentage_ai.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/percentage_human.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/percentage_mixed.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/percentage_pb.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/percentage_v.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/reputation.dart';
 import 'package:six_me_ludo_android/widgets/general/custom_card_widget.dart';
 
 import '../../profile_settings/profile/stats/number_of_games.dart';
@@ -27,6 +30,9 @@ class StatsTabView extends StatelessWidget {
         CustomCardWidget(child: PercentageHuman()),
         CustomCardWidget(child: PercentageAI()),
         CustomCardWidget(child: PercentageMixed()),
+        CustomCardWidget(child: ReputationStat()),
+        CustomCardWidget(child: PercentageVicious()),
+        CustomCardWidget(child: PercentagePunchingBag()),
         CustomCardWidget(child: KickerKickedRatio()),
         CustomCardWidget(child: FavouriteColour()),
       ],

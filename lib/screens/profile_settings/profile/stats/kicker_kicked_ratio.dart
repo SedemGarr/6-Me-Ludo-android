@@ -6,6 +6,7 @@ import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/widge
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../../../../models/user.dart';
+import '../../../../providers/app_provider.dart';
 
 class KickerKickedRatio extends StatelessWidget {
   const KickerKickedRatio({super.key});
@@ -15,12 +16,16 @@ class KickerKickedRatio extends StatelessWidget {
     UserProvider userProvider = context.read<UserProvider>();
     Users user = userProvider.getUser();
 
-    double percentageHuman = user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfGamesWithOnlyHumans / user.stats.numberOfGames) * 100;
+    int numberOfKicks = user.stats.numberOfKicks;
+    int numberOfTimesBeingKicked = user.stats.numberOfTimesBeingKicked;
 
     return StatsTileWidget(
-      titleText: DialogueService.percentageHumanTitleText.tr,
-      subTitleText: userProvider.parsePercentageHumanText(percentageHuman),
-      trailingText: '${percentageHuman.toStringAsFixed(1)}%',
+      titleText: DialogueService.kickerRatioTitleText.tr,
+      subTitleText: DialogueService.kickerRatioSubtitleText.tr,
+      trailingText: '$numberOfKicks / $numberOfTimesBeingKicked',
+        onTap: () {
+        AppProvider.showToast(DialogueService.kickerRatioSubtitleText.tr);
+      },
     );
   }
 }

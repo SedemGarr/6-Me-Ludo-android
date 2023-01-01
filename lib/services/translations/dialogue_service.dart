@@ -420,12 +420,37 @@ class DialogueService extends Translations {
   static const String percentageHumanExperiencedText = 'percentageHumanExperiencedText';
   static const String percentageHumanVeteranText = 'percentageHumanVeteranText';
   static const String percentageHumanSleepText = 'percentageHumanSleepText';
+  // percentage human
+  static const String percentageAITitleText = 'percentageAITitleText';
+  static const String percentageAINoobText = 'percentageAINoobText';
+  static const String percentageAIExperiencedText = 'percentageAIExperiencedText';
+  static const String percentageAIVeteranText = 'percentageAIVeteranText';
+  static const String percentageAISleepText = 'percentageAISleepText';
   // cummulative time
   static const String cummulativeTimeTitleText = 'cummulativeTimeTitleText';
   static const String cummulativeTimeNoobText = 'cummulativeTimeNoobText';
   static const String cummulativeTimeExperiencedText = 'cummulativeTimeExperiencedText';
   static const String cummulativeTimeVeteranText = 'cummulativeTimeVeteranText';
   static const String cummulativeTimeSleepText = 'cummulativeTimeSleepText';
+  // fav color
+  static const String favouriteColorTitleText = 'favourtiteColorTitleText';
+  static const String favouriteColorSubtitleText = 'favouriteColorSubtitleText';
+  static const String redText = 'redText';
+  static const String yellowText = 'yellowText';
+  static const String greenText = 'greenText';
+  static const String blueText = 'blueText';
+  static const String orangeText = 'orangeText';
+  // k - ratio
+  static const String kickerRatioTitleText = 'kickerRatioTitleText';
+  static const String kickerRatioSubtitleText = 'kickerRatioSubtitleText';
+  // reputation
+  static const String reputationTitleText = 'reputationTitleText';
+  // percentage mixed
+  static const String percentageMixedTitleText = 'percentageMixedTitleText';
+  // percentage pb
+  static const String percentagePunchingBagTitleText = 'percentagePunchingBagTitleText';
+  // percentage v
+  static const String percentageViciousTitleText = 'percentageViciousTitleText';
 
   @override
   Map<String, Map<String, String>> get keys => {
