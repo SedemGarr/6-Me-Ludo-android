@@ -143,6 +143,8 @@ class Stats {
       }
     }
 
+    favouriteColours[player.playerColor]++;
+
     // time spent in games
     cummulativeTimeOfGames = GameProvider.getCummulativeDuration(cummulativeTimeOfGames, game.sessionStartedAt, game.sessionEndedAt);
   }
