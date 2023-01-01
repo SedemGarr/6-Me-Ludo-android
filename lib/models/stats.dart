@@ -16,6 +16,8 @@ class Stats {
   late int numberOfTimesBeingKicked;
   late int numberOfTimesBeingViciousPlayer;
   late int numberOfTimesBeingPunchingBagPlayer;
+  late List<int> favouriteColours;
+  late String cummulativeTimeOfGames;
 
   Stats({
     required this.numberOfGames,
@@ -29,6 +31,8 @@ class Stats {
     required this.numberOfTimesBeingViciousPlayer,
     required this.numberOfWins,
     required this.counter,
+    required this.favouriteColours,
+    required this.cummulativeTimeOfGames,
   });
 
   Stats.fromJson(Map<String, dynamic> json) {
@@ -43,6 +47,15 @@ class Stats {
     numberOfTimesBeingViciousPlayer = json['numberOfTimesBeingViciousPlayer'];
     numberOfWins = json['numberOfWins'];
     counter = json['counter'];
+    cummulativeTimeOfGames = json['cummulativeTimeOfGames'] ?? '0';
+    if (json['favouriteColours'] != null) {
+      favouriteColours = <int>[];
+      json['favouriteColours'].forEach((v) {
+        favouriteColours.add(v);
+      });
+    } else {
+      favouriteColours = getDefaultFavouriteColors();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -58,7 +71,13 @@ class Stats {
     data['numberOfTimesBeingViciousPlayer'] = numberOfTimesBeingViciousPlayer;
     data['numberOfWins'] = numberOfWins;
     data['counter'] = counter;
+    data['favouriteColours'] = favouriteColours.map((v) => v).toList();
+    data['cummulativeTimeOfGames'] = cummulativeTimeOfGames;
     return data;
+  }
+
+  static List<int> getDefaultFavouriteColors() {
+    return List.generate(4, (index) => 0, growable: false);
   }
 
   static Stats getDefaultStats() {
@@ -74,6 +93,8 @@ class Stats {
       numberOfGamesWithOnlyHumans: 0,
       numberOfTimesBeingPunchingBagPlayer: 0,
       numberOfTimesBeingViciousPlayer: 0,
+      favouriteColours: getDefaultFavouriteColors(),
+      cummulativeTimeOfGames: '0',
     );
   }
 
@@ -121,5 +142,8 @@ class Stats {
         numberOfTimesBeingPunchingBagPlayer++;
       }
     }
+
+    // time spent in games
+    cummulativeTimeOfGames = GameProvider.getCummulativeDuration(cummulativeTimeOfGames, game.sessionStartedAt, game.sessionEndedAt);
   }
 }

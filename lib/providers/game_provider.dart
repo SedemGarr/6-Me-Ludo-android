@@ -2072,6 +2072,20 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  static String getCummulativeDuration(String cummulativeTimeOfGames, String sessionStartedAt, String sessionEndedAt) {
+    try {
+      int cummulativeTime = int.parse(cummulativeTimeOfGames);
+
+      DateTime startedAt = DateTime.parse(sessionStartedAt);
+      DateTime endedAt = DateTime.parse(sessionEndedAt);
+
+      return (cummulativeTime + endedAt.difference(startedAt).inMilliseconds).toString();
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+      return '';
+    }
+  }
+
   static String parseDuration(Duration duration) {
     try {
       String twoDigits(int n) => n.toString().padLeft(2, "0");
