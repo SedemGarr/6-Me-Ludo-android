@@ -19,7 +19,7 @@ class PercentageVicious extends StatelessWidget {
 
     return StatsTileWidget(
       titleText: DialogueService.percentageViciousTitleText.tr,
-      subTitleText: userProvider.parsePercentageHumanText(percentageVicious),
+      subTitleText: userProvider.parsePercentageViciousText(percentageVicious),
       trailingText: '${percentageVicious.toStringAsFixed(1)}%',
     );
   }

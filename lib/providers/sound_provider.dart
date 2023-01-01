@@ -3,14 +3,12 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/providers/user_provider.dart';
 import '../models/game.dart';
 import '../services/game_status_service.dart';
 import '../services/logging_service.dart';
 
 class SoundProvider with ChangeNotifier {
-  late bool prefersAudio = true;
-  late bool prefersMusic = true;
-
   // players
   final AssetsAudioPlayer gameLoopPlayer = AssetsAudioPlayer();
   final AssetsAudioPlayer dieRollPlayer = AssetsAudioPlayer();
@@ -67,16 +65,18 @@ class SoundProvider with ChangeNotifier {
 
   String gameLoopPath = 'assets/sounds/game_loop.mp3';
 
-  void setPrefersSound(bool value) {
-    prefersAudio = value;
+  static bool prefersAudio() {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+    return userProvider.getUserAudio();
   }
 
-  void setPrefersMusic(bool value) {
-    prefersMusic = value;
+  static bool prefersMusic() {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+    return userProvider.getUserMusic();
   }
 
   void playSound(String sound) async {
-    if (prefersAudio) {
+    if (prefersAudio()) {
       try {
         switch (sound) {
           case GameStatusService.playerRoll:
@@ -179,7 +179,7 @@ class SoundProvider with ChangeNotifier {
   }
 
   void startGameLoopSound() async {
-    if (prefersMusic) {
+    if (prefersMusic()) {
       try {
         await gameLoopPlayer.open(
           Audio(gameLoopPath),
@@ -194,7 +194,7 @@ class SoundProvider with ChangeNotifier {
   }
 
   void pauseGameLoopSound() async {
-    if (prefersMusic) {
+    if (prefersMusic()) {
       try {
         gameLoopPlayer.pause();
       } catch (e) {
@@ -204,7 +204,7 @@ class SoundProvider with ChangeNotifier {
   }
 
   void resumeGameLoopSound() {
-    if (prefersMusic) {
+    if (prefersMusic()) {
       try {
         GameProvider gameProvider = Get.context!.read<GameProvider>();
         Game? game = gameProvider.currentGame;
@@ -221,7 +221,7 @@ class SoundProvider with ChangeNotifier {
   }
 
   void endGameLoopSound() {
-    if (prefersMusic) {
+    if (prefersMusic()) {
       try {
         gameLoopPlayer.stop();
       } catch (e) {

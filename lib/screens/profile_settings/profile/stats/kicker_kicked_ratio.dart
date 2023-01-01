@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/screens/profile_settings/profile/stats/widge
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import '../../../../models/user.dart';
-import '../../../../providers/app_provider.dart';
 
 class KickerKickedRatio extends StatelessWidget {
   const KickerKickedRatio({super.key});
@@ -23,9 +22,6 @@ class KickerKickedRatio extends StatelessWidget {
       titleText: DialogueService.kickerRatioTitleText.tr,
       subTitleText: DialogueService.kickerRatioSubtitleText.tr,
       trailingText: '$numberOfKicks / $numberOfTimesBeingKicked',
-        onTap: () {
-        AppProvider.showToast(DialogueService.kickerRatioSubtitleText.tr);
-      },
     );
   }
 }

@@ -8,15 +8,16 @@ class GameOwnerAvatarWidget extends StatelessWidget {
   final String avatar;
   final int playerColor;
   final bool hasLeft;
+  final Color? backgroundColor;
 
-  const GameOwnerAvatarWidget({super.key, required this.avatar, required this.id, required this.playerColor, required this.hasLeft});
+  const GameOwnerAvatarWidget({super.key, required this.avatar, required this.id, required this.playerColor, required this.hasLeft, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return UserAvatarWidget(
       id: id,
       avatar: avatar,
-      backgroundColor: hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[playerColor].playerColor,
+      backgroundColor: backgroundColor ?? (hasLeft ? PlayerConstants.kickedColor : PlayerConstants.swatchList[playerColor].playerColor),
       borderColor: Theme.of(context).colorScheme.onBackground,
       hasLeftGame: hasLeft,
     );

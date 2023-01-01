@@ -19,7 +19,7 @@ class PercentageMixed extends StatelessWidget {
 
     return StatsTileWidget(
       titleText: DialogueService.percentageMixedTitleText.tr,
-      subTitleText: '',
+      subTitleText: userProvider.parsePercentageMixedText(percentageMixed),
       trailingText: '${percentageMixed.toStringAsFixed(1)}%',
     );
   }

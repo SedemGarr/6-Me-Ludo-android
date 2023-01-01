@@ -204,8 +204,6 @@ class UserProvider with ChangeNotifier {
     tempUser = _user;
 
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
-    soundProvider.setPrefersSound(_user!.settings.prefersAudio);
-    soundProvider.setPrefersMusic(_user!.settings.prefersMusic);
 
     notifyListeners();
   }
@@ -278,9 +276,8 @@ class UserProvider with ChangeNotifier {
   }
 
   void toggleAudio(BuildContext context, bool value) {
-    SoundProvider soundProvider = context.read<SoundProvider>();
     _user!.settings.prefersAudio = value;
-    soundProvider.setPrefersSound(_user!.settings.prefersAudio);
+
     updateUser(true, true);
 
     if (value) {
@@ -289,9 +286,8 @@ class UserProvider with ChangeNotifier {
   }
 
   void toggleMusic(BuildContext context, bool value) {
-    SoundProvider soundProvider = context.read<SoundProvider>();
     _user!.settings.prefersMusic = value;
-    soundProvider.setPrefersMusic(_user!.settings.prefersMusic);
+
     updateUser(true, true);
 
     if (value) {
@@ -605,11 +601,11 @@ class UserProvider with ChangeNotifier {
   }
 
   String parsePercentageFinishedText(double value) {
-    if (value < 0.25) {
+    if (value < 25) {
       return DialogueService.percentageFinishedNoobText.tr;
-    } else if (value < 0.50) {
+    } else if (value < 50) {
       return DialogueService.percentageFinishedExperiencedText.tr;
-    } else if (value < 0.75) {
+    } else if (value < 75) {
       return DialogueService.percentageFinishedVeteranText.tr;
     }
 
@@ -617,11 +613,11 @@ class UserProvider with ChangeNotifier {
   }
 
   String parsePercentageWonText(double value) {
-    if (value < 0.25) {
+    if (value < 25) {
       return DialogueService.percentageWonNoobText.tr;
-    } else if (value < 0.50) {
+    } else if (value < 50) {
       return DialogueService.percentageWonExperiencedText.tr;
-    } else if (value < 0.75) {
+    } else if (value < 75) {
       return DialogueService.percentageWonVeteranText.tr;
     }
 
@@ -629,15 +625,63 @@ class UserProvider with ChangeNotifier {
   }
 
   String parsePercentageHumanText(double value) {
-    if (value < 0.25) {
+    if (value < 25) {
       return DialogueService.percentageHumanNoobText.tr;
-    } else if (value < 0.50) {
+    } else if (value < 50) {
       return DialogueService.percentageHumanExperiencedText.tr;
-    } else if (value < 0.75) {
+    } else if (value < 75) {
       return DialogueService.percentageHumanVeteranText.tr;
     }
 
     return DialogueService.percentageHumanSleepText.tr;
+  }
+
+  String parsePercentagePunchingBagText(double value) {
+    if (value < 25) {
+      return DialogueService.percentagePunchingBagNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentagePunchingBagExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentagePunchingBagVeteranText.tr;
+    }
+
+    return DialogueService.percentagePunchingBagSleepText.tr;
+  }
+
+  String parsePercentageViciousText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageViciousNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageViciousExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageViciousVeteranText.tr;
+    }
+
+    return DialogueService.percentageViciousSleepText.tr;
+  }
+
+  String parsePercentageMixedText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageMixedNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageMixedExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageMixedVeteranText.tr;
+    }
+
+    return DialogueService.percentageMixedSleepText.tr;
+  }
+
+  String parsePercentageAIText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageAINoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageAIExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageAIVeteranText.tr;
+    }
+
+    return DialogueService.percentageAISleepText.tr;
   }
 
   String parseFavouriteColorText(int value) {
@@ -646,18 +690,6 @@ class UserProvider with ChangeNotifier {
     } catch (e) {
       return '';
     }
-  }
-
-  String parsePercentageAIText(double value) {
-    if (value < 0.25) {
-      return DialogueService.percentageAINoobText.tr;
-    } else if (value < 0.50) {
-      return DialogueService.percentageAIExperiencedText.tr;
-    } else if (value < 0.75) {
-      return DialogueService.percentageAIVeteranText.tr;
-    }
-
-    return DialogueService.percentageAISleepText.tr;
   }
 
   String parseCummulativeTimeText(String value) {

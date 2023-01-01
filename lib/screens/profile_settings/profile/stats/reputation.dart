@@ -14,7 +14,7 @@ class ReputationStat extends StatelessWidget {
 
     return StatsTileWidget(
       titleText: DialogueService.reputationTitleText.tr,
-      subTitleText: userProvider.getUserReputationValueAsString(),
+      subTitleText: DialogueService.reputationSubtitleText.tr,
       trailingText: userProvider.getUserReputationValue().toStringAsFixed(1),
     );
   }

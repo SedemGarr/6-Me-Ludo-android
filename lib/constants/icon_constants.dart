@@ -36,7 +36,7 @@ class AppIcons {
   // game - chat
   static const IconData sendMessageIcon = MdiIcons.send;
   // settings
-  static const IconData statsIcon = MdiIcons.trophy;
+  static const IconData statsIcon = MdiIcons.chartBar;
   static const IconData themeArrowIcon = MdiIcons.chevronRight;
   static const IconData themeSelectedIcon = MdiIcons.circle;
   static const IconData webIcon = MdiIcons.web;

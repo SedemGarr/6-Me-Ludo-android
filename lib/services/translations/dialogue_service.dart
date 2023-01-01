@@ -113,6 +113,7 @@ class DialogueService extends Translations {
   static const String orButtonText = 'orButtonText';
   static const String noGamesText = 'noGamesText';
   static const String noLocalGamesText = 'noLocalGamesText';
+  static const String noLeaderboardText = 'noLeaderboardText';
   static const String maxGamesText = 'maxGamesText';
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
@@ -396,6 +397,7 @@ class DialogueService extends Translations {
   static const String statsAppBarTitleText = 'statsAppBarTitleText';
   static const String statsTabText = 'statsTabText';
   static const String leaderboardTabText = 'leaderboardTabText';
+  static const String leaderboardFindMeButtonText = 'leaderboardFindMeButtonText';
   // number of games
   static const String numberOfGamesText = 'numberOfGamesText';
   static const String numberOfGamesNoobText = 'numberOfGamesNoobText';
@@ -445,12 +447,25 @@ class DialogueService extends Translations {
   static const String kickerRatioSubtitleText = 'kickerRatioSubtitleText';
   // reputation
   static const String reputationTitleText = 'reputationTitleText';
+  static const String reputationSubtitleText = 'reputationSubtitleText';
   // percentage mixed
   static const String percentageMixedTitleText = 'percentageMixedTitleText';
+  static const String percentageMixedNoobText = 'percentageMixedNoobText';
+  static const String percentageMixedExperiencedText = 'percentageMixedExperiencedText';
+  static const String percentageMixedVeteranText = 'percentageMixedVeteranText';
+  static const String percentageMixedSleepText = 'percentageMixedSleepText';
   // percentage pb
   static const String percentagePunchingBagTitleText = 'percentagePunchingBagTitleText';
+  static const String percentagePunchingBagNoobText = 'percentagePunchingBagNoobText';
+  static const String percentagePunchingBagExperiencedText = 'percentagePunchingBagExperiencedText';
+  static const String percentagePunchingBagVeteranText = 'percentagePunchingBagVeteranText';
+  static const String percentagePunchingBagSleepText = 'percentagePunchingBagSleepText';
   // percentage v
   static const String percentageViciousTitleText = 'percentageViciousTitleText';
+  static const String percentageViciousNoobText = 'percentageViciousNoobText';
+  static const String percentageViciousExperiencedText = 'percentageViciousExperiencedText';
+  static const String percentageViciousVeteranText = 'percentageViciousVeteranText';
+  static const String percentageViciousSleepText = 'percentageViciousSleepText';
 
   @override
   Map<String, Map<String, String>> get keys => {

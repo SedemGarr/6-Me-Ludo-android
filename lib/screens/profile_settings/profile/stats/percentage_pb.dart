@@ -19,7 +19,7 @@ class PercentagePunchingBag extends StatelessWidget {
 
     return StatsTileWidget(
       titleText: DialogueService.percentagePunchingBagTitleText.tr,
-      subTitleText: userProvider.parsePercentageHumanText(percentagePunchingBag),
+      subTitleText: userProvider.parsePercentagePunchingBagText(percentagePunchingBag),
       trailingText: '${percentagePunchingBag.toStringAsFixed(1)}%',
     );
   }

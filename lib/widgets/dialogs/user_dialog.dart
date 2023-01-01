@@ -29,14 +29,19 @@ showUserDialog({
       hasLeftGame: false,
     ),
     actions: [
-      Text(
-        user.psuedonym,
-        style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
-      ),
-      ReputationWidget(
-        value: user.reputationValue,
-        color: Theme.of(context).colorScheme.onSurface,
-        shouldPad: false,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            user.psuedonym,
+            style: TextStyles.dialogTitleStyle(Theme.of(context).colorScheme.onSurface),
+          ),
+          ReputationWidget(
+            value: user.reputationValue,
+            color: Theme.of(context).colorScheme.onSurface,
+            shouldPad: false,
+          ),
+        ],
       ),
     ],
   );

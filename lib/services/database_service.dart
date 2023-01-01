@@ -55,12 +55,32 @@ class DatabaseService {
   }
 
   // users
-
   static Future<Users?> getUser(String id) async {
     try {
       return Users.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).get()).data()!);
     } catch (e) {
       return null;
+    }
+  }
+
+  static Future<List<Users>> getAllUsersSorted() async {
+    // this is an ABSOLUTELY TERRIBLE APPROACH that will not scale well at all.
+    // it's temporary until I get google games services integrated.
+
+    List<Users> users = [];
+
+    try {
+      QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).get();
+
+      for (var element in res.docs) {
+        Users user = Users.fromJson(element.data());
+        users.add(user);
+      }
+      //  users.sort();
+      return users;
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+      return [];
     }
   }
 

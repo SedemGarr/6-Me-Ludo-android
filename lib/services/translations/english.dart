@@ -110,6 +110,7 @@ class EnglishTranslation {
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Online Games',
       DialogueService.noLocalGamesText: 'No Local Game',
+      DialogueService.noLeaderboardText: 'No Leaderboard Entries',
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
       DialogueService.hostGameFABText: 'New Online Game',
       DialogueService.joinGameFABText: 'Join Game With Code',
@@ -364,10 +365,11 @@ class EnglishTranslation {
       DialogueService.exitAppTitleText: 'Exit App',
       DialogueService.exitAppSubtitleText: 'Bad things will happen if you tap this',
       // stats
-      DialogueService.seeMoreStatsButtonText: 'See More Stats and Achievements',
-      DialogueService.statsAppBarTitleText: 'Stats & Achievements',
+      DialogueService.seeMoreStatsButtonText: 'See More Statistics',
+      DialogueService.statsAppBarTitleText: 'Statistics',
       DialogueService.statsTabText: 'Stats',
       DialogueService.leaderboardTabText: 'Leaderboard',
+      DialogueService.leaderboardFindMeButtonText: 'Find Me',
       // number of Games
       DialogueService.numberOfGamesText: 'Number of Games',
       DialogueService.numberOfGamesNoobText: 'Noob',
@@ -414,15 +416,28 @@ class EnglishTranslation {
       DialogueService.orangeText: 'Orange',
       // k -ratio
       DialogueService.kickerRatioTitleText: 'Kicker to Kickee Ratio',
-      DialogueService.kickerRatioSubtitleText: 'Yes, we know this name sounds ridiculous. Try and come up with a better one',
+      DialogueService.kickerRatioSubtitleText: 'Yes, we know this name sounds ridiculous',
       // reputation
       DialogueService.reputationTitleText: 'Your Reputation',
+      DialogueService.reputationSubtitleText: 'Negative is Vicious, positive is Pacifist',
       // percentage mixed
       DialogueService.percentageMixedTitleText: 'Percentage of Games Against Humans and AI',
+      DialogueService.percentageMixedNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentageMixedExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentageMixedVeteranText: 'Great job!',
+      DialogueService.percentageMixedSleepText: 'Great! You finish what you start',
       // percentage pb
       DialogueService.percentagePunchingBagTitleText: 'Percentage of Games Where You Were The Punching Bag',
+      DialogueService.percentagePunchingBagNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentagePunchingBagExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentagePunchingBagVeteranText: 'Great job!',
+      DialogueService.percentagePunchingBagSleepText: 'Great! You finish what you start',
       // percentage v
       DialogueService.percentageViciousTitleText: 'Percentage of Games Where You Were The Vicious Player',
+      DialogueService.percentageViciousNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.percentageViciousExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.percentageViciousVeteranText: 'Great job!',
+      DialogueService.percentageViciousSleepText: 'Great! You finish what you start',
     };
   }
 }
