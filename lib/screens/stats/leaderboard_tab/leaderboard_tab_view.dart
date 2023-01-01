@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 
-class AchievementsTabView extends StatelessWidget {
-  const AchievementsTabView({super.key});
+class LeaderboardTabView extends StatelessWidget {
+  const LeaderboardTabView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:six_me_ludo_android/screens/stats/achievements_tab/achievements_tab_view.dart';
+import 'package:six_me_ludo_android/screens/stats/leaderboard_tab/leaderboard_tab_view.dart';
 import 'package:six_me_ludo_android/screens/stats/stats_tab/stats_tab_view.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
@@ -31,11 +31,9 @@ class StatsScreen extends StatelessWidget {
                 text: DialogueService.statsTabText.tr,
               ),
               Tab(
-                text: DialogueService.achievementsTabText.tr,
+                text: DialogueService.leaderboardTabText.tr,
               ),
             ],
-            // unselectedLabelColor: Theme.of(context).,
-            // labelColor: ThemeProvider.getContrastingColor(gameProvider.playerColor),
             indicatorColor: Get.isDarkMode ? Theme.of(context).colorScheme.secondary : null,
           ),
           size: AppConstants.customAppbarWithTabbarHeight,
@@ -43,7 +41,7 @@ class StatsScreen extends StatelessWidget {
         body: const TabBarView(
           children: [
             StatsTabView(),
-            AchievementsTabView(),
+            LeaderboardTabView(),
           ],
         ),
       ),

@@ -142,7 +142,8 @@ class Stats {
         numberOfTimesBeingPunchingBagPlayer++;
       }
     }
-
+    
+    // colors
     favouriteColours[player.playerColor]++;
 
     // time spent in games

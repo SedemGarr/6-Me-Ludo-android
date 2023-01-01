@@ -2086,6 +2086,24 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  static String parseCummulativeDuration(String cummulativeTime) {
+    Duration duration = convertCummulativeTimeToDuration(cummulativeTime);
+
+    try {
+      String twoDigits(int n) => n.toString().padLeft(2, "0");
+      String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+      String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+      return '';
+    }
+  }
+
+  static Duration convertCummulativeTimeToDuration(String cummulativeTime) {
+    return DateTime.fromMillisecondsSinceEpoch(int.parse(cummulativeTime)).difference(DateTime.fromMillisecondsSinceEpoch(0));
+  }
+
   static String parseDuration(Duration duration) {
     try {
       String twoDigits(int n) => n.toString().padLeft(2, "0");

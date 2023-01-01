@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
@@ -636,6 +637,20 @@ class UserProvider with ChangeNotifier {
     }
 
     return DialogueService.percentageHumanSleepText.tr;
+  }
+
+  String parseCummulativeTimeText(String value) {
+    Duration duration = GameProvider.convertCummulativeTimeToDuration(value);
+
+    if (duration.inHours < const Duration(hours: 48).inHours) {
+      return DialogueService.cummulativeTimeNoobText.tr;
+    } else if (duration.inHours < const Duration(hours: 96).inHours) {
+      return DialogueService.cummulativeTimeExperiencedText.tr;
+    } else if (duration.inHours < const Duration(hours: 192).inHours) {
+      return DialogueService.cummulativeTimeVeteranText.tr;
+    }
+
+    return DialogueService.cummulativeTimeSleepText.tr;
   }
 
   String getUserEmail() {

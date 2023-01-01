@@ -7,8 +7,8 @@ import 'package:six_me_ludo_android/services/translations/dialogue_service.dart'
 
 import '../../../../models/user.dart';
 
-class PercentageMixed extends StatelessWidget {
-  const PercentageMixed({super.key});
+class KickerKickedRatio extends StatelessWidget {
+  const KickerKickedRatio({super.key});
 
   @override
   Widget build(BuildContext context) {

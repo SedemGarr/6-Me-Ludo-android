@@ -367,7 +367,7 @@ class EnglishTranslation {
       DialogueService.seeMoreStatsButtonText: 'See More Stats and Achievements',
       DialogueService.statsAppBarTitleText: 'Stats & Achievements',
       DialogueService.statsTabText: 'Stats',
-      DialogueService.achievementsTabText: 'Achievements',
+      DialogueService.leaderboardTabText: 'Leaderboard',
       // number of Games
       DialogueService.numberOfGamesText: 'Number of Games',
       DialogueService.numberOfGamesNoobText: 'Noob',
@@ -392,6 +392,12 @@ class EnglishTranslation {
       DialogueService.percentageHumanExperiencedText: 'Meh, we\'ve seen better',
       DialogueService.percentageHumanVeteranText: 'Great job!',
       DialogueService.percentageHumanSleepText: 'Great! You finish what you start',
+      // percentage Human
+      DialogueService.cummulativeTimeTitleText: 'Total length of all games',
+      DialogueService.cummulativeTimeNoobText: 'Oh dear. Is this too hard for you?',
+      DialogueService.cummulativeTimeExperiencedText: 'Meh, we\'ve seen better',
+      DialogueService.cummulativeTimeVeteranText: 'Great job!',
+      DialogueService.cummulativeTimeSleepText: 'Great! You finish what you start',
     };
   }
 }

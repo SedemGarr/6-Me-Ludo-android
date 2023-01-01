@@ -395,7 +395,7 @@ class DialogueService extends Translations {
   static const String seeMoreStatsButtonText = 'seeMoreStatsButtonText';
   static const String statsAppBarTitleText = 'statsAppBarTitleText';
   static const String statsTabText = 'statsTabText';
-  static const String achievementsTabText = 'achievementsTabText';
+  static const String leaderboardTabText = 'leaderboardTabText';
   // number of games
   static const String numberOfGamesText = 'numberOfGamesText';
   static const String numberOfGamesNoobText = 'numberOfGamesNoobText';
@@ -420,6 +420,12 @@ class DialogueService extends Translations {
   static const String percentageHumanExperiencedText = 'percentageHumanExperiencedText';
   static const String percentageHumanVeteranText = 'percentageHumanVeteranText';
   static const String percentageHumanSleepText = 'percentageHumanSleepText';
+  // cummulative time
+  static const String cummulativeTimeTitleText = 'cummulativeTimeTitleText';
+  static const String cummulativeTimeNoobText = 'cummulativeTimeNoobText';
+  static const String cummulativeTimeExperiencedText = 'cummulativeTimeExperiencedText';
+  static const String cummulativeTimeVeteranText = 'cummulativeTimeVeteranText';
+  static const String cummulativeTimeSleepText = 'cummulativeTimeSleepText';
 
   @override
   Map<String, Map<String, String>> get keys => {
