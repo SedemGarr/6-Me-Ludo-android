@@ -3,8 +3,8 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/models/user.dart';
 import '../services/local_storage_service.dart';
 
@@ -14,8 +14,6 @@ class ThemeProvider with ChangeNotifier {
   late ThemeMode _themeMode;
   Random random = Random();
 
-  TextTheme textTheme = GoogleFonts.quicksandTextTheme();
-
   ThemeProvider() {
     _lightThemeData = initLightTheme();
     _darkThemeData = initDarkTheme();
@@ -24,14 +22,14 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData initLightTheme() {
     return FlexColorScheme.light(colors: FlexColor.schemes[getScheme()]!.light).toTheme.copyWith(
-          textTheme: textTheme,
+          textTheme: TextStyles.appTextTheme,
           useMaterial3: true,
         );
   }
 
   ThemeData initDarkTheme() {
     return FlexColorScheme.dark(colors: FlexColor.schemes[getScheme()]!.dark).toTheme.copyWith(
-          textTheme: textTheme,
+          textTheme: TextStyles.appTextTheme,
           useMaterial3: true,
         );
   }
@@ -96,11 +94,11 @@ class ThemeProvider with ChangeNotifier {
 
   void setTheme(bool isDark, FlexScheme flexScheme) {
     ThemeData darkTheme = FlexColorScheme.dark(colors: FlexColor.schemes[flexScheme]!.dark).toTheme.copyWith(
-          textTheme: textTheme,
+          textTheme: TextStyles.appTextTheme,
           useMaterial3: true,
         );
     ThemeData lightTheme = FlexColorScheme.light(colors: FlexColor.schemes[flexScheme]!.light).toTheme.copyWith(
-          textTheme: textTheme,
+          textTheme: TextStyles.appTextTheme,
           useMaterial3: true,
         );
 
@@ -118,14 +116,14 @@ class ThemeProvider with ChangeNotifier {
 
   void setLightTheme(ThemeData themeData) {
     _lightThemeData = themeData.copyWith(
-      textTheme: textTheme,
+      textTheme: TextStyles.appTextTheme,
       useMaterial3: true,
     );
   }
 
   void setDarkTheme(ThemeData themeData) {
     _darkThemeData = themeData.copyWith(
-      textTheme: textTheme,
+      textTheme: TextStyles.appTextTheme,
       useMaterial3: true,
     );
   }

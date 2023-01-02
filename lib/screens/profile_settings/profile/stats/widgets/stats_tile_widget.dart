@@ -19,7 +19,7 @@ class StatsTileWidget extends StatelessWidget {
       title: StatsTitleWidget(text: titleText),
       subtitle: StatsSubtitleWidget(text: subTitleText),
       trailing: StatsTrailingWidget(text: trailingText),
-      dense: true,
+      dense: false,
     );
   }
 }

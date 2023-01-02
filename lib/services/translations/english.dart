@@ -269,6 +269,9 @@ class EnglishTranslation {
       // settings - wakelock
       DialogueService.wakelockTitleText: 'Screen Always On',
       DialogueService.wakelockSubtitleText: 'Toggle whether the screen should stay on during games',
+      // settings - visibility
+      DialogueService.visibilityTitleText: 'Private Mode',
+      DialogueService.visibilitySubtitleText: 'Toggle whether you want to appear on the leaderbaord',
       // settings - language
       DialogueService.languageTitleText: 'Language',
       DialogueService.languageSubtitleText: 'Choose application language',

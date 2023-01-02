@@ -299,6 +299,9 @@ class DialogueService extends Translations {
   // settings - wakelock
   static const String wakelockTitleText = 'wakelockTitleText';
   static const String wakelockSubtitleText = 'wakelockSubtitleText';
+  // settings - visibility
+  static const String visibilityTitleText = 'visibilityTitleText';
+  static const String visibilitySubtitleText = 'visibilitySubtitleText';
   // settings - language
   static const String languageTitleText = 'languageTitleText';
   static const String languageSubtitleText = 'languageSubtitleText';

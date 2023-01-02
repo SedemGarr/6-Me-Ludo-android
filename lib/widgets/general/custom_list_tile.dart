@@ -38,7 +38,7 @@ class CustomListTileWidget extends StatelessWidget {
         vertical: 0.0,
       ),
       shape: AppConstants.appShape,
-      dense: dense ?? true,
+      dense: dense ?? false,
       isThreeLine: isThreeLine ?? false,
       onTap: onTap,
       onLongPress: onLongPress,

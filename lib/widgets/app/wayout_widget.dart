@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import '../../constants/textstyle_constants.dart';
 
 class WayOutWidget extends StatelessWidget {
   final double width;
@@ -18,7 +19,7 @@ class WayOutWidget extends StatelessWidget {
         fit: BoxFit.fitWidth,
         child: Text(
           'wayyy out! games',
-          style: GoogleFonts.quantico(
+          style: TextStyles.appTextStyle.copyWith(
             color: Theme.of(context).colorScheme.onBackground,
           ),
         ),

@@ -168,6 +168,8 @@ class OnlineGameScreen extends StatelessWidget {
                               text: DialogueService.chatTabText.tr + gameProvider.getGameChatUnreadCountAsString(userProvider.getUserID()),
                             ),
                           ],
+                          labelStyle: TextStyles.appTextStyle,
+                          unselectedLabelStyle: TextStyles.appTextStyle,
                           unselectedLabelColor: ThemeProvider.getContrastingColor(gameProvider.playerColor),
                           labelColor: ThemeProvider.getContrastingColor(gameProvider.playerColor),
                           indicatorColor: ThemeProvider.getContrastingColor(gameProvider.playerColor),

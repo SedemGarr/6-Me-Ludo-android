@@ -340,6 +340,11 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  void toggleIsPrivate(BuildContext context, bool value) {
+    _user!.isPrivate = value;
+    updateUser(true, true);
+  }
+
   void toggleVibrate(BuildContext context, bool value) {
     _user!.settings.prefersVibrate = value;
     updateUser(true, true);
@@ -779,6 +784,10 @@ class UserProvider with ChangeNotifier {
 
   bool getUserWakelock() {
     return _user!.settings.prefersWakelock;
+  }
+
+  bool getUserIsPrivate() {
+    return _user!.isPrivate;
   }
 
   bool getUserVibrate() {

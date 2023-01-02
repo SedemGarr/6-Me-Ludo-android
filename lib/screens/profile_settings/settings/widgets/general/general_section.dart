@@ -7,6 +7,7 @@ import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/ge
 import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/general/widgets/offline.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/general/widgets/theme.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/general/widgets/vibrate.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/general/widgets/visibility.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/general/widgets/wakelock.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/settings_header.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
@@ -30,6 +31,7 @@ class GeneralSettingsSection extends StatelessWidget {
         const WakelockWidget(),
         const ProfaneMessages(),
         const OfflineModeWidget(),
+        const VisibilityWidget(),
         const LanguageWidget(),
       ],
     );

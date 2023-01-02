@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/screens/stats/leaderboard_tab/leaderboard_tab_view.dart';
 import 'package:six_me_ludo_android/screens/stats/stats_tab/stats_tab_view.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
@@ -34,6 +35,8 @@ class StatsScreen extends StatelessWidget {
                 text: DialogueService.leaderboardTabText.tr,
               ),
             ],
+            labelStyle: TextStyles.appTextStyle,
+            unselectedLabelStyle: TextStyles.appTextStyle,
             indicatorColor: Get.isDarkMode ? Theme.of(context).colorScheme.primary : null,
           ),
           size: AppConstants.customAppbarWithTabbarHeight,
