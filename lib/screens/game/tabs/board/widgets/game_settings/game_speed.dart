@@ -49,7 +49,7 @@ class _GameGameSpeedState extends State<GameGameSpeed> {
         title: SettingsTitleWidget(text: DialogueService.gameSpeedTitleText.tr),
         //  subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).colorScheme.secondary,
+          iconEnabledColor: Theme.of(context).colorScheme.primary,
           value: game.hostSettings.preferredSpeed,
           items: UserSettings.getGameSpeedDropDownMenuItems(context),
           underline: const SizedBox.shrink(),

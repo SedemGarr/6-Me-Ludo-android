@@ -21,7 +21,7 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
             ),
           ),
         )

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multiavatar/multiavatar.dart';
@@ -21,10 +19,11 @@ class ProfileAvatarWidget extends StatelessWidget {
         NavigationService.goToEditAvatarScreen();
       },
       child: CircleAvatar(
+        backgroundColor: Colors.transparent,
         child: AnimatedContainer(
           duration: AppConstants.animationDuration,
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
             border: Border.all(
               color: Theme.of(context).colorScheme.onBackground,
               width: 2,

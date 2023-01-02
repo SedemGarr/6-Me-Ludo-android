@@ -24,7 +24,7 @@ class AIPersonality extends StatelessWidget {
         title: SettingsTitleWidget(text: DialogueService.aIPersonalityTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).colorScheme.secondary,
+          iconEnabledColor: Theme.of(context).colorScheme.primary,
           value: userProvider.getUserPersonalityPreference(),
           items: UserSettings.getPersonalityDropDownMenuItems(context),
           underline: const SizedBox.shrink(),

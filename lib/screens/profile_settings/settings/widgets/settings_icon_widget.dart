@@ -9,7 +9,7 @@ class SettingsIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Icon(
       iconData,
-      color: Theme.of(context).colorScheme.secondary,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 }

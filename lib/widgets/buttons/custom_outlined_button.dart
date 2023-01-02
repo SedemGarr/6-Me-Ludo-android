@@ -8,13 +8,14 @@ class CustomOutlinedButton extends StatelessWidget {
   final String text;
   final IconData? iconData;
   final Color? color;
+  final VisualDensity? visualDensity;
 
   const CustomOutlinedButton({
     Key? key,
     required this.onPressed,
     required this.text,
     this.color,
-    this.iconData,
+    this.iconData, this.visualDensity,
   }) : super(key: key);
 
   @override
@@ -25,6 +26,7 @@ class CustomOutlinedButton extends StatelessWidget {
               shape: AppConstants.appShape,
               side: BorderSide(color: color ?? Theme.of(context).colorScheme.onBackground),
               foregroundColor: color ?? Theme.of(context).colorScheme.onBackground,
+              visualDensity: visualDensity,
             ),
             onPressed: onPressed,
             label: Text(
@@ -41,6 +43,7 @@ class CustomOutlinedButton extends StatelessWidget {
               shape: AppConstants.appShape,
               side: BorderSide(color: color ?? Theme.of(context).colorScheme.onBackground),
               foregroundColor: color ?? Theme.of(context).colorScheme.onBackground,
+              visualDensity: visualDensity,
             ),
             onPressed: onPressed,
             child: Text(

@@ -14,23 +14,17 @@ class CustomCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 4.0,
-        right: 4.0,
-        bottom: 8.0,
-      ),
-      child: Card(
-        shape: AppConstants.appShape,
-        elevation: 0,
-        margin: EdgeInsets.zero,
-        child: Container(
-            decoration: BoxDecoration(
-              borderRadius: AppConstants.appBorderRadius,
-              color: backgroundColor ?? Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
-            ),
-            child: child),
-      ),
+    return Card(
+      shape: AppConstants.appShape,
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: AppConstants.appBorderRadius,
+            //color: backgroundColor ?? Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
+            color: backgroundColor ?? Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
+          ),
+          child: child),
     );
   }
 }

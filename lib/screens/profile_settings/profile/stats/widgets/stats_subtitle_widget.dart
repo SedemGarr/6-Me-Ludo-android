@@ -11,7 +11,7 @@ class StatsSubtitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
+      style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
     );
   }
 }

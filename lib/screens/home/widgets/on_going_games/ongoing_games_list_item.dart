@@ -64,6 +64,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
                 gameProvider.showRejoinGameDialog(game, userProvider.getUser(), context);
               },
               text: DialogueService.rejoinGameDialogYesText.tr,
+              visualDensity: VisualDensity.compact,
             ),
             children: [
               Column(
@@ -89,6 +90,7 @@ class OnGoingGamesListItemWidget extends StatelessWidget {
                       },
                       text: host.id == userProvider.getUserID() ? DialogueService.deleteGameDialogYesText.tr : DialogueService.leaveGameDialogYesText.tr,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      visualDensity: VisualDensity.compact,
                     ),
                   ),
                 ],

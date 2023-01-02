@@ -62,7 +62,7 @@ class LeaderboardListItem extends StatelessWidget {
         ),
         subtitle: Text(
           user.rankingValue.toStringAsFixed(2),
-          style: TextStyles.listSubtitleStyle(isMe ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary),
+          style: TextStyles.listSubtitleStyle(isMe ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onPrimaryContainer),
         ),
         trailing: isFirst
             ? Icon(
@@ -71,7 +71,7 @@ class LeaderboardListItem extends StatelessWidget {
               )
             : Text(
                 (index + 1).toString(),
-                style: TextStyles.listSubtitleStyle(isMe ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.secondary),
+                style: TextStyles.listSubtitleStyle(isMe ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary),
               ),
       ),
     );

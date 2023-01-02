@@ -10,7 +10,7 @@ class SettingsTitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
     );
   }
 }

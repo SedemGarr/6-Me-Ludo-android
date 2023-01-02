@@ -70,7 +70,7 @@ class UserSettings {
             value: e['value'],
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
             ),
           ),
         )
@@ -84,7 +84,7 @@ class UserSettings {
             value: e['value'],
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
             ),
           ),
         )
@@ -100,7 +100,7 @@ class UserSettings {
           value: i,
           child: Text(
             i.toString(),
-            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
+            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
           ),
         ),
       );

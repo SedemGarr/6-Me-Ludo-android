@@ -45,7 +45,7 @@ class ProfileSectionWidget extends StatelessWidget {
                     subtitle: const ProfileStatusWidget(),
                     trailing: ReputationWidget(
                       value: userProvider.getUserReputationValue(),
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       shouldPad: false,
                     ),
                     childrenPadding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -58,7 +58,7 @@ class _GameAIPersonalityState extends State<GameAIPersonality> {
         title: SettingsTitleWidget(text: DialogueService.aIPersonalityTitleText.tr),
         //  subtitle: SettingsSubtitleWidget(text: DialogueService.aIPersonalitySubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).colorScheme.secondary,
+          iconEnabledColor: Theme.of(context).colorScheme.primary,
           value: game.hostSettings.aiPersonalityPreference,
           items: UserSettings.getPersonalityDropDownMenuItems(context),
           underline: const SizedBox.shrink(),

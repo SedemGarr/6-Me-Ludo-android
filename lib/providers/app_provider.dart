@@ -40,7 +40,7 @@ class AppProvider with ChangeNotifier {
   //
   Random random = Random();
 
-  bool isPanelOpen = false;
+  
 
   final List<String> loadingStrings = [
     DialogueService.loading1Text.tr,
@@ -68,12 +68,7 @@ class AppProvider with ChangeNotifier {
     DialogueService.welcome10Text.tr,
   ];
 
-  void setIsPanelOpen(bool value) {
-    if (isPanelOpen != value) {
-      isPanelOpen = value;
-      notifyListeners();
-    }
-  }
+ 
 
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;

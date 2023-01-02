@@ -27,7 +27,7 @@ class MaxPlayers extends StatelessWidget {
           title: SettingsTitleWidget(text: userProvider.getUserIsOffline() ? DialogueService.maxPlayersOfflineTitleText.tr : DialogueService.maxPlayersTitleText.tr),
           subtitle: SettingsSubtitleWidget(text: DialogueService.maxPlayersSubtitleText.tr),
           trailing: DropdownButton<dynamic>(
-            iconEnabledColor: Theme.of(context).colorScheme.secondary,
+            iconEnabledColor: Theme.of(context).colorScheme.primary,
             value: userProvider.getUserHumanPlayerNumber(),
             items: UserSettings.getHumanPlayerDropDownMenuItems(context),
             underline: const SizedBox.shrink(),

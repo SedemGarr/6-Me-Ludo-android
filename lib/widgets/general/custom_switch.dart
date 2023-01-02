@@ -19,10 +19,10 @@ class CustomSwitchWidget extends StatelessWidget {
           onChanged!(context, value);
         }
       },
-      // activeColor: Theme.of(context).primaryColor,
-      // activeTrackColor: Theme.of(context).primaryColorLight,
-      // inactiveThumbColor: Theme.of(context).primaryColorLight,
-      // inactiveTrackColor: Theme.of(context).primaryColorLight,
+      activeColor: Theme.of(context).colorScheme.primary,
+      activeTrackColor: Theme.of(context).colorScheme.primaryContainer,
+      inactiveThumbColor: Theme.of(context).primaryColorLight,
+      inactiveTrackColor: Theme.of(context).colorScheme.primaryContainer,
     );
   }
 }

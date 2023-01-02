@@ -6,7 +6,6 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
-
 import '../../../../../../widgets/general/custom_card_widget.dart';
 import '../../../../../../widgets/general/custom_list_tile.dart';
 import '../../settings_subtitle_widget.dart';
@@ -24,7 +23,7 @@ class GameSpeed extends StatelessWidget {
         title: SettingsTitleWidget(text: DialogueService.gameSpeedTitleText.tr),
         subtitle: SettingsSubtitleWidget(text: DialogueService.gameSpeedSubtitleText.tr),
         trailing: DropdownButton<dynamic>(
-          iconEnabledColor: Theme.of(context).colorScheme.secondary,
+          iconEnabledColor: Theme.of(context).colorScheme.primary,
           value: userProvider.getUserGameSpeed(),
           items: UserSettings.getGameSpeedDropDownMenuItems(context),
           underline: const SizedBox.shrink(),

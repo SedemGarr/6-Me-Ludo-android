@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 backdropEnabled: true,
                 backdropTapClosesPanel: true,
-                renderPanelSheet: false,
+                renderPanelSheet: true,
                 backdropOpacity: 0.0,
                 minHeight: shouldPanelHide
                     ? 0
@@ -105,15 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Get.height * 0.17,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: AppConstants.appBorderRadius,
-                onPanelOpened: () {},
-                onPanelClosed: () {},
-                onPanelSlide: (position) {
-                  if (position > 0.5) {
-                    appProvider.setIsPanelOpen(true);
-                  } else {
-                    appProvider.setIsPanelOpen(false);
-                  }
-                },
               ),
             ),
     );

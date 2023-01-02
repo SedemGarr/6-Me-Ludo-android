@@ -7,12 +7,14 @@ class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final IconData? iconData;
+  final VisualDensity? visualDensity;
 
   const CustomElevatedButton({
     Key? key,
     required this.onPressed,
     required this.text,
     this.iconData,
+    this.visualDensity,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
         ? ElevatedButton.icon(
             icon: Icon(
               iconData,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              color: textColor,
             ),
             style: ButtonStyle(
               overlayColor: MaterialStateProperty.all(overlayColor),
@@ -34,6 +36,7 @@ class CustomElevatedButton extends StatelessWidget {
                 AppConstants.appShape,
               ),
               elevation: MaterialStateProperty.all(0),
+              visualDensity: visualDensity,
             ),
             onPressed: onPressed,
             label: Padding(
@@ -52,6 +55,7 @@ class CustomElevatedButton extends StatelessWidget {
                 AppConstants.appShape,
               ),
               elevation: MaterialStateProperty.all(0),
+              visualDensity: visualDensity,
             ),
             onPressed: onPressed,
             child: Padding(
