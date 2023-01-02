@@ -370,6 +370,8 @@ class EnglishTranslation {
       DialogueService.statsTabText: 'Stats',
       DialogueService.leaderboardTabText: 'Leaderboard',
       DialogueService.leaderboardFindMeButtonText: 'Find Me',
+      DialogueService.leaderboardOfflineText: 'The leaderboard is not available when you\'re offline',
+      DialogueService.leaderBoardBannerText: 'Showing the first ${AppConstants.maxLeaderboardNumber} entires',
       // number of Games
       DialogueService.numberOfGamesText: 'Number of Games',
       DialogueService.numberOfGamesNoobText: 'Noob',

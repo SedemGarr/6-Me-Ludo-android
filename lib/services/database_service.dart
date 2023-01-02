@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
@@ -63,6 +64,15 @@ class DatabaseService {
     }
   }
 
+  // static void updateAllUsers() async {
+  //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).get();
+
+  //   for (var element in res.docs) {
+  //     Users user = Users.fromJson(element.data());
+  //     updateUserData(user);
+  //   }
+  // }
+
   static Future<List<Users>> getAllUsersSorted() async {
     // this is an ABSOLUTELY TERRIBLE APPROACH that will not scale well at all.
     // it's temporary until I get google games services integrated.
@@ -70,13 +80,18 @@ class DatabaseService {
     List<Users> users = [];
 
     try {
-      QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).get();
+      QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+          .collection(FirestoreConstants.userCollection)
+          .where('isPrivate', isEqualTo: false)
+          .orderBy('rankingValue', descending: true)
+          .limit(AppConstants.maxLeaderboardNumber)
+          .get();
 
       for (var element in res.docs) {
         Users user = Users.fromJson(element.data());
         users.add(user);
       }
-      //  users.sort();
+
       return users;
     } catch (e) {
       LoggingService.logMessage(e.toString());

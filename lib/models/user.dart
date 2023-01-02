@@ -11,6 +11,8 @@ class Users {
   late String appVersion;
   late int appBuildNumber;
   late int reputationValue;
+  late double rankingValue;
+  late bool isPrivate;
   late bool isAnon;
   late UserSettings settings;
   late Stats stats;
@@ -26,6 +28,8 @@ class Users {
     required this.appVersion,
     required this.appBuildNumber,
     required this.stats,
+    required this.isPrivate,
+    required this.rankingValue,
   });
 
   Users.fromJson(Map<String, dynamic> json) {
@@ -39,6 +43,8 @@ class Users {
     email = json['email'] ?? '';
     appVersion = json['appVersion'] ?? '';
     appBuildNumber = json['appBuildNumber'] ?? 0;
+    isPrivate = json['isPrivate'] ?? false;
+    rankingValue = json['rankingValue'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -53,7 +59,13 @@ class Users {
     data['email'] = email;
     data['appVersion'] = appVersion;
     data['appBuildNumber'] = appBuildNumber;
+    data['isPrivate'] = isPrivate;
+    data['rankingValue'] = rankingValue;
     return data;
+  }
+
+  void updateRankingValue() {
+    rankingValue = stats.numberOfWins == 0 ? 0 : (stats.numberOfWins / stats.numberOfGames) * stats.numberOfGames;
   }
 
   static Future<Users> getDefaultUser(String uid, String email, bool isAnon, String appVersion, int buildNumber) async {
@@ -68,6 +80,8 @@ class Users {
       appVersion: appVersion,
       appBuildNumber: buildNumber,
       stats: Stats.getDefaultStats(),
+      isPrivate: false,
+      rankingValue: 0,
     );
   }
 

@@ -55,7 +55,7 @@ class _VersionSettingsState extends State<VersionSettings> {
           padding: const EdgeInsets.only(right: 4.0),
           child: Text(
             appProvider.getAppVersion(),
-            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
           ),
         ),
       ),

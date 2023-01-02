@@ -4,8 +4,13 @@ import '../../constants/app_constants.dart';
 
 class CustomCardWidget extends StatelessWidget {
   final Widget child;
+  final Color? backgroundColor;
 
-  const CustomCardWidget({super.key, required this.child});
+  const CustomCardWidget({
+    super.key,
+    required this.child,
+    this.backgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class CustomCardWidget extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               borderRadius: AppConstants.appBorderRadius,
-              color: Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
+              color: backgroundColor ?? Theme.of(context).primaryColor.withOpacity(AppConstants.appOpacity),
             ),
             child: child),
       ),

@@ -21,7 +21,7 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
             ),
           ),
         )
@@ -114,6 +114,7 @@ class DialogueService extends Translations {
   static const String noGamesText = 'noGamesText';
   static const String noLocalGamesText = 'noLocalGamesText';
   static const String noLeaderboardText = 'noLeaderboardText';
+  static const String leaderboardOfflineText = 'leaderboardOfflineText';
   static const String maxGamesText = 'maxGamesText';
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
@@ -398,6 +399,7 @@ class DialogueService extends Translations {
   static const String statsTabText = 'statsTabText';
   static const String leaderboardTabText = 'leaderboardTabText';
   static const String leaderboardFindMeButtonText = 'leaderboardFindMeButtonText';
+  static const String leaderBoardBannerText = 'leaderBoardBannerText';
   // number of games
   static const String numberOfGamesText = 'numberOfGamesText';
   static const String numberOfGamesNoobText = 'numberOfGamesNoobText';

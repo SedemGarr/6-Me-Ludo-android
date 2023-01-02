@@ -34,7 +34,7 @@ class StatsScreen extends StatelessWidget {
                 text: DialogueService.leaderboardTabText.tr,
               ),
             ],
-            indicatorColor: Get.isDarkMode ? Theme.of(context).colorScheme.secondary : null,
+            indicatorColor: Get.isDarkMode ? Theme.of(context).colorScheme.primary : null,
           ),
           size: AppConstants.customAppbarWithTabbarHeight,
         ),

@@ -20,6 +20,7 @@ class AppConstants {
   static const int minPseudonymLength = 3;
   static const int maxPseudonymLength = 25;
   static const int maxOngoingGamesNumber = 50;
+  static const int maxLeaderboardNumber = 100;
   static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;
   static const int gameThreadMessageLimit = 500;
@@ -41,6 +42,7 @@ class AppConstants {
   static const double appBorderRadiusValue = 4.0;
 
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
+  static const Duration listScrollDuration = Duration(milliseconds: 500);
   static const Duration lottieDuration = Duration(seconds: 6);
   static const Duration confettiDuration = Duration(seconds: 20);
   static const Duration carouselDuration = Duration(seconds: 5);

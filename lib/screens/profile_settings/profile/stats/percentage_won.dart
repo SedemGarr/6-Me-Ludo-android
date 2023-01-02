@@ -15,7 +15,7 @@ class PercentageWon extends StatelessWidget {
     UserProvider userProvider = context.read<UserProvider>();
     Users user = userProvider.getUser();
 
-    double percentageWon = user.stats.numberOfWins == 0 ? 0 : (user.stats.numberOfWins / user.stats.numberOfGames) * 100;
+    double percentageWon = user.stats.numberOfWins == 0 || user.stats.numberOfGames == 0 ? 0 : (user.stats.numberOfWins / user.stats.numberOfGames) * 100;
 
     return StatsTileWidget(
       titleText: DialogueService.percentageWonTitleText.tr,

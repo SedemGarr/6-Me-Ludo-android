@@ -19,6 +19,7 @@ class AppIcons {
   static const IconData userIcon = MdiIcons.account;
   static const IconData menuIcon = MdiIcons.dotsVertical;
   static const IconData refreshAvatarListIcon = MdiIcons.refresh;
+  static const IconData leaderboardFirstIcon = MdiIcons.crown;
   // game
   static const IconData gameHasStartedIcon = MdiIcons.circle;
   static const IconData kickPlayerIcon = MdiIcons.accountMinus;

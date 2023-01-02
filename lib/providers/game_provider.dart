@@ -1933,6 +1933,7 @@ class GameProvider with ChangeNotifier {
         Users? user = await DatabaseService.getUser(player.id);
         if (user != null) {
           user.stats.updateStats(currentGame!, player);
+          user.updateRankingValue();
 
           if (userProvider.isMe(user.id)) {
             userProvider.assignUser(user);

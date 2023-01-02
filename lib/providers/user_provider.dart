@@ -460,6 +460,7 @@ class UserProvider with ChangeNotifier {
       if (tempUser != null) {
         if (_user!.stats.counter < tempUser.stats.counter) {
           _user!.stats = tempUser.stats;
+          _user!.rankingValue = tempUser.rankingValue;
           LocalStorageService.setUser(_user!);
         } else if (_user!.stats.counter > tempUser.stats.counter) {
           updateUser(shouldRebuild, true);

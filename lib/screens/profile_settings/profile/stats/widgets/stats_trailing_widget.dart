@@ -11,7 +11,7 @@ class StatsTrailingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+      style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.secondary),
     );
   }
 }

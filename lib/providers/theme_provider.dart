@@ -14,7 +14,7 @@ class ThemeProvider with ChangeNotifier {
   late ThemeMode _themeMode;
   Random random = Random();
 
-  TextTheme textTheme = GoogleFonts.quanticoTextTheme();
+  TextTheme textTheme = GoogleFonts.quicksandTextTheme();
 
   ThemeProvider() {
     _lightThemeData = initLightTheme();
