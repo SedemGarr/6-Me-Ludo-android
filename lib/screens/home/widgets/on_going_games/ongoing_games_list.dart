@@ -3,10 +3,10 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/screens/home/widgets/error_games_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/no_games_widget.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list_item.dart';
 import 'package:six_me_ludo_android/widgets/wrappers/animation_wrapper.dart';
-
 
 import '../../../../constants/app_constants.dart';
 import '../../../../widgets/loading/loading_widget.dart';
@@ -23,7 +23,7 @@ class OngoingGamesListWidget extends StatelessWidget {
           stream: userProvider.onGoingGamesStream,
           initialData: userProvider.ongoingGames,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting && userProvider.ongoingGames.isEmpty) {
               return const LoadingWidget();
             } else if (snapshot.hasData) {
               userProvider.syncOngoingGamesStreamData(snapshot.data!);
@@ -33,7 +33,6 @@ class OngoingGamesListWidget extends StatelessWidget {
                   : AnimationLimiter(
                       child: ListView.separated(
                         key: PageStorageKey(UniqueKey()),
-                        //   shrinkWrap: true,
                         itemCount: userProvider.ongoingGames.length,
                         padding: AppConstants.listViewPadding,
                         separatorBuilder: (context, index) => const SizedBox(
@@ -51,7 +50,7 @@ class OngoingGamesListWidget extends StatelessWidget {
                       ),
                     );
             } else {
-              return const NoGamesWidget();
+              return const ErrorGamesWidget();
             }
           }),
     );

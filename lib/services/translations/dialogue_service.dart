@@ -112,6 +112,7 @@ class DialogueService extends Translations {
   static const String joinGameButtonText = 'joinGameButtonText';
   static const String orButtonText = 'orButtonText';
   static const String noGamesText = 'noGamesText';
+  static const String errorGamesText = 'errorGamesText';
   static const String noLocalGamesText = 'noLocalGamesText';
   static const String noLeaderboardText = 'noLeaderboardText';
   static const String leaderboardOfflineText = 'leaderboardOfflineText';

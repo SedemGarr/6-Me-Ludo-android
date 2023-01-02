@@ -109,6 +109,7 @@ class EnglishTranslation {
       DialogueService.joinGameButtonText: 'Join Game',
       DialogueService.orButtonText: 'or',
       DialogueService.noGamesText: 'No Online Games',
+      DialogueService.errorGamesText: 'Something went wrong',
       DialogueService.noLocalGamesText: 'No Local Game',
       DialogueService.noLeaderboardText: 'No Leaderboard Entries',
       DialogueService.maxGamesText: 'Sorry, you have reached the maximum number of games you can be part of',
