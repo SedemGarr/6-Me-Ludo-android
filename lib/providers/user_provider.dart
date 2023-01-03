@@ -222,6 +222,11 @@ class UserProvider with ChangeNotifier {
     ongoingGames = games;
   }
 
+  void removeGameFromOngoingGamesList(Game game) {
+    ongoingGames.removeWhere((element) => element.id == game.id);
+    notifyListeners();
+  }
+
   bool shouldGameShow(Game game) {
     return !game.kickedPlayers.contains(_user!.id) || !(game.players[game.players.indexWhere((element) => element.id == _user!.id)].hasLeft);
   }

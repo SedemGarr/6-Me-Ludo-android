@@ -57,9 +57,10 @@ class OnlineGameScreen extends StatelessWidget {
                 builder: (context, snapshot) {
                   gameProvider.syncThreadData(context, snapshot.data!, userProvider.getUser());
 
-                  bool shouldShowShareAndCopyPopups = gameProvider.isPlayerHost(userProvider.getUserID()) && !game.isOffline;
+                  bool shouldShowShareAndCopyPopups = isHost && !game.isOffline;
                   bool canEditGameSettings = (!game.hasStarted && isHost) || (!game.hasStarted && game.hasSessionEnded && isHost);
                   bool canSkip = !game.hasSessionEnded && gameProvider.isPlayerTurn() && !game.die.isRolling && game.die.rolledValue != 0 && game.canPass;
+                  bool canInvitePlayers = !game.hasStarted && game.players.length < 4 && isHost && !game.isOffline && !game.isAvailableForMatchMaking;
 
                   return GestureDetector(
                     onTap: () {
@@ -141,6 +142,14 @@ class OnlineGameScreen extends StatelessWidget {
                                     value: 4,
                                     child: Text(
                                       DialogueService.shareGameIDPopupText.tr,
+                                      style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
+                                    ),
+                                  ),
+                                if (canInvitePlayers)
+                                  PopupMenuItem(
+                                    value: 6,
+                                    child: Text(
+                                      DialogueService.allowMatchMakingPopupText.tr,
                                       style: TextStyles.popupMenuStyle(Theme.of(context).colorScheme.onBackground),
                                     ),
                                   ),

@@ -16,7 +16,7 @@ class Move {
   //  and it will likely generate a WHOLE lot of bugs
   //  But we'll cross that river when we get there.
   //  Don't forget to pass these to the constructor
-
+  late double weight;
   late int? distanceToHomeBeforeMove;
   late int? distanceToHomeAfterMove;
   late int? distanceToClosestEnemyPieceBeforeMove;

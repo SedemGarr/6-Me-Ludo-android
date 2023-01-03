@@ -472,6 +472,11 @@ class DialogueService extends Translations {
   static const String percentageViciousExperiencedText = 'percentageViciousExperiencedText';
   static const String percentageViciousVeteranText = 'percentageViciousVeteranText';
   static const String percentageViciousSleepText = 'percentageViciousSleepText';
+  // matchmaking
+  static const String allowMatchMakingPopupText = 'allowMatchMakingPopupText';
+  static const String enabledMatchMakingToastText = 'enabledMatchMakingToastText';
+  static const String newMatchMakingGameButtonText = 'newMatchMakingGameButtonText';
+  static const String noGamesMatchMakingText = 'noGamesMatchMakingText';
 
   @override
   Map<String, Map<String, String>> get keys => {

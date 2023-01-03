@@ -426,7 +426,7 @@ class GameProvider with ChangeNotifier {
       for (Piece piece in player.pieces) {
         int playerNumber = oldGame!.players.indexWhere((element) => element.playerColor == piece.owner);
 
-        if (playerNumber != -1) {
+        if (playerNumber != -1 && oldGame!.hasSessionEnded) {
           Piece oldPiece = oldGame!.players[playerNumber].pieces[oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
               .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
 
@@ -1325,11 +1325,36 @@ class GameProvider with ChangeNotifier {
           }
         }
       } catch (e) {
+        LoggingService.logMessage(e.toString());
         AppProvider.showToast(DialogueService.genericErrorText.tr);
         appProvider.setLoading(false, true);
         return;
       }
     } else {
+      return;
+    }
+  }
+
+  Future<void> joinOnlineMatchmakingGame() async {
+    AppProvider appProvider = Get.context!.read<AppProvider>();
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
+    appProvider.setLoading(true, true);
+
+    try {
+      List availableGames = await DatabaseService.getListOfOnlineGamesForMatchmaking(userProvider.getUserID());
+
+      if (availableGames.isEmpty) {
+        AppProvider.showToast(DialogueService.noGamesMatchMakingText.tr);
+        appProvider.setLoading(false, true);
+        return;
+      } else {
+        setJoinGameController(availableGames[appProvider.random.nextInt(availableGames.length)].id, false);
+        joinGameWithCode(userProvider.getUser(), appProvider);
+      }
+    } catch (e) {
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
+      appProvider.setLoading(false, true);
       return;
     }
   }
@@ -1372,11 +1397,10 @@ class GameProvider with ChangeNotifier {
         player.psuedonym + DialogueService.playerUnBannedText.tr,
         backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
       );
+      await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
     } else {
       showBanPlayerDialog(player, context);
     }
-
-    await DatabaseService.updateGame(currentGame!, true);
   }
 
   Future<void> kickPlayerFromGame(Player player) async {
@@ -1399,6 +1423,8 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> leaveGame(Game game, String id, Users user) async {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game.id, user);
     } else {
@@ -1424,6 +1450,7 @@ class GameProvider with ChangeNotifier {
       }
 
       if (Get.currentRoute == GameScreenWrapper.routeName) {
+        userProvider.removeGameFromOngoingGamesList(game);
         NavigationService.goToHomeScreen();
       }
     }
@@ -1792,6 +1819,7 @@ class GameProvider with ChangeNotifier {
     currentGame!.maxPlayers = currentGame!.players.length;
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
     currentGame!.isOffline = isGameOffline(currentGame!);
+    currentGame!.isAvailableForMatchMaking = false;
 
     scrollToBoardTab();
 
@@ -1817,6 +1845,7 @@ class GameProvider with ChangeNotifier {
     currentGame!.die = Die.getDefaultDie();
     currentGame!.selectedPiece = null;
     currentGame!.isOffline = isGameOffline(currentGame!);
+    currentGame!.isAvailableForMatchMaking = false;
 
     for (int i = 0; i < currentGame!.players.length; i++) {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
@@ -1865,7 +1894,7 @@ class GameProvider with ChangeNotifier {
   Future<void> setGamePresence(bool value) async {
     if (playerNumber != -1) {
       currentGame!.players[playerNumber].isPresent = value;
-      await DatabaseService.updateGame(currentGame!, false);
+      await DatabaseService.updateGame(currentGame!, false, shouldSyncWithFirestore: true);
     }
   }
 
@@ -1906,7 +1935,16 @@ class GameProvider with ChangeNotifier {
         showGameSettingsDialog(
             currentGame!, (!currentGame!.hasStarted && isPlayerHost(user.id)) || (!currentGame!.hasStarted && currentGame!.hasSessionEnded && isPlayerHost(user.id)), context);
         break;
+      case 6:
+        enableOnlineMatchmaking();
+        break;
     }
+  }
+
+  Future<void> enableOnlineMatchmaking() async {
+    currentGame!.isAvailableForMatchMaking = true;
+    AppProvider.showToast(DialogueService.enabledMatchMakingToastText.tr);
+    DatabaseService.updateGame(currentGame!, false, shouldSyncWithFirestore: true);
   }
 
   Future<void> endSession(Game game) async {
@@ -1968,6 +2006,7 @@ class GameProvider with ChangeNotifier {
           player.psuedonym + DialogueService.playerBannedText.tr,
           backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
         );
+        DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
       },
       onNo: () {},
       context: context,

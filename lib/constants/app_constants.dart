@@ -19,7 +19,7 @@ class AppConstants {
   static const int maxPlayerUpperLimit = 4;
   static const int minPseudonymLength = 3;
   static const int maxPseudonymLength = 25;
-  static const int maxOngoingGamesNumber = 50;
+  static const int maxOngoingGamesNumber = 10;
   static const int maxLeaderboardNumber = 100;
   static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;

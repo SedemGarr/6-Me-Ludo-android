@@ -39,6 +39,7 @@ class OngoingGamesListWidget extends StatelessWidget {
                           height: 8.0,
                         ),
                         itemBuilder: (context, index) {
+                          //  try {
                           return AnimationConfiguration.staggeredList(
                             position: index,
                             duration: AppConstants.animationDuration,
@@ -46,6 +47,9 @@ class OngoingGamesListWidget extends StatelessWidget {
                               child: OnGoingGamesListItemWidget(game: userProvider.ongoingGames[index]),
                             ),
                           );
+                          //  } catch (e) {
+                          //    return const SizedBox.shrink();
+                          //  }
                         },
                       ),
                     );

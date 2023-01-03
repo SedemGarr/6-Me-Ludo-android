@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/dynamic_link_provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/screens/home/panel.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/local_games/local_game_widget.dart';
 
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 
 import 'package:six_me_ludo_android/widgets/buttons/settings_button.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/new_game_dialog.dart';
 
 import '../../providers/app_provider.dart';
 import '../../widgets/appbar/app_bar_avatar_widget.dart';
 import '../../widgets/appbar/custom_appbar.dart';
+import '../../widgets/buttons/custom_elevated_button.dart';
 import '../../widgets/general/custom_animated_crossfade.dart';
 import '../../widgets/loading/loading_screen.dart';
 import '../../widgets/appbar/welcome_appbar_text_widget.dart';
@@ -50,9 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
     NavProvider navProvider = context.watch<NavProvider>();
     AppProvider appProvider = context.watch<AppProvider>();
     UserProvider userProvider = context.watch<UserProvider>();
+    GameProvider gameProvider = context.watch<GameProvider>();
 
-    bool shouldPanelHide = userProvider.getUserIsOffline() && GameProvider.isThereLocalGame();
-    bool shouldPanelHaveHalfHeight = userProvider.getUserIsOffline() && !GameProvider.isThereLocalGame();
+    bool shouldHideNewGameButton = userProvider.getUserIsOffline() && GameProvider.isThereLocalGame();
+    // bool shouldPanelHaveHalfHeight = userProvider.getUserIsOffline() && !GameProvider.isThereLocalGame();
 
     return WillPopScope(
       onWillPop: () async {
@@ -67,45 +67,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: AppBarAvatarWidget(),
                 actions: [SettingsButton()],
               ),
-              body: SlidingUpPanel(
-                //  controller: appProvider.panelController,
-                body: Column(
-                  children: [
-                    CustomAnimatedCrossFade(
-                      firstChild: BannerWidget(text: DialogueService.offlineText.tr),
-                      secondChild: const SizedBox.shrink(),
-                      condition: userProvider.getUserIsOffline(),
+              body: Column(
+                children: [
+                  CustomAnimatedCrossFade(
+                    firstChild: BannerWidget(text: DialogueService.offlineText.tr),
+                    secondChild: const SizedBox.shrink(),
+                    condition: userProvider.getUserIsOffline(),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: GameProvider.isThereLocalGame() ? MainAxisAlignment.start : MainAxisAlignment.center,
+                      children: [
+                        userProvider.getUserIsOffline() ? const LocalGameWidget() : const OngoingGamesListWidget(),
+                      ],
                     ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: GameProvider.isThereLocalGame() ? MainAxisAlignment.start : MainAxisAlignment.center,
-                        children: [
-                          userProvider.getUserIsOffline() ? const LocalGameWidget() : const OngoingGamesListWidget(),
-                        ],
+                  ),
+                ],
+              ),
+              bottomSheet: shouldHideNewGameButton
+                  ? null
+                  : Container(
+                      width: Get.width,
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomElevatedButton(
+                        onPressed: () {
+                          showNewGameDialog(
+                            context: context,
+                            gameProvider: gameProvider,
+                            userProvider: userProvider,
+                          );
+                        },
+                        text: DialogueService.newGameText.tr,
                       ),
                     ),
-                  ],
-                ),
-                panelBuilder: (sc) {
-                  return shouldPanelHide ? const SizedBox.shrink() : const GameOptionsPanel();
-                },
-                backdropEnabled: true,
-                backdropTapClosesPanel: true,
-                renderPanelSheet: true,
-                backdropOpacity: 0.0,
-                minHeight: shouldPanelHide
-                    ? 0
-                    : shouldPanelHaveHalfHeight
-                        ? Get.height * 0.05
-                        : Get.height * 0.05,
-                maxHeight: shouldPanelHide
-                    ? 0
-                    : shouldPanelHaveHalfHeight
-                        ? (Get.height * 0.17) / 1.5
-                        : Get.height * 0.17,
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: AppConstants.appBorderRadius,
-              ),
             ),
     );
   }

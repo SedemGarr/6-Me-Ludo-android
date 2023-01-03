@@ -64,12 +64,12 @@ class DatabaseService {
     }
   }
 
-  // static void updateAllUsers() async {
-  //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).get();
+  // static void updateAllGames() async {
+  //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).get();
 
   //   for (var element in res.docs) {
-  //     Users user = Users.fromJson(element.data());
-  //     updateUserData(user);
+  //     Game game = Game.fromJson(element.data());
+  //     updateGame(game, false, shouldSyncWithFirestore: true);
   //   }
   // }
 
@@ -247,6 +247,29 @@ class DatabaseService {
     await updateGame(game, true, shouldCreate: true, shouldSyncWithFirestore: true);
 
     return game;
+  }
+
+  static Future<List<Game>> getListOfOnlineGamesForMatchmaking(String id) async {
+    List<Game> games = [];
+
+    try {
+      QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+          .collection(FirestoreConstants.gamesCollection)
+          .where('isAvailableForMatchMaking', isEqualTo: true)
+          .where('hostId', isNotEqualTo: id)
+          .get();
+
+      for (var element in res.docs) {
+        Game game = Game.fromJson(element.data());
+        if (game.players[game.playerIds.indexWhere((element) => element == game.hostId)].isPresent && !game.playerIds.contains(id)) {
+          games.add(game);
+        }
+      }
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+    }
+
+    return games;
   }
 
   static Future<Game> createOfflineGame(Users user, Uuid uuid, BuildContext context) async {
