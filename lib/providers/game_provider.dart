@@ -426,7 +426,7 @@ class GameProvider with ChangeNotifier {
       for (Piece piece in player.pieces) {
         int playerNumber = oldGame!.players.indexWhere((element) => element.playerColor == piece.owner);
 
-        if (playerNumber != -1 && oldGame!.hasSessionEnded) {
+        if (playerNumber != -1 && !oldGame!.hasSessionEnded) {
           Piece oldPiece = oldGame!.players[playerNumber].pieces[oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
               .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
 
@@ -676,6 +676,7 @@ class GameProvider with ChangeNotifier {
               isStartingKick: doesIndexContainEnemyPiece(index),
               isKick: doesIndexContainEnemyPiece(index),
               kickee: getKickedPlayerNumber(index),
+              weight: 0.0,
             ),
           );
         }
@@ -699,6 +700,7 @@ class GameProvider with ChangeNotifier {
                 isStartingKick: false,
                 isKick: doesIndexContainEnemyPiece(index),
                 kickee: getKickedPlayerNumber(index),
+                weight: 0.0,
               ),
             );
           }
@@ -722,6 +724,7 @@ class GameProvider with ChangeNotifier {
                   isStartingKick: false,
                   isKick: true,
                   kickee: getKickedPlayerNumber(index),
+                  weight: 0.0,
                 ),
               );
             }
@@ -743,6 +746,7 @@ class GameProvider with ChangeNotifier {
                   isStartingKick: false,
                   isKick: true,
                   kickee: getKickedPlayerNumber(index),
+                  weight: 0.0,
                 ),
               );
             }
@@ -770,8 +774,29 @@ class GameProvider with ChangeNotifier {
       }
     }
 
-    // if there are no moves available, return a null move. the move will be skipped
-    return availableMoves.isEmpty ? Move.getNullMove() : availableMoves[random.nextInt(availableMoves.length)];
+    if (availableMoves.isEmpty) {
+      // if there are no moves available, return a null move. the move will be skipped
+      return Move.getNullMove();
+    }
+
+    availableMoves = weightMoves(availableMoves);
+
+    return availableMoves[random.nextInt(availableMoves.length)];
+  }
+
+  List<Move> weightMoves(List<Move> availableMoves) {
+    for (Move move in availableMoves) {
+      move.weight = calculateMoveWeights(move);
+    }
+
+    availableMoves.sort((b, a) => a.weight.compareTo(b.weight));
+
+    return availableMoves;
+  }
+
+  double calculateMoveWeights(Move move) {
+    // implement move weight logic
+    return move.weight;
   }
 
   List<Move> handlePacifistAIMoves(List<Move> availableMoves) {
@@ -2090,7 +2115,7 @@ class GameProvider with ChangeNotifier {
     return LocalStorageService.isThereLocalGame();
   }
 
-  Game? getLocalGame() {
+  static Game? getLocalGame() {
     return LocalStorageService.getLocalGame();
   }
 

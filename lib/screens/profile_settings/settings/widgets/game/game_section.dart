@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/adaptive_ai.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/add_ai_players.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/ai_personality.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/auto_start.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/catch_up_assist.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/game_speed.dart';
-import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/start_assist.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/game/widgets/profanity.dart';
 
 import '../../../../../services/translations/dialogue_service.dart';
+import '../general/widgets/audio.dart';
+import '../general/widgets/music.dart';
+import '../general/widgets/vibrate.dart';
+import '../general/widgets/wakelock.dart';
 import '../settings_header.dart';
 
 class GameSettingsSection extends StatelessWidget {
@@ -20,13 +18,19 @@ class GameSettingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SettingsHeaderWidget(text: DialogueService.gameSettingsText.tr),
-        const AddAIPlayers(),
-        const AutoStart(),
-        const CatchUpAssist(),
-        const StartAssist(),
-        const AdaptiveAI(),
-        const AIPersonality(),
-        const GameSpeed(),
+        const AudioWidget(),
+        const MusicWidget(),
+        const VibrateWidget(),
+        const WakelockWidget(),
+        const ProfaneMessages(),
+
+        // const AddAIPlayers(),
+        // const AutoStart(),
+        // const CatchUpAssist(),
+        // const StartAssist(),
+        // const AdaptiveAI(),
+        // const AIPersonality(),
+        // const GameSpeed(),
       ],
     );
   }

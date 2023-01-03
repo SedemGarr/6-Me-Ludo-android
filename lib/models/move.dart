@@ -34,6 +34,7 @@ class Move {
     required this.isStartingKick,
     required this.isGoingHome,
     required this.kickee,
+    required this.weight,
     //  required this.distanceToHomeBeforeMove,
     //  required this.distanceToHomeAfterMove,
     //  required this.distanceToClosestEnemyPieceAfterMove,
@@ -57,6 +58,7 @@ class Move {
       isGoingHome: false,
       isStartingKick: false,
       isKick: false,
+      weight: 0.0,
     );
   }
 }

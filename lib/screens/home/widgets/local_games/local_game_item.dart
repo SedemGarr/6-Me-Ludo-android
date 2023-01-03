@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/screens/home/widgets/on_going_games/ongoing_games_list_item.dart';
 
@@ -10,9 +9,7 @@ class LocalGameItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GameProvider gameProvider = context.watch<GameProvider>();
-
-    Game game = gameProvider.getLocalGame()!;
+    Game game = GameProvider.getLocalGame()!;
 
     return OnGoingGamesListItemWidget(game: game);
   }
