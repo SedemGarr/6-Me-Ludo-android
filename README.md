@@ -7,11 +7,14 @@ A Ludo game built with Flutter and powered by Firebase.
 - Up to 4 player multiplayer
 - AI players
 - Distinct AI personalities
-- A reputation system
+- A global leaderboard
+- Online Matchmaking
 
 ## Installation
 
 You'll need to download and setup the Flutter SDK.
+
+Clone the repo
 
 Don't forget to run 'flutter pub get' to get dependencies.
 
@@ -20,8 +23,6 @@ Create a new Firebase project.
 Enable Cloud Firestore and the RTDB.
 
 Enable Anonymous and Google Sign in for authentication.
-
-Upload the gifs in the other_assets folder to Firebase Storage and update the urls in the GameStatusService class if necessary.
 
 Don't forget to download the google services json file.
 
@@ -57,19 +58,20 @@ You'll also notice that the game thread is an array sitting on a thread object. 
 
 ## Game and AI logic
 
-If you value your sanity, please do not look in the GameProvider class. Avoid it like the plague. Just joking lol. While the code there is messy and in dire need of refactoring (which I will do, these past few days have been rough. I'm human too), the game logic isn't terribly complex. The game board is a simple, single dimensional array of Cell objects. The app renders this array as 15x15 grid. The positions of game pieces are just the index of the cell they are in. So when the die is rolled, I adjust the position of the selected piece based on the die value. Of course, movement on a Ludo board is not along a straight line so there is extra complexity to manage which cells a given player's pieces can occupy.
+If you value your sanity, please do not look in the GameProvider class. Avoid it like the plague. Just joking lol. While the code there is messy and in dire need of refactoring (I wrote most of it a couple of years ago), the game logic isn't terribly complex. The game board is a simple, single dimensional array of Cell objects. The app renders this array as 15x15 grid. The positions of game pieces are just the index of the cell they are in. So when the die is rolled, I adjust the position of the selected piece based on the die value. Of course, movement on a Ludo board is not along a straight line so there is extra complexity to manage which cells a given player's pieces can occupy.
 
 For the AI, I just generate a list of Move objects based on the possible moves available to it and then filter that list based on the AI's personality. If there are no valid moves available to it, it will simply pass its turn. Yes, this generation is done once per round. And so yes, the AI cannot really think ahead like a human can. At best, it can only prioritise which moves make the most immediate sense. The logic is extremely basic but that's why you are here to help 😊.
 
-There's also a weird thing that can happen where an AI player gets stuck during its turn and the game enters and unrecoverable state. This, for once isn't a problem with the AI logic, but a result of the game running on the client instead of on a server. The logic for an AI player is executed on the client of the last human player who played before it. This isn't a problem for network drops because the Firebase SDK will cache network requests when the device goes offline and then forward pending writes when it's back online. However, if the client device loses power or the app terminates unexpectedly, the game can get stuck and the session will be unrecoverable. A potential solution is to handle the AI logic in the cloud using cloud functions. However, cold starts make this an unappealing solution right now. As usual if you have any ideas, I'm all ears.
+There's also a weird thing that can happen where an AI player gets stuck during its turn and the game enters and unrecoverable state. This, for once, isn't a problem with the AI logic, but a result of the game running on the client instead of on a server. The logic for an AI player is executed on the client of the last human player who played before it. This isn't a problem for network drops because the Firebase SDK will cache network requests when the device goes offline and then forward pending writes when it's back online. However, if the client device loses power or the app terminates unexpectedly, the game can get stuck and the session will be unrecoverable. A potential solution is to handle the AI logic in the cloud using cloud functions. However, cold starts make this an unappealing solution right now. As usual if you have any ideas, I'm all ears.
 
 ## Roadmap
 
 For the next major release I plan to
 
-- Implement a match making system
-- Integrate google games services
-- MASSIVELY refactor the entire code base
+- rewrite forced upgrade logic
+- weight AI moves
+- push notifications
+- MASSIVELY refactor the entire code base (especially that pesky GameProvider class)
 
 After that, I want to
 

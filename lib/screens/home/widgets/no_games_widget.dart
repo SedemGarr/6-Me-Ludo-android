@@ -11,7 +11,7 @@ class NoGamesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        DialogueService.errorGamesText.tr,
+        DialogueService.noGamesText.tr,
         style: TextStyles.noGamesStyle(
           Theme.of(context).colorScheme.primary,
         ),

@@ -64,10 +64,19 @@ class DatabaseService {
     }
   }
 
+  // static void updateAllUsers() async {
+  //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).get();
+
+  //   for (QueryDocumentSnapshot<Map<String, dynamic>> element in res.docs) {
+  //     Users user = Users.fromJson(element.data());
+  //     updateUserData(user);
+  //   }
+  // }
+
   // static void updateAllGames() async {
   //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).get();
 
-  //   for (var element in res.docs) {
+  //   for (QueryDocumentSnapshot<Map<String, dynamic>> element in res.docs) {
   //     Game game = Game.fromJson(element.data());
   //     updateGame(game, false, shouldSyncWithFirestore: true);
   //   }
