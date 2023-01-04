@@ -7,10 +7,10 @@ import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_comment
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/game_reaction_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/last_played_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/board/widgets/die_wrapper.dart';
-import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 import '../../../../models/game.dart';
 import '../../../../providers/game_provider.dart';
+import '../../../../widgets/general/custom_animated_crossfade.dart';
 
 class BoardWidget extends StatefulWidget {
   final GameProvider gameProvider;
@@ -67,5 +67,5 @@ class _BoardWidgetState extends State<BoardWidget> with AutomaticKeepAliveClient
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => !widget.userProvider.getUserIsOffline();
 }

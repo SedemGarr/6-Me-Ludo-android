@@ -19,12 +19,15 @@ class AppConstants {
   static const int maxPlayerUpperLimit = 4;
   static const int minPseudonymLength = 3;
   static const int maxPseudonymLength = 25;
-  static const int maxOngoingGamesNumber = 50;
+  static const int maxOngoingGamesNumber = 10;
+  static const int maxLeaderboardNumber = 100;
   static const int joinGameCodeLength = 20;
   static const int animationDurationValue = 250;
   static const int gameThreadMessageLimit = 500;
+  static const int vibrationDuration = 125;
 
   static const double appOpacity = 0.25;
+  static const double panelHeader = 0.8;
 
   static const double lottieAnimationCutoffPoint = 1.0;
 
@@ -39,10 +42,13 @@ class AppConstants {
   static const double appBorderRadiusValue = 4.0;
 
   static const Duration animationDuration = Duration(milliseconds: animationDurationValue);
+  static const Duration listScrollDuration = Duration(milliseconds: 500);
   static const Duration lottieDuration = Duration(seconds: 6);
   static const Duration confettiDuration = Duration(seconds: 20);
   static const Duration carouselDuration = Duration(seconds: 5);
   static const Duration snackBarDuration = Duration(seconds: 5);
+  static const Duration snackBarLongDuration = Duration(seconds: 10);
+  static const Duration newtworkTimeoutDuration = Duration(seconds: 30);
 
   static BorderRadius appBorderRadius = BorderRadius.circular(appBorderRadiusValue);
 
@@ -50,13 +56,14 @@ class AppConstants {
 
   static RoundedRectangleBorder appShape = RoundedRectangleBorder(borderRadius: appBorderRadius);
 
-  static const EdgeInsets listViewPadding = EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0);
+  static const EdgeInsets listViewPadding = EdgeInsets.all(8.0);
   static const EdgeInsets modalTitlePadding = EdgeInsets.all(24.0);
   static const EdgeInsets dialogTitlePadding = EdgeInsets.only(left: 24.0, top: 24.0, right: 24.0, bottom: 0.0);
   static const EdgeInsets dialogActionsPadding = EdgeInsets.only(left: 0.0, top: 0.0, right: 24.0, bottom: 24.0);
   static const EdgeInsets userAvatarPadding = EdgeInsets.all(4.0);
   static const EdgeInsets userAvatarAppBarPadding = EdgeInsets.all(2.0);
   static const EdgeInsets bannerPadding = EdgeInsets.all(16.0);
+  static const EdgeInsets cardMarginPadding = EdgeInsets.symmetric(vertical: 4.0);
 
   static LinearGradient getLinearGradient(List<Color> colors) {
     return LinearGradient(
@@ -65,7 +72,7 @@ class AppConstants {
       end: Alignment.bottomRight,
     );
   }
-  
+
   //
   static const Color blackColor = CSSColors.black;
   static const Color whiteColor = CSSColors.white;

@@ -16,7 +16,7 @@ class Move {
   //  and it will likely generate a WHOLE lot of bugs
   //  But we'll cross that river when we get there.
   //  Don't forget to pass these to the constructor
-
+  late double weight;
   late int? distanceToHomeBeforeMove;
   late int? distanceToHomeAfterMove;
   late int? distanceToClosestEnemyPieceBeforeMove;
@@ -34,6 +34,7 @@ class Move {
     required this.isStartingKick,
     required this.isGoingHome,
     required this.kickee,
+    required this.weight,
     //  required this.distanceToHomeBeforeMove,
     //  required this.distanceToHomeAfterMove,
     //  required this.distanceToClosestEnemyPieceAfterMove,
@@ -57,6 +58,7 @@ class Move {
       isGoingHome: false,
       isStartingKick: false,
       isKick: false,
+      weight: 0.0,
     );
   }
 }

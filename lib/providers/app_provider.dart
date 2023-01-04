@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:clipboard/clipboard.dart';
@@ -12,15 +14,21 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:profanity_filter/profanity_filter.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:six_me_ludo_android/models/version.dart';
+import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:logging/logging.dart';
 
 import '../constants/app_constants.dart';
 import '../constants/textstyle_constants.dart';
 import '../models/license.dart';
+import '../services/database_service.dart';
+import '../services/logging_service.dart';
 import '../widgets/dialogs/choice_dialog.dart';
 
 class AppProvider with ChangeNotifier {
@@ -28,15 +36,11 @@ class AppProvider with ChangeNotifier {
 
   // for global loader
   bool isLoading = false;
-  // for splash screen
-  bool isSplashScreenLoaded = false;
-  bool shouldShowAuthButton = false;
-  bool needsUpgrade = false;
-
-  late AnimationController lottieController;
 
   //
   Random random = Random();
+
+  
 
   final List<String> loadingStrings = [
     DialogueService.loading1Text.tr,
@@ -64,9 +68,7 @@ class AppProvider with ChangeNotifier {
     DialogueService.welcome10Text.tr,
   ];
 
-  void initialiseController(TickerProvider tickerProvider) {
-    lottieController = AnimationController(vsync: tickerProvider);
-  }
+ 
 
   void setLoading(bool value, bool shouldRebuild) {
     isLoading = value;
@@ -76,30 +78,13 @@ class AppProvider with ChangeNotifier {
     }
   }
 
-  void setSplashScreenLoaded(bool value) {
-    isSplashScreenLoaded = value;
-
-    notifyListeners();
-  }
-
-  void setShouldShowAuthButton(bool value) {
-    shouldShowAuthButton = value;
-
-    notifyListeners();
-  }
-
-   void setNeedsUpgrade(bool value) {
-    needsUpgrade = value;
-
-    notifyListeners();
-  }
-
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
   }
 
-  bool isVersionUpToDate(AppVersion appVersion) {
-    return appVersion.version == getAppVersion();
+  Future<bool> isVersionUpToDate() async {
+    AppVersion? appVersion = await DatabaseService.getAppVersion();
+    return appVersion != null && appVersion.version == getAppVersion();
   }
 
   String getAppName() {
@@ -124,6 +109,15 @@ class AppProvider with ChangeNotifier {
 
   String getWelcomeString() {
     return welcomeStrings[random.nextInt(loadingStrings.length)];
+  }
+
+  static Future<bool> hasNetwork() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 
   static void dismissKeyboard() {
@@ -151,16 +145,40 @@ class AppProvider with ChangeNotifier {
     return filter.hasProfanity(value);
   }
 
-  static void showToast(String message, {Duration? duration}) {
+  static void showToast(String message, {String? title, Duration? duration, Color? backgroundColor}) {
+    Color? contrastingColor;
+
+    if (backgroundColor != null) {
+      contrastingColor = ThemeProvider.getContrastingColor(backgroundColor);
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
+          shape: AppConstants.appShape,
           duration: duration ?? AppConstants.snackBarDuration,
-          content: Text(
-            message,
-            style: TextStyles.listSubtitleStyle(Theme.of(Get.context!).colorScheme.surface),
-          ),
+          backgroundColor: backgroundColor,
+          content: title != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title + DialogueService.chatSaysText.tr,
+                      style: TextStyles.listTitleStyle(contrastingColor ?? Theme.of(Get.context!).colorScheme.surface),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      message,
+                      style: TextStyles.listSubtitleStyle(contrastingColor ?? Theme.of(Get.context!).colorScheme.surface),
+                    ),
+                  ],
+                )
+              : Text(
+                  message,
+                  style: TextStyles.listSubtitleStyle(contrastingColor ?? Theme.of(Get.context!).colorScheme.surface),
+                ),
         ),
       );
     });
@@ -193,7 +211,7 @@ class AppProvider with ChangeNotifier {
         showToast(DialogueService.genericErrorText.tr);
       }
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       showToast(DialogueService.genericErrorText.tr);
     }
   }
@@ -206,13 +224,42 @@ class AppProvider with ChangeNotifier {
     Wakelock.toggle(enable: value);
   }
 
+  static void vibrate(bool prefersVibrate) async {
+    if (!prefersVibrate) {
+      return;
+    }
+
+    bool? canVibrate = await Vibration.hasVibrator();
+
+    if (canVibrate == null) {
+      return;
+    }
+
+    if (canVibrate) {
+      Vibration.vibrate(
+        duration: AppConstants.vibrationDuration,
+      );
+    }
+  }
+
   static Future<void> initApp() async {
+    initLogger();
     WidgetsFlutterBinding.ensureInitialized();
     await addGoogleFontsLicenses();
     await Firebase.initializeApp();
     listenForAppErrors();
     listenForAsyncAppErrors();
     await GetStorage.init();
+  }
+
+  static initLogger() {
+    if (kReleaseMode) {
+      Logger.root.level = Level.WARNING;
+    }
+
+    Logger.root.onRecord.listen((record) {
+      debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+    });
   }
 
   static Future<List<License>> loadLicenses() async {
@@ -259,6 +306,10 @@ class AppProvider with ChangeNotifier {
         exitApp();
       },
     );
+  }
+
+  static void restartApp() {
+    Restart.restartApp();
   }
 
   static void exitApp() {

@@ -5,15 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:six_me_ludo_android/constants/app_constants.dart';
+import 'package:six_me_ludo_android/constants/player_constants.dart';
 import 'package:six_me_ludo_android/models/player.dart';
-import 'package:six_me_ludo_android/models/version.dart';
+import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
 import 'package:six_me_ludo_android/providers/theme_provider.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
 import 'package:six_me_ludo_android/services/authentication_service.dart';
 import 'package:six_me_ludo_android/services/database_service.dart';
-import 'package:six_me_ludo_android/widgets/dialogs/auth_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/welcome_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/choice_dialog.dart';
+import 'package:six_me_ludo_android/widgets/dialogs/no_internet_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/upgrade_dialog.dart';
 import 'package:six_me_ludo_android/widgets/dialogs/user_dialog.dart';
 import 'package:username_generator/username_generator.dart';
@@ -25,7 +27,6 @@ import '../services/local_storage_service.dart';
 import '../services/navigation_service.dart';
 import '../services/translations/dialogue_service.dart';
 import '../services/user_state_service.dart';
-import '../widgets/dialogs/new_game_dialog.dart';
 import 'app_provider.dart';
 
 class UserProvider with ChangeNotifier {
@@ -101,7 +102,7 @@ class UserProvider with ChangeNotifier {
   static List<String> generateAvatarSelectionCodes(String avatar) {
     List<String> avatars = [];
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 20; i++) {
       avatars.add(generateRandomUserAvatar());
     }
 
@@ -124,41 +125,42 @@ class UserProvider with ChangeNotifier {
 
   Future<void> initUser(BuildContext context) async {
     AppProvider appProvider = context.read<AppProvider>();
+    SoundProvider soundProvider = context.read<SoundProvider>();
 
     await appProvider.getPackageInfo();
 
-    AppVersion? appVersion = await DatabaseService.getAppVersion();
+    if (LocalStorageService.isAppOffline()) {
+      offlineModeInit(appProvider, soundProvider);
+      return;
+    }
 
-    if (appVersion != null && appProvider.isVersionUpToDate(appVersion)) {
-      try {
-        tempUser = await LocalStorageService.getUser();
-      } catch (e) {
-        debugPrint(e.toString());
-        tempUser = null;
-      }
+    if (!(await AppProvider.hasNetwork())) {
+      showNoInternetDialog(context: Get.context!);
+      return;
+    }
+
+    if (await appProvider.isVersionUpToDate()) {
+      tempUser = await LocalStorageService.getUser();
+      completeInit(appProvider, soundProvider);
     } else {
-      appProvider.setNeedsUpgrade(true);
       showUpgradeDialog(context: context);
     }
   }
 
-  void completeInit(bool needsUpgrade, BuildContext context) {
-    AppProvider appProvider = context.read<AppProvider>();
-    SoundProvider soundProvider = context.read<SoundProvider>();
+  void completeInit(AppProvider appProvider, SoundProvider soundProvider) {
+    Future.delayed(AppConstants.lottieDuration, () async {
+      if (tempUser != null) {
+        setUser(tempUser, appProvider, soundProvider);
+        NavigationService.goToHomeScreen();
+      } else {
+        showWelcomeDialog(context: Get.context!);
+      }
+    });
+  }
 
-    if (!needsUpgrade) {
-      appProvider.setSplashScreenLoaded(false);
-
-      Future.delayed(AppConstants.animationDuration, () {
-        if (tempUser != null) {
-          setUser(tempUser, appProvider, soundProvider);
-          NavigationService.goToHomeScreen();
-        } else {
-          appProvider.setShouldShowAuthButton(true);
-          showAuthDialog(context: Get.context!);
-        }
-      });
-    }
+  void offlineModeInit(AppProvider appProvider, SoundProvider soundProvider) async {
+    tempUser = await LocalStorageService.getUser();
+    completeInit(appProvider, soundProvider);
   }
 
   Future<void> updateUser(bool shouldRebuild, bool shouldUpdateOnline) async {
@@ -187,19 +189,21 @@ class UserProvider with ChangeNotifier {
       return;
     }
 
-    // NavigationService.goToNewGameScreen();
-    showNewGameDialog(context: context);
+    NavigationService.goToNewGameScreen();
+  }
+
+  void assignUser(Users? user) {
+    _user = user;
   }
 
   void setUser(Users? user, AppProvider appProvider, SoundProvider soundProvider) {
-    _user = user;
+    assignUser(user);
     _user!.appVersion = appProvider.getAppVersion();
     _user!.appBuildNumber = appProvider.getAppBuildNumber();
 
     tempUser = _user;
 
     onGoingGamesStream = DatabaseService.getOngoingGamesStream(_user!.id);
-    soundProvider.setPrefersSound(_user!.settings.prefersAudio);
 
     notifyListeners();
   }
@@ -216,6 +220,11 @@ class UserProvider with ChangeNotifier {
 
   void syncOngoingGamesStreamData(List<Game> games) {
     ongoingGames = games;
+  }
+
+  void removeGameFromOngoingGamesList(Game game) {
+    ongoingGames.removeWhere((element) => element.id == game.id);
+    notifyListeners();
   }
 
   bool shouldGameShow(Game game) {
@@ -242,6 +251,17 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  void setOfflineMode(bool value) async {
+    _user!.settings.isOffline = value;
+    AppProvider.showToast(value ? DialogueService.offlineModeToastOnText.tr : DialogueService.offlineModeToastOffText.tr);
+    updateUser(true, true);
+
+    AppProvider appProvider = Get.context!.read<AppProvider>();
+    if (!(await appProvider.isVersionUpToDate())) {
+      showUpgradeDialog(context: Get.context!);
+    }
+  }
+
   void toggleDarkMode(BuildContext context, bool value) {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.prefersDarkMode = value;
@@ -249,10 +269,30 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  void toggleOfflineMode(BuildContext context, bool value) {
+    if (value) {
+      showOfflineDialog(context);
+      return;
+    }
+
+    _user!.settings.isOffline = value;
+    AppProvider.showToast(value ? DialogueService.offlineModeToastOnText.tr : DialogueService.offlineModeToastOffText.tr);
+    syncUser(true);
+  }
+
   void toggleAudio(BuildContext context, bool value) {
-    SoundProvider soundProvider = context.read<SoundProvider>();
     _user!.settings.prefersAudio = value;
-    soundProvider.setPrefersSound(_user!.settings.prefersAudio);
+
+    updateUser(true, true);
+
+    if (value) {
+      AppProvider.showToast(DialogueService.zapsplatText.tr);
+    }
+  }
+
+  void toggleMusic(BuildContext context, bool value) {
+    _user!.settings.prefersMusic = value;
+
     updateUser(true, true);
 
     if (value) {
@@ -266,6 +306,10 @@ class UserProvider with ChangeNotifier {
   }
 
   void toggleAddAI(BuildContext context, bool value) {
+    if (getUserIsOffline()) {
+      return;
+    }
+
     if (_user!.settings.maxPlayers == 1) {
       _user!.settings.prefersAddAI = true;
     } else if (_user!.settings.maxPlayers == 4) {
@@ -301,12 +345,21 @@ class UserProvider with ChangeNotifier {
     updateUser(true, true);
   }
 
+  void toggleIsPrivate(BuildContext context, bool value) {
+    _user!.isPrivate = value;
+    updateUser(true, true);
+  }
+
+  void toggleVibrate(BuildContext context, bool value) {
+    _user!.settings.prefersVibrate = value;
+    updateUser(true, true);
+  }
+
   Future<void> setCustomTheme(FlexScheme flexScheme, BuildContext context) async {
     //NavigationService.genericGoBack();
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = flexScheme.name;
     themeProvider.setTheme(_user!.settings.prefersDarkMode, flexScheme);
-    AppProvider.showToast(DialogueService.setThemeToValueText.tr + flexScheme.name.capitalizeFirst!);
     await updateUser(true, true);
   }
 
@@ -315,7 +368,6 @@ class UserProvider with ChangeNotifier {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     _user!.settings.theme = '';
     themeProvider.setTheme(_user!.settings.prefersDarkMode, themeProvider.getRandomScheme());
-    AppProvider.showToast(DialogueService.setThemeToRandomText.tr);
     await updateUser(true, true);
   }
 
@@ -407,6 +459,40 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  void syncUser(bool shouldRebuild) async {
+    if (!getUserIsOffline()) {
+      if (shouldRebuild) {
+        notifyListeners();
+      }
+
+      Users? tempUser = await DatabaseService.getUser(_user!.id);
+
+      if (tempUser != null) {
+        if (_user!.stats.counter < tempUser.stats.counter) {
+          _user!.stats = tempUser.stats;
+          _user!.rankingValue = tempUser.rankingValue;
+          LocalStorageService.setUser(_user!);
+        } else if (_user!.stats.counter > tempUser.stats.counter) {
+          updateUser(shouldRebuild, true);
+        }
+      }
+    }
+  }
+
+  void showOfflineDialog(BuildContext context) {
+    showChoiceDialog(
+      titleMessage: DialogueService.offlineModeTitleText.tr,
+      contentMessage: DialogueService.offlineModeContentText.tr,
+      yesMessage: DialogueService.offlineModeYesText.tr,
+      noMessage: DialogueService.offlineModeNoText.tr,
+      onYes: () {
+        setOfflineMode(true);
+      },
+      onNo: () {},
+      context: context,
+    );
+  }
+
   void showSignOutDialog(BuildContext context) {
     showChoiceDialog(
       titleMessage: DialogueService.signOutDialogTitleText.tr,
@@ -421,6 +507,20 @@ class UserProvider with ChangeNotifier {
     );
   }
 
+  void showConvertAccountDialog(BuildContext context) {
+    showChoiceDialog(
+      titleMessage: DialogueService.convertAccountDialogTitleText.tr,
+      contentMessage: DialogueService.convertAccountDialogContentText.tr,
+      yesMessage: DialogueService.convertAccountDialogYesText.tr,
+      noMessage: DialogueService.convertAccountDialogNoText.tr,
+      onYes: () {
+        AuthenticationService.convertToGoogle(context);
+      },
+      onNo: () {},
+      context: context,
+    );
+  }
+
   void showDeleteAccountDialog(BuildContext context) {
     showChoiceDialog(
       titleMessage: DialogueService.deleteAccountDialogTitleText.tr,
@@ -428,7 +528,7 @@ class UserProvider with ChangeNotifier {
       yesMessage: DialogueService.deleteAccountDialogYesText.tr,
       noMessage: DialogueService.deleteAccountDialogNoText.tr,
       onYes: () {
-        AuthenticationService.deleteAccount(_user!, context);
+        AuthenticationService.deleteAccount(true);
       },
       onNo: () {},
       context: context,
@@ -452,7 +552,7 @@ class UserProvider with ChangeNotifier {
   }
 
   String getUserReputationValueAsString() {
-    return _user!.reputationValue.toString();
+    return Player.getPlayerReputationName(_user!.reputationValue);
   }
 
   String getUserPersonalityPreference() {
@@ -499,6 +599,124 @@ class UserProvider with ChangeNotifier {
     return name == _user!.psuedonym ? 'You' : name;
   }
 
+  String parseNumberOfGamesText(int value) {
+    if (value < 25) {
+      return DialogueService.numberOfGamesNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.numberOfGamesExperiencedText.tr;
+    } else if (value < 100) {
+      return DialogueService.numberOfGamesVeteranText.tr;
+    }
+
+    return DialogueService.numberOfGamesSleepText.tr;
+  }
+
+  String parsePercentageFinishedText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageFinishedNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageFinishedExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageFinishedVeteranText.tr;
+    }
+
+    return DialogueService.percentageFinishedSleepText.tr;
+  }
+
+  String parsePercentageWonText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageWonNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageWonExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageWonVeteranText.tr;
+    }
+
+    return DialogueService.percentageWonSleepText.tr;
+  }
+
+  String parsePercentageHumanText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageHumanNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageHumanExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageHumanVeteranText.tr;
+    }
+
+    return DialogueService.percentageHumanSleepText.tr;
+  }
+
+  String parsePercentagePunchingBagText(double value) {
+    if (value < 25) {
+      return DialogueService.percentagePunchingBagNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentagePunchingBagExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentagePunchingBagVeteranText.tr;
+    }
+
+    return DialogueService.percentagePunchingBagSleepText.tr;
+  }
+
+  String parsePercentageViciousText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageViciousNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageViciousExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageViciousVeteranText.tr;
+    }
+
+    return DialogueService.percentageViciousSleepText.tr;
+  }
+
+  String parsePercentageMixedText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageMixedNoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageMixedExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageMixedVeteranText.tr;
+    }
+
+    return DialogueService.percentageMixedSleepText.tr;
+  }
+
+  String parsePercentageAIText(double value) {
+    if (value < 25) {
+      return DialogueService.percentageAINoobText.tr;
+    } else if (value < 50) {
+      return DialogueService.percentageAIExperiencedText.tr;
+    } else if (value < 75) {
+      return DialogueService.percentageAIVeteranText.tr;
+    }
+
+    return DialogueService.percentageAISleepText.tr;
+  }
+
+  String parseFavouriteColorText(int value) {
+    try {
+      return PlayerConstants.swatchListNames[value];
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String parseCummulativeTimeText(String value) {
+    Duration duration = GameProvider.convertCummulativeTimeToDuration(value);
+
+    if (duration.inHours < const Duration(hours: 48).inHours) {
+      return DialogueService.cummulativeTimeNoobText.tr;
+    } else if (duration.inHours < const Duration(hours: 96).inHours) {
+      return DialogueService.cummulativeTimeExperiencedText.tr;
+    } else if (duration.inHours < const Duration(hours: 192).inHours) {
+      return DialogueService.cummulativeTimeVeteranText.tr;
+    }
+
+    return DialogueService.cummulativeTimeSleepText.tr;
+  }
+
   String getUserEmail() {
     return _user!.email;
   }
@@ -523,8 +741,22 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.prefersDarkMode;
   }
 
+  bool getUserIsOffline() {
+    return _user!.settings.isOffline;
+  }
+
+  static bool isUserOfflineStatic() {
+    BuildContext context = Get.context!;
+    UserProvider userProvider = context.read<UserProvider>();
+    return userProvider.getUserIsOffline();
+  }
+
   bool getUserAudio() {
     return _user!.settings.prefersAudio;
+  }
+
+  bool getUserMusic() {
+    return _user!.settings.prefersMusic;
   }
 
   bool getUserAdaptiveAI() {
@@ -559,6 +791,14 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.prefersWakelock;
   }
 
+  bool getUserIsPrivate() {
+    return _user!.isPrivate;
+  }
+
+  bool getUserVibrate() {
+    return _user!.settings.prefersVibrate;
+  }
+
   bool isAvatarSelected(String avatar) {
     return selectedAvatar == avatar;
   }
@@ -583,6 +823,10 @@ class UserProvider with ChangeNotifier {
     return _user!.settings.maxPlayers;
   }
 
+  int getGameIndex(Game game) {
+    return ongoingGames.indexWhere((element) => element.id == game.id);
+  }
+
   Users getUser() {
     return _user!;
   }
@@ -604,5 +848,9 @@ class UserProvider with ChangeNotifier {
   Locale parseUserLocale(String locale) {
     List<String> localeCodes = locale.split('_');
     return Locale(localeCodes[0], localeCodes[1]);
+  }
+
+  void rebuild() {
+    notifyListeners();
   }
 }

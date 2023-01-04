@@ -4,9 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class AppIcons {
   // home
   static const IconData homeIcon = MdiIcons.home;
-
-  static const IconData drawerMenuIcon = MdiIcons.menu;
-
+  static const IconData settingsIcon = MdiIcons.cog;
   // ai personality
   static const IconData pacifistIcon = MdiIcons.emoticonHappy;
   static const IconData averageJoeIcon = MdiIcons.emoticonNeutral;
@@ -14,21 +12,16 @@ class AppIcons {
   static const IconData randomIcon = MdiIcons.robot;
   //
   static const IconData googleIcon = MdiIcons.google;
-  static const IconData anonIcon = MdiIcons.accountQuestion;
+  static const IconData signOutIcon = MdiIcons.logout;
+  static const IconData deleteAccountIcon = MdiIcons.deleteForever;
   // general
   static const IconData backIcon = MdiIcons.chevronLeft;
-  static const IconData infoIcon = MdiIcons.information;
   static const IconData userIcon = MdiIcons.account;
   static const IconData menuIcon = MdiIcons.dotsVertical;
   static const IconData refreshAvatarListIcon = MdiIcons.refresh;
+  static const IconData leaderboardFirstIcon = MdiIcons.crown;
   // game
   static const IconData gameHasStartedIcon = MdiIcons.circle;
-  static const IconData restartIcon = MdiIcons.redo;
-  static const IconData playIcon = MdiIcons.play;
-  static const IconData stopIcon = MdiIcons.stop;
-  static const IconData endGameIcon = MdiIcons.close;
-  static const IconData leaveGameIcon = MdiIcons.doorOpen;
-  static const IconData copyGameCodeIcon = MdiIcons.contentCopy;
   static const IconData kickPlayerIcon = MdiIcons.accountMinus;
   static const IconData banPlayerIcon = MdiIcons.commentOff;
   static const IconData unBanPlayerIcon = MdiIcons.comment;
@@ -43,9 +36,10 @@ class AppIcons {
   static const IconData sixDieIcon = MdiIcons.dice6Outline;
   // game - chat
   static const IconData sendMessageIcon = MdiIcons.send;
-  // settingss
+  // settings
+  static const IconData statsIcon = MdiIcons.chartBar;
   static const IconData themeArrowIcon = MdiIcons.chevronRight;
   static const IconData themeSelectedIcon = MdiIcons.circle;
-  static const IconData randomThemeIcon = MdiIcons.shuffle;
-  static const IconData editDoneProfileIcon = MdiIcons.checkCircle;
+  static const IconData webIcon = MdiIcons.web;
+  static const IconData emailIcon = MdiIcons.email;
 }

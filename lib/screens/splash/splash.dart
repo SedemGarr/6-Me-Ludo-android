@@ -6,11 +6,12 @@ import 'package:six_me_ludo_android/screens/splash/widgets/animation_attribution
 import '../../constants/app_constants.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
-import '../../widgets/custom_animated_crossfade.dart';
-import '../../widgets/loading_screen.dart';
-import '../../widgets/wayout_widget.dart';
+import '../../widgets/loading/loading_screen.dart';
+import '../../widgets/app/wayout_widget.dart';
 
 class SplashScreen extends StatefulWidget {
+  static String routeName = '/';
+
   const SplashScreen({super.key});
 
   @override
@@ -22,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   late AppProvider appProvider;
 
   Future<void> init(BuildContext context, TickerProvider tickerProvider) async {
-    appProvider.initialiseController(tickerProvider);
     await userProvider.initUser(context);
   }
 
@@ -59,45 +59,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                             borderRadius: AppConstants.appBorderRadius,
                             color: Theme.of(context).primaryColor,
                           ),
-                          child: CustomAnimatedCrossFade(
-                            firstChild: Lottie.asset(
-                              controller: appProvider.lottieController,
-                              AppConstants.wayyyOutLottieAssetPath,
-                              onLoaded: (LottieComposition p0) {
-                                appProvider.setSplashScreenLoaded(true);
-                                appProvider.lottieController
-                                  ..duration = AppConstants.lottieDuration
-                                  ..animateTo(
-                                    AppConstants.lottieAnimationCutoffPoint,
-                                  ).whenComplete(() => userProvider.completeInit(appProvider.needsUpgrade, context));
-                              },
-                              repeat: true,
-                              fit: BoxFit.cover,
-                            ),
-                            secondChild: const SizedBox(),
-                            condition: appProvider.isSplashScreenLoaded,
+                          child: Lottie.asset(
+                            AppConstants.wayyyOutLottieAssetPath,
+                            repeat: true,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
                       WayOutWidget(width: MediaQuery.of(context).size.width * 0.8),
                       const Spacer(),
-                      // Expanded(
-                      //   child: appProvider.shouldShowAuthButton && !appProvider.isLoading
-                      //       ? Row(
-                      //           mainAxisAlignment: MainAxisAlignment.center,
-                      //           children: [
-                      //             SizedBox(
-                      //               width: Get.width * 2 / 4,
-                      //               child: CustomElevatedButton(
-                      //                   onPressed: () {
-                      //                     showAuthDialog(context: context);
-                      //                   },
-                      //                   text: DialogueService.beginText.tr),
-                      //             ),
-                      //           ],
-                      //         )
-                      //       : Container(),
-                      // ),
                       const AnimationAttributionWidget()
                     ],
                   ),

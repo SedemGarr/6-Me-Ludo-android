@@ -7,11 +7,11 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/chat_limit_banner.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/player_banned_banner_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
 
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/player.dart';
 import '../../../../../providers/game_provider.dart';
+import '../../../../../widgets/general/custom_animated_crossfade.dart';
 
 class ChatFormFieldWidget extends StatelessWidget {
   final GameProvider gameProvider;

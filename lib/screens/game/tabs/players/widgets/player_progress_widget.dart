@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:six_me_ludo_android/models/player.dart';
 
-import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
+import '../../../../../widgets/general/custom_animated_crossfade.dart';
 
 class PlayerProgressWidget extends StatelessWidget {
   final Player player;

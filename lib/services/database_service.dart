@@ -6,8 +6,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/models/game.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
+import 'package:six_me_ludo_android/providers/user_provider.dart';
+import 'package:six_me_ludo_android/services/local_storage_service.dart';
+import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
 import 'package:six_me_ludo_android/services/user_state_service.dart';
 import 'package:uuid/uuid.dart';
@@ -22,6 +26,7 @@ import '../models/version.dart';
 import '../providers/app_provider.dart';
 import '../providers/dynamic_link_provider.dart';
 import 'game_status_service.dart';
+import 'logging_service.dart';
 
 class DatabaseService {
   static String getDeviceTime() {
@@ -39,25 +44,67 @@ class DatabaseService {
   static Future<AppVersion?> getAppVersion() async {
     try {
       return AppVersion.fromJson(
-          (Map<String, dynamic>.from(jsonDecode(jsonEncode((await FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.appVersionReference).get()).value)))));
+        (Map<String, dynamic>.from(
+          jsonDecode(
+            jsonEncode((await FirebaseDatabase.instance.ref(RealTimeDatabaseConstants.appVersionReference).get()).value),
+          ),
+        )),
+      );
     } catch (e) {
       return null;
     }
-
-    // try {
-    //   return AppVersion.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.appDataCollection).doc(FirestoreConstants.versionDocument).get()).data()!);
-    // } catch (e) {
-    //   return null;
-    // }
   }
 
   // users
-
   static Future<Users?> getUser(String id) async {
     try {
       return Users.fromJson((await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).get()).data()!);
     } catch (e) {
       return null;
+    }
+  }
+
+  // static void updateAllUsers() async {
+  //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).get();
+
+  //   for (QueryDocumentSnapshot<Map<String, dynamic>> element in res.docs) {
+  //     Users user = Users.fromJson(element.data());
+  //     updateUserData(user);
+  //   }
+  // }
+
+  // static void updateAllGames() async {
+  //   QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).get();
+
+  //   for (QueryDocumentSnapshot<Map<String, dynamic>> element in res.docs) {
+  //     Game game = Game.fromJson(element.data());
+  //     updateGame(game, false, shouldSyncWithFirestore: true);
+  //   }
+  // }
+
+  static Future<List<Users>> getAllUsersSorted() async {
+    // this is an ABSOLUTELY TERRIBLE APPROACH that will not scale well at all.
+    // it's temporary until I get google games services integrated.
+
+    List<Users> users = [];
+
+    try {
+      QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+          .collection(FirestoreConstants.userCollection)
+          .where('isPrivate', isEqualTo: false)
+          .orderBy('rankingValue', descending: true)
+          .limit(AppConstants.maxLeaderboardNumber)
+          .get();
+
+      for (var element in res.docs) {
+        Users user = Users.fromJson(element.data());
+        users.add(user);
+      }
+
+      return users;
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+      return [];
     }
   }
 
@@ -85,7 +132,7 @@ class DatabaseService {
       return newUser;
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       return null;
     }
   }
@@ -112,7 +159,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(user.id).set(user.toJson(), SetOptions(merge: true));
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -121,7 +168,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -130,7 +177,7 @@ class DatabaseService {
       await FirebaseFirestore.instance.collection(FirestoreConstants.userCollection).doc(id).update({'reputationValue': reputationValue});
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -168,7 +215,7 @@ class DatabaseService {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
 
     return games;
@@ -211,6 +258,40 @@ class DatabaseService {
     return game;
   }
 
+  static Future<List<Game>> getListOfOnlineGamesForMatchmaking(String id) async {
+    List<Game> games = [];
+
+    try {
+      QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+          .collection(FirestoreConstants.gamesCollection)
+          .where('isAvailableForMatchMaking', isEqualTo: true)
+          .where('hostId', isNotEqualTo: id)
+          .get();
+
+      for (var element in res.docs) {
+        Game game = Game.fromJson(element.data());
+        if (game.players[game.playerIds.indexWhere((element) => element == game.hostId)].isPresent && !game.playerIds.contains(id)) {
+          games.add(game);
+        }
+      }
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+    }
+
+    return games;
+  }
+
+  static Future<Game> createOfflineGame(Users user, Uuid uuid, BuildContext context) async {
+    Game game = Game.getDefaultOfflineGame(user, uuid);
+
+    if (user.settings.prefersAddAI) {
+      game = Game.autoFillWithAIPlayers(game, user, uuid);
+      game.maxPlayers = 4;
+    }
+
+    return game;
+  }
+
   static Future<Thread> createThread(Users user, String id) async {
     Thread thread = Thread.getDefaultThread(user, id);
 
@@ -231,12 +312,27 @@ class DatabaseService {
   }
 
   static Future<void> updateOngoingGamesAfterUserChange(Users user) async {
-    List<Game> games = await getOngoingGames(user.id);
+    if (GameProvider.isThereLocalGame()) {
+      Game? localGame = LocalStorageService.getLocalGame();
+      if (localGame != null) {
+        localGame.players[localGame.players.indexWhere((element) => element.id == user.id)].avatar = user.avatar;
+        localGame.players[localGame.players.indexWhere((element) => element.id == user.id)].psuedonym = user.psuedonym;
+        LocalStorageService.setLocalGame(localGame);
+      }
+    }
 
-    for (Game game in games) {
+    BuildContext context = Get.context!;
+    UserProvider userProvider = context.read<UserProvider>();
+    GameProvider gameProvider = context.read<GameProvider>();
+    List<Game> ongoingGames = userProvider.ongoingGames;
+
+    for (Game game in ongoingGames) {
       game.players[game.players.indexWhere((element) => element.id == user.id)].avatar = user.avatar;
       game.players[game.players.indexWhere((element) => element.id == user.id)].psuedonym = user.psuedonym;
-      await updateGame(game, false, shouldSyncWithFirestore: true);
+      if (UserProvider.isUserOfflineStatic()) {
+        gameProvider.rebuild();
+      }
+      await updateGameBothOffAndOnline(game);
     }
   }
 
@@ -251,11 +347,60 @@ class DatabaseService {
       });
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
+  static void updateGameLocally() {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+    bool hasCurrentGame = gameProvider.currentGame != null;
+
+    Game? game = hasCurrentGame ? gameProvider.currentGame : LocalStorageService.getLocalGame();
+
+    if (game != null) {
+      game.lastUpdatedAt = getDeviceTime();
+      LocalStorageService.setLocalGame(game);
+
+      if (hasCurrentGame && gameProvider.currentGame!.id == game.id) {
+        gameProvider.currentGame = game;
+      }
+
+      gameProvider.rebuild();
+    }
+  }
+
+  static void updateGameSessionStartDateLocally(bool shouldRebuild) {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+    gameProvider.currentGame!.sessionStartedAt = getDeviceTime();
+    LocalStorageService.setLocalGame(gameProvider.currentGame!);
+    if (shouldRebuild) {
+      gameProvider.rebuild();
+    }
+  }
+
+  static void updateGameSessionEndDateLocally(bool shouldRebuild) {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+    gameProvider.currentGame!.sessionEndedAt = getDeviceTime();
+    LocalStorageService.setLocalGame(gameProvider.currentGame!);
+    if (shouldRebuild) {
+      gameProvider.rebuild();
+    }
+  }
+
+  static void deleteGameLocally() {
+    GameProvider gameProvider = Get.context!.read<GameProvider>();
+
+    LocalStorageService.deleteLocalGame();
+    gameProvider.currentGame = null;
+    NavigationService.goToHomeScreen();
+  }
+
   static Future<void> updateGame(Game game, bool shouldUpdateDate, {bool? shouldCreate, bool? shouldSyncWithFirestore}) async {
+    if (UserProvider.isUserOfflineStatic()) {
+      updateGameLocally();
+      return;
+    }
+
     Map<String, dynamic> jsonGame = game.toJson();
 
     try {
@@ -282,11 +427,27 @@ class DatabaseService {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
-  static Future<void> updateGameSessionStartDate(Game game) async {
+  static Future<void> updateGameBothOffAndOnline(Game game) async {
+    Map<String, dynamic> jsonGame = game.toJson();
+
+    try {
+      await FirebaseDatabase.instance.ref('${RealTimeDatabaseConstants.gamesReference}/${game.id}').update(jsonGame);
+      await FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+    }
+  }
+
+  static Future<void> updateGameSessionStartDate(Game game, bool shouldRebuild) async {
+    if (UserProvider.isUserOfflineStatic()) {
+      updateGameSessionStartDateLocally(shouldRebuild);
+      return;
+    }
+
     try {
       Map<String, dynamic> jsonGame = game.toJson();
 
@@ -297,11 +458,16 @@ class DatabaseService {
       jsonGame['sessionStartedAt'] = getFireStoreServerTimestamp();
       FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
   static Future<void> updateGameSessionEndDate(Game game) async {
+    if (UserProvider.isUserOfflineStatic()) {
+      updateGameSessionEndDateLocally(true);
+      return;
+    }
+
     try {
       Map<String, dynamic> jsonGame = game.toJson();
 
@@ -312,11 +478,16 @@ class DatabaseService {
       jsonGame['sessionEndedAt'] = getFireStoreServerTimestamp();
       FirebaseFirestore.instance.collection(FirestoreConstants.gamesCollection).doc(game.id).update(jsonGame);
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
   static Future<void> deleteGame(String gameID, Users user) async {
+    if (UserProvider.isUserOfflineStatic()) {
+      deleteGameLocally();
+      return;
+    }
+
     GameProvider gameProvider = Get.context!.read<GameProvider>();
 
     try {
@@ -334,7 +505,7 @@ class DatabaseService {
       await deleteThread(gameID);
     } catch (e) {
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -342,7 +513,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(thread.id).update(thread.toJson());
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -350,7 +521,7 @@ class DatabaseService {
     try {
       await FirebaseFirestore.instance.collection(FirestoreConstants.threadCollection).doc(id).delete();
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 }

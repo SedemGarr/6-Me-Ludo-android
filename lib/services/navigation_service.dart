@@ -3,11 +3,13 @@ import 'package:six_me_ludo_android/screens/edit_profile/edit_avatar.dart';
 import 'package:six_me_ludo_android/screens/edit_profile/edit_pseudonym.dart';
 import 'package:six_me_ludo_android/screens/game/game_wrapper.dart';
 import 'package:six_me_ludo_android/screens/home/home_screen.dart';
-import 'package:six_me_ludo_android/screens/profile/profile.dart';
+import 'package:six_me_ludo_android/screens/new_game/new_game.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/profile.dart';
 import 'package:six_me_ludo_android/screens/splash/splash.dart';
+import 'package:six_me_ludo_android/screens/stats/stats_screen.dart';
 
 import '../screens/legal/legal.dart';
-import '../screens/profile/widgets/settings/widgets/general/widgets/theme_selector.dart';
+import '../screens/profile_settings/settings/widgets/general/widgets/theme_selector.dart';
 
 class NavigationService {
   static void goToHomeScreen() {
@@ -16,6 +18,10 @@ class NavigationService {
 
   static void goToProfileScreen() {
     Get.to(() => const ProfileScreen());
+  }
+
+  static Future<void> goToNewGameScreen() async {
+    await Get.to(() => const NewGameScreen());
   }
 
   static Future<void> goToGameScreen() async {
@@ -34,12 +40,12 @@ class NavigationService {
     await Get.to(() => const ThemeSelectionScreen());
   }
 
-  static Future<void> goToLegalScreen() async {
-    await Get.to(() => const LegalScreen());
+  static Future<void> goToStatsScreen() async {
+    await Get.to(() => const StatsScreen());
   }
 
-  static void goToBackToHomeScreen() {
-    Get.offAll(() => const HomeScreen());
+  static Future<void> goToLegalScreen() async {
+    await Get.to(() => const LegalScreen());
   }
 
   static void genericGoBack() {

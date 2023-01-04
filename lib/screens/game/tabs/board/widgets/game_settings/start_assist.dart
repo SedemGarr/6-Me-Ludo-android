@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:six_me_ludo_android/screens/profile/widgets/settings/widgets/settings_title_widget.dart';
+import 'package:six_me_ludo_android/screens/profile_settings/settings/widgets/settings_title_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/custom_switch.dart';
-
-import '../../../../../../../widgets/custom_card_widget.dart';
-import '../../../../../../../widgets/custom_list_tile.dart';
 import '../../../../../../models/game.dart';
 import '../../../../../../services/database_service.dart';
+import '../../../../../../widgets/general/custom_card_widget.dart';
+import '../../../../../../widgets/general/custom_list_tile.dart';
+import '../../../../../../widgets/general/custom_switch.dart';
 
 class GameStartAssist extends StatefulWidget {
   final bool canEdit;

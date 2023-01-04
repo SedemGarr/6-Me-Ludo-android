@@ -34,6 +34,7 @@ import '../models/thread.dart';
 import '../models/user.dart';
 import '../models/user_settings.dart';
 import '../services/game_status_service.dart';
+import '../services/logging_service.dart';
 import '../widgets/dialogs/upgrade_dialog.dart';
 
 class GameProvider with ChangeNotifier {
@@ -47,6 +48,7 @@ class GameProvider with ChangeNotifier {
 
   // game
   Game? currentGame;
+  Game? oldGame;
   Stream<Game>? currentGameStream;
   late int playerNumber;
   late Color playerColor;
@@ -89,8 +91,8 @@ class GameProvider with ChangeNotifier {
     return userVersion >= gameVersion;
   }
 
-  int getGameTabControllerLength() {
-    return 3;
+  int getGameTabControllerLength(bool isUserOffline) {
+    return isUserOffline ? 2 : 3;
   }
 
   int getGameChatCount() {
@@ -123,6 +125,12 @@ class GameProvider with ChangeNotifier {
 
   String getGameStatusText() {
     if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
+      UserProvider userProvider = Get.context!.read<UserProvider>();
+
+      if (userProvider.getUserIsOffline()) {
+        return '';
+      }
+
       int numberOfPlayersToJoin = currentGame!.maxPlayers - currentGame!.players.length;
       return numberOfPlayersToJoin == 1
           ? DialogueService.waitingForOneMoreText.tr
@@ -195,14 +203,14 @@ class GameProvider with ChangeNotifier {
     return currentGame!.players.firstWhere((element) => element.id == currentGame!.finishedPlayers.first);
   }
 
-  Player getViciousPlayer() {
-    List<Player> listOfPlayers = [...currentGame!.players];
+  Player getViciousPlayer(Game game) {
+    List<Player> listOfPlayers = [...game.players];
     listOfPlayers.sort((b, a) => a.numberOfTimesKickerInSession.compareTo(b.numberOfTimesKickerInSession));
     return listOfPlayers.first;
   }
 
-  Player getPunchingBagPlayer() {
-    List<Player> listOfPlayers = [...currentGame!.players];
+  Player getPunchingBagPlayer(Game game) {
+    List<Player> listOfPlayers = [...game.players];
     listOfPlayers.sort((b, a) => a.numberOfTimesKickedInSession.compareTo(b.numberOfTimesKickedInSession));
     return listOfPlayers.first;
   }
@@ -288,9 +296,16 @@ class GameProvider with ChangeNotifier {
     board = Board.generateBoard();
   }
 
-  void initialiseGame(Game game, Thread thread, String id) {
+  void assignOldGame(Game game) {
+    oldGame = Game.fromJson(game.toJson());
+  }
+
+  void initialiseGame(Game game, Thread? thread, String id) {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
     // game
     currentGame = game;
+    assignOldGame(game);
     currentGameStream = DatabaseService.getCurrentGameStream(currentGame!.id);
     playerNumber = game.playerIds.indexWhere((element) => element == id);
     playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
@@ -298,31 +313,43 @@ class GameProvider with ChangeNotifier {
     validMoveIndices = [];
     // thread
     currentThread = thread;
-    currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
+    if (!userProvider.getUserIsOffline()) {
+      currentThreadStream = DatabaseService.getCurrentThreadStream(currentGame!.id);
+    }
     // chat
     gameChatController.clear();
+    // sound
+    if (shouldStartOrResumeGameLoopSound()) {
+      startGameLoopSound();
+    }
   }
 
   void syncGameData(BuildContext context, Game game, Users user) {
-    checkIfPlayerIsKickedFromGame(game, user.id);
-    checkIfPlayerHasLeftGame(game);
-    checkIfGameHasStarted(game);
-    checkIfGameHasReStarted(game);
-    checkForSessionEnd(game, user.id);
-    // checkForReputationChange(game);
-    checkIfGameSettingsHaveChanged(game, user.id);
-    currentGame = game;
-    playerNumber = game.playerIds.indexWhere((element) => element == user.id);
-
-    if (playerNumber == -1) {
-      // if player has left game or for some reason cannot be found
+    try {
+      checkIfPlayerIsKickedFromGame(game, user.id);
+      checkIfPlayerHasLeftGame(game);
+      checkIfGameHasStarted(game);
+      checkIfGameHasReStarted(game);
+      checkForSessionEnd(game, user.id);
+      checkForReputationChange(game);
+      checkIfGameSettingsHaveChanged(game, user.id);
+      // game sounds
+      checkIfDieisRolling(game);
+      checkIfPlayerIsKicked(game);
+      checkIfPlayerIsHome(game);
+      // sync new game data
+      currentGame = game;
+      assignOldGame(game);
+      playerNumber = game.playerIds.indexWhere((element) => element == user.id);
+      playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
+      playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
+      startGame(user, false);
+    } catch (e) {
+      // if something catastrophic has happened
+      LoggingService.logMessage(e.toString());
       goBack();
       return;
     }
-
-    playerColor = PlayerConstants.swatchList[playerNumber].playerColor;
-    playerSelectedColor = PlayerConstants.swatchList[playerNumber].playerSelectedColor;
-    startGame(user);
   }
 
   void syncThreadData(BuildContext context, Thread thread, Users user) {
@@ -333,8 +360,18 @@ class GameProvider with ChangeNotifier {
   void checkIfNewMessageHasArrived(Thread newThread, String id, BuildContext context) {
     if (newThread.messages.length > currentThread!.messages.length) {
       if (newThread.messages.first.createdById != id) {
-        SoundProvider soundProvider = context.read<SoundProvider>();
-        soundProvider.playSound(GameStatusService.newMessageReceived);
+        NavProvider navProvider = context.read<NavProvider>();
+
+        playGameSound(GameStatusService.newMessageReceived);
+
+        if (!navProvider.isChatScreenActive()) {
+          AppProvider.showToast(
+            newThread.messages.first.body,
+            title: currentGame!.players[currentGame!.players.indexWhere((element) => element.id == newThread.messages.first.createdById)].psuedonym,
+            backgroundColor: PlayerConstants
+                .swatchList[currentGame!.players[currentGame!.players.indexWhere((element) => element.id == newThread.messages.first.createdById)].playerColor].playerSelectedColor,
+          );
+        }
       }
     }
   }
@@ -350,11 +387,19 @@ class GameProvider with ChangeNotifier {
     if (game.players.length < currentGame!.players.length) {
       for (var i = 0; i < currentGame!.players.length; i++) {
         if (!game.players.contains(currentGame!.players[i])) {
-          AppProvider.showToast(currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr);
+          playGameSound(GameStatusService.playerLeft);
+          AppProvider.showToast(
+            currentGame!.players[i].psuedonym + DialogueService.playerHasLeftText.tr,
+            backgroundColor: PlayerConstants.swatchList[currentGame!.players[i].playerColor].playerSelectedColor,
+          );
         }
       }
     } else if (game.players.length > currentGame!.players.length) {
-      AppProvider.showToast(game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr);
+      playGameSound(GameStatusService.playerJoined);
+      AppProvider.showToast(
+        game.players.last.psuedonym + DialogueService.playerHasJoinedText.tr,
+        backgroundColor: PlayerConstants.swatchList[game.players.last.playerColor].playerSelectedColor,
+      );
     }
   }
 
@@ -368,6 +413,59 @@ class GameProvider with ChangeNotifier {
     if (currentGame!.hasStarted && game.hasRestarted && game.hasRestarted != currentGame!.hasRestarted) {
       AppProvider.showToast(DialogueService.gameHasStartedText.tr);
     }
+  }
+
+  void checkIfDieisRolling(Game game) {
+    if ((currentGame!.hasStarted && game.die.isRolling) && !oldGame!.die.isRolling) {
+      playGameSound(GameStatusService.playerRoll);
+    }
+  }
+
+  void checkIfPlayerIsKicked(Game game) {
+    for (Player player in game.players) {
+      for (Piece piece in player.pieces) {
+        int playerNumber = oldGame!.players.indexWhere((element) => element.playerColor == piece.owner);
+
+        if (playerNumber != -1 && !oldGame!.hasSessionEnded) {
+          Piece oldPiece = oldGame!.players[playerNumber].pieces[oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
+              .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+
+          if ((piece.isBased && !piece.isHome) && (!oldPiece.isBased)) {
+            if (piece.owner == playerNumber) {
+              playGameSound(GameStatusService.playerKickMe);
+            } else {
+              playGameSound(GameStatusService.playerKickOther);
+            }
+            vibrate();
+          }
+        }
+      }
+    }
+  }
+
+  void checkIfPlayerIsHome(Game game) {
+    for (Player player in game.players) {
+      for (Piece piece in player.pieces) {
+        int playerNumber = oldGame!.players.indexWhere((element) => element.playerColor == piece.owner);
+
+        if (playerNumber != -1) {
+          Piece oldPiece = oldGame!.players[playerNumber].pieces[oldGame!.players[oldGame!.players.indexWhere((element) => element.playerColor == piece.owner)].pieces
+              .indexWhere((element) => element.pieceNumber == piece.pieceNumber)];
+
+          if ((piece.isHome) && (!oldPiece.isHome)) {
+            if (isPlayerFinished(game, piece.owner)) {
+              playGameSound(GameStatusService.playerFinish);
+            } else {
+              playGameSound(GameStatusService.playerHome);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  bool isPlayerFinished(Game game, int owner) {
+    return game.players[owner].pieces.where((element) => !element.isHome).isEmpty;
   }
 
   void checkIfGameSettingsHaveChanged(Game game, String id) {
@@ -433,16 +531,22 @@ class GameProvider with ChangeNotifier {
   }
 
   void checkForReputationChange(Game game) {
-    if (game.players.length == currentGame!.players.length) {
-      for (Player player in currentGame!.players) {
-        String oldRep = Player.getPlayerReputation(player.reputationValue);
-        String newRep = Player.getPlayerReputation(game.players[game.players.indexWhere((element) => element.id == player.id)].reputationValue);
+    if (game.players.length == oldGame!.players.length) {
+      for (Player player in oldGame!.players) {
+        String oldRep = Player.getPlayerReputationName(player.reputationValue);
+        String newRep = Player.getPlayerReputationName(game.players[game.players.indexWhere((element) => element.id == player.id)].reputationValue);
 
         if (newRep != oldRep) {
           if (player.id == Get.context!.read<UserProvider>().getUserID()) {
-            AppProvider.showToast(DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + Player.getPlayerReputationName(player.reputationValue));
+            AppProvider.showToast(
+              DialogueService.youText.tr + DialogueService.reputationChangedPluralText.tr + newRep,
+              backgroundColor: playerSelectedColor,
+            );
           } else {
-            AppProvider.showToast(player.psuedonym + DialogueService.reputationChangedText.tr + Player.getPlayerReputationName(player.reputationValue));
+            AppProvider.showToast(
+              player.psuedonym + DialogueService.reputationChangedText.tr + newRep,
+              backgroundColor: PlayerConstants.swatchList[game.players[game.players.indexWhere((element) => element.id == player.id)].playerColor].playerSelectedColor,
+            );
           }
         }
       }
@@ -458,6 +562,26 @@ class GameProvider with ChangeNotifier {
         scrollToBoardTab();
       });
     }
+  }
+
+  void startGameLoopSound() {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+    soundProvider.startGameLoopSound();
+  }
+
+  void endGameLoopSound() {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+    soundProvider.endGameLoopSound();
+  }
+
+  void playGameSound(String sound) {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+    soundProvider.playSound(sound);
+  }
+
+  void vibrate() {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+    AppProvider.vibrate(userProvider.getUserVibrate());
   }
 
   void removePlayerMessages(String id) {
@@ -502,18 +626,32 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  void handleGameEndSound(bool isWinner, hasWinner) {
+    SoundProvider soundProvider = Get.context!.read<SoundProvider>();
+
+    if (!hasWinner) {
+      soundProvider.playSound(GameStatusService.gameFinish);
+    } else {
+      if (isWinner) {
+        soundProvider.playSound(GameStatusService.gameWon);
+      } else {
+        soundProvider.playSound(GameStatusService.gameLost);
+      }
+    }
+  }
+
   void goBack() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      NavigationService.goToBackToHomeScreen();
+      NavigationService.goToHomeScreen();
     });
   }
 
-  Future<void> startGame(Users user) async {
+  Future<void> startGame(Users user, bool shouldRebuild) async {
     if (isPlayerHost(user.id)) {
       if (!currentGame!.hasStarted && !currentGame!.hasFinished) {
         if (currentGame!.maxPlayers == currentGame!.players.length) {
           if (currentGame!.shouldAutoStart) {
-            await forceStartGame(user);
+            await forceStartGame(user, shouldRebuild);
           }
         }
       }
@@ -538,6 +676,7 @@ class GameProvider with ChangeNotifier {
               isStartingKick: doesIndexContainEnemyPiece(index),
               isKick: doesIndexContainEnemyPiece(index),
               kickee: getKickedPlayerNumber(index),
+              weight: 0.0,
             ),
           );
         }
@@ -561,6 +700,7 @@ class GameProvider with ChangeNotifier {
                 isStartingKick: false,
                 isKick: doesIndexContainEnemyPiece(index),
                 kickee: getKickedPlayerNumber(index),
+                weight: 0.0,
               ),
             );
           }
@@ -584,6 +724,7 @@ class GameProvider with ChangeNotifier {
                   isStartingKick: false,
                   isKick: true,
                   kickee: getKickedPlayerNumber(index),
+                  weight: 0.0,
                 ),
               );
             }
@@ -605,6 +746,7 @@ class GameProvider with ChangeNotifier {
                   isStartingKick: false,
                   isKick: true,
                   kickee: getKickedPlayerNumber(index),
+                  weight: 0.0,
                 ),
               );
             }
@@ -632,8 +774,29 @@ class GameProvider with ChangeNotifier {
       }
     }
 
-    // if there are no moves available, return a null move. the move will be skipped
-    return availableMoves.isEmpty ? Move.getNullMove() : availableMoves[random.nextInt(availableMoves.length)];
+    if (availableMoves.isEmpty) {
+      // if there are no moves available, return a null move. the move will be skipped
+      return Move.getNullMove();
+    }
+
+    availableMoves = weightMoves(availableMoves);
+
+    return availableMoves[random.nextInt(availableMoves.length)];
+  }
+
+  List<Move> weightMoves(List<Move> availableMoves) {
+    for (Move move in availableMoves) {
+      move.weight = calculateMoveWeights(move);
+    }
+
+    availableMoves.sort((b, a) => a.weight.compareTo(b.weight));
+
+    return availableMoves;
+  }
+
+  double calculateMoveWeights(Move move) {
+    // implement move weight logic
+    return move.weight;
   }
 
   List<Move> handlePacifistAIMoves(List<Move> availableMoves) {
@@ -761,6 +924,10 @@ class GameProvider with ChangeNotifier {
     } else {
       return randomValue;
     }
+  }
+
+  bool shouldStartOrResumeGameLoopSound() {
+    return currentGame!.hasStarted && !currentGame!.hasSessionEnded;
   }
 
   bool getIndexHitDefermentStatus(int index) {
@@ -1055,7 +1222,28 @@ class GameProvider with ChangeNotifier {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
+    }
+  }
+
+  Future<void> hostOfflineGame(Users user, Uuid uuid, BuildContext context) async {
+    AppProvider appProvider = context.read<AppProvider>();
+
+    appProvider.setLoading(true, true);
+
+    try {
+      Game newGame = await DatabaseService.createOfflineGame(user, uuid, context);
+
+      initialiseGame(newGame, null, user.id);
+
+      DatabaseService.updateGameLocally();
+
+      appProvider.setLoading(false, true);
+      NavigationService.goToGameScreen();
+    } catch (e) {
+      appProvider.setLoading(false, true);
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
+      LoggingService.logMessage(e.toString());
     }
   }
 
@@ -1063,6 +1251,13 @@ class GameProvider with ChangeNotifier {
     appProvider.setLoading(true, true);
 
     try {
+      if (user.settings.isOffline) {
+        initialiseGame(game, null, user.id);
+        appProvider.setLoading(false, true);
+        NavigationService.goToGameScreen();
+        return;
+      }
+
       Game? newGame = await DatabaseService.getGame(game.id);
 
       if (newGame == null) {
@@ -1082,7 +1277,7 @@ class GameProvider with ChangeNotifier {
           appProvider.setLoading(false, true);
           NavigationService.goToGameScreen();
         } else {
-          if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
+          if (await appProvider.isVersionUpToDate()) {
             AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
             appProvider.setLoading(false, true);
           } else {
@@ -1093,13 +1288,13 @@ class GameProvider with ChangeNotifier {
     } catch (e) {
       appProvider.setLoading(false, true);
       AppProvider.showToast(DialogueService.genericErrorText.tr);
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
     }
   }
 
   Future<void> joinGameWithCode(Users user, AppProvider appProvider) async {
     if (Get.currentRoute != HomeScreen.routeName) {
-      NavigationService.goToBackToHomeScreen();
+      NavigationService.goToHomeScreen();
     }
 
     if (isJoinGameCodeValidLength()) {
@@ -1146,7 +1341,7 @@ class GameProvider with ChangeNotifier {
             appProvider.setLoading(false, true);
             NavigationService.goToGameScreen();
           } else {
-            if (appProvider.isVersionUpToDate((await DatabaseService.getAppVersion())!)) {
+            if (await appProvider.isVersionUpToDate()) {
               AppProvider.showToast(DialogueService.gameVersionMismatchText.tr);
               appProvider.setLoading(false, true);
             } else {
@@ -1155,11 +1350,36 @@ class GameProvider with ChangeNotifier {
           }
         }
       } catch (e) {
+        LoggingService.logMessage(e.toString());
         AppProvider.showToast(DialogueService.genericErrorText.tr);
         appProvider.setLoading(false, true);
         return;
       }
     } else {
+      return;
+    }
+  }
+
+  Future<void> joinOnlineMatchmakingGame() async {
+    AppProvider appProvider = Get.context!.read<AppProvider>();
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
+    appProvider.setLoading(true, true);
+
+    try {
+      List availableGames = await DatabaseService.getListOfOnlineGamesForMatchmaking(userProvider.getUserID());
+
+      if (availableGames.isEmpty) {
+        AppProvider.showToast(DialogueService.noGamesMatchMakingText.tr);
+        appProvider.setLoading(false, true);
+        return;
+      } else {
+        setJoinGameController(availableGames[appProvider.random.nextInt(availableGames.length)].id, false);
+        joinGameWithCode(userProvider.getUser(), appProvider);
+      }
+    } catch (e) {
+      AppProvider.showToast(DialogueService.genericErrorText.tr);
+      appProvider.setLoading(false, true);
       return;
     }
   }
@@ -1198,12 +1418,14 @@ class GameProvider with ChangeNotifier {
   Future<void> togglePlayerBanFromChat(Player player, BuildContext context) async {
     if (currentGame!.bannedPlayers.contains(player.id)) {
       currentGame!.bannedPlayers.remove(player.id);
-      AppProvider.showToast(player.psuedonym + DialogueService.playerUnBannedText.tr);
+      AppProvider.showToast(
+        player.psuedonym + DialogueService.playerUnBannedText.tr,
+        backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
+      );
+      await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
     } else {
       showBanPlayerDialog(player, context);
     }
-
-    await DatabaseService.updateGame(currentGame!, true);
   }
 
   Future<void> kickPlayerFromGame(Player player) async {
@@ -1211,7 +1433,10 @@ class GameProvider with ChangeNotifier {
     currentGame = resetGamePiecesToDefaultAfterPlayerLeaves(currentGame!, player.id);
     currentGame!.players[currentGame!.players.indexWhere((element) => element.id == player.id)].hasLeft = true;
     removePlayerMessages(player.id);
-    AppProvider.showToast(player.psuedonym + DialogueService.playerKickedFromGameText.tr);
+    AppProvider.showToast(
+      player.psuedonym + DialogueService.playerKickedFromGameText.tr,
+      backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
+    );
 
     await DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
 
@@ -1223,6 +1448,8 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> leaveGame(Game game, String id, Users user) async {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
     if (game.hostId == id) {
       await DatabaseService.deleteGame(game.id, user);
     } else {
@@ -1248,7 +1475,8 @@ class GameProvider with ChangeNotifier {
       }
 
       if (Get.currentRoute == GameScreenWrapper.routeName) {
-        NavigationService.goToBackToHomeScreen();
+        userProvider.removeGameFromOngoingGamesList(game);
+        NavigationService.goToHomeScreen();
       }
     }
   }
@@ -1371,10 +1599,18 @@ class GameProvider with ChangeNotifier {
             if (currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
               handleAIPlayerGameLogic(user);
             } else {
-              Game tempGame = Game.fromJson(currentGame!.toJson());
-              tempGame.canPass = true;
-              tempGame.canPlay = true;
-              await DatabaseService.updateGame(tempGame, true);
+              // UserProvider userProvider = Get.context!.read<UserProvider>();
+              //   Game tempGame = Game.fromJson(currentGame!.toJson());
+
+              //    if (userProvider.getUserIsOffline()) {
+              currentGame!.canPass = true;
+              currentGame!.canPlay = true;
+              //   } else {
+              //   tempGame.canPass = true;
+              //  tempGame.canPlay = true;
+              //    }
+
+              await DatabaseService.updateGame(currentGame!, true);
             }
           }
         });
@@ -1461,7 +1697,8 @@ class GameProvider with ChangeNotifier {
         // if player is human, check if a kick is possible and update reputation
         if (!currentGame!.players[currentGame!.playerTurn].isAIPlayer) {
           currentGame!.players[currentGame!.playerTurn].setReputationValue(currentGame!.players[currentGame!.playerTurn].reputationValue + 1);
-          await updateUserCouldKick(currentGame!, user);
+          // await updateUserCouldKick(currentGame!, user);
+          updateUserCouldKick(currentGame!, user);
         }
       }
 
@@ -1601,16 +1838,19 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> forceStartGame(Users user) async {
+  Future<void> forceStartGame(Users user, bool shouldRebuild) async {
     currentGame!.hasStarted = true;
     currentGame!.canPlay = true;
     currentGame!.maxPlayers = currentGame!.players.length;
     currentGame!.reaction = Reaction.parseGameStatus(GameStatusService.gameStart);
     currentGame!.isOffline = isGameOffline(currentGame!);
+    currentGame!.isAvailableForMatchMaking = false;
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGameSessionStartDate(currentGame!);
+    startGameLoopSound();
+
+    await DatabaseService.updateGameSessionStartDate(currentGame!, shouldRebuild);
 
     // get ai player to start game
     if (currentGame!.players.first.isAIPlayer) {
@@ -1630,6 +1870,7 @@ class GameProvider with ChangeNotifier {
     currentGame!.die = Die.getDefaultDie();
     currentGame!.selectedPiece = null;
     currentGame!.isOffline = isGameOffline(currentGame!);
+    currentGame!.isAvailableForMatchMaking = false;
 
     for (int i = 0; i < currentGame!.players.length; i++) {
       currentGame!.players[i].pieces = Piece.getDefaultPieces(i);
@@ -1644,9 +1885,11 @@ class GameProvider with ChangeNotifier {
 
     scrollToBoardTab();
 
-    await DatabaseService.updateGameSessionStartDate(currentGame!);
+    await DatabaseService.updateGameSessionStartDate(currentGame!, true);
 
     notifyListeners();
+
+    startGameLoopSound();
 
     // get ai player to start currentGame!
     if (currentGame!.players.first.isAIPlayer) {
@@ -1676,11 +1919,15 @@ class GameProvider with ChangeNotifier {
   Future<void> setGamePresence(bool value) async {
     if (playerNumber != -1) {
       currentGame!.players[playerNumber].isPresent = value;
-      await DatabaseService.updateGame(currentGame!, false);
+      await DatabaseService.updateGame(currentGame!, false, shouldSyncWithFirestore: true);
     }
   }
 
   Future<void> handleGameAppLifecycleChange(bool value, Users user) async {
+    if (user.settings.isOffline) {
+      return;
+    }
+
     if (currentGame != null) {
       if (!currentGame!.isOffline) {
         await setGamePresence(value);
@@ -1695,7 +1942,7 @@ class GameProvider with ChangeNotifier {
         break;
       case 1:
         if (!currentGame!.hasStarted && isPlayerHost(user.id) && currentGame!.players.length > 1) {
-          forceStartGame(user);
+          forceStartGame(user, true);
         } else {
           endSession(currentGame!);
         }
@@ -1713,7 +1960,16 @@ class GameProvider with ChangeNotifier {
         showGameSettingsDialog(
             currentGame!, (!currentGame!.hasStarted && isPlayerHost(user.id)) || (!currentGame!.hasStarted && currentGame!.hasSessionEnded && isPlayerHost(user.id)), context);
         break;
+      case 6:
+        enableOnlineMatchmaking();
+        break;
     }
+  }
+
+  Future<void> enableOnlineMatchmaking() async {
+    currentGame!.isAvailableForMatchMaking = true;
+    AppProvider.showToast(DialogueService.enabledMatchMakingToastText.tr);
+    DatabaseService.updateGame(currentGame!, false, shouldSyncWithFirestore: true);
   }
 
   Future<void> endSession(Game game) async {
@@ -1723,9 +1979,34 @@ class GameProvider with ChangeNotifier {
 
     game.reaction = Reaction.parseGameStatus(GameStatusService.gameFinish);
 
+    endGameLoopSound();
+
     await DatabaseService.updateGameSessionEndDate(game);
 
+    handleStats();
+
     scrollToBoardTab();
+  }
+
+  Future<void> handleStats() async {
+    UserProvider userProvider = Get.context!.read<UserProvider>();
+
+    if (currentGame != null) {
+      for (Player player in currentGame!.players.where((element) => !element.isAIPlayer).toList()) {
+        Users? user = await DatabaseService.getUser(player.id);
+        if (user != null) {
+          user.stats.updateStats(currentGame!, player);
+          user.updateRankingValue();
+
+          if (userProvider.isMe(user.id)) {
+            userProvider.assignUser(user);
+            userProvider.updateUser(false, true);
+          } else {
+            DatabaseService.updateUserData(user);
+          }
+        }
+      }
+    }
   }
 
   Future<void> deleteGame(Game game, Users user) async {
@@ -1746,7 +2027,11 @@ class GameProvider with ChangeNotifier {
       onYes: () {
         currentGame!.bannedPlayers.add(player.id);
         removePlayerMessages(player.id);
-        AppProvider.showToast(player.psuedonym + DialogueService.playerBannedText.tr);
+        AppProvider.showToast(
+          player.psuedonym + DialogueService.playerBannedText.tr,
+          backgroundColor: PlayerConstants.swatchList[player.playerColor].playerSelectedColor,
+        );
+        DatabaseService.updateGame(currentGame!, true, shouldSyncWithFirestore: true);
       },
       onNo: () {},
       context: context,
@@ -1824,6 +2109,16 @@ class GameProvider with ChangeNotifier {
     }
   }
 
+  // offline games
+
+  static bool isThereLocalGame() {
+    return LocalStorageService.isThereLocalGame();
+  }
+
+  static Game? getLocalGame() {
+    return LocalStorageService.getLocalGame();
+  }
+
   // static
 
   static bool isGameOffline(Game game) {
@@ -1837,9 +2132,41 @@ class GameProvider with ChangeNotifier {
 
       return parseDuration(endedAt.difference(startedAt));
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       return '';
     }
+  }
+
+  static String getCummulativeDuration(String cummulativeTimeOfGames, String sessionStartedAt, String sessionEndedAt) {
+    try {
+      int cummulativeTime = int.parse(cummulativeTimeOfGames);
+
+      DateTime startedAt = DateTime.parse(sessionStartedAt);
+      DateTime endedAt = DateTime.parse(sessionEndedAt);
+
+      return (cummulativeTime + endedAt.difference(startedAt).inMilliseconds).toString();
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+      return '';
+    }
+  }
+
+  static String parseCummulativeDuration(String cummulativeTime) {
+    Duration duration = convertCummulativeTimeToDuration(cummulativeTime);
+
+    try {
+      String twoDigits(int n) => n.toString().padLeft(2, "0");
+      String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+      String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    } catch (e) {
+      LoggingService.logMessage(e.toString());
+      return '';
+    }
+  }
+
+  static Duration convertCummulativeTimeToDuration(String cummulativeTime) {
+    return DateTime.fromMillisecondsSinceEpoch(int.parse(cummulativeTime)).difference(DateTime.fromMillisecondsSinceEpoch(0));
   }
 
   static String parseDuration(Duration duration) {
@@ -1849,8 +2176,12 @@ class GameProvider with ChangeNotifier {
       String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
     } catch (e) {
-      debugPrint(e.toString());
+      LoggingService.logMessage(e.toString());
       return '';
     }
+  }
+
+  void rebuild() {
+    notifyListeners();
   }
 }

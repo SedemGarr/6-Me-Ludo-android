@@ -29,6 +29,7 @@ class UserSettings {
   late int maxPlayers;
   late bool prefersDarkMode;
   late bool prefersAudio;
+  late bool prefersMusic;
   late bool prefersStartAssist;
   late bool prefersAutoStart;
   late bool prefersCatchupAssist;
@@ -36,6 +37,8 @@ class UserSettings {
   late bool prefersProfanity;
   late bool prefersAddAI;
   late bool prefersWakelock;
+  late bool prefersVibrate;
+  late bool isOffline;
   late String aiPersonalityPreference;
   late String locale;
   late String theme;
@@ -46,6 +49,7 @@ class UserSettings {
     required this.preferredSpeed,
     required this.aiPersonalityPreference,
     required this.prefersAudio,
+    required this.prefersMusic,
     required this.prefersDarkMode,
     required this.prefersCatchupAssist,
     required this.prefersAdaptiveAI,
@@ -53,6 +57,8 @@ class UserSettings {
     required this.prefersProfanity,
     required this.prefersAddAI,
     required this.prefersWakelock,
+    required this.prefersVibrate,
+    required this.isOffline,
     required this.maxPlayers,
     required this.theme,
   });
@@ -64,7 +70,7 @@ class UserSettings {
             value: e['value'],
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
             ),
           ),
         )
@@ -78,7 +84,7 @@ class UserSettings {
             value: e['value'],
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
             ),
           ),
         )
@@ -94,7 +100,7 @@ class UserSettings {
           value: i,
           child: Text(
             i.toString(),
-            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+            style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
           ),
         ),
       );
@@ -108,6 +114,7 @@ class UserSettings {
     prefersCatchupAssist = json['prefersCatchupAssist'] ?? false;
     preferredSpeed = json['preferredSpeed'];
     prefersAudio = json['prefersAudio'];
+    prefersMusic = json['prefersMusic'] ?? true;
     prefersDarkMode = json['prefersDarkMode'];
     prefersStartAssist = json['prefersStartAssist'];
     prefersAddAI = json['prefersAddAI'] ?? true;
@@ -115,6 +122,8 @@ class UserSettings {
     prefersAutoStart = json['prefersAutoStart'] ?? false;
     prefersProfanity = json['prefersProfanity'] ?? false;
     prefersWakelock = json['prefersWakelock'] ?? true;
+    prefersVibrate = json['prefersVibrate'] ?? true;
+    isOffline = json['isOffline'] ?? false;
     maxPlayers = json['maxPlayers'] ?? AppConstants.maxPlayerUpperLimit;
     locale = json['locale'] ?? Get.deviceLocale.toString();
     theme = json['theme'] ?? '';
@@ -126,6 +135,7 @@ class UserSettings {
     data['preferredSpeed'] = preferredSpeed;
     data['prefersDarkMode'] = prefersDarkMode;
     data['prefersAudio'] = prefersAudio;
+    data['prefersMusic'] = prefersMusic;
     data['prefersStartAssist'] = prefersStartAssist;
     data['prefersCatchupAssist'] = prefersCatchupAssist;
     data['prefersAdaptiveAI'] = prefersAdaptiveAI;
@@ -133,6 +143,8 @@ class UserSettings {
     data['prefersProfanity'] = prefersProfanity;
     data['prefersAddAI'] = prefersAddAI;
     data['prefersWakelock'] = prefersWakelock;
+    data['prefersVibrate'] = prefersVibrate;
+    data['isOffline'] = isOffline;
     data['maxPlayers'] = maxPlayers;
     data['locale'] = locale;
     data['theme'] = theme;
@@ -146,12 +158,15 @@ class UserSettings {
       prefersAddAI: true,
       prefersAutoStart: false,
       prefersAudio: true,
+      prefersMusic: true,
       prefersDarkMode: ThemeProvider.getSystemDarkModeSetting(),
       prefersCatchupAssist: true,
       prefersAdaptiveAI: true,
       prefersStartAssist: true,
       prefersProfanity: false,
       prefersWakelock: true,
+      prefersVibrate: true,
+      isOffline: false,
       maxPlayers: AppConstants.maxPlayerUpperLimit,
       locale: DialogueService.englishUS.toString(),
       theme: '',
@@ -220,12 +235,15 @@ class UserSettings {
         other.prefersAddAI == prefersAddAI &&
         other.prefersAutoStart == prefersAutoStart &&
         other.prefersAudio == prefersAudio &&
+        other.prefersMusic == prefersMusic &&
         other.prefersCatchupAssist == prefersCatchupAssist &&
         other.prefersDarkMode == prefersDarkMode &&
         other.prefersAdaptiveAI == prefersAdaptiveAI &&
         other.prefersStartAssist == prefersStartAssist &&
         other.prefersProfanity == prefersProfanity &&
         other.prefersWakelock == prefersWakelock &&
+        other.prefersVibrate == prefersVibrate &&
+        other.isOffline == isOffline &&
         other.maxPlayers == maxPlayers;
   }
 
@@ -235,6 +253,7 @@ class UserSettings {
       aiPersonalityPreference.hashCode ^
       prefersAutoStart.hashCode ^
       prefersAudio.hashCode ^
+      prefersMusic.hashCode ^
       prefersAddAI.hashCode ^
       prefersCatchupAssist.hashCode ^
       prefersDarkMode.hashCode ^
@@ -242,5 +261,7 @@ class UserSettings {
       prefersProfanity.hashCode ^
       prefersStartAssist.hashCode ^
       prefersWakelock.hashCode ^
+      prefersVibrate.hashCode ^
+      isOffline.hashCode ^
       maxPlayers;
 }

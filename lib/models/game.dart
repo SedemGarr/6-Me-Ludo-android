@@ -33,6 +33,7 @@ class Game {
   late bool shouldAutoStart;
   late bool hasAdaptiveAI;
   late bool isOffline;
+  late bool isAvailableForMatchMaking;
   late int maxPlayers;
   late int playerTurn;
   late Die die;
@@ -75,6 +76,7 @@ class Game {
     required this.playerIds,
     required this.hasRestarted,
     required this.finishedPlayers,
+    required this.isAvailableForMatchMaking,
   });
 
   static Color determinePlayerColor(int colorIndex) {
@@ -127,6 +129,7 @@ class Game {
       hasRestarted: false,
       hasSessionEnded: false,
       isOffline: isOffline,
+      isAvailableForMatchMaking: false,
       hasAdaptiveAI: user.settings.prefersAdaptiveAI,
       shouldAssistStart: user.settings.prefersStartAssist,
       shouldAutoStart: user.settings.prefersAutoStart,
@@ -136,8 +139,60 @@ class Game {
       hasStarted: false,
       hostId: user.id,
       hostBuildNumber: user.appBuildNumber,
-      players: [Player.getDefaultPlayer(user, 0)],
-      playerIds: [user.id],
+      players: [
+        Player.getDefaultPlayer(user, 0),
+      ],
+      playerIds: [
+        user.id,
+      ],
+    );
+  }
+
+  static Game getDefaultOfflineGame(Users user, Uuid uuid) {
+    UserSettings hostSettings = user.settings;
+
+    // override the ff user preferences for offline games
+
+    hostSettings.prefersAutoStart = true;
+    hostSettings.prefersAddAI = true;
+    hostSettings.maxPlayers = 1;
+
+    return Game(
+      createdAt: DatabaseService.getDeviceTime(),
+      hostSettings: hostSettings,
+      reaction: Reaction.parseGameStatus(GameStatusService.gameWaiting),
+      id: Player.getOfflineGameId(uuid),
+      die: Die.getDefaultDie(),
+      bannedPlayers: [],
+      kickedPlayers: [],
+      finishedPlayers: [],
+      lastUpdatedBy: user.id,
+      lastUpdatedAt: '',
+      sessionEndedAt: '',
+      sessionStartedAt: '',
+      deepLinkUrl: '',
+      canPass: false,
+      canPlay: false,
+      hasFinished: false,
+      hasRestarted: false,
+      hasSessionEnded: false,
+      isOffline: true,
+      isAvailableForMatchMaking: false,
+      hasAdaptiveAI: hostSettings.prefersAdaptiveAI,
+      shouldAssistStart: hostSettings.prefersStartAssist,
+      shouldAutoStart: hostSettings.prefersAutoStart,
+      maxPlayers: hostSettings.maxPlayers,
+      playerTurn: 0,
+      selectedPiece: null,
+      hasStarted: false,
+      hostId: user.id,
+      hostBuildNumber: user.appBuildNumber,
+      players: [
+        Player.getDefaultPlayer(user, 0),
+      ],
+      playerIds: [
+        user.id,
+      ],
     );
   }
 
@@ -158,6 +213,7 @@ class Game {
     shouldAutoStart = json['shouldAutoStart'];
     hasAdaptiveAI = json['hasAdaptiveAI'];
     isOffline = json['isOffline'];
+    isAvailableForMatchMaking = json['isAvailableForMatchMaking'] ?? false;
     lastUpdatedBy = json['lastUpdatedBy'];
     createdAt = json['createdAt'] == null
         ? DatabaseService.getDeviceTime()
@@ -257,6 +313,7 @@ class Game {
     data['sessionStartedAt'] = sessionStartedAt;
     data['createdAt'] = createdAt;
     data['isOffline'] = isOffline;
+    data['isAvailableForMatchMaking'] = isAvailableForMatchMaking;
     data['maxPlayers'] = maxPlayers;
     data['playerTurn'] = playerTurn;
     data['selectedPiece'] = selectedPiece == null ? null : selectedPiece!.toJson();

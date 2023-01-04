@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:six_me_ludo_android/constants/icon_constants.dart';
+
 import 'package:six_me_ludo_android/providers/user_provider.dart';
-import 'package:six_me_ludo_android/widgets/custom_animated_crossfade.dart';
+import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
+
+import '../../../widgets/buttons/custom_elevated_button.dart';
+import '../../../widgets/general/custom_animated_crossfade.dart';
 
 class SavePseudonymButton extends StatelessWidget {
   const SavePseudonymButton({super.key});
@@ -13,15 +16,18 @@ class SavePseudonymButton extends StatelessWidget {
     UserProvider userProvider = context.watch<UserProvider>();
 
     return CustomAnimatedCrossFade(
-      firstChild: Center(
-        child: IconButton(
+      firstChild: Container(
+        width: Get.width,
+        padding: const EdgeInsets.only(
+          left: 8.0,
+          right: 8.0,
+          bottom: 8.0,
+        ),
+        child: CustomElevatedButton(
           onPressed: () {
             userProvider.setUserPseudonym();
           },
-          icon: Icon(
-            AppIcons.editDoneProfileIcon,
-            color: Get.isDarkMode ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onPrimary,
-          ),
+          text: DialogueService.savePseudonymText.tr,
         ),
       ),
       secondChild: const SizedBox.shrink(),

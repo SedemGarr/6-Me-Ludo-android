@@ -4,8 +4,8 @@ import 'package:six_me_ludo_android/constants/textstyle_constants.dart';
 import 'package:six_me_ludo_android/providers/app_provider.dart';
 import '../../../constants/app_constants.dart';
 import '../../../models/license.dart';
-import '../../../widgets/animation_wrapper.dart';
-import '../../../widgets/loading_widget.dart';
+import '../../../widgets/wrappers/animation_wrapper.dart';
+import '../../../widgets/loading/loading_widget.dart';
 
 class LicenseWidget extends StatelessWidget {
   const LicenseWidget({Key? key}) : super(key: key);
@@ -30,16 +30,19 @@ class LicenseWidget extends StatelessWidget {
                           position: index,
                           duration: AppConstants.animationDuration,
                           child: CustomAnimationWidget(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                              child: Theme(
-                                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                child: ClipRRect(
-                                  borderRadius: AppConstants.appBorderRadius,
+                            child: Theme(
+                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                              child: ClipRRect(
+                                borderRadius: AppConstants.appBorderRadius,
+                                child: Container(
+                                  margin: AppConstants.cardMarginPadding,
+                                  decoration: BoxDecoration(
+                                    borderRadius: AppConstants.appBorderRadius,
+                                  ),
                                   child: ExpansionTile(
                                     collapsedBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(AppConstants.appOpacity),
                                     backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                                    iconColor: Theme.of(context).colorScheme.primary,
+                                    iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                                     collapsedIconColor: Theme.of(context).primaryColor,
                                     childrenPadding: const EdgeInsets.symmetric(
                                       vertical: 8.0,
@@ -47,9 +50,16 @@ class LicenseWidget extends StatelessWidget {
                                     ),
                                     title: Text(
                                       license.title,
-                                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onBackground),
+                                      style: TextStyles.listTitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
                                     ),
-                                    children: [Text(license.text, style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground))],
+                                    children: [
+                                      Text(
+                                        license.text,
+                                        style: TextStyles.listSubtitleStyle(
+                                          Theme.of(context).colorScheme.onPrimaryContainer,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

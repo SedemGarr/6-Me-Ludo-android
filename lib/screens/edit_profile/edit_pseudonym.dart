@@ -7,10 +7,12 @@ import 'package:six_me_ludo_android/screens/edit_profile/widgets/change_pseudony
 import 'package:six_me_ludo_android/screens/edit_profile/widgets/save_pseudonym_widget.dart';
 import 'package:six_me_ludo_android/services/navigation_service.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/app_bar_title_widget.dart';
-import 'package:six_me_ludo_android/widgets/back_button_widget.dart';
-import 'package:six_me_ludo_android/widgets/banner_widget.dart';
-import 'package:six_me_ludo_android/widgets/custom_appbar.dart';
+
+import 'package:six_me_ludo_android/widgets/buttons/back_button_widget.dart';
+import 'package:six_me_ludo_android/widgets/appbar/custom_appbar.dart';
+
+import '../../widgets/appbar/app_bar_title_widget.dart';
+import '../../widgets/text/banner_widget.dart';
 
 class EditPseudonymScreen extends StatefulWidget {
   const EditPseudonymScreen({super.key});
@@ -41,18 +43,18 @@ class _EditPseudonymScreenState extends State<EditPseudonymScreen> {
             NavigationService.genericGoBack();
           }),
           title: AppBarTitleWidget(text: DialogueService.changePseudonymText.tr),
-          actions: const [SavePseudonymButton()],
         ),
-        body: SingleChildScrollView(
-            child: Column(
+        body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             BannerWidget(
               text: DialogueService.changePseudonymBannerText.tr,
             ),
             const ChangePseudonymTextField(),
           ],
-        )),
+        ),
+        bottomSheet: const SavePseudonymButton(),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/dice_widget.dart';
 
 import '../../../../../providers/game_provider.dart';
-import '../../../../../widgets/custom_fab.dart';
+import '../../../../../widgets/fab/custom_fab.dart';
 
 class DiceFABWidget extends StatelessWidget {
   final GameProvider gameProvider;

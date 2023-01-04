@@ -7,7 +7,6 @@ import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/kick_playe
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_presence_widget.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/players/widgets/player_progress_widget.dart';
 import 'package:six_me_ludo_android/services/translations/dialogue_service.dart';
-import 'package:six_me_ludo_android/widgets/user_avatar_widget.dart';
 
 import '../../../../../constants/player_constants.dart';
 import '../../../../../constants/textstyle_constants.dart';
@@ -16,8 +15,9 @@ import '../../../../../models/player.dart';
 import '../../../../../providers/game_provider.dart';
 import '../../../../../providers/theme_provider.dart';
 import '../../../../../providers/user_provider.dart';
-import '../../../../../widgets/custom_list_tile.dart';
-import '../../../../../widgets/reputation_widget.dart';
+import '../../../../../widgets/general/custom_list_tile.dart';
+import '../../../../../widgets/user/reputation_widget.dart';
+import '../../../../../widgets/user/user_avatar_widget.dart';
 
 class PlayerListItemWidget extends StatelessWidget {
   final int index;

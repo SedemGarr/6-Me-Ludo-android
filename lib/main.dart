@@ -5,7 +5,7 @@ import 'package:six_me_ludo_android/providers/analytics_provider.dart';
 import 'package:six_me_ludo_android/providers/dynamic_link_provider.dart';
 import 'package:six_me_ludo_android/providers/nav_provider.dart';
 import 'package:six_me_ludo_android/providers/sound_provider.dart';
-import 'package:six_me_ludo_android/widgets/app.dart';
+import 'package:six_me_ludo_android/app.dart';
 
 import 'providers/app_provider.dart';
 import 'providers/game_provider.dart';

@@ -5,7 +5,7 @@ import 'package:six_me_ludo_android/constants/app_constants.dart';
 import 'package:six_me_ludo_android/providers/game_provider.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/chat_form_field.dart';
 import 'package:six_me_ludo_android/screens/game/tabs/chat/widgets/chat_list_item.dart';
-import 'package:six_me_ludo_android/widgets/animation_wrapper.dart';
+import 'package:six_me_ludo_android/widgets/wrappers/animation_wrapper.dart';
 
 import '../../../../providers/sound_provider.dart';
 import '../../../../providers/user_provider.dart';

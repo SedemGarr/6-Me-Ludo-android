@@ -6,7 +6,8 @@ import 'package:six_me_ludo_android/providers/user_provider.dart';
 import '../../../../../constants/textstyle_constants.dart';
 import '../../../../../models/game.dart';
 import '../../../../../services/translations/dialogue_service.dart';
-import '../../../../../widgets/custom_list_tile.dart';
+
+import '../../../../../widgets/general/custom_list_tile.dart';
 import 'game_owner_avatar_widget.dart';
 
 class GamePlayerWidget extends StatelessWidget {
@@ -46,7 +47,7 @@ class GamePlayerWidget extends StatelessWidget {
                 : player.isAIPlayer
                     ? DialogueService.aiPlayerText.tr
                     : DialogueService.humanPlayerText.tr,
-        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onPrimaryContainer),
+        style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
       ),
       trailing: null,
     );

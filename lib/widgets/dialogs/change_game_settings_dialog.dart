@@ -12,7 +12,8 @@ import '../../screens/game/tabs/board/widgets/game_settings/catch_up_assist.dart
 import '../../screens/game/tabs/board/widgets/game_settings/game_speed.dart';
 import '../../screens/game/tabs/board/widgets/game_settings/start_assist.dart';
 import '../../services/navigation_service.dart';
-import '../custom_elevated_button.dart';
+import '../buttons/custom_elevated_button.dart';
+
 
 showSettingsDialog({
   required Game game,
@@ -54,11 +55,14 @@ showSettingsDialog({
       ),
     ),
     actions: [
-      CustomElevatedButton(
-          onPressed: () {
-            NavigationService.genericGoBack();
-          },
-          text: DialogueService.doneText.tr),
+      SizedBox(
+        width: Get.width,
+        child: CustomElevatedButton(
+            onPressed: () {
+              NavigationService.genericGoBack();
+            },
+            text: DialogueService.doneText.tr),
+      ),
     ],
   );
 }

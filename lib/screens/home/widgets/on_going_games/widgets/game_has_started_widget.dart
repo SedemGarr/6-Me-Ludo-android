@@ -11,7 +11,7 @@ class GameHasStarteWidget extends StatelessWidget {
     return hasGameStarted
         ? Icon(
             AppIcons.gameHasStartedIcon,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           )
         : const SizedBox.shrink();
   }

@@ -21,7 +21,7 @@ class DialogueService extends Translations {
             value: e['locale'].languageCode,
             child: Text(
               e['name'],
-              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.onBackground),
+              style: TextStyles.listSubtitleStyle(Theme.of(context).colorScheme.primary),
             ),
           ),
         )
@@ -32,6 +32,9 @@ class DialogueService extends Translations {
 
   static const String appName = 'appName';
   static const String genericErrorText = 'genericErrorText';
+  static const String noInternetErrorTitleText = 'noInternetErrorTitleText';
+  static const String noInternetErrorContentText = 'noInternetErrorContentText';
+  static const String noInternetErrorSnackbarText = 'noInternetErrorSnackbarText';
   static const String animationByText = 'animationByText';
   static const String licenceText = 'licenceText';
   static const String licenceShortText = 'licenceShortText';
@@ -53,6 +56,7 @@ class DialogueService extends Translations {
   static const String authDialogContentText = 'authDialogContentText';
   static const String beginText = 'beginText';
   static const String doneText = 'doneText';
+  static const String restartAppYesText = 'restartAppYesText';
   // loading strings
   static const String loading1Text = 'loading1Text';
   static const String loading2Text = 'loading2Text';
@@ -79,15 +83,10 @@ class DialogueService extends Translations {
   static const String welcome10Text = 'welcome10Text';
 
   // welcome dialog
-  static const String welcomeBottomSheetTitleText = 'welcomeBottomSheetTitleText';
+  static const String welcomeDialogTitleText = 'welcomeDialogTitleText';
   static const String welcomeDialogContentText = 'welcomeDialogContentText';
-  static const String welcomeDialogNoText = 'welcomeDialogNoText';
-  static const String welcomeDialogYesText = 'welcomeDialogYesText';
   static const String signInGoogleText = 'signInGoogleText';
   static const String signInAnonText = 'signInAnonText';
-  static const String anonWarningText = 'anonWarningText';
-  static const String welcomeEmojiText = 'welcomeEmojiText';
-  static const String welcomeSubtileText = 'welcomeSubtileText';
   //
   static const String anonSignInTitleText = 'anonSignInTitleText';
   static const String anonSignInYesText = 'anonSignInYesText';
@@ -96,6 +95,7 @@ class DialogueService extends Translations {
   // welcome error
   static const String noUserSelectedText = 'noUserSelectedText';
   // home
+  static const String welcomeToastText = 'welcomeToastText';
   static const String welcomeText = 'welcomeText';
   static const String newGameText = 'newGameText';
   static const String profileAndSettingsText = 'profileAndSettingsText';
@@ -106,11 +106,16 @@ class DialogueService extends Translations {
   static const String newGamesText = 'newGamesText';
   static const String createNewGameText = 'createNewGameText';
   // game - starting
-  static const String newGameAppBarTitleText = 'newGameAppBarTitleText';
+  static const String newOnlineGameAppBarTitleText = 'newOnlineGameAppBarTitleText';
+  static const String newOfflineGameAppBarTitleText = 'newOfflineGameAppBarTitleText';
   static const String startGameButtonText = 'startGameButtonText';
   static const String joinGameButtonText = 'joinGameButtonText';
   static const String orButtonText = 'orButtonText';
   static const String noGamesText = 'noGamesText';
+  static const String errorGamesText = 'errorGamesText';
+  static const String noLocalGamesText = 'noLocalGamesText';
+  static const String noLeaderboardText = 'noLeaderboardText';
+  static const String leaderboardOfflineText = 'leaderboardOfflineText';
   static const String maxGamesText = 'maxGamesText';
   static const String hostGameFABText = 'hostGameFABText';
   static const String joinGameFABText = 'joinGameFABText';
@@ -154,6 +159,7 @@ class DialogueService extends Translations {
   static const String playerTabText = 'playerTabText';
   static const String boardTabText = 'boardTabText';
   static const String chatTabText = 'chatTabText';
+  static const String chatSaysText = 'chatSaysText';
   static const String gameDeletedText = 'gameDeletedText';
   static const String sendMessagesHereText = 'sendMessagesHereText';
   static const String playerBannedBannerText = 'playerBannedBannerText';
@@ -244,7 +250,9 @@ class DialogueService extends Translations {
   // profile
   static const String reputationValueText = 'reputationValueText';
   static const String changeAvatarText = 'changeAvatarText';
+  static const String refreshAvatarText = 'refreshAvatarText';
   static const String changePseudonymText = 'changePseudonymText';
+  static const String savePseudonymText = 'savePseudonymText';
   static const String closeDialogText = 'closeDialogText';
   static const String savePseudonymDialogText = 'savePseudonymDialogText';
   static const String changePseudonymHintText = 'changePseudonymHintText';
@@ -263,9 +271,11 @@ class DialogueService extends Translations {
   static const String gameSettingsFullText = 'gameSettingsFullText';
   static const String accountSettingsText = 'accountSettingsText';
   static const String personalisationSettingsText = 'personalisationSettingsText';
+  static const String appSettingsText = 'appSettingsText';
   static const String aboutSettingsText = 'aboutSettingsText';
   // settings - max players
   static const String maxPlayersTitleText = 'maxPlayersTitleText';
+  static const String maxPlayersOfflineTitleText = 'maxPlayersOfflineTitleText';
   static const String maxPlayersSubtitleText = 'maxPlayersSubtitleText';
   // settings - dark mode
   static const String darkModeTitleText = 'darkModeTitleText';
@@ -273,16 +283,26 @@ class DialogueService extends Translations {
   // settings - audio
   static const String audioTitleText = 'audioTitleText';
   static const String audioSubtitleText = 'audioSubtitleText';
+  // settings - music
+  static const String musicTitleText = 'musicTitleText';
+  static const String musicSubtitleText = 'musicSubtitleText';
+  // settings - vibrate
+  static const String vibrateTitleText = 'vibrateTitleText';
+  static const String vibrateSubtitleText = 'vibrateSubtitleText';
   // settings - theme
   static const String themeTitleText = 'themeTitleText';
   static const String themeSubtitleText = 'themeSubtitleText';
   static const String setThemeToRandomText = 'setThemeToRandomText';
   static const String setThemeToValueText = 'setThemeToValueText';
   static const String randomThemeText = 'randomThemeText';
+  static const String randomiseThemeText = 'randomiseThemeText';
   static const String currentThemeText = 'curentThemeText';
   // settings - wakelock
   static const String wakelockTitleText = 'wakelockTitleText';
   static const String wakelockSubtitleText = 'wakelockSubtitleText';
+  // settings - visibility
+  static const String visibilityTitleText = 'visibilityTitleText';
+  static const String visibilitySubtitleText = 'visibilitySubtitleText';
   // settings - language
   static const String languageTitleText = 'languageTitleText';
   static const String languageSubtitleText = 'languageSubtitleText';
@@ -317,14 +337,37 @@ class DialogueService extends Translations {
   // settings - profanity
   static const String profaneMessagesTitleText = 'profaneMessagesTitleText';
   static const String profaneMessagesSubtitleText = 'profaneMessagesSubtitleText';
+  // settings - offline
+  static const String offlineText = 'offlineText';
+  static const String offlineModeTitleText = 'offlineModeTitleText';
+  static const String offlineModeSubtitleText = 'offlineModeSubtitleText';
+  static const String offlineModeContentText = 'offlineModeContentText';
+  static const String offlineModeYesText = 'offlineModeYesText';
+  static const String offlineModeNoText = 'offlineModeNoText';
+  static const String offlineModeToastOnText = 'offlineModeToastOnText';
+  static const String offlineModeToastOffText = 'offlineModeToastOffText';
+  static const String newOfflineGameText = 'newOfflineGameText';
+  static const String continueOfflineGameText = 'continueOfflineGameText';
+  static const String offlineJoiningGameTitleText = 'offlineJoiningGameTitleText';
+  static const String offlineJoiningGameContentText = 'offlineJoiningGameContentText';
+  static const String offlineJoiningGameYesText = 'offlineJoiningGameYesText';
+  static const String offlineJoiningGameNoText = 'offlineJoiningGameNoText';
   // settings - sign out
   static const String signOutTitleText = 'signOutTitleText';
+  static const String signInSubtitleText = 'signInSubtitleText';
   static const String signOutSubtitleText = 'signOutSubtitleText';
   static const String signOutDialogTitleText = 'signOutDialogTitleText';
   static const String signOutDialogContentText = 'signOutDialogContentText';
   static const String signOutAnonDialogContentText = 'signOutAnonDialogContentText';
   static const String signOutDialogYesText = 'signOutDialogYesText';
   static const String signOutDialogNoText = 'signOutDialogNoText';
+  // settings - convert account
+  static const String convertAccountTitleText = 'convertAccountTitleText';
+  static const String convertAccountSubtitleText = 'convertAccountSubtitleText';
+  static const String convertAccountDialogTitleText = 'convertAccountDialogTitleText';
+  static const String convertAccountDialogContentText = 'convertAccountDialogContentText';
+  static const String convertAccountDialogYesText = 'convertAccountDialogYesText';
+  static const String convertAccountDialogNoText = 'convertAccountDialogNoText';
   // settings - delete account
   static const String deleteAccountTitleText = 'deleteAccountTitleText';
   static const String deleteAccountSubtitleText = 'deleteAccountSubtitleText';
@@ -336,9 +379,13 @@ class DialogueService extends Translations {
   static const String versionTitleText = 'versionTitleText';
   static const String privacyTitleText = 'privacyTitleText';
   static const String termsTitleText = 'termsTitleText';
+  static const String privacySubtitleText = 'privacySubtitleText';
+  static const String termsSubtitleText = 'termsSubtitleText';
   static const String licenseTitleText = 'licenseTitleText';
+  static const String licenseSubTitleText = 'licenseSubTitleText';
   // feedback
   static const String sendFeedbackText = 'sendFeedbackText';
+  static const String sendFeedbackSubtitleText = 'sendFeedbackSubtitleText';
   static const String subjectText = 'subjectText';
   static const String emailAddressText = 'emailAddressText';
   //
@@ -348,7 +395,88 @@ class DialogueService extends Translations {
   static const String exitAppDialogContentText = 'exitAppDialogContentText';
   static const String exitAppDialogNoText = 'exitAppDialogNoText';
   static const String exitAppDialogYesText = 'exitAppDialogYesText';
-  static const String exitAppText = 'exitAppText';
+  static const String exitAppTitleText = 'exitAppTitleText';
+  static const String exitAppSubtitleText = 'exitAppSubtitleText';
+  // stats
+  static const String seeMoreStatsButtonText = 'seeMoreStatsButtonText';
+  static const String statsAppBarTitleText = 'statsAppBarTitleText';
+  static const String statsTabText = 'statsTabText';
+  static const String leaderboardTabText = 'leaderboardTabText';
+  static const String leaderboardFindMeButtonText = 'leaderboardFindMeButtonText';
+  static const String leaderBoardBannerText = 'leaderBoardBannerText';
+  // number of games
+  static const String numberOfGamesText = 'numberOfGamesText';
+  static const String numberOfGamesNoobText = 'numberOfGamesNoobText';
+  static const String numberOfGamesExperiencedText = 'numberOfGamesExperiencedText';
+  static const String numberOfGamesVeteranText = 'numberOfGamesVeteranText';
+  static const String numberOfGamesSleepText = 'numberOfGamesSleepText';
+  // percentage finished
+  static const String percentageFinishedTitleText = 'percentageFinishedTitleText';
+  static const String percentageFinishedNoobText = 'percentageFinishedNoobText';
+  static const String percentageFinishedExperiencedText = 'percentageFinishedExperiencedText';
+  static const String percentageFinishedVeteranText = 'percentageFinishedVeteranText';
+  static const String percentageFinishedSleepText = 'percentageFinishedSleepText';
+  // percentage won
+  static const String percentageWonTitleText = 'percentageWonTitleText';
+  static const String percentageWonNoobText = 'percentageWonNoobText';
+  static const String percentageWonExperiencedText = 'percentageWonExperiencedText';
+  static const String percentageWonVeteranText = 'percentageWonVeteranText';
+  static const String percentageWonSleepText = 'percentageWonSleepText';
+  // percentage human
+  static const String percentageHumanTitleText = 'percentageHumanTitleText';
+  static const String percentageHumanNoobText = 'percentageHumanNoobText';
+  static const String percentageHumanExperiencedText = 'percentageHumanExperiencedText';
+  static const String percentageHumanVeteranText = 'percentageHumanVeteranText';
+  static const String percentageHumanSleepText = 'percentageHumanSleepText';
+  // percentage human
+  static const String percentageAITitleText = 'percentageAITitleText';
+  static const String percentageAINoobText = 'percentageAINoobText';
+  static const String percentageAIExperiencedText = 'percentageAIExperiencedText';
+  static const String percentageAIVeteranText = 'percentageAIVeteranText';
+  static const String percentageAISleepText = 'percentageAISleepText';
+  // cummulative time
+  static const String cummulativeTimeTitleText = 'cummulativeTimeTitleText';
+  static const String cummulativeTimeNoobText = 'cummulativeTimeNoobText';
+  static const String cummulativeTimeExperiencedText = 'cummulativeTimeExperiencedText';
+  static const String cummulativeTimeVeteranText = 'cummulativeTimeVeteranText';
+  static const String cummulativeTimeSleepText = 'cummulativeTimeSleepText';
+  // fav color
+  static const String favouriteColorTitleText = 'favourtiteColorTitleText';
+  static const String favouriteColorSubtitleText = 'favouriteColorSubtitleText';
+  static const String redText = 'redText';
+  static const String yellowText = 'yellowText';
+  static const String greenText = 'greenText';
+  static const String blueText = 'blueText';
+  static const String orangeText = 'orangeText';
+  // k - ratio
+  static const String kickerRatioTitleText = 'kickerRatioTitleText';
+  static const String kickerRatioSubtitleText = 'kickerRatioSubtitleText';
+  // reputation
+  static const String reputationTitleText = 'reputationTitleText';
+  static const String reputationSubtitleText = 'reputationSubtitleText';
+  // percentage mixed
+  static const String percentageMixedTitleText = 'percentageMixedTitleText';
+  static const String percentageMixedNoobText = 'percentageMixedNoobText';
+  static const String percentageMixedExperiencedText = 'percentageMixedExperiencedText';
+  static const String percentageMixedVeteranText = 'percentageMixedVeteranText';
+  static const String percentageMixedSleepText = 'percentageMixedSleepText';
+  // percentage pb
+  static const String percentagePunchingBagTitleText = 'percentagePunchingBagTitleText';
+  static const String percentagePunchingBagNoobText = 'percentagePunchingBagNoobText';
+  static const String percentagePunchingBagExperiencedText = 'percentagePunchingBagExperiencedText';
+  static const String percentagePunchingBagVeteranText = 'percentagePunchingBagVeteranText';
+  static const String percentagePunchingBagSleepText = 'percentagePunchingBagSleepText';
+  // percentage v
+  static const String percentageViciousTitleText = 'percentageViciousTitleText';
+  static const String percentageViciousNoobText = 'percentageViciousNoobText';
+  static const String percentageViciousExperiencedText = 'percentageViciousExperiencedText';
+  static const String percentageViciousVeteranText = 'percentageViciousVeteranText';
+  static const String percentageViciousSleepText = 'percentageViciousSleepText';
+  // matchmaking
+  static const String allowMatchMakingPopupText = 'allowMatchMakingPopupText';
+  static const String enabledMatchMakingToastText = 'enabledMatchMakingToastText';
+  static const String newMatchMakingGameButtonText = 'newMatchMakingGameButtonText';
+  static const String noGamesMatchMakingText = 'noGamesMatchMakingText';
 
   @override
   Map<String, Map<String, String>> get keys => {
