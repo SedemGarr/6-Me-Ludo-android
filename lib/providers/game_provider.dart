@@ -1429,6 +1429,8 @@ class GameProvider with ChangeNotifier {
   }
 
   Future<void> kickPlayerFromGame(Player player) async {
+    Users user = Get.context!.read<UserProvider>().getUser();
+
     currentGame!.kickedPlayers.add(player.id);
     currentGame = resetGamePiecesToDefaultAfterPlayerLeaves(currentGame!, player.id);
     currentGame!.players[currentGame!.players.indexWhere((element) => element.id == player.id)].hasLeft = true;
@@ -1444,6 +1446,8 @@ class GameProvider with ChangeNotifier {
       Future.delayed(const Duration(seconds: 1), () async {
         await removePlayerFromGame(currentGame!, player.id);
       });
+    } else if (currentGame!.hasStarted && currentGame!.playerTurn == player.playerColor) {
+      await incrementTurn(currentGame!, user);
     }
   }
 
